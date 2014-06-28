@@ -1,11 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.arachnidium</groupId>
-	<artifactId>arachnidium</artifactId>
-	<version>0.6</version>
-	<packaging>pom</packaging>
-	<name>arachnidium</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +9,14 @@
 		<appium.version>1.4.0</appium.version>
 		<testng.version>6.8.8</testng.version>
 	</properties>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.arachnidium</groupId>
+	<artifactId>arachnidium</artifactId>
+	<version>0.6</version>
+	<packaging>pom</packaging>
+	<name>arachnidium</name>
+	
 	<url>https://github.com/arachnidium/arachnidium-java</url>
 
 	<licenses>
@@ -39,14 +41,81 @@
 		</developer>
 	</developers>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.seleniumhq.selenium</groupId>
+  		<artifactId>selenium-java</artifactId>
+  		<version>${selenium.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.seleniumhq.selenium</groupId>
+  		<artifactId>selenium-server</artifactId>
+  		<version>${selenium.version}</version>
+  	</dependency>
+	<dependency>
+		<groupId>com.opera</groupId>
+		<artifactId>operadriver</artifactId>
+		<version>${operadriver.version}</version>
+
+		<exclusions>
+			<exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+			</exclusion>
+
+			<exclusion>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+			</exclusion>
+
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.github.detro.ghostdriver</groupId>
+		<artifactId>phantomjsdriver</artifactId>
+		<version>${ghostdriver.version}</version>
+
+		<exclusions>
+			<exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+			</exclusion>
+
+			<exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-server</artifactId>
+			</exclusion>
+
+			<exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-remote-driver</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>1.1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>io.appium</groupId>
+		<artifactId>java-client</artifactId>
+		<version>1.4.0</version>
+
+		<exclusions>
+			<exclusion>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+			</exclusion>
+			<exclusion>
+				<artifactId>commons-codec</artifactId>
+				<groupId>commons-codec</groupId>
+			</exclusion>
+		</exclusions>
+
+	</dependency>
+  </dependencies>
+
 
 	<build>
 		<plugins>
@@ -67,7 +136,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -75,4 +144,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	<modules>
+		<module>arachnidium-core</module>
+	</modules>
 </project>
