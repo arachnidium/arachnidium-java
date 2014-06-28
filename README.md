@@ -1,3 +1,3 @@
-arachnidum-java
+arachnidium-java
 ================
 UNDER CONSTRUCTION
