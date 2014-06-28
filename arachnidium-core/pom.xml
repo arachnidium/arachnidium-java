@@ -3,7 +3,19 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>arachnidium</artifactId>
-    <version>0.6</version>
+    <version>${actual.version}</version>
   </parent>
-  <artifactId>arachnidium-core</artifactId>   
+  <artifactId>arachnidium-core</artifactId>    
+  <dependencies>
+  	<dependency>
+  		<groupId>org.arachnidium.util</groupId>
+  		<artifactId>configuration</artifactId>
+  		<version>${actual.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.arachnidium.util</groupId>
+  		<artifactId>logging</artifactId>
+  		<version>${actual.version}</version>
+  	</dependency>  	
+  </dependencies>
 </project>

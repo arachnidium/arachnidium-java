@@ -8,12 +8,13 @@
 		<operadriver.version>1.5</operadriver.version>
 		<appium.version>1.4.0</appium.version>
 		<testng.version>6.8.8</testng.version>
+		<actual.version>0.6</actual.version>
 	</properties>
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.6</version>
+	<version>${actual.version}</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 	
@@ -147,5 +148,7 @@
 	<modules>
 		<module>arachnidium-core</module>
 		<module>util</module>
+		<module>integration-tests</module>
+		<module>testng-addon</module>
 	</modules>
 </project>
