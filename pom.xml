@@ -146,5 +146,6 @@
 	</build>
 	<modules>
 		<module>arachnidium-core</module>
+		<module>util</module>
 	</modules>
 </project>
