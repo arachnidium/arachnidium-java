@@ -9,12 +9,12 @@
   <dependencies>
   	<dependency>
   		<groupId>org.arachnidium.util</groupId>
-  		<artifactId>configuration</artifactId>
+  		<artifactId>arachnidium-configuration</artifactId>
   		<version>${actual.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.arachnidium.util</groupId>
-  		<artifactId>logging</artifactId>
+  		<artifactId>arachnidium-logging</artifactId>
   		<version>${actual.version}</version>
   	</dependency>  	
   </dependencies>

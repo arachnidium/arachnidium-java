@@ -149,6 +149,6 @@
 		<module>arachnidium-core</module>
 		<module>util</module>
 		<module>integration-tests</module>
-		<module>testng-addon</module>
+		<module>arachnidium-testng-addon</module>
 	</modules>
 </project>

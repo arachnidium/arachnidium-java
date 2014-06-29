@@ -2,14 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.arachnidium</groupId>
-    <artifactId>arachnidium</artifactId>
+    <artifactId>util</artifactId>
     <version>${actual.version}</version>
   </parent>
-  <artifactId>util</artifactId>
-  <packaging>pom</packaging>
-  <name>util</name>
-  <modules>
-  	<module>arachnidium-configuration</module>
-  	<module>arachnidium-logging</module>
-  </modules>
+  <groupId>org.arachnidium.util</groupId>
+  <artifactId>arachnidium-logging</artifactId>
 </project>

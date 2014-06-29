@@ -5,20 +5,13 @@
     <artifactId>arachnidium</artifactId>
     <version>${actual.version}</version>
   </parent>
-  <artifactId>integration-tests</artifactId>
-  <packaging>jar</packaging>
-  
+  <artifactId>arachnidium-testng-addon</artifactId>  
   <dependencies>
 	<dependency>
 		<groupId>org.testng</groupId>
 		<artifactId>testng</artifactId>
 		<version>${testng.version}</version>
 		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.arachnidium</groupId>
-		<artifactId>arachnidium-core</artifactId>
-		<version>${actual.version}</version>
 	</dependency>
 	<dependency>
 		<groupId>org.arachnidium.util</groupId>
@@ -30,5 +23,5 @@
 		<artifactId>arachnidium-logging</artifactId>
 		<version>${actual.version}</version>
 	</dependency>  	
-  </dependencies>  
+  </dependencies>    
 </project>
