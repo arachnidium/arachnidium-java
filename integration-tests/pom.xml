@@ -29,6 +29,11 @@
 		<groupId>org.arachnidium.util</groupId>
 		<artifactId>arachnidium-logging</artifactId>
 		<version>${actual.version}</version>
-	</dependency>  	
+	</dependency>
+	<dependency>
+		<groupId>org.arachnidium</groupId>
+		<artifactId>arachnidium-app-model</artifactId>
+		<version>${actual.version}</version>
+	</dependency>
   </dependencies>  
 </project>

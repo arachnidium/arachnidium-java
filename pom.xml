@@ -150,5 +150,6 @@
 		<module>util</module>
 		<module>integration-tests</module>
 		<module>arachnidium-testng-addon</module>
+		<module>arachnidium-app-model</module>
 	</modules>
 </project>
