@@ -14,18 +14,8 @@ import java.util.Set;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 
-import org.arachnidium.util.configuration.commonhelpers.CapabilitySettings;
-import org.arachnidium.util.configuration.commonhelpers.ChromeDriverServerBin;
-import org.arachnidium.util.configuration.commonhelpers.ContextTimeOuts;
-import org.arachnidium.util.configuration.commonhelpers.IEDriverServerBin;
-import org.arachnidium.util.configuration.commonhelpers.PhantomJSDriverBin;
-import org.arachnidium.util.configuration.commonhelpers.ScreenShots;
-import org.arachnidium.util.configuration.commonhelpers.WebDriverSettings;
-import org.arachnidium.util.configuration.commonhelpers.WebDriverTimeOuts;
-import org.arachnidium.util.configuration.commonhelpers.WindowsTimeOuts;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.openqa.selenium.Capabilities;
 
 //for customizing project
 public class Configuration {
@@ -182,42 +172,6 @@ public class Configuration {
 
 		initedHelpers.put(requiredClass, helper);
 		return helper;
-	}
-
-	public Capabilities getCapabilities() {
-		return (Capabilities) getSection(CapabilitySettings.class);
-	}
-
-	public ChromeDriverServerBin getChromeDriverSettings() {
-		return getSection(ChromeDriverServerBin.class);
-	}
-
-	public IEDriverServerBin getIEDriverSettings() {
-		return getSection(IEDriverServerBin.class);
-	}
-
-	public PhantomJSDriverBin getPhantomJSDriverSettings() {
-		return getSection(PhantomJSDriverBin.class);
-	}
-
-	public WebDriverTimeOuts getWebDriverTimeOuts() {
-		return getSection(WebDriverTimeOuts.class);
-	}
-
-	public ScreenShots getScreenShots() {
-		return getSection(ScreenShots.class);
-	}
-
-	public WebDriverSettings getWebDriverSettings() {
-		return getSection(WebDriverSettings.class);
-	}
-
-	public WindowsTimeOuts getBrowserWindowsTimeOuts() {
-		return getSection(WindowsTimeOuts.class);
-	}
-	
-	public ContextTimeOuts getContextTimeOuts() {
-		return getSection(ContextTimeOuts.class);
 	}
 
 	protected Configuration(String filePath) {
