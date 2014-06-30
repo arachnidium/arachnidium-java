@@ -16,6 +16,11 @@
   		<groupId>org.arachnidium.util</groupId>
   		<artifactId>arachnidium-logging</artifactId>
   		<version>${actual.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.arachnidium.util</groupId>
+  		<artifactId>arachnidium-proxy</artifactId>
+  		<version>${actual.version}</version>
   	</dependency>  	
-  </dependencies>
+  </dependencies> 
 </project>
