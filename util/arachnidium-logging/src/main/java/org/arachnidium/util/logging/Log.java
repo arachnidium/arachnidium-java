@@ -40,10 +40,10 @@ public class Log {
 	}
 
 	private final static int levelUp = 2;
-	private final static Level info = resetLogLevel(Configuration.byDefault
-			.getSection(LoggingHelper.class).getLevel()); 
+	private final static Level info =  Level.INFO;
 	private static Logger log = Logger.getAnonymousLogger();
-	private static Level commonLevel = info;
+	private static Level commonLevel = resetLogLevel(Configuration.byDefault
+			.getSection(LoggingHelper.class).getLevel());
 	private static long sequence = 0;
 
 	private static final List<ILogConverter> converters = Collections

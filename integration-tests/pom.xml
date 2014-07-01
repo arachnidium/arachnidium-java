@@ -1,39 +1,64 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.arachnidium</groupId>
-    <artifactId>arachnidium</artifactId>
-    <version>${actual.version}</version>
-  </parent>
-  <artifactId>integration-tests</artifactId>
-  <packaging>jar</packaging>
-  
-  <dependencies>
-	<dependency>
-		<groupId>org.testng</groupId>
-		<artifactId>testng</artifactId>
-		<version>${testng.version}</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
 		<groupId>org.arachnidium</groupId>
-		<artifactId>arachnidium-core</artifactId>
+		<artifactId>arachnidium</artifactId>
 		<version>${actual.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.arachnidium.util</groupId>
-		<artifactId>arachnidium-configuration</artifactId>
-		<version>${actual.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.arachnidium.util</groupId>
-		<artifactId>arachnidium-logging</artifactId>
-		<version>${actual.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.arachnidium</groupId>
-		<artifactId>arachnidium-app-model</artifactId>
-		<version>${actual.version}</version>
-	</dependency>
-  </dependencies>  
+	</parent>
+	<artifactId>integration-tests</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium</groupId>
+			<artifactId>arachnidium-testng-addon</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium</groupId>
+			<artifactId>arachnidium-core</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium.util</groupId>
+			<artifactId>arachnidium-configuration</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium.util</groupId>
+			<artifactId>arachnidium-logging</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium</groupId>
+			<artifactId>arachnidium-app-model</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<inherited>true</inherited>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/suits/DesctopBrowserScope.xml</suiteXmlFile>
+						<!--<suiteXmlFile>src/test/resources/suits/AndroidBrowserScope.xml</suiteXmlFile> -->
+						<!--<suiteXmlFile>src/test/resources/suits/iOSBrowserScope.xml</suiteXmlFile> -->
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
