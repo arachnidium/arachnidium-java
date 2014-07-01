@@ -206,9 +206,9 @@ public abstract class Application extends ModelObject implements IHasManyHandles
 	 *  destroys an Application instance and makes WebDriver quit
 	 */
 	public void quit() {
-		destroy();
 		manager.destroy();
 		driverEncapsulation.destroy();
+		destroy();
 	}
 
 	/**
