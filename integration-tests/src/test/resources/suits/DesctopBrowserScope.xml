@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Test scope" parallel="false">
+
+  <test name="Hello world Google test without config">
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="This is just a test of basic functionality with specified configurations">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+              <include name="typeHelloWorldAndOpenTheFirstLink2" />
+      </methods>
+    </classes>
+  </test>  
+  
+  <test name="This is just a test of basic functionality with a webdriver instance that was created externally">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink3" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="This is just a test of basic functionality. It performs search and closes google as visible browser window">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink4" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="This is just a test of basic functionality. Checks possibility of service provider working">
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink5" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="This is just a test of basic functionality. It watches how UnhandledWindowChecker kills windows that exist but weren't instantiated as objects of SingleWindow">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink6" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="This is just a test of basic functionality. It gets a new object by its partial title and url">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <parameter name="howToGetANewWindow" value="BYPARTIALTITLE,BYPARTIALURL"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest2"/>
+      <methods>
+              <include name="typeHelloWorldAndOpenTheFirstLink" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="A test with defined paths to WD service binary files. This files are defined for each operating system">
+    <classes>
+      <class name="web.HelloWorldGoogleTest3"/>
+      <methods>
+              <include name="typeHelloWorldAndOpenTheFirstLink" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+</suite> <!-- Suite -->
