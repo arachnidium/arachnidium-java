@@ -24,7 +24,7 @@ public class DefaultWindowListener extends DefaultHandleListener implements IWin
 
 	@Override
 	public void whenNewHandleIsAppeared(IHasHandle handle) {
-		if (toDoScreenShotsOfNewWindows)
+		if (toDoScreenShotsOfANewHandle)
 		{
 			((ITakesPictureOfItSelf) handle).takeAPictureOfAnInfo("The new window");
 		}

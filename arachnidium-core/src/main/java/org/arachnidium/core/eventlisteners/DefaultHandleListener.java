@@ -8,14 +8,14 @@ import org.arachnidium.util.configuration.interfaces.IConfigurable;
 public abstract class DefaultHandleListener implements IHandletListener,
 		IConfigurable {
 
-	boolean toDoScreenShotsOfNewWindows = true;
+	boolean toDoScreenShotsOfANewHandle = true;
 
 	@Override
 	public void resetAccordingTo(Configuration config) {
 		Boolean toDoScreenshots = config.getSection(ScreenShots.class).getToDoScreenShotsOfNewHandles();
 		if (toDoScreenshots!=null)
 		{
-			toDoScreenShotsOfNewWindows = toDoScreenshots;
+			toDoScreenShotsOfANewHandle = toDoScreenshots;
 		}
 	}
 

@@ -79,7 +79,6 @@ class WebElementHighLighter implements IConfigurable,
 			setStyle((JavascriptExecutor) driver, webElement, originalStyle);
 		} //There is a problem with mobile applications. Not all locators are supported
 		catch (WebDriverException e){
-			Log.debug("Location by CSS is not supported...");
 			if (toDoScreenShots) {
 				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
 			} else {

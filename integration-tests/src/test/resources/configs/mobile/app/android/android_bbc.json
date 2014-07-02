@@ -44,6 +44,17 @@
 	          "value":"10"     
 	      }       
 	  },
+	  "screenShots":
+	  {
+	      "toDoScreenShotsOnElementHighLighting":{
+	          "type":"BOOL",
+	          "value":"true"           
+	      }, 
+	      "toDoScreenShotsOfNewHandles":{
+	          "type":"BOOL",
+	          "value":"true"           
+	      }   	            
+	  },
 	  "Contexts":
 	  {
 	      "contextCountTimeOutSec":{

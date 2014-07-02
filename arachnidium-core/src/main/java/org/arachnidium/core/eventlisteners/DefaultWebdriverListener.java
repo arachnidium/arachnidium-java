@@ -103,7 +103,8 @@ public final class DefaultWebdriverListener implements
 
 	@Override
 	public void onException(Throwable arg0, WebDriver arg1) {
-		Log.debug("An exception has been caught out.", arg0);
+		Log.debug("An exception has been caught out."
+				+ arg0.getClass().getName() + ":" + arg0.getMessage());
 	}
 
 	@Override
@@ -173,10 +174,7 @@ public final class DefaultWebdriverListener implements
 			}
 			description += " " + attribute + ": "
 					+ String.valueOf(element.getAttribute(attribute));
-		} catch (Exception e) {
-			Log.debug("Location is not supported by attribute '" + attribute
-					+ "'...");
-		}
+		} catch (Exception e) {}
 		return description;
 	}
 	

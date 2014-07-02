@@ -21,7 +21,7 @@ public class DefaultContextListener extends DefaultHandleListener implements ICo
 		String activity = String.valueOf(((IHasActivity) handle).currentActivity());
 		String message = "A new context "
 				+ handle.getHandle() + ". Activity is " + activity;
-		if (toDoScreenShotsOfNewWindows) {
+		if (toDoScreenShotsOfANewHandle) {
 			((ITakesPictureOfItSelf) handle)
 					.takeAPictureOfAnInfo(message);
 			return;
@@ -32,10 +32,6 @@ public class DefaultContextListener extends DefaultHandleListener implements ICo
 	@Override
 	public void whenIsSwitchedOn(IHasHandle handle) {
 		String activity = String.valueOf(((IHasActivity) handle).currentActivity());
-		if (toDoScreenShotsOfNewWindows)
-		{
-			((ITakesPictureOfItSelf) handle).takeAPictureOfAnInfo("The new context");
-		}
 		Log.message("Current context is "
 				+ handle.getHandle() + ". Activity is " + activity);
 	}

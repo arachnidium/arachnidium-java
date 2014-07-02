@@ -9,19 +9,16 @@ import java.util.Set;
 
 import org.arachnidium.core.components.overriden.Awaiting;
 import org.arachnidium.core.components.overriden.FluentWindowConditions;
-import org.arachnidium.testng.ReportBuildingTestListener;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.logging.Log;
 import org.arachnidium.web.google.AnyPage;
 import org.arachnidium.web.google.Google;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-@Listeners(ReportBuildingTestListener.class)
 public class HelloWorldGoogleTest2 {
 	
 	
