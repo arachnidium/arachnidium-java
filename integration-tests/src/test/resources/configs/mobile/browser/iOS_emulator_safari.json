@@ -13,14 +13,18 @@
 	  
 	  "DesiredCapabilities":
 	  {
-	      "device":{
+	      "platformVersion":{
+	          "type":"STRING",
+	          "value":"7.1"    
+	      },
+	      "platformName":{
+	          "type":"STRING",
+	          "value":"iOS"    
+	      }, 
+	      "deviceName":{
 	          "type":"STRING",
 	          "value":"iPhone Simulator"    
-	      },  
-	      "version": {
-	          "type":"STRING",
-	          "value":"7.0"         
-	      },    
+	      },   
 	      "browserName":{
 	          "type":"STRING",
 	          "value":"safari"           

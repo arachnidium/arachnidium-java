@@ -102,7 +102,7 @@ public class HelloWorldGoogleTest2 {
 	private void test(Google google, HowToGetANewWindow howToGet, boolean toClickOnALinkWhichWasFound, long timeOut) throws Exception {
 		WaitingThread waitingThread = new WaitingThread(google, howToGet, timeOut);
 		waitingThread.start();
-		Thread.sleep(1000);
+		Thread.sleep(4000);
 		if (!toClickOnALinkWhichWasFound){
 			google.openLinkByIndex(1);
 		}
@@ -124,7 +124,7 @@ public class HelloWorldGoogleTest2 {
 			@Optional("false") String toClick,
 			@Optional("") String configList,
 			@Optional("BYPARTIALURL") String howToGetANewWindow,
-			@Optional("4") String timeOut)
+			@Optional("10") String timeOut)
 			throws Exception {
 		
 		List<String> configs = getConfigsByCurrentPlatform();
