@@ -99,7 +99,6 @@ public class HelloWorldGoogleTest {
 				google.clickOnLinkByIndex(1);
 			}
 			AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
-			Thread.sleep(5000);
 			anyPage.close();
 			if (!toClickOnALinkWhichWasFound){
 				google.openLinkByIndex(1);
@@ -133,7 +132,6 @@ public class HelloWorldGoogleTest {
 			else{
 				google.clickOnLinkByIndex(1);
 			}
-			Thread.sleep(5000);
 			UnhandledWindowChecker.getChecker(google.getWindowManager())
 					.killUnexpectedWindows();
 			Assert.assertEquals(true, MockUnhandledWindowEventListener.wasInvoked);

@@ -19,55 +19,54 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class HelloWorldGoogleTest2 {
+public class HelloWorldGoogleTest2 {	
 	
-	
-	private enum HowToGetANewWindow {
-		BYPARTIALTITLE {
-			@Override
-			AnyPage get(Google google, long timeOut) {
-				Awaiting awaiting = new Awaiting(google.getWrappedDriver());
-				FluentWindowConditions fluentWindowConditions = new FluentWindowConditions(
-						google.getWrappedDriver());
-				try {
-					awaiting.awaitCondition(timeOut, 100, fluentWindowConditions
-							.newWindowIsAppeared("Hello, world*"));
-					return super.get(google, timeOut);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		},
-		BYPARTIALURL{
-			@Override
-			AnyPage get(Google google, long timeOut) {
-				Awaiting awaiting = new Awaiting(google.getWrappedDriver());
-				ArrayList<String> expectedURLs = new ArrayList<String>() {
-					private static final long serialVersionUID = 1L;
-					{
-						add("wikipedia*org/wiki/");
+	private static class WaitingThread extends Thread {
+        private enum HowToGetANewWindow {
+			BYPARTIALTITLE {
+				@Override
+				AnyPage get(Google google, long timeOut) {
+					Awaiting awaiting = new Awaiting(google.getWrappedDriver());
+					FluentWindowConditions fluentWindowConditions = new FluentWindowConditions(
+							google.getWrappedDriver());
+					try {
+						awaiting.awaitCondition(timeOut, 100, fluentWindowConditions
+								.newWindowIsAppeared("Hello, world*"));
+						return super.get(google, timeOut);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
 					}
-				};
-
-				try {
-					awaiting.awaitCondition(timeOut, 100, new FluentWindowConditions(
-							google.getWrappedDriver())
-							.newWindowIsAppeared(expectedURLs));
-					return super.get(google, timeOut);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
 				}
-			}
-			
-		};
+			},
+			BYPARTIALURL{
+				@Override
+				AnyPage get(Google google, long timeOut) {
+					Awaiting awaiting = new Awaiting(google.getWrappedDriver());
+					ArrayList<String> expectedURLs = new ArrayList<String>() {
+						private static final long serialVersionUID = 1L;
+						{
+							add("wikipedia*org/wiki/");
+						}
+					};
 		
-		AnyPage get(Google google, long timeOut){
-			return google.getFromHandle(AnyPage.class, 1);
+					try {
+						awaiting.awaitCondition(timeOut, 100, new FluentWindowConditions(
+								google.getWrappedDriver())
+								.newWindowIsAppeared(expectedURLs));
+						return super.get(google, timeOut);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}
+				
+			};
+			
+			AnyPage get(Google google, long timeOut){
+				return google.getFromHandle(AnyPage.class, 1);
+			}
 		}
-	}
 
-	private class WaitingThread extends Thread {
-        private final Google google;
+		private final Google google;
         private final HowToGetANewWindow howToGet;
         private Exception exception;
         private AnyPage anyPage;
@@ -99,21 +98,27 @@ public class HelloWorldGoogleTest2 {
 	// settings according to current OS
 	private final HashMap<Platform, List<String>> settings = new HashMap<Platform, List<String>>();
 	
-	private void test(Google google, HowToGetANewWindow howToGet, boolean toClickOnALinkWhichWasFound, long timeOut) throws Exception {
+	@SuppressWarnings("deprecation")
+	private void test(Google google, WaitingThread.HowToGetANewWindow howToGet, boolean toClickOnALinkWhichWasFound, long timeOut) throws Exception {
 		WaitingThread waitingThread = new WaitingThread(google, howToGet, timeOut);
 		waitingThread.start();
-		Thread.sleep(4000);
-		if (!toClickOnALinkWhichWasFound){
-			google.openLinkByIndex(1);
+		Thread.sleep(2000);
+		waitingThread.suspend();
+		try{
+			if (!toClickOnALinkWhichWasFound){
+				google.openLinkByIndex(1);
+			}
+			else{
+				google.clickOnLinkByIndex(1);
+			}
 		}
-		else{
-			google.clickOnLinkByIndex(1);
+		finally{
+			waitingThread.resume();	
 		}
 		while (waitingThread.isRunning){Log.message("Waiting for...");}
 		if (waitingThread.exception != null) {
 			throw new RuntimeException(waitingThread.exception);
 		}
-		Thread.sleep(3000);
 		waitingThread.anyPage.close();
 	}
 	
@@ -141,7 +146,8 @@ public class HelloWorldGoogleTest2 {
 				String[] howToVars = howToGetANewWindow.split(",");
 				google.performSearch("Hello world Wikipedia");
 				for (String howTo: howToVars){
-					test(google, HowToGetANewWindow.valueOf(howTo), new Boolean(toClick), new Long(timeOut));
+					test(google, WaitingThread.HowToGetANewWindow.valueOf(howTo), 
+							new Boolean(toClick), new Long(timeOut));
 				}
 			} finally {
 				google.quit();

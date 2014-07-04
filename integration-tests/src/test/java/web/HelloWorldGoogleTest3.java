@@ -68,7 +68,6 @@ public class HelloWorldGoogleTest3 {
 			Assert.assertNotSame(0, google.getLinkCount());
 			google.openLinkByIndex(1);
 			AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
-			Thread.sleep(5000);
 			anyPage.close();
 			google.openLinkByIndex(1);
 			anyPage = google.getFromHandle(AnyPage.class, 1);
