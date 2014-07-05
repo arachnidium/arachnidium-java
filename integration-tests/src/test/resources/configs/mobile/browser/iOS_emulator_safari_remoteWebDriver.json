@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"remote"
 	      },
 	      "remoteAdress":{
 	          "type":"STRING",
