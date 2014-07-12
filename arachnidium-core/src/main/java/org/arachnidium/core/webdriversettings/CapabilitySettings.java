@@ -17,7 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * @author s.tihomirov There are specified webdriver capabilities settings
  */
 public class CapabilitySettings extends AbstractConfigurationAccessHelper
-		implements HasCapabilities, Capabilities {
+implements HasCapabilities, Capabilities {
 
 	// specified settings for capabilities
 	private final String capabilityGroup = "DesiredCapabilities";
@@ -30,23 +30,33 @@ public class CapabilitySettings extends AbstractConfigurationAccessHelper
 	}
 
 	@Override
-	public Capabilities getCapabilities() {
-		return builtCapabilities;
-	}
-
-	@Override
-	public Object getSetting(String name) {
-		return getSettingValue(capabilityGroup, name);
-	}
-
-	@Override
 	public Map<String, ?> asMap() {
 		return builtCapabilities.asMap();
+	}
+
+	private void buildCapabilities() {
+		HashMap<String, Object> capabilities = getGroup(capabilityGroup);
+		if (capabilities == null)
+			return;
+
+		List<String> capabilityStrings = new ArrayList<String>(
+				capabilities.keySet());
+		capabilityStrings.forEach((capabilityStr) -> {
+			if (capabilities.get(capabilityStr) != null)
+				builtCapabilities.setCapability(capabilityStr,
+						capabilities.get(capabilityStr));
+		});
+		transformCapabilities();
 	}
 
 	@Override
 	public String getBrowserName() {
 		return builtCapabilities.getBrowserName();
+	}
+
+	@Override
+	public Capabilities getCapabilities() {
+		return builtCapabilities;
 	}
 
 	@Override
@@ -57,6 +67,11 @@ public class CapabilitySettings extends AbstractConfigurationAccessHelper
 	@Override
 	public Platform getPlatform() {
 		return builtCapabilities.getPlatform();
+	}
+
+	@Override
+	public Object getSetting(String name) {
+		return getSettingValue(capabilityGroup, name);
 	}
 
 	@Override
@@ -74,32 +89,15 @@ public class CapabilitySettings extends AbstractConfigurationAccessHelper
 		return builtCapabilities.isJavascriptEnabled();
 	}
 
-	private void buildCapabilities() {
-		HashMap<String, Object> capabilities = getGroup(capabilityGroup);
-		if (capabilities == null) {
-			return;
-		}
-
-		List<String> capabilityStrings = new ArrayList<String>(
-				capabilities.keySet());
-
-		for (String capabilityStr : capabilityStrings) {
-			if (capabilities.get(capabilityStr) != null) {
-				builtCapabilities.setCapability(capabilityStr, capabilities.get(capabilityStr));
-			}
-		}
-		transformCapabilities();
-	}
-	
-	//transforms capabilities values if they need to be changed
-	private void transformCapabilities(){
-		//transforms relative path to application into absolute
+	// transforms capabilities values if they need to be changed
+	private void transformCapabilities() {
+		// transforms relative path to application into absolute
 		Object pathToApp = getCapability(appCapability);
-		if (pathToApp != null){
+		if (pathToApp != null) {
 			File app = new File(String.valueOf(pathToApp));
-			builtCapabilities.setCapability(appCapability, app.getAbsolutePath());
-		}		
-		//if other actions need to be implemented code will be below 
+			builtCapabilities.setCapability(appCapability,
+					app.getAbsolutePath());
+		}
+		// if other actions need to be implemented code will be below
 	}
-
 }

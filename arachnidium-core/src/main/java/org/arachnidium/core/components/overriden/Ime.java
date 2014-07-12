@@ -13,8 +13,13 @@ public class Ime extends WebdriverComponent implements ImeHandler {
 	}
 
 	@Override
-	public List<String> getAvailableEngines() {
-		return driver.manage().ime().getAvailableEngines();
+	public void activateEngine(String engine) {
+		driver.manage().ime().activateEngine(engine);
+	}
+
+	@Override
+	public void deactivate() {
+		driver.manage().ime().deactivate();
 	}
 
 	@Override
@@ -23,17 +28,12 @@ public class Ime extends WebdriverComponent implements ImeHandler {
 	}
 
 	@Override
+	public List<String> getAvailableEngines() {
+		return driver.manage().ime().getAvailableEngines();
+	}
+
+	@Override
 	public boolean isActivated() {
 		return driver.manage().ime().isActivated();
-	}
-
-	@Override
-	public void deactivate() {
-		driver.manage().ime().deactivate();		
-	}
-
-	@Override
-	public void activateEngine(String engine) {
-		driver.manage().ime().activateEngine(engine);		
 	}
 }

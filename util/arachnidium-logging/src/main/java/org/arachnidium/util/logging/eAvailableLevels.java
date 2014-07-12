@@ -3,11 +3,8 @@ package org.arachnidium.util.logging;
 import java.util.logging.Level;
 
 public enum eAvailableLevels {
-	FINE(Level.FINE),
-	INFO(Level.INFO),
-	SEVERE(Level.SEVERE),
-	WARN(Level.WARNING);
-	
+	FINE(Level.FINE), INFO(Level.INFO), SEVERE(Level.SEVERE), WARN(
+			Level.WARNING);
 
 	private final Level level;
 

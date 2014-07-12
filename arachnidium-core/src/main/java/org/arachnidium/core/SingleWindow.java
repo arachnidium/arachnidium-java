@@ -1,7 +1,6 @@
 package org.arachnidium.core;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,22 +21,20 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 /**
  * @author s.tihomirov It is performs actions on a single window
  */
-public final class SingleWindow extends Handle implements Navigation, IExtendedWindow {
+public final class SingleWindow extends Handle implements Navigation,
+		IExtendedWindow {
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 	private final List<IWindowListener> windowEventListeners = new ArrayList<IWindowListener>();
-	private final InvocationHandler windowListenerInvocationHandler = new InvocationHandler() {
-		public Object invoke(Object proxy, Method method, Object[] args)
-				throws Throwable {
-			for (IWindowListener eventListener : windowEventListeners) {
-				method.invoke(eventListener, args);
-			}
-			return null;
-		}
+	private final InvocationHandler windowListenerInvocationHandler = (proxy,
+			method, args) -> {
+		for (IWindowListener eventListener : windowEventListeners)
+			method.invoke(eventListener, args);
+		return null;
 	};
 	/**
-	* It listens to window events and invokes listener methods
-	*/
+	 * It listens to window events and invokes listener methods
+	 */
 	private final IWindowListener windowListenerProxy = (IWindowListener) Proxy
 			.newProxyInstance(IWindowListener.class.getClassLoader(),
 					new Class[] { IWindowListener.class },
@@ -47,29 +44,27 @@ public final class SingleWindow extends Handle implements Navigation, IExtendedW
 		super(handle, windowManager);
 		this.windowTool = ComponentFactory.getComponent(WindowTool.class,
 				driverEncapsulation.getWrappedDriver());
-		this.navigationTool = ComponentFactory.getComponent(NavigationTool.class,
-				driverEncapsulation.getWrappedDriver());;
-		windowEventListeners.addAll(InnerSPIServises.getBy(driverEncapsulation)
-				.getServices(IWindowListener.class));
-		windowListenerProxy.whenNewHandleIsAppeared(this);
+		this.navigationTool = ComponentFactory.getComponent(
+				NavigationTool.class, driverEncapsulation.getWrappedDriver());
+		;
+				windowEventListeners.addAll(InnerSPIServises.getBy(driverEncapsulation)
+						.getServices(IWindowListener.class));
+				windowListenerProxy.whenNewHandleIsAppeared(this);
+	}
+
+	public void addListener(IWindowListener listener) {
+		windowEventListeners.add(listener);
 	}
 
 	@Override
-	void requestToMe() {
-		windowListenerProxy.beforeIsSwitchedOn(this);
-		super.requestToMe();
-		windowListenerProxy.whenIsSwitchedOn(this);
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		removeAllListeners();
+	public synchronized void back() {
+		requestToMe();
+		navigationTool.back();
 	}
 
 	public synchronized void close() throws UnclosedWindowException,
-			NoSuchWindowException, UnhandledAlertException,
-			UnreachableBrowserException {
+	NoSuchWindowException, UnhandledAlertException,
+	UnreachableBrowserException {
 		try {
 			windowListenerProxy.beforeWindowIsClosed(this);
 			((WindowManager) nativeManager).close(handle);
@@ -84,19 +79,9 @@ public final class SingleWindow extends Handle implements Navigation, IExtendedW
 	}
 
 	@Override
-	public synchronized String getCurrentUrl() throws NoSuchWindowException {
-		return ((WindowManager) nativeManager).getWindowURLbyHandle(handle);
-	}
-
-	@Override
-	public synchronized String getTitle() {
-		return ((WindowManager) nativeManager).getTitleByHandle(handle);
-	}
-
-	@Override
-	public synchronized void to(String link) {
-		requestToMe();
-		navigationTool.to(link);
+	public void destroy() {
+		super.destroy();
+		removeAllListeners();
 	}
 
 	@Override
@@ -106,24 +91,8 @@ public final class SingleWindow extends Handle implements Navigation, IExtendedW
 	}
 
 	@Override
-	public synchronized void back() {
-		requestToMe();
-		navigationTool.back();
-	}
-
-	@Override
-	public synchronized void refresh() {
-		requestToMe();
-		windowListenerProxy.beforeWindowIsRefreshed(this);
-		navigationTool.refresh();
-		windowListenerProxy.whenWindowIsRefreshed(this);
-	}
-
-	@Override
-	public synchronized void to(URL url) {
-		requestToMe();
-		navigationTool.to(url);
-
+	public synchronized String getCurrentUrl() throws NoSuchWindowException {
+		return ((WindowManager) nativeManager).getWindowURLbyHandle(handle);
 	}
 
 	@Override
@@ -139,11 +108,39 @@ public final class SingleWindow extends Handle implements Navigation, IExtendedW
 	}
 
 	@Override
+	public synchronized String getTitle() {
+		return ((WindowManager) nativeManager).getTitleByHandle(handle);
+	}
+
+	@Override
 	public synchronized void maximize() {
 		requestToMe();
 		windowListenerProxy.beforeWindowIsMaximized(this);
 		windowTool.maximize();
 		windowListenerProxy.whenWindowIsMaximized(this);
+	}
+
+	@Override
+	public synchronized void refresh() {
+		requestToMe();
+		windowListenerProxy.beforeWindowIsRefreshed(this);
+		navigationTool.refresh();
+		windowListenerProxy.whenWindowIsRefreshed(this);
+	}
+
+	public void removeAllListeners() {
+		windowEventListeners.clear();
+	}
+
+	public void removeListener(IWindowListener listener) {
+		windowEventListeners.remove(listener);
+	}
+
+	@Override
+	void requestToMe() {
+		windowListenerProxy.beforeIsSwitchedOn(this);
+		super.requestToMe();
+		windowListenerProxy.whenIsSwitchedOn(this);
 	}
 
 	@Override
@@ -162,15 +159,16 @@ public final class SingleWindow extends Handle implements Navigation, IExtendedW
 		windowListenerProxy.whenWindowIsResized(this, size);
 	}
 
-	public void addListener(IWindowListener listener) {
-		windowEventListeners.add(listener);
+	@Override
+	public synchronized void to(String link) {
+		requestToMe();
+		navigationTool.to(link);
 	}
 
-	public void removeListener(IWindowListener listener) {
-		windowEventListeners.remove(listener);
-	}
+	@Override
+	public synchronized void to(URL url) {
+		requestToMe();
+		navigationTool.to(url);
 
-	public void removeAllListeners() {
-		windowEventListeners.clear();
 	}
 }

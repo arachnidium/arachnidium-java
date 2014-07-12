@@ -1,6 +1,5 @@
 package org.arachnidium.core;
 
-
 import java.util.Set;
 
 import org.arachnidium.core.components.bydefault.AlertHandler;
@@ -15,24 +14,73 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 
-
 public final class ContextManager extends Manager {
 	private final FluentContextConditions fluent;
 	private final ContextTool contextTool;
 
 	public ContextManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		fluent       = new FluentContextConditions(getWrappedDriver());
-		contextTool  = ComponentFactory.getComponent(ContextTool.class, getWrappedDriver());
+		fluent = new FluentContextConditions(getWrappedDriver());
+		contextTool = ComponentFactory.getComponent(ContextTool.class,
+				getWrappedDriver());
+	}
+
+	@Override
+	void changeActive(String context) throws NoSuchContextException {
+		contextTool.context(context);
+	}
+
+	synchronized String getActivityByHandle(String handle)
+			throws NoSuchContextException {
+		changeActive(handle);
+		return ((IHasActivity) getWrappedDriver()).currentActivity();
+	}
+
+	@Override
+	public Alert getAlert() throws NoAlertPresentException {
+		ContextTimeOuts timeOuts = getContextTimeOuts();
+		return ComponentFactory
+				.getComponent(
+						AlertHandler.class,
+						getWrappedDriver(),
+						new Class[] { long.class },
+						new Object[] { getTimeOut(
+								timeOuts.getSecsForAwaitinAlertPresent(),
+						defaultTime) });
+	}
+
+	/**
+	 * returns context handle by it's name
+	 */
+	public synchronized Handle getByContextName(String contextName) {
+		ContextTimeOuts timeOuts = getContextTimeOuts();
+		long timeOut = getTimeOut(timeOuts.getIsContextPresentTimeOut(),
+				defaultTime);
+		awaiting.awaitCondition(timeOut, fluent.isContextPresent(contextName));
+		contextTool.context(contextName);
+		SingleContext initedContext = (SingleContext) Handle.isInitiated(
+				contextName, this);
+		if (initedContext != null)
+			return initedContext;
+		return new SingleContext(contextName, this);
+	}
+
+	/**
+	 * returns context handle by it's index
+	 */
+	@Override
+	public synchronized Handle getByIndex(int index) {
+		String handle = this.getHandleByIndex(index);
+		SingleContext initedContext = (SingleContext) Handle.isInitiated(
+				handle, this);
+		if (initedContext != null)
+			return initedContext;
+		return new SingleContext(handle, this);
 	}
 
 	private ContextTimeOuts getContextTimeOuts() {
-		return driverEncapsulation.configuration.getSection(ContextTimeOuts.class);
-	}
-	
-	@Override
-	void changeActive(String context) throws NoSuchContextException {			
-		contextTool.context(context);
+		return driverEncapsulation.configuration
+				.getSection(ContextTimeOuts.class);
 	}
 
 	@Override
@@ -46,18 +94,57 @@ public final class ContextManager extends Manager {
 			ContextTimeOuts timeOuts = getContextTimeOuts();
 			long timeOut = getTimeOut(timeOuts.getContextCountTimeOutSec(),
 					defaultTime);
-			return awaiting.awaitCondition(timeOut, 100, 
+			return awaiting.awaitCondition(timeOut, 100,
 					fluent.suchContextWithIndexIsPresent(index));
 		} catch (TimeoutException e) {
-			throw new NoSuchContextException("Can't find context! Index out of bounds! Specified index is "
-							+ Integer.toString(index)
-							+ " is more then actual context count", e);
+			throw new NoSuchContextException(
+					"Can't find context! Index out of bounds! Specified index is "
+					+ Integer.toString(index)
+					+ " is more then actual context count", e);
 		}
 	}
 
 	@Override
 	public Set<String> getHandles() {
 		return contextTool.getContextHandles();
+	}
+
+	/**
+	 * returns handle of a new context that we have been waiting for time that
+	 * specified in configuration
+	 */
+	@Override
+	public synchronized Handle getNewHandle() {
+		return new SingleContext(switchToNew(), this);
+	}
+
+	/**
+	 * returns handle of a new context that we have been waiting for specified
+	 * time
+	 */
+	@Override
+	public synchronized Handle getNewHandle(long timeOutInSeconds) {
+		return new SingleContext(switchToNew(timeOutInSeconds), this);
+	}
+
+	/**
+	 * returns handle of a new context that we have been waiting for specified
+	 * time using context name
+	 */
+	@Override
+	public synchronized Handle getNewHandle(long timeOutInSeconds,
+			String contextName) {
+		return new SingleContext(switchToNew(timeOutInSeconds, contextName),
+				this);
+	}
+
+	/**
+	 * returns handle of a new window that we have been waiting for time that
+	 * specified in configuration using context name
+	 */
+	@Override
+	public synchronized Handle getNewHandle(String contextName) {
+		return new SingleContext(switchToNew(contextName), this);
 	}
 
 	@Override
@@ -67,8 +154,7 @@ public final class ContextManager extends Manager {
 	 */
 	String switchToNew() throws NoSuchContextException {
 		ContextTimeOuts timeOuts = getContextTimeOuts();
-		long timeOut = getTimeOut(
-				timeOuts.getNewContextTimeOutSec(),
+		long timeOut = getTimeOut(timeOuts.getNewContextTimeOutSec(),
 				defaultTimeForNew);
 		return switchToNew(timeOut);
 	}
@@ -115,97 +201,15 @@ public final class ContextManager extends Manager {
 	}
 
 	/**
-	 * returns a new context that we have been waiting for specified
-	 * time. new context is predefined. Time out is specified in configuration
+	 * returns a new context that we have been waiting for specified time. new
+	 * context is predefined. Time out is specified in configuration
 	 */
 	@Override
 	String switchToNew(String context) {
 		ContextTimeOuts timeOuts = getContextTimeOuts();
-		long timeOut = getTimeOut(
-				timeOuts.getNewContextTimeOutSec(),
+		long timeOut = getTimeOut(timeOuts.getNewContextTimeOutSec(),
 				defaultTimeForNew);
 		return switchToNew(timeOut, context);
 	}
-
-	synchronized String getActivityByHandle(String handle)
-			throws NoSuchContextException {
-		changeActive(handle);
-		return (((IHasActivity) getWrappedDriver()).currentActivity());
-	}
-
-	/**
-	 * returns context handle by it's index
-	 */
-	@Override
-	public synchronized Handle getByIndex(int index) {
-		String handle = this.getHandleByIndex(index);
-		SingleContext initedContext = (SingleContext) SingleContext.isInitiated(handle, this);
-		if (initedContext != null) {
-			return (initedContext);
-		}
-		return (new SingleContext(handle, this));
-	}
-
-	/**
-	 * returns context handle by it's name
-	 */
-	public synchronized Handle getByContextName(String contextName) {
-		ContextTimeOuts timeOuts = getContextTimeOuts();
-		long timeOut = getTimeOut(timeOuts.getIsContextPresentTimeOut(),
-				defaultTime);	
-		awaiting.awaitCondition(timeOut, fluent.isContextPresent(contextName));
-		contextTool.context(contextName);
-		SingleContext initedContext = (SingleContext) SingleContext.isInitiated(contextName, this);
-		if (initedContext != null) {
-			return (initedContext);
-		}
-		return (new SingleContext(contextName, this));
-	}
-	
-	/**
-	 * returns handle of a new context that we have been waiting for time that
-	 * specified in configuration
-	 */
-	@Override
-	public synchronized Handle getNewHandle() {
-		return new SingleContext(switchToNew(), this);
-	}
-
-	/**
-	 * returns handle of a new context that we have been waiting for specified
-	 * time
-	 */
-	@Override
-	public synchronized Handle getNewHandle(long timeOutInSeconds) {
-		return new SingleContext(switchToNew(timeOutInSeconds), this);
-	}
-
-	/**
-	 * returns handle of a new context that we have been waiting for specified
-	 * time using context name
-	 */
-	@Override
-	public synchronized Handle getNewHandle(long timeOutInSeconds, String contextName) {
-		return new SingleContext(switchToNew(timeOutInSeconds, contextName), this);
-	}
-
-	/**
-	 * returns handle of a new window that we have been waiting for time that
-	 * specified in configuration using context name
-	 */
-	@Override
-	public synchronized Handle getNewHandle(String contextName) {
-		return new SingleContext(switchToNew(contextName), this);
-	}
-
-	@Override
-	public Alert getAlert() throws NoAlertPresentException {
-		ContextTimeOuts timeOuts = getContextTimeOuts();
-		return ComponentFactory.getComponent(AlertHandler.class,
-				getWrappedDriver(), new Class[] {long.class}, new Object[] {getTimeOut(timeOuts.
-						getSecsForAwaitinAlertPresent(),
-								defaultTime) });
-	}
-	
 
 }

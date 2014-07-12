@@ -1,6 +1,5 @@
 package org.arachnidium.core.inheritors;
 
-
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
 import org.arachnidium.util.configuration.Configuration;
@@ -9,7 +8,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 /**
  * @author s.tihomirov
- * 
+ *
  */
 public final class HtmlUnitDriverEncapsulation extends WebDriverEncapsulation {
 	public HtmlUnitDriverEncapsulation(boolean enableJavascript) {

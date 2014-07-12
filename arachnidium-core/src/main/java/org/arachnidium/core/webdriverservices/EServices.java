@@ -20,37 +20,46 @@ public enum EServices {
 	CHROMESERVICE(ChromeDriverServerBin.class,
 			ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
 			new HashMap<Platform, String>() {
-				private static final long serialVersionUID = 1L;
-				{
-					put(Platform.WINDOWS, "chromedriver.exe");
-					put(Platform.MAC, "chromedriver");
-					put(Platform.LINUX, "chromedriver");
-				}
+		private static final long serialVersionUID = 1L;
+		{
+			put(Platform.WINDOWS, "chromedriver.exe");
+			put(Platform.MAC, "chromedriver");
+			put(Platform.LINUX, "chromedriver");
+		}
 
-			}), IEXPLORERSERVICE(IEDriverServerBin.class,
+	}), IEXPLORERSERVICE(IEDriverServerBin.class,
 			InternetExplorerDriverService.IE_DRIVER_EXE_PROPERTY,
 			new HashMap<Platform, String>() {
-				private static final long serialVersionUID = 1L;
-				{
-					put(Platform.WINDOWS, "IEDriverServer.exe");
-				}
+		private static final long serialVersionUID = 1L;
+		{
+			put(Platform.WINDOWS, "IEDriverServer.exe");
+		}
 
-			}), PHANTOMJSSERVICE(PhantomJSDriverBin.class,
+	}), PHANTOMJSSERVICE(PhantomJSDriverBin.class,
 			PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
 			new HashMap<Platform, String>() {
-				private static final long serialVersionUID = 1L;
-				{
-					put(Platform.WINDOWS, "phantomjs.exe");
-					put(Platform.MAC, "phantomjs");
-					put(Platform.LINUX, "phantomjs");
-				}
+		private static final long serialVersionUID = 1L;
+		{
+			put(Platform.WINDOWS, "phantomjs.exe");
+			put(Platform.MAC, "phantomjs");
+			put(Platform.LINUX, "phantomjs");
+		}
 
-			});
+	});
 
 	private static final String defaultFolder = "";
 	private final String propertyName;
 	private final Class<? extends AbstractConfigurationAccessHelper> clazzOfSettings;
 	private final HashMap<Platform, String> defaultServerFileAccordance;
+
+	private EServices(
+			Class<? extends AbstractConfigurationAccessHelper> classOfSetting,
+			String propertyName,
+			HashMap<Platform, String> defaultServerFileAccordance) {
+		this.clazzOfSettings = classOfSetting;
+		this.defaultServerFileAccordance = defaultServerFileAccordance;
+		this.propertyName = propertyName;
+	}
 
 	// system properties should be set
 	public void setSystemProperty(Configuration configInstance) {
@@ -102,14 +111,4 @@ public enum EServices {
 						+ " file wasn't found. Also it is not defined for current platform "
 						+ currentOS.toString());
 	}
-
-	private EServices(
-			Class<? extends AbstractConfigurationAccessHelper> classOfSetting,
-			String propertyName,
-			HashMap<Platform, String> defaultServerFileAccordance) {
-		this.clazzOfSettings = classOfSetting;
-		this.defaultServerFileAccordance = defaultServerFileAccordance;
-		this.propertyName = propertyName;
-	}
-
 }

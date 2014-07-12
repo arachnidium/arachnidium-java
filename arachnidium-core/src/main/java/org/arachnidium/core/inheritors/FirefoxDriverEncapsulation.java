@@ -7,24 +7,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-
 public final class FirefoxDriverEncapsulation extends WebDriverEncapsulation {
-
-	public FirefoxDriverEncapsulation(FirefoxProfile profile) {
-		super();
-		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
-				new Class<?>[] { FirefoxProfile.class },
-				new Object[] { profile });
-	}
-
-	public FirefoxDriverEncapsulation(FirefoxProfile profile,
-			Configuration config) {
-		super();
-		this.configuration = config;
-		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
-				new Class<?>[] { FirefoxProfile.class },
-				new Object[] { profile });
-	}
 
 	public FirefoxDriverEncapsulation(Capabilities desiredCapabilities,
 			Capabilities requiredCapabilities) {
@@ -52,23 +35,23 @@ public final class FirefoxDriverEncapsulation extends WebDriverEncapsulation {
 	}
 
 	public FirefoxDriverEncapsulation(FirefoxBinary binary,
-			FirefoxProfile profile, Configuration config) {
+			FirefoxProfile profile, Capabilities capabilities) {
 		super();
-		this.configuration = config;
 		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
-				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class },
-				new Object[] { binary, profile });
+				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class,
+			Capabilities.class }, new Object[] { binary, profile,
+			capabilities });
 	}
 
 	public FirefoxDriverEncapsulation(FirefoxBinary binary,
-			FirefoxProfile profile, Capabilities capabilities,
-			Configuration config) {
+			FirefoxProfile profile, Capabilities desiredCapabilities,
+			Capabilities requiredCapabilities) {
 		super();
-		this.configuration = config;
 		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
 				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class,
-						Capabilities.class }, new Object[] { binary, profile,
-						capabilities });
+			Capabilities.class, Capabilities.class }, new Object[] {
+			binary, profile, desiredCapabilities,
+			requiredCapabilities });
 	}
 
 	public FirefoxDriverEncapsulation(FirefoxBinary binary,
@@ -78,28 +61,44 @@ public final class FirefoxDriverEncapsulation extends WebDriverEncapsulation {
 		this.configuration = config;
 		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
 				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class,
-						Capabilities.class, Capabilities.class }, new Object[] {
-						binary, profile, desiredCapabilities,
-						requiredCapabilities });
+			Capabilities.class, Capabilities.class }, new Object[] {
+			binary, profile, desiredCapabilities,
+			requiredCapabilities });
 	}
 
 	public FirefoxDriverEncapsulation(FirefoxBinary binary,
-			FirefoxProfile profile, Capabilities desiredCapabilities,
-			Capabilities requiredCapabilities) {
+			FirefoxProfile profile, Capabilities capabilities,
+			Configuration config) {
 		super();
+		this.configuration = config;
 		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
 				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class,
-						Capabilities.class, Capabilities.class }, new Object[] {
-						binary, profile, desiredCapabilities,
-						requiredCapabilities });
+			Capabilities.class }, new Object[] { binary, profile,
+			capabilities });
 	}
 
 	public FirefoxDriverEncapsulation(FirefoxBinary binary,
-			FirefoxProfile profile, Capabilities capabilities) {
+			FirefoxProfile profile, Configuration config) {
+		super();
+		this.configuration = config;
+		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
+				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class },
+				new Object[] { binary, profile });
+	}
+
+	public FirefoxDriverEncapsulation(FirefoxProfile profile) {
 		super();
 		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
-				new Class<?>[] { FirefoxBinary.class, FirefoxProfile.class,
-						Capabilities.class }, new Object[] { binary, profile,
-						capabilities });
+				new Class<?>[] { FirefoxProfile.class },
+				new Object[] { profile });
+	}
+
+	public FirefoxDriverEncapsulation(FirefoxProfile profile,
+			Configuration config) {
+		super();
+		this.configuration = config;
+		createWebDriver(ESupportedDrivers.FIREFOX.getUsingWebDriverClass(),
+				new Class<?>[] { FirefoxProfile.class },
+				new Object[] { profile });
 	}
 }

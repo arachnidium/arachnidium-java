@@ -17,57 +17,64 @@ import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
 import org.arachnidium.core.eventlisteners.IUnhandledWindowEventListener;
 import org.arachnidium.core.eventlisteners.IWindowListener;
 
-
 /**
  * @author s.tihomirov Creates implementations of
- *         {@link IExtendedWebDriverEventListener}, {@link IWindowListener}, {@link IExtendedWebDriverEventListener} and
- *         another interfaces that can be made up here. This implementations
- *         should have default constructor (!!!!) They can be loaded using SPI
- *         mechanism.
+ *         {@link IExtendedWebDriverEventListener}, {@link IWindowListener},
+ *         {@link IExtendedWebDriverEventListener} and another interfaces that
+ *         can be made up here. This implementations should have default
+ *         constructor (!!!!) They can be loaded using SPI mechanism.
  */
 class InnerSPIServises {
+	/**
+	 * @author s.tihomirov gets instantiated services by
+	 *         {@link WebDriverEncapsulation} object that defined as key
+	 */
+	static InnerSPIServises getBy(WebDriverEncapsulation encapsulation) {
+		InnerSPIServises result = initedServises.get(encapsulation);
+		if (result != null)
+			return result;
+		result = new InnerSPIServises();
+		initedServises.put(encapsulation, result);
+		return result;
+	}
+
+	/**
+	 * @author s.tihomirov remoses instantiated services by
+	 *         {@link WebDriverEncapsulation} object that defined as key
+	 */
+	static void removeBy(WebDriverEncapsulation encapsulation) {
+		initedServises.remove(encapsulation);
+	}
+
 	private final static Map<WebDriverEncapsulation, InnerSPIServises> initedServises = Collections
 			.synchronizedMap(new HashMap<WebDriverEncapsulation, InnerSPIServises>());
-	
+
 	private final HashMap<Class<?>, Object> defaultProvidedServices = new HashMap<Class<?>, Object>();
 	private final HashMap<Class<?>, List<Object>> providedServices = new HashMap<Class<?>, List<Object>>();
+	private final Class<?> webdriverExtendedListener = IExtendedWebDriverEventListener.class;
+	private final Class<?> windowEventListener = IWindowListener.class;
 
-	private final Class<?> webdriverExtendedListener    = IExtendedWebDriverEventListener.class;
-	private final Class<?> windowEventListener          = IWindowListener.class;
 	private final Class<?> unhandledWindowEventListener = IUnhandledWindowEventListener.class;
-	private final Class<?> contextListener              = IContextListener.class;
+
+	private final Class<?> contextListener = IContextListener.class;
 
 	private InnerSPIServises() {
 		defaultProvidedServices.put(webdriverExtendedListener,
 				new DefaultWebdriverListener());
 		defaultProvidedServices.put(windowEventListener,
 				new DefaultWindowListener());
-		defaultProvidedServices.put(unhandledWindowEventListener, 
-				new  DefaultUnhandledWindowEventListener());
-		defaultProvidedServices.put(contextListener, 
-				new  DefaultContextListener());		
+		defaultProvidedServices.put(unhandledWindowEventListener,
+				new DefaultUnhandledWindowEventListener());
+		defaultProvidedServices.put(contextListener,
+				new DefaultContextListener());
 	}
-	
+
 	/**
-	 * @author s.tihomirov
-	 * gets instantiated services by {@link WebDriverEncapsulation} object that defined as key
+	 * @author s.tihomirov gets default service if it is initiated
 	 */
-	static InnerSPIServises getBy(WebDriverEncapsulation encapsulation) {
-		InnerSPIServises result = initedServises.get(encapsulation);
-		if (result!=null){
-			return result;
-		}
-		result = new InnerSPIServises();
-		initedServises.put(encapsulation, result);
-		return result;
-	}
-	
-	/**
-	 * @author s.tihomirov
-	 * remoses instantiated services by {@link WebDriverEncapsulation} object that defined as key
-	 */
-	static void removeBy(WebDriverEncapsulation encapsulation){
-		initedServises.remove(encapsulation);
+	@SuppressWarnings("unchecked")
+	<T> T getDafaultService(Class<T> requiredService) {
+		return (T) defaultProvidedServices.get(requiredService);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -78,32 +85,22 @@ class InnerSPIServises {
 	<T> List<T> getServices(Class<T> requiredService) {
 		List<T> initiatedServices = (List<T>) providedServices
 				.get(requiredService);
-		if (initiatedServices != null) {
+		if (initiatedServices != null)
 			return initiatedServices;
-		}
 
 		List<T> serviceList = prepareServices(requiredService);
-		T defaultService = (T) getDafaultService(requiredService);
-		if (defaultService != null) {
+		T defaultService = getDafaultService(requiredService);
+		if (defaultService != null)
 			serviceList.add(defaultService);
-		}
 		return serviceList;
-	}
-
-	/**
-	 * @author s.tihomirov gets default service if it is initiated
-	 */
-	@SuppressWarnings("unchecked") <T> T getDafaultService(Class<T> requiredService) {
-		return (T) defaultProvidedServices.get(requiredService);
 	}
 
 	@SuppressWarnings("unchecked")
 	private <T> List<T> prepareServices(Class<?> requiredService) {
 		List<T> loadedServices = new ArrayList<T>();
 		Iterator<?> providers = ServiceLoader.load(requiredService).iterator();
-		while (providers.hasNext()) {
+		while (providers.hasNext())
 			loadedServices.add((T) providers.next());
-		}
 		return loadedServices;
 	}
 

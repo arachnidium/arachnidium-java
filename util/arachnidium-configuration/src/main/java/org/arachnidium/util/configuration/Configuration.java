@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.arachnidium.util.configuration;
 
@@ -19,46 +19,6 @@ import org.json.simple.parser.JSONParser;
 
 //for customizing project
 public class Configuration {
-	private final static String commonFileName = "settings.json"; // default settings
-    // file  should be  put in project directory
-	public final static Configuration byDefault = get(getPathToDefault("."));
-
-	private static final String typeTag = "type";
-	private static final String valueTag = "value";
-
-	private final HashMap<String, HashMap<String, Object>> mappedSettings = new HashMap<String, HashMap<String, Object>>();
-	private final HashMap<Class<? extends AbstractConfigurationAccessHelper>, AbstractConfigurationAccessHelper> initedHelpers = new HashMap<>();
-
-	private static String getPathToDefault(String startPath) {
-		// attempt to find configuration in the specified directory
-		File defaultConfig = new File(startPath);
-		File list[] = defaultConfig.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.endsWith(commonFileName);
-			}
-
-		});
-
-		if (list.length > 0) {
-			return list[0].getPath();
-		}
-
-		if (list.length == 0) {
-			File inner[] = defaultConfig.listFiles();
-			String result = null;
-			for (int i = 0; i < inner.length; i++) {
-				if (inner[i].isDirectory()) {
-					result = getPathToDefault(inner[i].getPath());
-				}
-				if (result != null) {
-					return result;
-				}
-			}
-		}
-		return null;
-	}
-
 	public static Configuration get(String filePath) {
 		Callback interceptor = new ConfigurationInterceptor();
 
@@ -70,13 +30,53 @@ public class Configuration {
 				new Object[] { filePath });
 	}
 
+	private static String getPathToDefault(String startPath) {
+		// attempt to find configuration in the specified directory
+		File defaultConfig = new File(startPath);
+		File list[] = defaultConfig
+				.listFiles((FilenameFilter) (dir, name) -> name
+						.endsWith(commonFileName));
+
+		if (list.length > 0)
+			return list[0].getPath();
+
+		if (list.length == 0) {
+			File inner[] = defaultConfig.listFiles();
+			String result = null;
+			for (File element : inner) {
+				if (element.isDirectory())
+					result = getPathToDefault(element.getPath());
+				if (result != null)
+					return result;
+			}
+		}
+		return null;
+	}
+
+	private final static String commonFileName = "settings.json"; // default
+																	// settings
+	// file should be put in project directory
+	public final static Configuration byDefault = get(getPathToDefault("."));
+
+	private static final String typeTag = "type";
+	private static final String valueTag = "value";
+
+	private final HashMap<String, HashMap<String, Object>> mappedSettings = new HashMap<String, HashMap<String, Object>>();
+
+	private final HashMap<Class<? extends AbstractConfigurationAccessHelper>, AbstractConfigurationAccessHelper> initedHelpers = new HashMap<>();
+
+	protected Configuration(String filePath) {
+		super();
+		parseSettings(String.valueOf(filePath));
+	}
+
 	// parsing of each one setting
 	private HashMap<String, Object> getParsedGroup(JSONObject jsonObject) {
 		HashMap<String, Object> result = new HashMap<>();
 		@SuppressWarnings("unchecked")
 		Set<String> keys = jsonObject.keySet();
 
-		for (String key : keys) {
+		keys.forEach((key) -> {
 			JSONObject value = (JSONObject) jsonObject.get(key);
 			String type = (String) value.get(typeTag);
 
@@ -95,54 +95,15 @@ public class Configuration {
 			Object returnValue = null;
 			String strValue = (String) value.get(valueTag);
 
-			if ("".equals(strValue)) {
+			if ("".equals(strValue))
 				result.put(key, returnValue);
-			} else {
+			else
 				result.put(key, requiredType.getValue(String.valueOf(strValue)));
-			}
-		}
-
+		});
 		return result;
-
 	}
 
-	// parsing of json configuration
-	private void parseSettings(String filePath) {
-
-		File settingFile = new File(filePath);
-		if (!settingFile.exists()) {
-			return;
-		}
-		try {
-			JSONObject jsonObject = (JSONObject) new JSONParser()
-					.parse(new FileReader(settingFile));
-			@SuppressWarnings("unchecked")
-			Set<String> keys = jsonObject.keySet(); // there are groups
-			for (String key : keys) {
-				mappedSettings.put(key,
-						getParsedGroup((JSONObject) jsonObject.get(key)));
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(
-					"Configuration building has failed! Please, check it. You can look at SAMPLE_SETTING.json for verifying. ",
-					e);
-		}
-	}
-
-	// gets setting group from mapped serrings
-	public HashMap<String, Object> getSettingGroup(String groupName) {
-		return mappedSettings.get(groupName);
-	}
-
-	public Object getSettingValue(String groupName, String settingName) {
-		HashMap<String, Object> group = getSettingGroup(groupName);
-		// if there is no group with specified name
-		if (group == null) {
-			return null;
-		}
-		return group.get(settingName);
-	}
-
+	@SuppressWarnings("unchecked")
 	/**
 	 * @author s.tihomirov This method is similar as HashMap<String, Object>
 	 *         getSettingGroup(String groupName). But it returns some helper
@@ -151,14 +112,11 @@ public class Configuration {
 	 *         should be implemented with constructor like this: new
 	 *         Helper(org.primitive.configuration.Configuration configuration)
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends AbstractConfigurationAccessHelper> T getSection(
 			Class<T> requiredClass) {
 		T helper = (T) initedHelpers.get(requiredClass);
-		if (helper != null) // if helper is already initiated
-		{
-			return (T) helper;
-		}
+		if (helper != null)
+			return helper;
 
 		try {
 			Constructor<?> requiredConstructor = requiredClass
@@ -174,8 +132,36 @@ public class Configuration {
 		return helper;
 	}
 
-	protected Configuration(String filePath) {
-		super();
-		parseSettings(String.valueOf(filePath));
+	// gets setting group from mapped serrings
+	public HashMap<String, Object> getSettingGroup(String groupName) {
+		return mappedSettings.get(groupName);
+	}
+
+	public Object getSettingValue(String groupName, String settingName) {
+		HashMap<String, Object> group = getSettingGroup(groupName);
+		// if there is no group with specified name
+		if (group == null)
+			return null;
+		return group.get(settingName);
+	}
+
+	// parsing of json configuration
+	private void parseSettings(String filePath) {
+
+		File settingFile = new File(filePath);
+		if (!settingFile.exists())
+			return;
+		try {
+			JSONObject jsonObject = (JSONObject) new JSONParser()
+			.parse(new FileReader(settingFile));
+			@SuppressWarnings("unchecked")
+			Set<String> keys = jsonObject.keySet(); // there are groups
+			keys.forEach((key) -> mappedSettings.put(key,
+					getParsedGroup((JSONObject) jsonObject.get(key))));
+		} catch (Exception e) {
+			throw new RuntimeException(
+					"Configuration building has failed! Please, check it. You can look at SAMPLE_SETTING.json for verifying. ",
+					e);
+		}
 	}
 }

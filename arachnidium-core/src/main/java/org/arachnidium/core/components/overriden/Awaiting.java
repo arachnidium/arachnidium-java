@@ -22,7 +22,7 @@ public final class Awaiting extends WebdriverComponent {
 	public <T> T awaitCondition(long secTimeOut, long sleepInMillis,
 			ExpectedCondition<?> condition) throws TimeoutException {
 		return (T) new WebDriverWait(driver, secTimeOut, sleepInMillis)
-				.until(condition);
+		.until(condition);
 	}
 
 }

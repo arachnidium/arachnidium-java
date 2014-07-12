@@ -17,20 +17,14 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 
-
 /**
  * @author s.tihomirov it can highlight elements and do screenshots
  */
-class WebElementHighLighter implements IConfigurable,
-		IWebElementHighlighter {
+class WebElementHighLighter implements IConfigurable, IWebElementHighlighter {
 
 	// is this doing screenshots
 	private boolean toDoScreenShots;
 	private final boolean isDoingScreenShotsByDefault = true;
-
-	private String getOriginalStyle(WebElement elementToBeHiglighted) {
-		return elementToBeHiglighted.getAttribute("style");
-	}
 
 	private void execDecorativeScript(JavascriptExecutor scriptExecutor,
 			WebElement element, String script) throws InterruptedException {
@@ -43,48 +37,8 @@ class WebElementHighLighter implements IConfigurable,
 		Thread.sleep(100);
 	}
 
-	private void setNewColor(JavascriptExecutor scriptExecutor,
-			WebElement elementToBeHiglighted, String colorExpression) {
-		try {
-			execDecorativeScript(scriptExecutor, elementToBeHiglighted,
-					"arguments[0].style.border = '" + colorExpression + "'");
-		} catch (InterruptedException | StaleElementReferenceException e) {
-		}
-	}
-
-	private void setStyle(JavascriptExecutor scriptExecutor,
-			WebElement elementToBeHiglighted, String style) {
-		try {
-			execDecorativeScript(scriptExecutor, elementToBeHiglighted,
-					"arguments[0].setAttribute('style', '" + style + "');");
-		} catch (InterruptedException | StaleElementReferenceException e) {
-		}
-	}
-
-	private void highlightelement(WebDriver driver, WebElement webElement,
-			Color color, eAvailableLevels LogLevel, String Comment) {
-		try {
-			String originalStyle = getOriginalStyle(webElement);
-			setNewColor(
-					(JavascriptExecutor) driver,
-					webElement,
-					"4px solid rgb(" + Integer.toString(color.getRed()) + ","
-							+ Integer.toString(color.getGreen()) + ","
-							+ Integer.toString(color.getBlue()) + ")");
-			if (toDoScreenShots) {
-				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
-			} else {
-				Log.log(LogLevel, Comment);
-			}
-			setStyle((JavascriptExecutor) driver, webElement, originalStyle);
-		} //There is a problem with mobile applications. Not all locators are supported
-		catch (WebDriverException e){
-			if (toDoScreenShots) {
-				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
-			} else {
-				Log.log(LogLevel, Comment);
-			}
-		}
+	private String getOriginalStyle(WebElement elementToBeHiglighted) {
+		return elementToBeHiglighted.getAttribute("style");
 	}
 
 	@Override
@@ -147,14 +101,54 @@ class WebElementHighLighter implements IConfigurable,
 				eAvailableLevels.WARN, Comment);
 	}
 
+	private void highlightelement(WebDriver driver, WebElement webElement,
+			Color color, eAvailableLevels LogLevel, String Comment) {
+		try {
+			String originalStyle = getOriginalStyle(webElement);
+			setNewColor((JavascriptExecutor) driver, webElement,
+					"4px solid rgb(" + Integer.toString(color.getRed()) + ","
+							+ Integer.toString(color.getGreen()) + ","
+							+ Integer.toString(color.getBlue()) + ")");
+			if (toDoScreenShots)
+				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
+			else
+				Log.log(LogLevel, Comment);
+			setStyle((JavascriptExecutor) driver, webElement, originalStyle);
+		} // There is a problem with mobile applications. Not all locators are
+			// supported
+		catch (WebDriverException e) {
+			if (toDoScreenShots)
+				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
+			else
+				Log.log(LogLevel, Comment);
+		}
+	}
+
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		Boolean toDoScreenShots = config.getSection(ScreenShots.class)
 				.getToDoScreenShotsOnElementHighLighting();
-		if (toDoScreenShots == null) {
+		if (toDoScreenShots == null)
 			this.toDoScreenShots = isDoingScreenShotsByDefault;
-		} else {
+		else
 			this.toDoScreenShots = toDoScreenShots;
+	}
+
+	private void setNewColor(JavascriptExecutor scriptExecutor,
+			WebElement elementToBeHiglighted, String colorExpression) {
+		try {
+			execDecorativeScript(scriptExecutor, elementToBeHiglighted,
+					"arguments[0].style.border = '" + colorExpression + "'");
+		} catch (InterruptedException | StaleElementReferenceException e) {
+		}
+	}
+
+	private void setStyle(JavascriptExecutor scriptExecutor,
+			WebElement elementToBeHiglighted, String style) {
+		try {
+			execDecorativeScript(scriptExecutor, elementToBeHiglighted,
+					"arguments[0].setAttribute('style', '" + style + "');");
+		} catch (InterruptedException | StaleElementReferenceException e) {
 		}
 	}
 

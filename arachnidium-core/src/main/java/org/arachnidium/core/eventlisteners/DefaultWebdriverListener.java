@@ -11,24 +11,43 @@ import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
 public final class DefaultWebdriverListener implements
-		IExtendedWebDriverEventListener {
+IExtendedWebDriverEventListener {
 
 	private IWebElementHighlighter highLighter;
 
-	private void highlightElementAndLogAction(WebElement arg0, WebDriver arg1, String logMessage){
-		String elementDescription = elementDescription(arg0);
-		if (highLighter!=null){
-			highLighter.highlightAsInfo(arg1, arg0,
-					logMessage
-							+ elementDescription);
-			return;
+	private String addToDescription(WebElement element, String attribute,
+			String description) {
+		try {
+			if (element.getAttribute(attribute) == null)
+				return description;
+			if (element.getAttribute(attribute).equals(""))
+				return description;
+			description += " " + attribute + ": "
+					+ String.valueOf(element.getAttribute(attribute));
+		} catch (Exception e) {
 		}
-		Log.message(logMessage + elementDescription);
+		return description;
 	}
-	
+
+	@Override
+	public void afterAlertAccept(WebDriver driver, Alert alert) {
+		Log.message("Alert has been accepted");
+	}
+
+	@Override
+	public void afterAlertDismiss(WebDriver driver, Alert alert) {
+		Log.message("Alert has been dismissed");
+	}
+
+	@Override
+	public void afterAlertSendKeys(WebDriver driver, Alert alert, String keys) {
+		Log.message("String " + keys + " has been sent to alert");
+	}
+
 	@Override
 	public void afterChangeValueOf(WebElement arg0, WebDriver arg1) {
-		highlightElementAndLogAction(arg0, arg1,"State after element value was changed.");
+		highlightElementAndLogAction(arg0, arg1,
+				"State after element value was changed.");
 	}
 
 	@Override
@@ -63,13 +82,43 @@ public final class DefaultWebdriverListener implements
 	}
 
 	@Override
+	public void afterSubmit(WebDriver driver, WebElement element) {
+		Log.message("Submit has been performed successfully");
+	}
+
+	@Override
+	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
+			long timeOut, TimeUnit timeUnit) {
+		Log.message("Time out has been set. Value is " + Long.toString(timeOut)
+				+ " time unit is " + timeUnit.toString());
+	}
+
+	@Override
+	public void beforeAlertAccept(WebDriver driver, Alert alert) {
+		Log.message("Attempt to accept alert...");
+	}
+
+	@Override
+	public void beforeAlertDismiss(WebDriver driver, Alert alert) {
+		Log.message("Attempt to dismiss the alert...");
+
+	}
+
+	@Override
+	public void beforeAlertSendKeys(WebDriver driver, Alert alert, String keys) {
+		Log.message("Attemt to send string " + keys + " to alert...");
+	}
+
+	@Override
 	public void beforeChangeValueOf(WebElement arg0, WebDriver arg1) {
-		highlightElementAndLogAction(arg0, arg1,"State before element value will be changed.");
+		highlightElementAndLogAction(arg0, arg1,
+				"State before element value will be changed.");
 	}
 
 	@Override
 	public void beforeClickOn(WebElement arg0, WebDriver arg1) {
-		highlightElementAndLogAction(arg0, arg1,"State before element will be clicked on.");
+		highlightElementAndLogAction(arg0, arg1,
+				"State before element will be clicked on.");
 	}
 
 	@Override
@@ -102,50 +151,9 @@ public final class DefaultWebdriverListener implements
 	}
 
 	@Override
-	public void onException(Throwable arg0, WebDriver arg1) {
-		Log.debug("An exception has been caught out."
-				+ arg0.getClass().getName() + ":" + arg0.getMessage());
-	}
-
-	@Override
 	public void beforeSubmit(WebDriver driver, WebElement element) {
-		highlightElementAndLogAction(element, driver,"State before submit will be performed by element: ");
-	}
-
-	@Override
-	public void afterSubmit(WebDriver driver, WebElement element) {
-		Log.message("Submit has been performed successfully");
-	}
-
-	@Override
-	public void beforeAlertDismiss(WebDriver driver, Alert alert) {
-		Log.message("Attempt to dismiss the alert...");
-
-	}
-
-	@Override
-	public void afterAlertDismiss(WebDriver driver, Alert alert) {
-		Log.message("Alert has been dismissed");
-	}
-
-	@Override
-	public void beforeAlertAccept(WebDriver driver, Alert alert) {
-		Log.message("Attempt to accept alert...");
-	}
-
-	@Override
-	public void afterAlertAccept(WebDriver driver, Alert alert) {
-		Log.message("Alert has been accepted");
-	}
-
-	@Override
-	public void beforeAlertSendKeys(WebDriver driver, Alert alert, String keys) {
-		Log.message("Attemt to send string " + keys + " to alert...");
-	}
-
-	@Override
-	public void afterAlertSendKeys(WebDriver driver, Alert alert, String keys) {
-		Log.message("String " + keys + " has been sent to alert");
+		highlightElementAndLogAction(element, driver,
+				"State before submit will be performed by element: ");
 	}
 
 	@Override
@@ -156,47 +164,38 @@ public final class DefaultWebdriverListener implements
 
 	}
 
-	@Override
-	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		Log.message("Time out has been set. Value is " + Long.toString(timeOut)
-				+ " time unit is " + timeUnit.toString());
-	}
-
-	private String addToDescription(WebElement element, String attribute,
-			String description) {
-		try {
-			if (element.getAttribute(attribute) == null) {
-				return description;
-			}
-			if (element.getAttribute(attribute).equals("")) {
-				return description;
-			}
-			description += " " + attribute + ": "
-					+ String.valueOf(element.getAttribute(attribute));
-		} catch (Exception e) {}
-		return description;
-	}
-	
 	private String elementDescription(WebElement element) {
 		String description = "";
-		if (element == null) {
-			return description;			
-		}
-		
-		if (!String.valueOf(element.getTagName()).equals("")){
+		if (element == null)
+			return description;
+
+		if (!String.valueOf(element.getTagName()).equals(""))
 			description += "tag:" + String.valueOf(element.getTagName());
-		}
 		description = addToDescription(element, "id", description);
 		description = addToDescription(element, "name", description);
-		if (!"".equals(element.getText())){
+		if (!"".equals(element.getText()))
 			description += " ('" + String.valueOf(element.getText()) + "')";
-		}
-		if (!description.equals("")) {
+		if (!description.equals(""))
 			description = " Element is: " + description;
-		}
-		
+
 		return description;
+	}
+
+	private void highlightElementAndLogAction(WebElement arg0, WebDriver arg1,
+			String logMessage) {
+		String elementDescription = elementDescription(arg0);
+		if (highLighter != null) {
+			highLighter.highlightAsInfo(arg1, arg0, logMessage
+					+ elementDescription);
+			return;
+		}
+		Log.message(logMessage + elementDescription);
+	}
+
+	@Override
+	public void onException(Throwable arg0, WebDriver arg1) {
+		Log.debug("An exception has been caught out."
+				+ arg0.getClass().getName() + ":" + arg0.getMessage());
 	}
 
 	public void setHighLighter(IWebElementHighlighter highLighter) {

@@ -6,7 +6,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
- * 
+ *
  * A default interceptor for all proxy objects
  *
  */

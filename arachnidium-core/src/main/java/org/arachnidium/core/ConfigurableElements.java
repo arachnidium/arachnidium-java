@@ -6,7 +6,6 @@ import java.util.List;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 
-
 /**
  * @author s.tihomirov Container for all configurable objects that are created
  *         with @Link{WebDriverEncapsulation}
@@ -21,9 +20,7 @@ class ConfigurableElements implements IConfigurable {
 
 	@Override
 	public void resetAccordingTo(Configuration config) {
-		for (IConfigurable configurable : configurableList) {
-			configurable.resetAccordingTo(config);
-		}
+		configurableList.forEach((configurable) -> configurable
+				.resetAccordingTo(config));
 	}
-
 }

@@ -2,15 +2,11 @@ package org.arachnidium.util.configuration;
 
 import java.util.HashMap;
 
-import org.arachnidium.util.configuration.interfaces.IGroupedSetting;
-
-
 /**
  * @author s.tihomirov Inheritors of this class should make access to
  *         configuration data easier
  */
-public abstract class AbstractConfigurationAccessHelper implements
-		IGroupedSetting {
+public abstract class AbstractConfigurationAccessHelper{
 
 	private final Configuration configuration;
 
@@ -19,14 +15,13 @@ public abstract class AbstractConfigurationAccessHelper implements
 		this.configuration = configuration;
 	}
 
-	protected Object getSettingValue(String groupName, String settingName) {
-		return configuration.getSettingValue(groupName, settingName);
-	}
-
 	protected HashMap<String, Object> getGroup(String groupName) {
 		return configuration.getSettingGroup(groupName);
 	}
-
-	@Override
+	
 	public abstract Object getSetting(String name);
+
+	protected Object getSettingValue(String groupName, String settingName) {
+		return configuration.getSettingValue(groupName, settingName);
+	}
 }

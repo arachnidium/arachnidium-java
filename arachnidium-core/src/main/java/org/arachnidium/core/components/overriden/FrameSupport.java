@@ -34,8 +34,8 @@ public final class FrameSupport extends WebdriverComponent {
 	public void switchTo(WebElement frame) {
 		driver.switchTo().frame(frame);
 	}
-	
-	public void switchToParentFrame(){
+
+	public void switchToParentFrame() {
 		driver.switchTo().parentFrame();
 	}
 

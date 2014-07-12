@@ -4,7 +4,6 @@ import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
-
 /**
  * @author s.tihomirov Parameters of a webdriver that will be created
  */
@@ -18,22 +17,21 @@ public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 		super(configuration);
 	}
 
+	public String getRemoteAddress() {
+		return (String) getSetting(remoteAddress);
+	}
+
 	@Override
 	public Object getSetting(String name) {
 		return getSettingValue(webDriverGroup, name);
 	}
 
-	public String getRemoteAddress() {
-		return (String) getSetting(remoteAddress);
-	}
-
 	public ESupportedDrivers getSupoortedWebDriver() {
 		String name = (String) getSetting(webDriverName);
-		if (name != null) {
+		if (name != null)
 			return ESupportedDrivers.parse(name);
-		} else {
+		else
 			return null;
-		}
 	}
 
 }

@@ -6,14 +6,14 @@ public interface IZoom {
 	/**
 	 * Convenience method for "zooming in" on an element on the screen.
 	 * "zooming in" refers to the action of two appendages pressing the screen
-	 * and sliding away from each other
+	 * and sliding away from each other.
 	 */
-	public void zoom(WebElement el);
+	public void zoom(int x, int y);
 
 	/**
 	 * Convenience method for "zooming in" on an element on the screen.
 	 * "zooming in" refers to the action of two appendages pressing the screen
-	 * and sliding away from each other.
+	 * and sliding away from each other
 	 */
-	public void zoom(int x, int y);
+	public void zoom(WebElement el);
 }

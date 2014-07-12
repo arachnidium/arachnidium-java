@@ -6,8 +6,8 @@ public interface IHandletListener {
 
 	public void beforeIsSwitchedOn(IHasHandle handle);
 
-	public void whenNewHandleIsAppeared(IHasHandle handle);
-
 	public void whenIsSwitchedOn(IHasHandle handle);
+
+	public void whenNewHandleIsAppeared(IHasHandle handle);
 
 }

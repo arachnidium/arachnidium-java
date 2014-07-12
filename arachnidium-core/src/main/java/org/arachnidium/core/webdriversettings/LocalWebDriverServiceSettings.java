@@ -4,12 +4,11 @@ import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IHasPathToFile;
 
-
 /**
  * @author s.tihomirov getters for local webdriver service configuration data
  */
 class LocalWebDriverServiceSettings extends AbstractConfigurationAccessHelper
-		implements IHasPathToFile {
+implements IHasPathToFile {
 
 	protected final String localWebdriverServiceGroup;
 	private final String fileSettingName = "file";
@@ -23,13 +22,13 @@ class LocalWebDriverServiceSettings extends AbstractConfigurationAccessHelper
 	}
 
 	@Override
-	public String getFolder() {
-		return (String) getSetting(folderSettingName);
+	public String getFile() {
+		return (String) getSetting(fileSettingName);
 	}
 
 	@Override
-	public String getFile() {
-		return (String) getSetting(fileSettingName);
+	public String getFolder() {
+		return (String) getSetting(folderSettingName);
 	}
 
 	@Override

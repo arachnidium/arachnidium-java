@@ -6,12 +6,11 @@ import org.arachnidium.core.webdriversettings.interfaces.ITimeUnitSetting;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
-
 /**
  * @author s.tihomirov Specified webdriver time out parameters
  */
 public class WebDriverTimeOuts extends AbstractConfigurationAccessHelper
-		implements ITimeUnitSetting {
+implements ITimeUnitSetting {
 
 	private final String implicitlyWaitTimeOutSetting = "implicitlyWait";
 	private final String pageLoadTimeoutSetting = "pageLoadTimeout";
@@ -35,17 +34,18 @@ public class WebDriverTimeOuts extends AbstractConfigurationAccessHelper
 		return (Long) getSetting(scriptTimeOutSetting);
 	}
 
+	@Override
 	public Object getSetting(String name) {
 		return getSettingValue(webDriverTimeOutsGroup, name);
 	}
 
+	@Override
 	public TimeUnit getTimeUnit() {
 		String timeUnitStr = (String) getSetting(timeUnitSetting);
-		if (timeUnitStr != null) {
+		if (timeUnitStr != null)
 			return TimeUnit.valueOf(timeUnitStr.toUpperCase());
-		} else {
+		else
 			return null;
-		}
 	}
 
 }

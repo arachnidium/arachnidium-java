@@ -1,6 +1,7 @@
 package org.arachnidium.core.webdriverservices.interfaces;
 
 import java.net.URL;
+
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 
 /**
@@ -8,10 +9,15 @@ import org.arachnidium.util.configuration.interfaces.IConfigurable;
  *
  */
 public interface ILocalServerLauncher extends IConfigurable {
-	public void launch() throws Exception;
-	public boolean isLaunched();
-	public int getPort();
-	public void setPort(int port);
-	public void stop();
 	public URL getLocalHost();
+
+	public int getPort();
+
+	public boolean isLaunched();
+
+	public void launch() throws Exception;
+
+	public void setPort(int port);
+
+	public void stop();
 }

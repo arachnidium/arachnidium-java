@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.arachnidium.model.common;
 
@@ -11,12 +11,6 @@ import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
-import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import org.arachnidium.model.abstractions.ModelObject;
-import org.arachnidium.model.interfaces.IDecomposable;
-import org.arachnidium.model.interfaces.IHasWebElementFrames;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.components.bydefault.Interaction;
 import org.arachnidium.core.components.overriden.FrameSupport;
@@ -25,16 +19,23 @@ import org.arachnidium.core.components.overriden.PageFactoryWorker;
 import org.arachnidium.core.interfaces.ISwitchesToItself;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
+import org.arachnidium.model.abstractions.ModelObject;
+import org.arachnidium.model.interfaces.IDecomposable;
+import org.arachnidium.model.interfaces.IHasWebElementFrames;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 /**
- * @author s.tihomirov It describes simple web page or mobile app context or their fragment
+ * @author s.tihomirov It describes simple web page or mobile app context or
+ *         their fragment
  */
 public abstract class FunctionalPart extends ModelObject implements
-		IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
+IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	/**
 	 * @author s.tihomirov
-	 * 
+	 *
 	 */
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
@@ -57,17 +58,200 @@ public abstract class FunctionalPart extends ModelObject implements
 	protected final Interaction interaction;
 	protected final Ime ime;
 
-	/** switches to object
-	* this method can be overridden
-	*/
+	// constructs from another page object
+	protected FunctionalPart(FunctionalPart parent) {
+		this(parent.handle);
+		parent.addChild(this);
+	}
+
+	// constructs from another page object
+	protected FunctionalPart(FunctionalPart parent, Integer frameIndex) {
+		this(parent.handle, frameIndex);
+		parent.addChild(this);
+	}
+
+	// constructs from another page object
+	protected FunctionalPart(FunctionalPart parent, String pathToFrame) {
+		this(parent.handle, pathToFrame);
+		parent.addChild(this);
+	}
+
+	// constructs from another page object
+	protected FunctionalPart(FunctionalPart parent, WebElement frameElement) {
+		this(parent.handle, frameElement);
+		parent.addChild(this);
+	}
+
+	protected FunctionalPart(Handle handle) {
+		super(handle);
+		pageFactoryWorker = driverEncapsulation.getPageFactoryWorker();
+		frameSupport = driverEncapsulation.getFrameSupport();
+		highLighter = driverEncapsulation.getHighlighter();
+		interaction = driverEncapsulation.getInteraction();
+		ime = driverEncapsulation.getIme();
+	}
+
+	// constructor with specified integer frame value
+	protected FunctionalPart(Handle handle, Integer frameIndex) {
+		this(handle);
+		frameToSwitchOnInt = frameIndex;
+	}
+
+	// constructor with specified string frame value. pathToFrame can be
+	// relative to another frame
+	protected FunctionalPart(Handle handle, String pathToFrame) {
+		this(handle);
+		frameToSwitchOnStr = pathToFrame;
+	}
+
+	// constructor with specified WebElement frame value.
+	protected FunctionalPart(Handle handle, WebElement frameElement) {
+		this(handle);
+		frameToSwitchOnElem = frameElement;
+	}
+
+	@Override
+	protected final void addChild(ModelObject child) {
+		super.addChild(child);
+		FunctionalPart childPart = (FunctionalPart) child;
+		childPart.parent = this;
+		childPart.application = this.application;
+	}
+
+	/**
+	 * if handle disappeared all objects that are placed on this will be
+	 * destroyed. I think it should work this way
+	 */
+	@Override
+	public void destroy() {
+		if (!handle.exists())
+			handle.destroy();
+		super.destroy();
+		return;
+	}
+
+	// - simple constructor
+	@Override
+	public <T extends IDecomposable> T getPart(Class<T> partClass) {
+		Class<?>[] params = new Class[] { FunctionalPart.class };
+		Object[] values = new Object[] { this };
+		return DefaultApplicationFactory.get(partClass, params, values);
+	}
+
+	// - with specified frame index
+	@Override
+	public <T extends IDecomposable> T getPart(Class<T> partClass,
+			Integer frameIndex) {
+		Class<?>[] params = new Class[] { FunctionalPart.class, Integer.class };
+		Object[] values = new Object[] { this, frameIndex };
+		return DefaultApplicationFactory.get(partClass, params, values);
+	}
+
+	// - with specified path to any frame
+	@Override
+	public <T extends IDecomposable> T getPart(Class<T> partClass,
+			String pathToFrame) {
+		Class<?>[] params = new Class[] { FunctionalPart.class, String.class };
+		Object[] values = new Object[] { this, pathToFrame };
+		return DefaultApplicationFactory.get(partClass, params, values);
+	}
+
+	// - with frame that specified as web element
+	@Override
+	public <T extends IDecomposable> T getPart(Class<T> partClass,
+			WebElement frameElement) {
+		Class<?>[] params = new Class[] { FunctionalPart.class,
+				WebElement.class };
+		Object[] values = new Object[] { this, frameElement };
+		return DefaultApplicationFactory.get(partClass, params, values);
+	}
+
+	@InteractiveMethod
+	public void highlightAsFine(WebElement element, Color highlight,
+			String comment) {
+		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
+				element, highlight, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsFine(WebElement element, String comment) {
+		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
+				element, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsInfo(WebElement element, Color highlight,
+			String comment) {
+		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+				element, highlight, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsInfo(WebElement element, String comment) {
+		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+				element, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsSevere(WebElement element, Color highlight,
+			String comment) {
+		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+				element, highlight, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsSevere(WebElement element, String comment) {
+		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+				element, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsWarning(WebElement element, Color highlight,
+			String comment) {
+		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+				element, highlight, comment);
+	}
+
+	@InteractiveMethod
+	public void highlightAsWarning(WebElement element, String comment) {
+		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+				element, comment);
+	}
+
+	// The method below simply loads page factory
+	protected void load() {
+		pageFactoryWorker.initPageFactory(this);
+	}
+
+	// Methods that you see below can be used for loading of a page object
+	// This method loads page object with the list of field decorators
+	protected void load(ArrayList<FieldDecorator> decorators) {
+		for (FieldDecorator decorator : decorators)
+			// given from outside or
+			// generated inside
+			pageFactoryWorker.initPageFactory(decorator, this);
+	}
+
+	// This method loads page object with the list of ElementLocatorFactory
+	// implementations
+	protected void load(List<ElementLocatorFactory> factories) {
+		for (ElementLocatorFactory factory : factories)
+			// given from
+			// outside or
+			// generated inside
+			pageFactoryWorker.initPageFactory(factory, this);
+	}
+
+	/**
+	 * switches to object this method can be overridden
+	 */
 	@Override
 	public synchronized void switchToMe() {
 		// firstly we should switch parent browser window on
-		if (parent != null) {
+		if (parent != null)
 			parent.switchToMe();
-		} else {
+		else
 			handle.switchToMe();
-		}
 		// if this object is placed on some frame
 		if (frameToSwitchOnInt != null) { // we should switch to it
 			frameSupport.switchTo(frameToSwitchOnInt);
@@ -84,226 +268,35 @@ public abstract class FunctionalPart extends ModelObject implements
 		return;
 	}
 
-	@Override
-	protected final void addChild(ModelObject child) {
-		super.addChild(child);
-		FunctionalPart childPart = (FunctionalPart) child;
-		childPart.parent = this;
-		childPart.application = this.application;
-	}
-
-	protected FunctionalPart(Handle handle){
-		super(handle);
-		pageFactoryWorker = driverEncapsulation.getPageFactoryWorker();
-		frameSupport = driverEncapsulation.getFrameSupport();
-		highLighter = driverEncapsulation.getHighlighter();
-		interaction = driverEncapsulation.getInteraction();
-		ime = driverEncapsulation.getIme();
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent){
-		this(parent.handle);
-		parent.addChild(this);
-	}
-
-	// constructor with specified integer frame value
-	protected FunctionalPart(Handle handle, Integer frameIndex) {
-		this(handle);
-		frameToSwitchOnInt = frameIndex;
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, Integer frameIndex){
-		this(parent.handle, frameIndex);
-		parent.addChild(this);
-	}
-
-	// constructor with specified string frame value. pathToFrame can be
-	// relative to another frame
-	protected FunctionalPart(Handle handle, String pathToFrame) {
-		this(handle);
-		frameToSwitchOnStr = pathToFrame;
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, String pathToFrame){
-		this(parent.handle, pathToFrame);
-		parent.addChild(this);
-	}
-
-	// constructor with specified WebElement frame value.
-	protected FunctionalPart(Handle handle, WebElement frameElement) {
-		this(handle);
-		frameToSwitchOnElem = frameElement;
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, WebElement frameElement){
-		this(parent.handle, frameElement);
-		parent.addChild(this);
-	}
-
-	// Methods that you see below can be used for loading of a page object
-	// This method loads page object with the list of field decorators
-	protected void load(ArrayList<FieldDecorator> decorators) {
-		for (FieldDecorator decorator : decorators) { // decorators that are
-														// given from outside or
-														// generated inside
-			pageFactoryWorker.initPageFactory(decorator, this);
-		}
-	}
-
-	// This method loads page object with the list of ElementLocatorFactory
-	// implementations
-	protected void load(List<ElementLocatorFactory> factories) {
-		for (ElementLocatorFactory factory : factories) { // factory that are
-															// given from
-															// outside or
-															// generated inside
-			pageFactoryWorker.initPageFactory(factory, this);
-		}
-	}
-
-	// The method below simply loads page factory
-	protected void load() {
-		pageFactoryWorker.initPageFactory(this);
-	}
-
-	// - simple constructor
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		Class<?>[] params = new Class[] {FunctionalPart.class};
-		Object[] values = new Object[] {this};
-		return DefaultApplicationFactory.get(partClass, params,
-				values);
-	}
-
-	// - with specified frame index
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			Integer frameIndex)  {
-		Class<?>[] params = new Class[] {FunctionalPart.class, Integer.class};
-		Object[] values = new Object[] {this, frameIndex};
-		return DefaultApplicationFactory.get(partClass, params,
-				values);
-	}
-
-	// - with specified path to any frame
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			String pathToFrame) {
-		Class<?>[] params = new Class[] {FunctionalPart.class,  String.class };
-		Object[] values = new Object[] {this, pathToFrame };
-		return DefaultApplicationFactory.get(partClass, params,
-				values);
-	}
-
-	// - with frame that specified as web element
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			WebElement frameElement)  {
-		Class<?>[] params = new Class[] {FunctionalPart.class, WebElement.class };
-		Object[] values = new Object[] {this, frameElement };
-		return DefaultApplicationFactory.get(partClass, params,
-				values);
-	}
-
 	/**
-	if handle disappeared
-	all objects that are placed on this will be destroyed. I think it
-	should work this way
-	 */
-	@Override
-	public void destroy() {
-		if (!handle.exists()) {
-			handle.destroy();
-		}
-		super.destroy();
-		return;
-	}
-
-	/**
-	 *  takes screenshots for log messages with SEVERE level
-	 */
-	@Override
-	public void takeAPictureOfASevere(String comment) {
-		handle.takeAPictureOfASevere(comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsSevere(WebElement element, String comment) {
-		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
-				element, comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsSevere(WebElement element, Color highlight,
-			String comment) {
-		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
-				element, highlight, comment);
-	}
-
-	/**
-	 *  takes screenshots for log messages with WARNING level
-	 */
-	@Override
-	public void takeAPictureOfAWarning(String comment) {
-		handle.takeAPictureOfAWarning(comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsWarning(WebElement element, String comment) {
-		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
-				element, comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsWarning(WebElement element, Color highlight,
-			String comment) {
-		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
-				element, highlight, comment);
-	}
-
-	/**
-	 *  takes screenshots for log messages with INFO level
-	 */
-	@Override
-	public void takeAPictureOfAnInfo(String comment) {
-		handle.takeAPictureOfAnInfo(comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsInfo(WebElement element, String comment) {
-		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
-				element, comment);
-	}
-
-	@InteractiveMethod
-	public void highlightAsInfo(WebElement element, Color highlight,
-			String comment) {
-		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
-				element, highlight, comment);
-	}
-
-	/**
-	 *  takes screenshots for log messages with FINE level
+	 * takes screenshots for log messages with FINE level
 	 */
 	@Override
 	public void takeAPictureOfAFine(String comment) {
 		handle.takeAPictureOfAFine(comment);
 	}
 
-	@InteractiveMethod
-	public void highlightAsFine(WebElement element, String comment) {
-		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
-				element, comment);
+	/**
+	 * takes screenshots for log messages with INFO level
+	 */
+	@Override
+	public void takeAPictureOfAnInfo(String comment) {
+		handle.takeAPictureOfAnInfo(comment);
 	}
 
-	@InteractiveMethod
-	public void highlightAsFine(WebElement element, Color highlight,
-			String comment) {
-		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
-				element, highlight, comment);
+	/**
+	 * takes screenshots for log messages with SEVERE level
+	 */
+	@Override
+	public void takeAPictureOfASevere(String comment) {
+		handle.takeAPictureOfASevere(comment);
+	}
+
+	/**
+	 * takes screenshots for log messages with WARNING level
+	 */
+	@Override
+	public void takeAPictureOfAWarning(String comment) {
+		handle.takeAPictureOfAWarning(comment);
 	}
 }

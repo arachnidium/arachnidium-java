@@ -9,5 +9,6 @@ import io.appium.java_client.TouchAction;
  */
 public interface IPerformsTouchActions {
 	public void performMultiTouchAction(MultiTouchAction multiAction);
+
 	public TouchAction performTouchAction(TouchAction touchAction);
 }

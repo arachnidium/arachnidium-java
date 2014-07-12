@@ -8,10 +8,12 @@ import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.WebDriver;
 
 public final class ComponentFactory {
-	private ComponentFactory(){
-		super();
+	public static <T extends WebdriverInterfaceImplementor> T getComponent(
+			Class<T> required, final WebDriver driver) {
+		return getComponent(required, driver, new Class<?>[] {},
+				new Object[] {});
 	}
-	
+
 	public static <T extends WebdriverInterfaceImplementor> T getComponent(
 			Class<T> required, final WebDriver driver, Class<?>[] types,
 			Object[] args) {
@@ -35,9 +37,8 @@ public final class ComponentFactory {
 				typeList.toArray(new Class<?>[] {}),
 				valueList.toArray(new Object[] {}), new ComponentInterceptor());
 	}
-	
-	public static <T extends WebdriverInterfaceImplementor> T getComponent(
-			Class<T> required, final WebDriver driver){
-		return getComponent(required, driver, new Class<?>[]{}, new Object[] {});
+
+	private ComponentFactory() {
+		super();
 	}
 }

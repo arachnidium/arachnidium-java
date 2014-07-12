@@ -2,10 +2,8 @@ package org.arachnidium.core.webdriversettings;
 
 import org.arachnidium.util.configuration.Configuration;
 
-
 /**
- * @author s.tihomirov
- * settings of IEDriver.exe
+ * @author s.tihomirov settings of IEDriver.exe
  */
 public class IEDriverServerBin extends LocalWebDriverServiceSettings {
 	private static final String ieDriverGroup = "IEDriver";

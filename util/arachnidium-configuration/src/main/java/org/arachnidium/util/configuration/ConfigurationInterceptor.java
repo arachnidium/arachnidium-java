@@ -1,4 +1,5 @@
 package org.arachnidium.util.configuration;
+
 import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -14,9 +15,8 @@ class ConfigurationInterceptor implements MethodInterceptor {
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
 		Object result = proxy.invokeSuper(obj, args);
-		if ((result == null) & (obj != Configuration.byDefault)) {
+		if (result == null & obj != Configuration.byDefault)
 			result = proxy.invokeSuper(Configuration.byDefault, args);
-		}
 		return result;
 	}
 

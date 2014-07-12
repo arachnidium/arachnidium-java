@@ -13,12 +13,8 @@ import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
  *         exceptions of defined types
  */
 public abstract class ModelObjectExceptionHandler implements
-		IModelObjectExceptionHandler {
+IModelObjectExceptionHandler {
 	private List<Class<? extends Throwable>> throwableList = new ArrayList<Class<? extends Throwable>>();
-
-	public boolean isThrowableInList(Class<? extends Throwable> tClass) {
-		return throwableList.contains(tClass);
-	}
 
 	public ModelObjectExceptionHandler(Class<? extends Throwable> tClass) {
 		throwableList.add(tClass);
@@ -33,5 +29,9 @@ public abstract class ModelObjectExceptionHandler implements
 	public abstract Object handleException(Object object,
 			Method originalMethod, MethodProxy methodProxy, Object[] args,
 			Throwable t) throws Throwable;
+
+	public boolean isThrowableInList(Class<? extends Throwable> tClass) {
+		return throwableList.contains(tClass);
+	}
 
 }

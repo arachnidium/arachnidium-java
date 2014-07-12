@@ -13,44 +13,50 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-public class ReportBuildingTestListener implements ITestListener, IHasAttachmentFolder {
+public class ReportBuildingTestListener implements ITestListener,
+		IHasAttachmentFolder {
 	private static final int defaultStatusOnWarning = ITestResult.SUCCESS_PERCENTAGE_FAILURE;
 
 	private static ConverterToTestNGReport converter = new ConverterToTestNGReport();
 
+	@Override
 	public void onFinish(ITestContext arg0) {
 		Log.removeConverter(converter);
-		//copying pictures for the index.html
+		// copying pictures for the index.html
 		String ouptupDir = arg0.getOutputDirectory();
 		String outputParentDir = new File(ouptupDir).getParentFile()
 				.getAbsolutePath();
 		try {
-			FileUtils.copyDirectory(
-					new File(ouptupDir + attachedFolder), new File(
-							outputParentDir + attachedFolder));
+			FileUtils.copyDirectory(new File(ouptupDir + attachedFolder),
+					new File(outputParentDir + attachedFolder));
 		} catch (IOException e) {
-			Log.warning("Can't make a copy of the folder " + ouptupDir + attachedFolder + 
-					File.separator + " ! Destitation is " + outputParentDir + attachedFolder +
-					File.separator, e);
+			Log.warning("Can't make a copy of the folder " + ouptupDir
+					+ attachedFolder + File.separator + " ! Destitation is "
+					+ outputParentDir + attachedFolder + File.separator, e);
 		}
 	}
 
+	@Override
 	public void onStart(ITestContext arg0) {
 		Log.addConverter(converter);
 	}
 
+	@Override
 	public void onTestFailedButWithinSuccessPercentage(ITestResult arg0) {
 		synchronizeTestResults(arg0);
 	}
 
+	@Override
 	public void onTestFailure(ITestResult arg0) {
 		Log.error("Test has failed");
 	}
 
+	@Override
 	public void onTestSkipped(ITestResult arg0) {
 		Log.warning("Is skipped");
 	}
 
+	@Override
 	public void onTestStart(ITestResult arg0) {
 		// it initiates the new result container
 		ResultStore.get(arg0);
@@ -64,6 +70,7 @@ public class ReportBuildingTestListener implements ITestListener, IHasAttachment
 		Photographer.setOutputFolder(fileOutPutDir);
 	}
 
+	@Override
 	public void onTestSuccess(ITestResult arg0) {
 		synchronizeTestResults(arg0);
 	}
@@ -74,9 +81,8 @@ public class ReportBuildingTestListener implements ITestListener, IHasAttachment
 		if (resultLevel == Level.SEVERE) {
 			resultForSync.setStatus(ITestResult.FAILURE);
 			Log.error("Test has failed");
-		} else if (resultLevel == Level.WARNING) {
+		} else if (resultLevel == Level.WARNING)
 			resultForSync.setStatus(defaultStatusOnWarning);
-		}
 
 	}
 

@@ -8,54 +8,13 @@ import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public final class InternetExplorerDriverEncapsulation extends
-		WebDriverEncapsulation {
-
-	public InternetExplorerDriverEncapsulation(
-			InternetExplorerDriverService service) {
-		super();
-		createWebDriver(
-				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
-				new Class[] { InternetExplorerDriverService.class },
-				new Object[] { service });
-	}
-
-	public InternetExplorerDriverEncapsulation(
-			InternetExplorerDriverService service, Configuration config) {
-		super();
-		this.configuration = config;
-		createWebDriver(
-				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
-				new Class[] { InternetExplorerDriverService.class },
-				new Object[] { service });
-	}
-
-	public InternetExplorerDriverEncapsulation(
-			InternetExplorerDriverService service, Capabilities capabilities) {
-		super();
-		createWebDriver(
-				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
-				new Class[] { InternetExplorerDriverService.class,
-						Capabilities.class }, new Object[] { service,
-						capabilities });
-	}
-
-	public InternetExplorerDriverEncapsulation(
-			InternetExplorerDriverService service, Capabilities capabilities,
-			Configuration config) {
-		super();
-		this.configuration = config;
-		createWebDriver(
-				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
-				new Class[] { InternetExplorerDriverService.class,
-						Capabilities.class }, new Object[] { service,
-						capabilities });
-	}
+WebDriverEncapsulation {
 
 	public InternetExplorerDriverEncapsulation(int port) {
 		super();
 		ESupportedDrivers.INTERNETEXPLORER
-				.setSystemProperty(Configuration.byDefault,
-						DesiredCapabilities.internetExplorer());
+		.setSystemProperty(Configuration.byDefault,
+				DesiredCapabilities.internetExplorer());
 		createWebDriver(
 				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
 				new Class[] { int.class }, new Object[] { port });
@@ -69,5 +28,46 @@ public final class InternetExplorerDriverEncapsulation extends
 		createWebDriver(
 				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
 				new Class[] { int.class }, new Object[] { port });
+	}
+
+	public InternetExplorerDriverEncapsulation(
+			InternetExplorerDriverService service) {
+		super();
+		createWebDriver(
+				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
+				new Class[] { InternetExplorerDriverService.class },
+				new Object[] { service });
+	}
+
+	public InternetExplorerDriverEncapsulation(
+			InternetExplorerDriverService service, Capabilities capabilities) {
+		super();
+		createWebDriver(
+				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
+				new Class[] { InternetExplorerDriverService.class,
+					Capabilities.class }, new Object[] { service,
+					capabilities });
+	}
+
+	public InternetExplorerDriverEncapsulation(
+			InternetExplorerDriverService service, Capabilities capabilities,
+			Configuration config) {
+		super();
+		this.configuration = config;
+		createWebDriver(
+				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
+				new Class[] { InternetExplorerDriverService.class,
+					Capabilities.class }, new Object[] { service,
+					capabilities });
+	}
+
+	public InternetExplorerDriverEncapsulation(
+			InternetExplorerDriverService service, Configuration config) {
+		super();
+		this.configuration = config;
+		createWebDriver(
+				ESupportedDrivers.INTERNETEXPLORER.getUsingWebDriverClass(),
+				new Class[] { InternetExplorerDriverService.class },
+				new Object[] { service });
 	}
 }

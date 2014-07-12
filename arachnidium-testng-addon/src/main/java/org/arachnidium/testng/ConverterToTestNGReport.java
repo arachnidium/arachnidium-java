@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.arachnidium.testng;
 
@@ -36,22 +36,30 @@ class ConverterToTestNGReport implements ILogConverter, IHasAttachmentFolder {
 			.getHTMLColorDescription();
 
 	private final String expressionOfFilePath = "#filepath";
-	private final String expressionOfIconCode   = "#Icon";
-	private final String expressionOfComment    = "#Comment";
+	private final String expressionOfIconCode = "#Icon";
+	private final String expressionOfComment = "#Comment";
 
 	private final String expressionOfColorPattern = "#Color";
 	private final String expressionOfTimePattern = "#Time";
 	private final String expressionOfMessagePattern = "#Message";
-	
+
 	private final String successIcon = EIconsForReport.SUCCESS.getBase64();
-	private final String warnIcon    = EIconsForReport.WARNING.getBase64();
-	private final String errorIcon   = EIconsForReport.ERROR.getBase64();
-	private final String debugIcon   = EIconsForReport.FINE.getBase64();
+	private final String warnIcon = EIconsForReport.WARNING.getBase64();
+	private final String errorIcon = EIconsForReport.ERROR.getBase64();
+	private final String debugIcon = EIconsForReport.FINE.getBase64();
 
 	private final String htmlPatternString = EHtmlPatterns.HTMLPATTERN
 			.getHtmlCode();
 	private final String htmlFileMaskString = EHtmlPatterns.FILEMASK
 			.getHtmlCode();
+
+	@Override
+	public void convert(LogRecWithAttach record) {
+		setToReport(returnHtmlString(record));
+		;
+		ResultStore store = ResultStore.get(TestResultThreadLocal.get());
+		store.addLogRecord(record);
+	}
 
 	private String formatWithStackTrace(String original, LogRecWithAttach rec) {
 		String formatted = null;
@@ -63,56 +71,34 @@ class ConverterToTestNGReport implements ILogConverter, IHasAttachmentFolder {
 			StackTraceElement stack[] = rec.getThrown().getStackTrace();
 			int stackLength = stack.length;
 
-			for (int i = 0; i < stackLength; i++) {
+			for (int i = 0; i < stackLength; i++)
 				stackBuilder.append(stack[i].toString() + "\n");
-			}
 
 			stackBuilder.append("...");
 		}
 		formatted = stackBuilder.toString();
 		return formatted;
 	}
-	
-	private File makeACopy(File original){
+
+	private String getOutPutDir() {
+		return TestResultThreadLocal.get().getTestContext()
+				.getOutputDirectory();
+	}
+
+	private File makeACopy(File original) {
 		File dirs = new File(getOutPutDir() + attachedFolder);
 		dirs.mkdirs();
-		File destination = new File(getOutPutDir() + attachedFolder + UUID.randomUUID().toString() + "_"
-		+ original.getName());
+		File destination = new File(getOutPutDir() + attachedFolder
+				+ UUID.randomUUID().toString() + "_" + original.getName());
 		try {
 			FileUtils.copyFile(original, destination);
 			return destination;
 		} catch (IOException e) {
-			Log.warning("There is a problem with attaching file" + original.getName(), e);
+			Log.warning(
+					"There is a problem with attaching file"
+							+ original.getName(), e);
 			throw new RuntimeException(e);
 		}
-	}
-
-	private String returnLogMessage(LogRecWithAttach rec) {
-		String formattedMessage = null;
-		File attachment = rec.getAttachedFile();
-		if (attachment == null) // if there is no attached file
-		{
-			formattedMessage = rec.getMessage();
-		} else {
-			String pattern = null;
-			File fileToAttach = attachment;
-			pattern = htmlFileMaskString;
-			if (!fileToAttach.getName().endsWith("." + Photographer.format)){ // if there is not a
-															// picture				
-				fileToAttach = makeACopy(fileToAttach);
-			}
-			formattedMessage = pattern.replace(expressionOfComment,
-					rec.getMessage());
-			String pathToAttach = fileToAttach.getAbsolutePath();
-			formattedMessage = formattedMessage.replace(expressionOfFilePath,
-					"." + File.separator + pathToAttach.replace(getOutPutDir(), ""));
-		}
-		return formatWithStackTrace(formattedMessage, rec);
-	}
-	
-	private String getOutPutDir(){
-		return TestResultThreadLocal.get().getTestContext()
-				.getOutputDirectory();
 	}
 
 	private String returnHtmlString(LogRecWithAttach rec) {
@@ -147,15 +133,31 @@ class ConverterToTestNGReport implements ILogConverter, IHasAttachmentFolder {
 		return turnedString;
 	}
 
+	private String returnLogMessage(LogRecWithAttach rec) {
+		String formattedMessage = null;
+		File attachment = rec.getAttachedFile();
+		if (attachment == null)
+			formattedMessage = rec.getMessage();
+		else {
+			String pattern = null;
+			File fileToAttach = attachment;
+			pattern = htmlFileMaskString;
+			if (!fileToAttach.getName().endsWith("." + Photographer.format))
+				// picture
+				fileToAttach = makeACopy(fileToAttach);
+			formattedMessage = pattern.replace(expressionOfComment,
+					rec.getMessage());
+			String pathToAttach = fileToAttach.getAbsolutePath();
+			formattedMessage = formattedMessage.replace(
+					expressionOfFilePath,
+					"." + File.separator
+							+ pathToAttach.replace(getOutPutDir(), ""));
+		}
+		return formatWithStackTrace(formattedMessage, rec);
+	}
+
 	private void setToReport(String htmlInjection) {
 		Reporter.setEscapeHtml(false);
 		Reporter.log(htmlInjection);
-	}
-
-	public void convert(LogRecWithAttach record) {
-		setToReport(returnHtmlString(record));
-		;
-		ResultStore store = ResultStore.get(TestResultThreadLocal.get());
-		store.addLogRecord(record);
 	}
 }

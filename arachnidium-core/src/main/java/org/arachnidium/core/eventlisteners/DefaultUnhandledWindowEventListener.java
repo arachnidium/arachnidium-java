@@ -10,26 +10,20 @@ import org.openqa.selenium.WebDriver;
  *         default
  */
 public class DefaultUnhandledWindowEventListener implements
-		IUnhandledWindowEventListener {
+IUnhandledWindowEventListener {
 
 	@Override
-	public void whenUnhandledWindowIsFound(WebDriver webdriver) {
-		Photographer.takeAPictureOfAWarning(webdriver,  "There is an unhandled window!");
+	public void whenNoAlertThere(WebDriver weddriver) {
+		Log.debug("There is not any alert! It disappeared...");
 	}
 
 	@Override
 	public void whenUnhandledAlertIsFound(Alert alert) {
 		String alertText = alert.getText();
 		String msg = "Unhandled alert has been caught out!";
-		if (alertText != null) {
+		if (alertText != null)
 			msg = msg + " Text is: " + alertText;
-		}
 		Log.warning(msg);
-	}
-
-	@Override
-	public void whenUnhandledWindowIsNotClosed(WebDriver webdriver) {
-		Log.warning("Unhandled window hasn't been closed!");	
 	}
 
 	@Override
@@ -38,8 +32,14 @@ public class DefaultUnhandledWindowEventListener implements
 	}
 
 	@Override
-	public void whenNoAlertThere(WebDriver weddriver) {
-		Log.debug("There is not any alert! It disappeared...");		
+	public void whenUnhandledWindowIsFound(WebDriver webdriver) {
+		Photographer.takeAPictureOfAWarning(webdriver,
+				"There is an unhandled window!");
+	}
+
+	@Override
+	public void whenUnhandledWindowIsNotClosed(WebDriver webdriver) {
+		Log.warning("Unhandled window hasn't been closed!");
 	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.arachnidium.core;
 
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriverException;
  */
 public class UnclosedWindowException extends WebDriverException {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -323127995328722233L;
 

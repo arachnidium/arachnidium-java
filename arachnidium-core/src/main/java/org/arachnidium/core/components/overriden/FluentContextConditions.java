@@ -17,16 +17,19 @@ public class FluentContextConditions extends WebdriverComponent {
 	public FluentContextConditions(WebDriver driver) {
 		super(driver);
 	}
-	
-	private Boolean isContextPresent(final WebDriver from, String context){
+
+	private String getContextByIndex(final WebDriver from, int contextIndex) {
 		Set<String> contexts = ((ContextAware) from).getContextHandles();
-		if (contexts.contains(context)){
-			return true;
-		}
-		return null;
+		if (contexts.size() - 1 >= contextIndex) {
+			((ContextAware) from).context(contexts.toArray()[contextIndex]
+					.toString());
+			return new ArrayList<String>(contexts).get(contextIndex);
+		} else
+			return null;
 	}
-	
-	private String getNewContext(final WebDriver from, final Set<String> oldContexts){
+
+	private String getNewContext(final WebDriver from,
+			final Set<String> oldContexts) {
 		String newContext = null;
 		Set<String> newContexts = ((ContextAware) from).getContextHandles();
 		if (newContexts.size() > oldContexts.size()) {
@@ -37,17 +40,19 @@ public class FluentContextConditions extends WebdriverComponent {
 		}
 		return newContext;
 	}
-	
+
 	/**
 	 * Waiting for the context is present
 	 */
-	public ExpectedCondition<Boolean> isContextPresent(final String context){
-		return new ExpectedCondition<Boolean>(){
-			@Override
-			public Boolean apply(WebDriver input) {
-				return isContextPresent(input, context);
-			}			
-		};
+	public ExpectedCondition<Boolean> isContextPresent(final String context) {
+		return input -> isContextPresent(input, context);
+	}
+
+	private Boolean isContextPresent(final WebDriver from, String context) {
+		Set<String> contexts = ((ContextAware) from).getContextHandles();
+		if (contexts.contains(context))
+			return true;
+		return null;
 	}
 
 	/**
@@ -55,35 +60,22 @@ public class FluentContextConditions extends WebdriverComponent {
 	 */
 	public ExpectedCondition<String> newContextIsAppeared() {
 		return new ExpectedCondition<String>() {
-			Set<String> oldContexts= ((ContextAware) driver).getContextHandles();
-	
+			Set<String> oldContexts = ((ContextAware) driver)
+					.getContextHandles();
+
+			@Override
 			public String apply(final WebDriver from) {
 				return getNewContext(from, oldContexts);
 			}
 		};
 	}
-	
-	private String getContextByIndex(final WebDriver from, int contextIndex) {
-		Set<String> contexts = ((ContextAware) from).getContextHandles();
-		if ((contexts.size() - 1) >= contextIndex) {
-			((ContextAware) from).context(contexts.toArray()[contextIndex].toString());
-			return new ArrayList<String>(contexts).get(contextIndex);
-		} else {
-			return null;
-		}
-	}
 
 	/**
 	 * Waiting for context is present. Context is defined by index
 	 */
-	public ExpectedCondition<String> suchContextWithIndexIsPresent(final int windowIndex) {
-		return new ExpectedCondition<String>() {
-			public String apply(final WebDriver from) {
-				return getContextByIndex(from, windowIndex);
-			}
-		};
+	public ExpectedCondition<String> suchContextWithIndexIsPresent(
+			final int windowIndex) {
+		return from -> getContextByIndex(from, windowIndex);
 	}
-	
-	
 
 }
