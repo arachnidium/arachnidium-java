@@ -11,7 +11,6 @@ import org.arachnidium.core.interfaces.IHasHandle;
 /**
  * @author s.tihomirov it registers handles that are instantiated as
  *         {@link IHasHandle}
- *
  */
 class HandleReceptionist {
 
@@ -26,11 +25,6 @@ class HandleReceptionist {
 	/** gets {@link IHasHandle} objects **/
 	List<IHasHandle> getInstantiated() {
 		return new ArrayList<>(handleObjects.values());
-	}
-
-	/** gets known handles **/
-	List<String> getKnownHandles() {
-		return new ArrayList<>(handleObjects.keySet());
 	}
 
 	/** is handle known as instance of {@link IHasHandle} **/

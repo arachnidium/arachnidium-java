@@ -8,7 +8,6 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.arachnidium.core.UnhandledWindowChecker;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.web.google.AnyPage;
@@ -20,7 +19,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import web.mocks.MockUnhandledWindowEventListener;
 import web.mocks.MockWebDriverEventListener2;
 import web.mocks.MockWebDriverListener;
 import web.mocks.MockWindowListener;
@@ -121,24 +119,6 @@ public class HelloWorldGoogleTest {
 			google.quit();
 		}
 	}
-
-	private void test3(Google google, boolean toClickOnALinkWhichWasFound) throws Exception{
-		try {
-			google.performSearch("Hello world Wikipedia");
-			Assert.assertNotSame(0, google.getLinkCount());
-			if (!toClickOnALinkWhichWasFound){
-				google.openLinkByIndex(1);
-			}
-			else{
-				google.clickOnLinkByIndex(1);
-			}
-			UnhandledWindowChecker.getChecker(google.getWindowManager())
-					.killUnexpectedWindows();
-			Assert.assertEquals(true, MockUnhandledWindowEventListener.wasInvoked);
-		} finally {
-			google.quit();
-		}
-	}
 	
 	@Test(description = "This is just a test of basic functionality without any configuration")
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
@@ -213,26 +193,4 @@ public class HelloWorldGoogleTest {
 		Assert.assertEquals(true, MockWindowListener.wasInvoked);
 		Assert.assertEquals(true, MockWebDriverEventListener2.wasInvoked);
 	}
-
-	@Test(description = "This is just a test of basic functionality. It watches how UnhandledWindowChecker kills windows that exist but weren't instantiated as objects of SingleWindow")
-	@Parameters(value={"path", "toClick","configList"})
-	public void typeHelloWorldAndOpenTheFirstLink6(
-			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("false") String toClick,
-			@Optional("") String configList) 
-					throws Exception{
-		
-		String[] configNames = configList.split(",");
-		List<String> configs = getConfigsByCurrentPlatform();
-		
-		for (String config: configNames){
-			if (!configs.contains(config)){
-				continue;
-			}
-			Configuration configuration = Configuration
-					.get(path + config);
-			test3(Google.getNew(configuration), new Boolean(toClick));
-		}
-	}
-
 }

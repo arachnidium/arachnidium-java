@@ -101,7 +101,7 @@
 	<dependency>
 		<groupId>io.appium</groupId>
 		<artifactId>java-client</artifactId>
-		<version>1.4.0</version>
+		<version>${appium.version}</version>
 
 		<exclusions>
 			<exclusion>
@@ -113,7 +113,6 @@
 				<groupId>commons-codec</groupId>
 			</exclusion>
 		</exclusions>
-
 	</dependency>
   </dependencies>
 
