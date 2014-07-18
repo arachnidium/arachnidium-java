@@ -23,7 +23,11 @@
 	      "selendroidPort":{
 	          "type":"STRING",
 	          "value":"5000"
-	      },    
+	      }, 
+	      "deviceName":{
+	          "type":"STRING",
+	          "value":"Android Emulator"    
+	      },   
 	      "app":{
 	          "type":"STRING",
 	          "value":"src/test/resources/binaries/mobile_test_apps/selendroid-test-app-0.10.0.apk"    

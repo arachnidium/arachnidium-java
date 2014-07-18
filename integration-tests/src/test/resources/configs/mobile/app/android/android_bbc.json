@@ -15,6 +15,10 @@
 	      "platformName":{
 	          "type":"STRING",
 	          "value":"Android"    
+	      },	      
+	      "deviceName":{
+	          "type":"STRING",
+	          "value":"Android Emulator"    
 	      },
 	      "automationName":{
 	          "type":"STRING",
