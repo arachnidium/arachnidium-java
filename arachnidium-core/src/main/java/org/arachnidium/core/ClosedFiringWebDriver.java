@@ -12,8 +12,6 @@ import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
-
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
@@ -302,7 +300,6 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 	static class DefaultWebElement implements WebElement, Locatable,
 			WrapsElement, FindsByAccessibilityId, FindsByAndroidUIAutomator,
 	FindsByIosUIAutomation {
-		private final WebElement element;
 		private WebElement wrapped;
 		private ClosedFiringWebDriver extendedDriver;
 
@@ -310,35 +307,21 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 				ClosedFiringWebDriver driver) {
 			wrapped = element;
 			this.extendedDriver = driver;
-
-			this.element = (WebElement) Proxy.newProxyInstance(
-					IExtendedWebDriverEventListener.class.getClassLoader(),
-					element.getClass().getInterfaces(),
-					(proxy, method, args) -> {
-						try {
-							return method.invoke(element, args);
-						} catch (InvocationTargetException e) {
-							extendedDriver.extendedDispatcher.onException(
-									e.getTargetException(),
-									extendedDriver.originalDriver);
-							throw e.getTargetException();
-						}
-					});
 		}
 
 		@Override
 		public void clear() {
-			element.clear();
+			wrapped.clear();
 		}
 
 		@Override
 		public void click() {
-			element.click();
+			wrapped.click();
 		}
 
 		@Override
 		public WebElement findElement(By by) {
-			return new DefaultWebElement(element.findElement(by),
+			return new DefaultWebElement(wrapped.findElement(by),
 					extendedDriver);
 		}
 
@@ -371,7 +354,7 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 
 		@Override
 		public List<WebElement> findElements(By by) {
-			List<WebElement> temp = element.findElements(by);
+			List<WebElement> temp = wrapped.findElements(by);
 			return extendedDriver.getDefaultElementList(temp);
 		}
 
@@ -404,38 +387,38 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 
 		@Override
 		public String getAttribute(String arg0) {
-			return element.getAttribute(arg0);
+			return wrapped.getAttribute(arg0);
 		}
 
 		@Override
 		public Coordinates getCoordinates() {
-			return ((Locatable) element).getCoordinates();
+			return ((Locatable) wrapped).getCoordinates();
 
 		}
 
 		@Override
 		public String getCssValue(String arg0) {
-			return element.getCssValue(arg0);
+			return wrapped.getCssValue(arg0);
 		}
 
 		@Override
 		public Point getLocation() {
-			return element.getLocation();
+			return wrapped.getLocation();
 		}
 
 		@Override
 		public Dimension getSize() {
-			return element.getSize();
+			return wrapped.getSize();
 		}
 
 		@Override
 		public String getTagName() {
-			return element.getTagName();
+			return wrapped.getTagName();
 		}
 
 		@Override
 		public String getText() {
-			return element.getText();
+			return wrapped.getText();
 		}
 
 		@Override
@@ -445,29 +428,29 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 
 		@Override
 		public boolean isDisplayed() {
-			return element.isDisplayed();
+			return wrapped.isDisplayed();
 		}
 
 		@Override
 		public boolean isEnabled() {
-			return element.isEnabled();
+			return wrapped.isEnabled();
 		}
 
 		@Override
 		public boolean isSelected() {
-			return element.isSelected();
+			return wrapped.isSelected();
 		}
 
 		@Override
 		public void sendKeys(CharSequence... arg0) {
-			element.sendKeys(arg0);
+			wrapped.sendKeys(arg0);
 		}
 
 		@Override
 		public void submit() {
 			extendedDriver.extendedDispatcher.beforeSubmit(
 					extendedDriver.originalDriver, wrapped);
-			element.submit();
+			wrapped.submit();
 			extendedDriver.extendedDispatcher.afterSubmit(
 					extendedDriver.originalDriver, wrapped);
 		}
