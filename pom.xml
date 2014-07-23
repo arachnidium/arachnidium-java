@@ -5,7 +5,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<selenium.version>2.42.2</selenium.version>
 		<ghostdriver.version>1.1.0</ghostdriver.version>
-		<operadriver.version>1.5</operadriver.version>
 		<appium.version>1.4.0</appium.version>
 		<testng.version>6.8.8</testng.version>
 		<actual.version>0.7</actual.version>
@@ -53,24 +52,6 @@
   		<artifactId>selenium-server</artifactId>
   		<version>${selenium.version}</version>
   	</dependency>
-	<dependency>
-		<groupId>com.opera</groupId>
-		<artifactId>operadriver</artifactId>
-		<version>${operadriver.version}</version>
-
-		<exclusions>
-			<exclusion>
-				<groupId>org.seleniumhq.selenium</groupId>
-				<artifactId>selenium-java</artifactId>
-			</exclusion>
-
-			<exclusion>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-			</exclusion>
-
-		</exclusions>
-	</dependency>
 	<dependency>
 		<groupId>com.github.detro.ghostdriver</groupId>
 		<artifactId>phantomjsdriver</artifactId>

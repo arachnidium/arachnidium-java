@@ -10,14 +10,11 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
-
-import com.opera.core.systems.OperaDriver;
 
 public enum ESupportedDrivers {
 	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
@@ -26,10 +23,7 @@ public enum ESupportedDrivers {
 			DesiredCapabilities.internetExplorer(),
 			InternetExplorerDriver.class, EServices.IEXPLORERSERVICE, null,
 			false, false), SAFARI(DesiredCapabilities.safari(),
-			SafariDriver.class, null, null, false, false), OPERA(
-			DesiredCapabilities.opera(), OperaDriver.class, null, null, false,
-			false), HTMLUNIT(DesiredCapabilities.htmlUnitWithJs(),
-			HtmlUnitDriver.class, null, null, false, false), PHANTOMJS(
+			SafariDriver.class, null, null, false, false), PHANTOMJS(
 			DesiredCapabilities.phantomjs(), PhantomJSDriver.class,
 			EServices.PHANTOMJSSERVICE, null, false, false), REMOTE(
 			DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
