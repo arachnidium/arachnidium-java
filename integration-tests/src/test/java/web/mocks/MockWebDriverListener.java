@@ -1,15 +1,12 @@
 package web.mocks;
 
-import java.util.concurrent.TimeUnit;
-
-import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
+import org.arachnidium.core.eventlisteners.webdriver.IWebDriverEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
-public class MockWebDriverListener implements IExtendedWebDriverEventListener {
+public class MockWebDriverListener implements IWebDriverEventListener {
     public static MockWebDriverListener listener;
 	
     public static boolean wasInvoked = false;
@@ -136,15 +133,12 @@ public class MockWebDriverListener implements IExtendedWebDriverEventListener {
 	}
 
 	@Override
-	public void beforeWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		wasInvoked = true;
+	public void beforeFindBy(String by, WebElement element, WebDriver driver) {
+		wasInvoked = true;		
 	}
 
 	@Override
-	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		wasInvoked = true;
+	public void afterFindBy(String by, WebElement element, WebDriver driver) {
+		wasInvoked = true;		
 	}
-
 }
