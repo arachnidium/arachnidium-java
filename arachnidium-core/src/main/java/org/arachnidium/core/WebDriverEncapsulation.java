@@ -15,10 +15,10 @@ import org.arachnidium.core.components.overriden.FrameSupport;
 import org.arachnidium.core.components.overriden.Ime;
 import org.arachnidium.core.components.overriden.PageFactoryWorker;
 import org.arachnidium.core.components.overriden.TimeOut;
+import org.arachnidium.core.eventlisteners.DefaultWebdriverListener;
 import org.arachnidium.core.eventlisteners.IContextListener;
+import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
 import org.arachnidium.core.eventlisteners.IWindowListener;
-import org.arachnidium.core.eventlisteners.webdriver.DefaultWebdriverListener;
-import org.arachnidium.core.eventlisteners.webdriver.IWebDriverEventListener;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.core.webdriversettings.CapabilitySettings;
@@ -173,7 +173,7 @@ WrapsDriver, HasCapabilities {
 		configurableElements.addConfigurable((IConfigurable) servises
 				.getDafaultService(IContextListener.class));
 		DefaultWebdriverListener webdriverListener = (DefaultWebdriverListener) servises
-				.getDafaultService(IWebDriverEventListener.class);
+				.getDafaultService(IExtendedWebDriverEventListener.class);
 		webdriverListener.setHighLighter(elementHighLighter);
 
 		registerAll();
@@ -309,15 +309,15 @@ WrapsDriver, HasCapabilities {
 
 	private void registerAll() {
 		InnerSPIServises servises = InnerSPIServises.getBy(this);
-		List<IWebDriverEventListener> listeners = servises
-				.getServices(IWebDriverEventListener.class);
+		List<IExtendedWebDriverEventListener> listeners = servises
+				.getServices(IExtendedWebDriverEventListener.class);
 		listeners.forEach((listener) -> closedDriver.register(listener));
 		List<WebDriverEventListener> listeners2 = servises
 				.getServices(WebDriverEventListener.class);
 		listeners2.forEach((listener) -> closedDriver.register(listener));
 	}
 
-	public void registerListener(IWebDriverEventListener listener) {
+	public void registerListener(IExtendedWebDriverEventListener listener) {
 		closedDriver.register(listener);
 	}
 
@@ -333,15 +333,15 @@ WrapsDriver, HasCapabilities {
 
 	private void unregisterAll() {
 		InnerSPIServises servises = InnerSPIServises.getBy(this);
-		List<IWebDriverEventListener> listeners = servises
-				.getServices(IWebDriverEventListener.class);
+		List<IExtendedWebDriverEventListener> listeners = servises
+				.getServices(IExtendedWebDriverEventListener.class);
 		listeners.forEach((listener) -> unregisterListener(listener));
 		List<WebDriverEventListener> listeners2 = servises
 				.getServices(WebDriverEventListener.class);
 		listeners2.forEach((listener) -> unregisterListener(listener));
 	}
 
-	public void unregisterListener(IWebDriverEventListener listener) {
+	public void unregisterListener(IExtendedWebDriverEventListener listener) {
 		closedDriver.unregister(listener);
 	}
 

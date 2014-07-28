@@ -1,14 +1,17 @@
-package org.arachnidium.core.eventlisteners.webdriver;
+package org.arachnidium.core.eventlisteners;
+
+import java.util.concurrent.TimeUnit;
 
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
 public final class DefaultWebdriverListener implements
-IWebDriverEventListener {
+IExtendedWebDriverEventListener {
 
 	private IWebElementHighlighter highLighter;
 
@@ -84,6 +87,13 @@ IWebDriverEventListener {
 	}
 
 	@Override
+	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
+			long timeOut, TimeUnit timeUnit) {
+		Log.message("Time out has been set. Value is " + Long.toString(timeOut)
+				+ " time unit is " + timeUnit.toString());
+	}
+
+	@Override
 	public void beforeAlertAccept(WebDriver driver, Alert alert) {
 		Log.message("Attempt to accept alert...");
 	}
@@ -146,6 +156,14 @@ IWebDriverEventListener {
 				"State before submit will be performed by element: ");
 	}
 
+	@Override
+	public void beforeWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
+			long timeOut, TimeUnit timeUnit) {
+		Log.debug("Attempt to set time out. Value is " + Long.toString(timeOut)
+				+ " time unit is " + timeUnit.toString());
+
+	}
+
 	private String elementDescription(WebElement element) {
 		String description = "";
 		if (element == null)
@@ -182,18 +200,6 @@ IWebDriverEventListener {
 
 	public void setHighLighter(IWebElementHighlighter highLighter) {
 		this.highLighter = highLighter;
-	}
-
-	@Override
-	public void beforeFindBy(String by, WebElement element, WebDriver driver) {
-		Log.debug("Searching for element by locator " + by
-				+ " has been started");		
-	}
-
-	@Override
-	public void afterFindBy(String by, WebElement element, WebDriver driver) {
-		Log.debug("Searching for web element has been finished. Locator is "
-				+ by + ". " + elementDescription(element));		
 	}
 
 }

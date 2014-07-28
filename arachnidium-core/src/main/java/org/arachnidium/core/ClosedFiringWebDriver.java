@@ -12,14 +12,14 @@ import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
-
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import org.arachnidium.core.eventlisteners.webdriver.IWebDriverEventListener;
+import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
 import org.arachnidium.core.interfaces.IComplexFind;
 import org.arachnidium.core.interfaces.IGetsAppStrings;
 import org.arachnidium.core.interfaces.IGetsNamedTextField;
@@ -38,6 +38,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.Beta;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.OutputType;
@@ -53,6 +54,7 @@ import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.Response;
@@ -126,6 +128,73 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 	 * @author s.tihomirov
 	 *
 	 */
+	static class DefaultOptions implements Options {
+		private Options option;
+		private ClosedFiringWebDriver driver;
+
+		private DefaultOptions(Options option, ClosedFiringWebDriver driver) {
+			this.option = option;
+			this.driver = driver;
+		}
+
+		@Override
+		public void addCookie(Cookie cookie) {
+			option.addCookie(cookie);
+		}
+
+		@Override
+		public void deleteAllCookies() {
+			option.deleteAllCookies();
+		}
+
+		@Override
+		public void deleteCookie(Cookie cookie) {
+			option.deleteCookie(cookie);
+		}
+
+		@Override
+		public void deleteCookieNamed(String cookieName) {
+			option.deleteCookieNamed(cookieName);
+		}
+
+		@Override
+		public Cookie getCookieNamed(String cookieName) {
+			return option.getCookieNamed(cookieName);
+		}
+
+		@Override
+		public Set<Cookie> getCookies() {
+			return option.getCookies();
+		}
+
+		@Override
+		public ImeHandler ime() {
+			return option.ime();
+		}
+
+		@Override
+		@Beta
+		public Logs logs() {
+			return option.logs();
+		}
+
+		@Override
+		public Timeouts timeouts() {
+			return new DefaultTimeouts(option.timeouts(), driver);
+		}
+
+		@Override
+		@Beta
+		public Window window() {
+			return option.window();
+		}
+
+	}
+
+	/**
+	 * @author s.tihomirov
+	 *
+	 */
 	static class DefaultTargetLocator implements TargetLocator {
 		private TargetLocator targetLocator;
 		private ClosedFiringWebDriver driver;
@@ -180,6 +249,47 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 		public WebDriver window(String arg0) {
 			targetLocator.window(arg0);
 			return driver;
+		}
+
+	}
+
+	static class DefaultTimeouts implements Timeouts {
+		private Timeouts timeouts;
+		private ClosedFiringWebDriver driver;
+
+		private DefaultTimeouts(Timeouts timeouts, ClosedFiringWebDriver driver) {
+			this.timeouts = timeouts;
+			this.driver = driver;
+		}
+
+		@Override
+		public Timeouts implicitlyWait(long arg0, TimeUnit arg1) {
+			driver.extendedDispatcher.beforeWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			timeouts.implicitlyWait(arg0, arg1);
+			driver.extendedDispatcher.afterWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			return timeouts;
+		}
+
+		@Override
+		public Timeouts pageLoadTimeout(long arg0, TimeUnit arg1) {
+			driver.extendedDispatcher.beforeWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			timeouts.pageLoadTimeout(arg0, arg1);
+			driver.extendedDispatcher.afterWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			return timeouts;
+		}
+
+		@Override
+		public Timeouts setScriptTimeout(long arg0, TimeUnit arg1) {
+			driver.extendedDispatcher.beforeWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			timeouts.setScriptTimeout(arg0, arg1);
+			driver.extendedDispatcher.afterWebDriverSetTimeOut(
+					driver.originalDriver, timeouts, arg0, arg1);
+			return timeouts;
 		}
 
 	}
@@ -346,15 +456,15 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 		}
 	}
 
-	private final List<IWebDriverEventListener> extendedEventListeners = new ArrayList<IWebDriverEventListener>();
+	private final List<IExtendedWebDriverEventListener> extendedEventListeners = new ArrayList<IExtendedWebDriverEventListener>();
 
 	private final WebDriver originalDriver;
-	private final IWebDriverEventListener extendedDispatcher = (IWebDriverEventListener) Proxy
+	private final IExtendedWebDriverEventListener extendedDispatcher = (IExtendedWebDriverEventListener) Proxy
 			.newProxyInstance(
-					IWebDriverEventListener.class.getClassLoader(),
-					new Class[] { IWebDriverEventListener.class },
+					IExtendedWebDriverEventListener.class.getClassLoader(),
+					new Class[] { IExtendedWebDriverEventListener.class },
 					(proxy, method, args) -> {
-						for (IWebDriverEventListener eventListener : extendedEventListeners)
+						for (IExtendedWebDriverEventListener eventListener : extendedEventListeners)
 							method.invoke(eventListener, args);
 						return null;
 					});
@@ -588,6 +698,12 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 	}
 
 	@Override
+	public Options manage() {
+		Options option = super.manage();
+		return new DefaultOptions(option, this);
+	}
+
+	@Override
 	public void performMultiTouchAction(MultiTouchAction multiAction) {
 		((MobileDriver) originalDriver).performMultiTouchAction(multiAction);
 	}
@@ -615,7 +731,7 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 		}
 	}
 
-	public void register(IWebDriverEventListener eventListener) {
+	public void register(IExtendedWebDriverEventListener eventListener) {
 		super.register(eventListener);
 		extendedEventListeners.add(eventListener);
 	}
@@ -717,7 +833,7 @@ FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,
 		return (RemoteWebElement) original;
 	}
 
-	public void unregister(IWebDriverEventListener eventListener) {
+	public void unregister(IExtendedWebDriverEventListener eventListener) {
 		super.unregister(eventListener);
 		extendedEventListeners.remove(eventListener);
 	}
