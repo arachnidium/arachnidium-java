@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
+@Deprecated //TODO Refactor/Remove
 public final class DefaultWebdriverListener implements
 IExtendedWebDriverEventListener {
 

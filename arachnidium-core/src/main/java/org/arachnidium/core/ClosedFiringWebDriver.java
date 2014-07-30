@@ -64,6 +64,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 /**
  * @author s.tihomirov For some functions of EventFiringWebDriver
  */
+@Deprecated //TODO Refactor/Remove
 public class ClosedFiringWebDriver extends EventFiringWebDriver implements
 		HasCapabilities, MobileDriver, Rotatable, FindsByIosUIAutomation,
 FindsByAndroidUIAutomator, FindsByAccessibilityId, IHasActivity,

@@ -22,6 +22,7 @@ import org.arachnidium.core.eventlisteners.IWindowListener;
  *         can be made up here. This implementations should have default
  *         constructor (!!!!) They can be loaded using SPI mechanism.
  */
+@Deprecated //TODO Refactor/Remove
 class InnerSPIServises {
 	/**
 	 * @author s.tihomirov gets instantiated services by

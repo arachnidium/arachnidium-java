@@ -11,6 +11,7 @@ import org.openqa.selenium.Point;
 /**
  * @author s.tihomirov Implementation of @link{IWindowListener} by default
  */
+@Deprecated //TODO Refactor/Remove
 public class DefaultWindowListener extends DefaultHandleListener implements
 		IWindowListener, IConfigurable {
 

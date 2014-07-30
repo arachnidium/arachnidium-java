@@ -4,6 +4,7 @@ import org.arachnidium.core.webdriversettings.ScreenShots;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 
+@Deprecated //TODO Refactor/Remove
 public abstract class DefaultHandleListener implements IHandletListener,
 IConfigurable {
 

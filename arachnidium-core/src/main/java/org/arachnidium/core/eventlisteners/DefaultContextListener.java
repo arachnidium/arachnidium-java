@@ -5,6 +5,7 @@ import org.arachnidium.core.interfaces.IHasHandle;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.util.logging.Log;
 
+@Deprecated //TODO Refactor/Remove
 public class DefaultContextListener extends DefaultHandleListener implements
 		IContextListener {
 

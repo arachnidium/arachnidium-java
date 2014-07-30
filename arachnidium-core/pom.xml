@@ -1,26 +1,51 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.arachnidium</groupId>
-    <artifactId>arachnidium</artifactId>
-    <version>${actual.version}</version>
-  </parent>
-  <artifactId>arachnidium-core</artifactId>    
-  <dependencies>
-  	<dependency>
-  		<groupId>org.arachnidium.util</groupId>
-  		<artifactId>arachnidium-configuration</artifactId>
-  		<version>${actual.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.arachnidium.util</groupId>
-  		<artifactId>arachnidium-logging</artifactId>
-  		<version>${actual.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.arachnidium.util</groupId>
-  		<artifactId>arachnidium-proxy</artifactId>
-  		<version>${actual.version}</version>
-  	</dependency>  	
-  </dependencies> 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<properties>
+		<spring.version>4.0.6.RELEASE</spring.version>
+		<aspectJ.version>1.8.1</aspectJ.version>
+	</properties>
+
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.arachnidium</groupId>
+		<artifactId>arachnidium</artifactId>
+		<version>${actual.version}</version>
+	</parent>
+	<artifactId>arachnidium-core</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>org.arachnidium.util</groupId>
+			<artifactId>arachnidium-configuration</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium.util</groupId>
+			<artifactId>arachnidium-logging</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arachnidium.util</groupId>
+			<artifactId>arachnidium-proxy</artifactId>
+			<version>${actual.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectJ.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectJ.version}</version>
+		</dependency>
+	</dependencies>
 </project>
