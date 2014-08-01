@@ -1,12 +1,9 @@
 package web.mocks;
 
-import java.util.concurrent.TimeUnit;
-
 import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
 public class MockWebDriverListener implements IExtendedWebDriverEventListener {
@@ -132,18 +129,6 @@ public class MockWebDriverListener implements IExtendedWebDriverEventListener {
 
 	@Override
 	public void afterAlertSendKeys(WebDriver driver, Alert alert, String keys) {
-		wasInvoked = true;
-	}
-
-	@Override
-	public void beforeWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		wasInvoked = true;
-	}
-
-	@Override
-	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
 		wasInvoked = true;
 	}
 

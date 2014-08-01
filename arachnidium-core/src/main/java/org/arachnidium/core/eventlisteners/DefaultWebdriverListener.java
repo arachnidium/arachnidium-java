@@ -1,13 +1,10 @@
 package org.arachnidium.core.eventlisteners;
 
-import java.util.concurrent.TimeUnit;
-
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 
 @Deprecated //TODO Refactor/Remove
@@ -88,13 +85,6 @@ IExtendedWebDriverEventListener {
 	}
 
 	@Override
-	public void afterWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		Log.message("Time out has been set. Value is " + Long.toString(timeOut)
-				+ " time unit is " + timeUnit.toString());
-	}
-
-	@Override
 	public void beforeAlertAccept(WebDriver driver, Alert alert) {
 		Log.message("Attempt to accept alert...");
 	}
@@ -155,14 +145,6 @@ IExtendedWebDriverEventListener {
 	public void beforeSubmit(WebDriver driver, WebElement element) {
 		highlightElementAndLogAction(element, driver,
 				"State before submit will be performed by element: ");
-	}
-
-	@Override
-	public void beforeWebDriverSetTimeOut(WebDriver driver, Timeouts timeouts,
-			long timeOut, TimeUnit timeUnit) {
-		Log.debug("Attempt to set time out. Value is " + Long.toString(timeOut)
-				+ " time unit is " + timeUnit.toString());
-
 	}
 
 	private String elementDescription(WebElement element) {
