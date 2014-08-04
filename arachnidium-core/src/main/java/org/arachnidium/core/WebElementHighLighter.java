@@ -20,7 +20,7 @@ import org.openqa.selenium.internal.WrapsElement;
 /**
  * @author s.tihomirov it can highlight elements and do screenshots
  */
-class WebElementHighLighter implements IConfigurable, IWebElementHighlighter {
+public class WebElementHighLighter implements IConfigurable, IWebElementHighlighter {
 
 	// is this doing screenshots
 	private boolean toDoScreenShots;

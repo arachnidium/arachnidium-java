@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 @Deprecated //TODO Refactor/Remove
 public final class DefaultWebdriverListener implements
-IExtendedWebDriverEventListener {
+IWebDriverEventListener {
 
 	private IWebElementHighlighter highLighter;
 
@@ -183,6 +183,20 @@ IExtendedWebDriverEventListener {
 
 	public void setHighLighter(IWebElementHighlighter highLighter) {
 		this.highLighter = highLighter;
+	}
+
+	@Override
+	public void beforeFindBy(String byString, WebElement element,
+			WebDriver driver) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterFindBy(String byString, WebElement element,
+			WebDriver driver) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

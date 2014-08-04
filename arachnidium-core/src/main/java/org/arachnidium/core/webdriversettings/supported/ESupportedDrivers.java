@@ -17,15 +17,24 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 public enum ESupportedDrivers {
-	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
-			false, false), CHROME(DesiredCapabilities.chrome(),
-			ChromeDriver.class, EServices.CHROMESERVICE, null, false, false), INTERNETEXPLORER(
+	FIREFOX(
+			DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
+			false, false), 
+	CHROME(
+			DesiredCapabilities.chrome(),
+			ChromeDriver.class, EServices.CHROMESERVICE, null, false, false), 
+	INTERNETEXPLORER(
 			DesiredCapabilities.internetExplorer(),
 			InternetExplorerDriver.class, EServices.IEXPLORERSERVICE, null,
-			false, false), SAFARI(DesiredCapabilities.safari(),
-			SafariDriver.class, null, null, false, false), PHANTOMJS(
-			DesiredCapabilities.phantomjs(), PhantomJSDriver.class,
-			EServices.PHANTOMJSSERVICE, null, false, false), REMOTE(
+			false, false), 
+	SAFARI(
+			DesiredCapabilities.safari(),
+			SafariDriver.class, null, null, false, false), 
+	PHANTOMJS(
+			DesiredCapabilities.phantomjs(), 
+	        PhantomJSDriver.class,
+			EServices.PHANTOMJSSERVICE, null, false, false), 
+	REMOTE(
 			DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
 			new RemoteSeleniumServerLauncher(), true, false) {
 		@Override

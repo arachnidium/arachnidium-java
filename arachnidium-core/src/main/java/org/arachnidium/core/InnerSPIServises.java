@@ -12,13 +12,13 @@ import org.arachnidium.core.eventlisteners.DefaultContextListener;
 import org.arachnidium.core.eventlisteners.DefaultWebdriverListener;
 import org.arachnidium.core.eventlisteners.DefaultWindowListener;
 import org.arachnidium.core.eventlisteners.IContextListener;
-import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
+import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.arachnidium.core.eventlisteners.IWindowListener;
 
 /**
  * @author s.tihomirov Creates implementations of
- *         {@link IExtendedWebDriverEventListener}, {@link IWindowListener},
- *         {@link IExtendedWebDriverEventListener} and another interfaces that
+ *         {@link IWebDriverEventListener}, {@link IWindowListener},
+ *         {@link IWebDriverEventListener} and another interfaces that
  *         can be made up here. This implementations should have default
  *         constructor (!!!!) They can be loaded using SPI mechanism.
  */
@@ -50,7 +50,7 @@ class InnerSPIServises {
 
 	private final HashMap<Class<?>, Object> defaultProvidedServices = new HashMap<Class<?>, Object>();
 	private final HashMap<Class<?>, List<Object>> providedServices = new HashMap<Class<?>, List<Object>>();
-	private final Class<?> webdriverExtendedListener = IExtendedWebDriverEventListener.class;
+	private final Class<?> webdriverExtendedListener = IWebDriverEventListener.class;
 	private final Class<?> windowEventListener = IWindowListener.class;
 	private final Class<?> contextListener = IContextListener.class;
 
