@@ -1,12 +1,12 @@
 package web.mocks;
 
-import org.arachnidium.core.eventlisteners.IExtendedWebDriverEventListener;
+import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class MockWebDriverListener implements IExtendedWebDriverEventListener {
+public class MockWebDriverListener implements IWebDriverEventListener {
     public static MockWebDriverListener listener;
 	
     public static boolean wasInvoked = false;
@@ -130,6 +130,20 @@ public class MockWebDriverListener implements IExtendedWebDriverEventListener {
 	@Override
 	public void afterAlertSendKeys(WebDriver driver, Alert alert, String keys) {
 		wasInvoked = true;
+	}
+
+	@Override
+	public void beforeFindBy(String byString, WebElement element,
+			WebDriver driver) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterFindBy(String byString, WebElement element,
+			WebDriver driver) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
  * This aspect is used by listeners
@@ -107,26 +108,6 @@ public abstract class AbstractAspect {
 	private final static Class<?>[] EMPTY_VALUE_ARGS = new Class<?>[] {};
 	private final static Object[] EMPTY_PARAMETER_VALUES = new Object[] {};
 
-	private static void setSupportField(Object valueForSupport,
-			Object aspectObject) {
-		Field[] declaredFields = aspectObject.getClass().getDeclaredFields();
-		for (Field f : declaredFields) {
-			if (!f.isAnnotationPresent(SupportField.class)) {
-				continue;
-			}
-
-			if (!f.getDeclaringClass().isAssignableFrom(
-					valueForSupport.getClass())) {
-				continue;
-			}
-			try {
-				f.set(aspectObject, valueForSupport);
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
 	private static Object getSupportField(Object aspectObject,
 			Class<?> requiredClass) {
 		Field[] declaredFields = aspectObject.getClass().getDeclaredFields();
@@ -135,10 +116,11 @@ public abstract class AbstractAspect {
 				continue;
 			}
 
-			if (!requiredClass.isAssignableFrom(f.getDeclaringClass())) {
+			if (!requiredClass.isAssignableFrom(f.getType())) {
 				continue;
 			}
 			try {
+				f.setAccessible(true);
 				return f.get(aspectObject);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new RuntimeException(e);
@@ -234,18 +216,9 @@ public abstract class AbstractAspect {
 		}
 		final Object[] args = joinPoint.getArgs();
 		final Parameter[] listenerParams = m.getParameters();
-		List<Object> listerArgValues = new ArrayList<Object>() {
-			private static final long serialVersionUID = 1L;
-			{
-				for (@SuppressWarnings("unused")
-				Parameter listenerParam : listenerParams) {
-					add(null);
-				}
-			}
+		Object[] listerArgValues = new Object[m.getParameterCount()];
 
-		};
-
-		if (listerArgValues.size() == 0) {
+		if (listerArgValues.length == 0) {
 			try {
 				m.invoke(aspectObject, EMPTY_PARAMETER_VALUES);
 			} catch (IllegalAccessException | IllegalArgumentException
@@ -256,37 +229,40 @@ public abstract class AbstractAspect {
 
 		for (int i = 0; i < listenerParams.length; i++) {
 			if (listenerParams[i].isAnnotationPresent(TargetParam.class)) {
-				listerArgValues.add(i, joinPoint.getTarget());
+				Object target = joinPoint.getTarget();
+				if (listenerParams[i].getType().isAssignableFrom(target.getClass())){
+					listerArgValues[i]= joinPoint.getTarget();
+				}
+				else {
+					listerArgValues[i] = null; 
+				}
 			}
 
 			if (listenerParams[i].isAnnotationPresent(SupportParam.class)) {
-				listerArgValues.add(
-						i,
-						getSupportField(aspectObject,
-								listenerParams[i].getType()));
+				listerArgValues[i] = getSupportField(aspectObject,
+						listenerParams[i].getType());
 			}
 
 			if (listenerParams[i].isAnnotationPresent(UseParameter.class)) {
 				UseParameter useParameter = listenerParams[i]
 						.getAnnotation(UseParameter.class);
-				listerArgValues.add(i, args[Integer
-						.valueOf(getAnnotatonParameter(useParameter,
-								PARAMETER_N))]);
+				Object val = getAnnotatonParameter(useParameter,
+						PARAMETER_N);
+				int index = Integer
+						.valueOf(val.toString());
+				listerArgValues[i] = args[index];
 			}
 		}
 
 		try {
-			m.invoke(aspectObject, listerArgValues.toArray(new Object[] {}));
+			m.setAccessible(true);
+			m.invoke(aspectObject, listerArgValues);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public AbstractAspect(List<Object> objectsForFupport){
-		objectsForFupport.forEach((object) -> {
-			setSupportField(object, this);
-		});
-	}
+	public abstract Object doAround(ProceedingJoinPoint point)  throws Throwable;
 
 }

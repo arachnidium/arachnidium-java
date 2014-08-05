@@ -16,11 +16,10 @@ import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ContextAware;
@@ -34,7 +33,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 @Aspect
 class AspectWebDriverEventListener extends AbstractAspect implements
-		IWebDriverEventListener {
+		IWebDriverEventListener, IWebdriverPountCut {
 
 	private static enum HowToHighLightElement {
 		INFO {
@@ -71,20 +70,11 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			add(Options.class);
 		}
 	};
-	
-	private static final String EXECUTION_VALUE = "execution(* org.openqa.selenium.WebDriver.*(..) || "
-			+ "org.openqa.selenium.WebElement.*(..) || "
-			+ "org.openqa.selenium.JavascriptExecutor.*(..) || "
-			+ "org.openqa.selenium.WebDriver.Navigation.*(..) || "
-			+ "org.openqa.selenium.WebDriver.Options.*(..) || "
-			+ "org.openqa.selenium.WebDriver.TargetLocator.*(..) || "
-			+ "org.openqa.selenium.ContextAware.*(..) || "
-			+ "org.openqa.selenium.Alert.*(..) || "
-			+ "java.util.List.*(..))";
+			
 	
 	private final IConfigurationWrapper configurationWrapper;
 	@SupportField
-	WebDriver driver;
+	private final WebDriver driver;
 	private final WebElementHighLighter highLighter = new WebElementHighLighter();
 	private final AbstractApplicationContext context;
 	
@@ -118,25 +108,10 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 
 	public AspectWebDriverEventListener(final WebDriver driver,
 			IConfigurationWrapper configurationWrapper, AbstractApplicationContext context) {
-		super(new ArrayList<Object>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(driver);
-			}
-		});
+		this.driver = driver;
 		this.configurationWrapper = configurationWrapper;
 		this.context = context;
 	}
-
-	@Before(EXECUTION_VALUE)
-	public void beforeTarget(JoinPoint joinPoint) {
-		launchMethod(joinPoint, this, WhenLaunch.BEFORE);
-	}
-	
-	@After(EXECUTION_VALUE)
-	public void afterTarget(JoinPoint joinPoint) {
-		launchMethod(joinPoint, this, WhenLaunch.AFTER);
-	}	
 	
 	@SuppressWarnings("unchecked")
 	private <T> T getListenable(Object object){
@@ -150,19 +125,17 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	}
 	
 	@AfterReturning(
-			pointcut = EXECUTION_VALUE,
+			pointcut = POINTCUT_VALUE,
 			returning= "result")
-	public void afterReturn(JoinPoint joinPoint, Object result) {	
+	public void afterReturning(JoinPoint joinPoint, Object result) {
+		if (result == null){ //it was "void"
+			return;
+		}
 		Object o = getListenable(result);
 		if (o != null) {
 			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, result);
 		}
 	}
-	
-	@AfterThrowing(EXECUTION_VALUE)
-	public void afterThrowing(JoinPoint joinPoint, Throwable throwable){
-		onException(throwable, driver);
-	}	
 
 	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "get")
 	@BeforeTarget(targetClass = Navigation.class, targetMethod = "to")
@@ -231,7 +204,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void beforeFindBy(@UseParameter(number = 0) By by,
 			@TargetParam WebElement element,
-			@TargetParam @SupportParam WebDriver driver) {
+			@SupportParam WebDriver driver) {
 		Log.debug("Searching for element by locator " + by.toString()
 				+ " has been started");
 		if (element != null) {
@@ -248,7 +221,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void afterFindBy(@UseParameter(number = 0) By by,
 			@TargetParam WebElement element,
-			@TargetParam @SupportParam WebDriver driver) {
+			@SupportParam WebDriver driver) {
 		Log.debug("Searching for web element has been finished. Locator is "
 				+ by.toString());
 		if (element != null) {
@@ -406,7 +379,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void beforeFindBy(@UseParameter(number = 0) String byString,
 			@TargetParam WebElement element,
-			@TargetParam @SupportParam WebDriver driver) {
+			@SupportParam WebDriver driver) {
 		Log.debug("Searching for element by locator " + byString
 				+ " has been started");
 		if (element != null) {
@@ -432,7 +405,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void afterFindBy(@UseParameter(number = 0) String byString,
 			@TargetParam WebElement element,
-			@TargetParam @SupportParam WebDriver driver) {
+			@SupportParam WebDriver driver) {
 		Log.debug("Searching for web element has been finished. Locator is "
 				+ byString);
 		if (element != null) {
@@ -480,6 +453,26 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 				.getWrappedConfiguration());
 		howToHighLightElement.highLight(highLighter, driver, element,
 				logMessage + elementDescription);
+	}
+
+	@Override
+	@Around(POINTCUT_VALUE)
+	public Object doAround(ProceedingJoinPoint point) throws Throwable {
+		launchMethod(point, this, WhenLaunch.BEFORE);
+		Throwable t = null;
+		Object result = null;
+		try{
+			result = point.proceed();
+		}
+		catch (Exception e){
+			onException(e, driver);
+			t = e;;
+		}
+		if (t!=null){
+			throw t;
+		}
+		launchMethod(point, this, WhenLaunch.BEFORE);
+		return result;
 	}
 
 }

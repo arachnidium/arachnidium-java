@@ -19,7 +19,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import web.mocks.MockWebDriverEventListener2;
 import web.mocks.MockWebDriverListener;
 import web.mocks.MockWindowListener;
 
@@ -183,14 +182,11 @@ public class HelloWorldGoogleTest {
 		MockWindowListener.listener = null;
 		MockWebDriverListener.wasInvoked = false;
 		MockWindowListener.wasInvoked = false;
-		MockWebDriverEventListener2.wasInvoked = false;
-		MockWebDriverEventListener2.wasInvoked = false;
 		try {
 			test(Google.getNew(),false);
 		} catch (Exception e) {
 		}
 		Assert.assertEquals(true, MockWebDriverListener.wasInvoked);
 		Assert.assertEquals(true, MockWindowListener.wasInvoked);
-		Assert.assertEquals(true, MockWebDriverEventListener2.wasInvoked);
 	}
 }

@@ -18,7 +18,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class WebDriverBeanConfiguration {
+public class WebDriverBeanConfiguration implements IWebdriverPountCut{
 	private IConfigurationWrapper wrapper;
 	private WebDriver driver;
 	private AbstractApplicationContext context;
@@ -55,7 +55,7 @@ public class WebDriverBeanConfiguration {
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "webdriverAspect")
-	public AspectWebDriverEventListener getAspect(){
+	AspectWebDriverEventListener getAspect(){
 		return new AspectWebDriverEventListener(driver, wrapper, context);
 	}
 
