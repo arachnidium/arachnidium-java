@@ -5,8 +5,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.bydefault.Rotator;
+import org.arachnidium.core.components.mobile.Rotator;
 import org.arachnidium.core.eventlisteners.IContextListener;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.openqa.selenium.Rotatable;
@@ -35,8 +34,7 @@ public final class SingleContext extends Handle implements IHasActivity,
 
 	SingleContext(String context, ContextManager manager) {
 		super(context, manager);
-		rotator = ComponentFactory.getComponent(Rotator.class,
-				driverEncapsulation.getWrappedDriver());
+		rotator = driverEncapsulation.getComponent(Rotator.class);
 		contextEventListeners
 				.addAll(InnerSPIServises.getBy(driverEncapsulation)
 						.getServices(IContextListener.class));

@@ -8,11 +8,9 @@ import java.util.List;
 
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.bydefault.DriverLogs;
-import org.arachnidium.core.components.bydefault.ScriptExecutor;
-import org.arachnidium.core.components.bydefault.WebdriverInterfaceImplementor;
-import org.arachnidium.core.components.overriden.Awaiting;
+import org.arachnidium.core.components.common.Awaiting;
+import org.arachnidium.core.components.common.DriverLogs;
+import org.arachnidium.core.components.common.ScriptExecutor;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
@@ -57,9 +55,9 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 	protected ModelObject(Handle handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();
-		awaiting = driverEncapsulation.getAwaiting();
-		scriptExecutor = driverEncapsulation.getScriptExecutor();
-		logs = driverEncapsulation.getLogs();
+		awaiting = driverEncapsulation.getComponent(Awaiting.class);
+		scriptExecutor = driverEncapsulation.getComponent(ScriptExecutor.class);
+		logs = driverEncapsulation.getComponent(DriverLogs.class);
 	}
 
 	protected void addChild(ModelObject child) {
@@ -81,12 +79,6 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 		for (ModelObject child : children)
 			child.destroy();
 		children.clear();
-	}
-
-	protected <T extends WebdriverInterfaceImplementor> T getComponent(
-			Class<T> required) {
-		return ComponentFactory.getComponent(required,
-				driverEncapsulation.getWrappedDriver());
 	}
 
 	@Override

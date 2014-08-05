@@ -1,12 +1,13 @@
 package org.arachnidium.core;
 
+import io.appium.java_client.AppiumDriver;
+
 import java.util.Set;
 
-import org.arachnidium.core.components.bydefault.AlertHandler;
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.bydefault.ContextTool;
-import org.arachnidium.core.components.overriden.FluentContextConditions;
-import org.arachnidium.core.interfaces.IHasActivity;
+import org.arachnidium.core.components.ComponentFactory;
+import org.arachnidium.core.components.common.AlertHandler;
+import org.arachnidium.core.components.mobile.ContextTool;
+import org.arachnidium.core.components.mobile.FluentContextConditions;
 import org.arachnidium.core.webdriversettings.ContextTimeOuts;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
@@ -20,7 +21,7 @@ public final class ContextManager extends Manager {
 
 	public ContextManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		fluent = new FluentContextConditions(getWrappedDriver());
+		fluent = getWebDriverEncapsulation().getComponent(FluentContextConditions.class);
 		contextTool = ComponentFactory.getComponent(ContextTool.class,
 				getWrappedDriver());
 	}
@@ -33,7 +34,7 @@ public final class ContextManager extends Manager {
 	synchronized String getActivityByHandle(String handle)
 			throws NoSuchContextException {
 		changeActive(handle);
-		return ((IHasActivity) getWrappedDriver()).currentActivity();
+		return ((AppiumDriver) getWrappedDriver()).currentActivity();
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public final class ContextManager extends Manager {
 	}
 
 	private ContextTimeOuts getContextTimeOuts() {
-		return driverEncapsulation.configuration
+		return getWebDriverEncapsulation().configuration
 				.getSection(ContextTimeOuts.class);
 	}
 

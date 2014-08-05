@@ -6,9 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.ios.IOSContext;
 import org.arachnidium.core.SingleContext;
-import org.arachnidium.core.interfaces.IShakes;
 
-public class UICatalog extends IOSContext implements IShakes {
+public class UICatalog extends IOSContext {
 	@FindBy(name = "UICatalog")
 	private WebElement backToMe;
 	
@@ -17,7 +16,6 @@ public class UICatalog extends IOSContext implements IShakes {
 		load();
 	}
 
-	@Override
 	public void shake() {
 		shaker.shake();		
 	}

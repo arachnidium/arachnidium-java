@@ -8,17 +8,17 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.arachnidium.core.SingleContext;
-import org.arachnidium.core.components.bydefault.ByAccessibilityId;
-import org.arachnidium.core.components.bydefault.ByAndroidUIAutomator;
-import org.arachnidium.core.components.bydefault.ByIosUIAutomation;
-import org.arachnidium.core.components.bydefault.ComplexFinder;
-import org.arachnidium.core.components.bydefault.KeyEventSender;
-import org.arachnidium.core.components.bydefault.Pinch;
-import org.arachnidium.core.components.bydefault.ScrollerTo;
-import org.arachnidium.core.components.bydefault.Swipe;
-import org.arachnidium.core.components.bydefault.Tap;
-import org.arachnidium.core.components.bydefault.TouchActionsPerformer;
-import org.arachnidium.core.components.bydefault.Zoomer;
+import org.arachnidium.core.components.mobile.ByAccessibilityId;
+import org.arachnidium.core.components.mobile.ByAndroidUIAutomator;
+import org.arachnidium.core.components.mobile.ByIosUIAutomation;
+import org.arachnidium.core.components.mobile.ComplexFinder;
+import org.arachnidium.core.components.mobile.KeyEventSender;
+import org.arachnidium.core.components.mobile.Pinch;
+import org.arachnidium.core.components.mobile.ScrollerTo;
+import org.arachnidium.core.components.mobile.Swipe;
+import org.arachnidium.core.components.mobile.Tap;
+import org.arachnidium.core.components.mobile.TouchActionsPerformer;
+import org.arachnidium.core.components.mobile.Zoomer;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.util.proxy.DefaultInterceptor;
@@ -93,122 +93,122 @@ Rotatable {
 
 	protected Context(FunctionalPart parent) {
 		super(parent);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(FunctionalPart parent, Integer frameIndex) {
 		super(parent, frameIndex);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(FunctionalPart parent, String pathToFrame) {
 		super(parent, pathToFrame);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(FunctionalPart parent, WebElement frameElement) {
 		super(parent, frameElement);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(SingleContext context) {
 		super(context);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(SingleContext context, Integer frameIndex) {
 		super(context, frameIndex);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(SingleContext context, String pathToFrame) {
 		super(context, pathToFrame);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	protected Context(SingleContext context, WebElement frameElement) {
 		super(context, frameElement);
-		byAccessibilityId = getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = getComponent(ByIosUIAutomation.class);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-		keyEventSender = getComponent(KeyEventSender.class);
-		tap = getComponent(Tap.class);
-		swipe = getComponent(Swipe.class);
-		pinch = getComponent(Pinch.class);
-		zoomer = getComponent(Zoomer.class);
-		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
+		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
+		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
+		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
+		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
+		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
+		tap = driverEncapsulation.getComponent(Tap.class);
+		swipe = driverEncapsulation.getComponent(Swipe.class);
+		pinch = driverEncapsulation.getComponent(Pinch.class);
+		zoomer = driverEncapsulation.getComponent(Zoomer.class);
+		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
+		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
 	@Override

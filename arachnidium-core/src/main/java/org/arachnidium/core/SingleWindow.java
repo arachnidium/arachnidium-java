@@ -6,9 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.bydefault.NavigationTool;
-import org.arachnidium.core.components.bydefault.WindowTool;
+import org.arachnidium.core.components.common.NavigationTool;
+import org.arachnidium.core.components.common.WindowTool;
 import org.arachnidium.core.eventlisteners.IWindowListener;
 import org.arachnidium.core.interfaces.IExtendedWindow;
 import org.openqa.selenium.Dimension;
@@ -42,10 +41,8 @@ public final class SingleWindow extends Handle implements Navigation,
 
 	SingleWindow(String handle, WindowManager windowManager) {
 		super(handle, windowManager);
-		this.windowTool = ComponentFactory.getComponent(WindowTool.class,
-				driverEncapsulation.getWrappedDriver());
-		this.navigationTool = ComponentFactory.getComponent(
-				NavigationTool.class, driverEncapsulation.getWrappedDriver());
+		this.windowTool = driverEncapsulation.getComponent(WindowTool.class);
+		this.navigationTool = driverEncapsulation.getComponent(NavigationTool.class);
 		;
 				windowEventListeners.addAll(InnerSPIServises.getBy(driverEncapsulation)
 						.getServices(IWindowListener.class));

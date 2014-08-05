@@ -10,11 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.android.AndroidContext;
 import org.arachnidium.core.SingleContext;
-import org.arachnidium.core.interfaces.IGetsAppStrings;
-import org.arachnidium.core.interfaces.ISendsKeyEvent;
 
 
-public class BBCMain extends AndroidContext implements IBar, ISendsKeyEvent, IGetsAppStrings{
+public class BBCMain extends AndroidContext implements IBar{
 	
 	@FindBy(id = "bbc.mobile.news.ww:id/articleWrapper")
 	private List<WebElement> articles;
@@ -97,18 +95,15 @@ public class BBCMain extends AndroidContext implements IBar, ISendsKeyEvent, IGe
 		touchActionsPerformer.performTouchAction(touchAction);
 	}
 
-	@Override
 	@InteractiveMethod
 	public void sendKeyEvent(int key) {
 		keyEventSender.sendKeyEvent(key);		
 	}
 
-	@Override
 	public String getAppStrings() {
 		return appStringGetter.getAppStrings();
 	}
 
-	@Override
 	public String getAppStrings(String language) {
 		return appStringGetter.getAppStrings(language);
 	}

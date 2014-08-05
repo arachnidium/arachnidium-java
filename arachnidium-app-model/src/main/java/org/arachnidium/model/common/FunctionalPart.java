@@ -8,14 +8,12 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.arachnidium.core.Handle;
-import org.arachnidium.core.components.bydefault.Interaction;
-import org.arachnidium.core.components.overriden.FrameSupport;
-import org.arachnidium.core.components.overriden.Ime;
-import org.arachnidium.core.components.overriden.PageFactoryWorker;
+import org.arachnidium.core.WebElementHighLighter;
+import org.arachnidium.core.components.common.FrameSupport;
+import org.arachnidium.core.components.common.Ime;
+import org.arachnidium.core.components.common.Interaction;
 import org.arachnidium.core.interfaces.ISwitchesToItself;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
@@ -23,6 +21,7 @@ import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasWebElementFrames;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
@@ -43,7 +42,6 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	}
 
-	protected final PageFactoryWorker pageFactoryWorker;
 	protected FunctionalPart parent; // parent test object
 	protected final FrameSupport frameSupport;
 	// Integer specification of a frame that object is placed on.
@@ -84,11 +82,10 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	protected FunctionalPart(Handle handle) {
 		super(handle);
-		pageFactoryWorker = driverEncapsulation.getPageFactoryWorker();
-		frameSupport = driverEncapsulation.getFrameSupport();
-		highLighter = driverEncapsulation.getHighlighter();
-		interaction = driverEncapsulation.getInteraction();
-		ime = driverEncapsulation.getIme();
+		frameSupport = driverEncapsulation.getComponent(FrameSupport.class);
+		highLighter = new WebElementHighLighter();
+		interaction = driverEncapsulation.getComponent(Interaction.class);
+		ime = driverEncapsulation.getComponent(Ime.class);
 	}
 
 	// constructor with specified integer frame value
@@ -220,26 +217,15 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	// The method below simply loads page factory
 	protected void load() {
-		pageFactoryWorker.initPageFactory(this);
+		PageFactory.initElements(driverEncapsulation.getWrappedDriver(), this);
 	}
 
-	// Methods that you see below can be used for loading of a page object
-	// This method loads page object with the list of field decorators
-	protected void load(ArrayList<FieldDecorator> decorators) {
-		for (FieldDecorator decorator : decorators)
-			// given from outside or
-			// generated inside
-			pageFactoryWorker.initPageFactory(decorator, this);
+	protected void load(FieldDecorator decorator) {
+		PageFactory.initElements(decorator, this);
 	}
 
-	// This method loads page object with the list of ElementLocatorFactory
-	// implementations
-	protected void load(List<ElementLocatorFactory> factories) {
-		for (ElementLocatorFactory factory : factories)
-			// given from
-			// outside or
-			// generated inside
-			pageFactoryWorker.initPageFactory(factory, this);
+	protected void load(ElementLocatorFactory factory) {
+		PageFactory.initElements(factory, this);
 	}
 
 	/**

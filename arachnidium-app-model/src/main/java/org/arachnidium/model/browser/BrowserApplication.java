@@ -7,7 +7,7 @@ import java.util.List;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.SingleWindow;
 import org.arachnidium.core.WindowManager;
-import org.arachnidium.core.components.overriden.Cookies;
+import org.arachnidium.core.components.common.Cookies;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandlesWithURL;
@@ -22,7 +22,7 @@ public abstract class BrowserApplication extends Application implements
 
 	protected BrowserApplication(SingleWindow window) {
 		super(window);
-		cookies = driverEncapsulation.getCookies();
+		cookies = driverEncapsulation.getComponent(Cookies.class);
 	}
 
 	/**

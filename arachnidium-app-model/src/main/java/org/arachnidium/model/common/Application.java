@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.core.components.overriden.TimeOut;
+import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandles;

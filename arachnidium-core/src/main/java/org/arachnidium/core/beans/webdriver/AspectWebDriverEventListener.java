@@ -15,9 +15,7 @@ import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.Alert;
@@ -33,7 +31,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 @Aspect
 class AspectWebDriverEventListener extends AbstractAspect implements
-		IWebDriverEventListener, IWebdriverPountCut {
+		IWebDriverEventListener{
 
 	private static enum HowToHighLightElement {
 		INFO {
@@ -77,8 +75,15 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	private final WebDriver driver;
 	private final WebElementHighLighter highLighter = new WebElementHighLighter();
 	private final AbstractApplicationContext context;
-	
-	
+	private final String POINTCUT_VALUE = "execution(* org.openqa.selenium.WebDriver.*(..)) || "
+			+ "execution(* org.openqa.selenium.WebElement.*(..)) ||"
+			+ "execution(* org.openqa.selenium.WebDriver.Navigation.*(..)) || "
+			+ "execution(* org.openqa.selenium.WebDriver.Options.*(..)) || "
+			+ "execution(* org.openqa.selenium.WebDriver.TargetLocator.*(..)) || "
+			+ "execution(* org.openqa.selenium.JavascriptExecutor.*(..)) || "
+			+ "execution(* org.openqa.selenium.ContextAware.*(..)) || "
+			+ "execution(* org.openqa.selenium.Alert.*(..)) || "
+			+ "execution(* java.util.List.*(..))";
 
 	private final List<IWebDriverEventListener> additionalListeners = new ArrayList<IWebDriverEventListener>() {
 		private static final long serialVersionUID = 1L;
@@ -122,19 +127,6 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			return (T) c.cast(object);
 		}
 		return null;
-	}
-	
-	@AfterReturning(
-			pointcut = POINTCUT_VALUE,
-			returning= "result")
-	public void afterReturning(JoinPoint joinPoint, Object result) {
-		if (result == null){ //it was "void"
-			return;
-		}
-		Object o = getListenable(result);
-		if (o != null) {
-			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, result);
-		}
 	}
 
 	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "get")
@@ -278,7 +270,6 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void beforeScript(@UseParameter(number = 0) String script,
 			@SupportParam WebDriver driver) {
-		Log.debug("Javascript execution has been started " + script);
 		proxyListener.beforeScript(script, driver);
 	}
 
@@ -287,7 +278,6 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	@Override
 	public void afterScript(@UseParameter(number = 0) String script,
 			@SupportParam WebDriver driver) {
-		Log.debug("Javascript  " + script + " has been executed successfully!");
 		proxyListener.afterScript(script, driver);
 	}
 
@@ -472,6 +462,14 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			throw t;
 		}
 		launchMethod(point, this, WhenLaunch.BEFORE);
+		
+		if (result == null){ //it was "void"
+			return result;
+		}
+		Object o = getListenable(result);
+		if (o != null) { //...so listenable object will be returned! ha-ha-ha
+			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, result);
+		}
 		return result;
 	}
 

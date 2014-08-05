@@ -3,9 +3,9 @@ package org.arachnidium.core;
 import java.util.List;
 import java.util.Set;
 
-import org.arachnidium.core.components.bydefault.AlertHandler;
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.overriden.FluentWindowConditions;
+import org.arachnidium.core.components.ComponentFactory;
+import org.arachnidium.core.components.common.AlertHandler;
+import org.arachnidium.core.components.common.FluentWindowConditions;
 import org.arachnidium.core.webdriversettings.WindowsTimeOuts;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
@@ -22,7 +22,7 @@ public final class WindowManager extends Manager {
 
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		fluent = new FluentWindowConditions(getWrappedDriver());
+		fluent = getWebDriverEncapsulation().getComponent(FluentWindowConditions.class); 
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public final class WindowManager extends Manager {
 		} finally {
 			if (actualWinCount == 0) {
 				destroy();
-				driverEncapsulation.destroy();
+				getWebDriverEncapsulation().destroy();
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public final class WindowManager extends Manager {
 	}
 
 	private WindowsTimeOuts getWindowTimeOuts() {
-		return driverEncapsulation.configuration
+		return getWebDriverEncapsulation().configuration
 				.getSection(WindowsTimeOuts.class);
 	}
 

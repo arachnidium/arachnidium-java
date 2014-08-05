@@ -1,27 +1,16 @@
 package org.arachnidium.core;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.List;
 
 import org.arachnidium.core.beans.webdriver.WebDriverBeanConfiguration;
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.bydefault.DriverLogs;
-import org.arachnidium.core.components.bydefault.Interaction;
-import org.arachnidium.core.components.bydefault.ScriptExecutor;
-import org.arachnidium.core.components.overriden.Awaiting;
-import org.arachnidium.core.components.overriden.Cookies;
-import org.arachnidium.core.components.overriden.FrameSupport;
-import org.arachnidium.core.components.overriden.Ime;
-import org.arachnidium.core.components.overriden.PageFactoryWorker;
-import org.arachnidium.core.components.overriden.TimeOut;
+import org.arachnidium.core.components.ComponentFactory;
+import org.arachnidium.core.components.WebdriverComponent;
+import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.core.eventlisteners.DefaultWebdriverListener;
 import org.arachnidium.core.eventlisteners.IContextListener;
 import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.arachnidium.core.eventlisteners.IWindowListener;
 import org.arachnidium.core.interfaces.IDestroyable;
-import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.core.webdriversettings.CapabilitySettings;
 import org.arachnidium.core.webdriversettings.WebDriverSettings;
 import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
@@ -29,15 +18,13 @@ import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
-WrapsDriver, HasCapabilities {
+WrapsDriver{
 	protected static void prelaunch(ESupportedDrivers supporteddriver,
 			Configuration config, Capabilities capabilities) {
 		supporteddriver.launchRemoteServerLocallyIfWasDefined(config);
@@ -49,18 +36,8 @@ WrapsDriver, HasCapabilities {
 	private WebDriver closedDriver;
 
 	protected Configuration configuration = Configuration.byDefault;
-	private Awaiting awaiting;
-	private PageFactoryWorker pageFactoryWorker;
-	private ScriptExecutor scriptExecutor;
-	private FrameSupport frameSupport;
-	private Cookies cookies;
-	private TimeOut timeout;
-	private DriverLogs logs;
-	private Ime ime;
-	private Interaction interaction;
-
 	private final ConfigurableElements configurableElements = new ConfigurableElements(configuration);
-
+	private TimeOut timeout;
 	protected WebDriverEncapsulation() {
 		super();
 	}
@@ -131,36 +108,25 @@ WrapsDriver, HasCapabilities {
 
 	/** creates instance using externally initiated webdriver **/
 	public WebDriverEncapsulation(WebDriver externallyInitiatedWebDriver) {
-		closedDriver = externallyInitiatedWebDriver;
-		actoinsAfterWebDriverCreation();
+		this(externallyInitiatedWebDriver, Configuration.byDefault);
 	}
 
 	/** creates instance using externally initiated webdriver **/
 	public WebDriverEncapsulation(WebDriver externallyInitiatedWebDriver,
 			Configuration configuration) {
-		this.configuration = configuration;
-		closedDriver = externallyInitiatedWebDriver;
-		actoinsAfterWebDriverCreation();
+		this.configuration = configuration;		
+		AnnotationConfigApplicationContext webDriverContext = 
+				new AnnotationConfigApplicationContext(WebDriverBeanConfiguration.class);
+		closedDriver = (WebDriver) webDriverContext.getBean(WebDriverBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
+				configurableElements, externallyInitiatedWebDriver);
+		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
 
-	private void actoinsAfterWebDriverCreation() {
+	private void actoinsAfterWebDriverCreation(Class<? extends WebDriver> driverClass) {
 		Log.message("Getting started with "
-				+ closedDriver.getClass().getSimpleName());
-
-		//closedDriver = new ClosedFiringWebDriver(createdDriver);
-
-		awaiting = new Awaiting(closedDriver);
-		pageFactoryWorker = new PageFactoryWorker(closedDriver);
-		scriptExecutor = ComponentFactory.getComponent(ScriptExecutor.class,
-				closedDriver);
-		frameSupport = new FrameSupport(closedDriver);
-		cookies = new Cookies(closedDriver);
-		timeout = new TimeOut(closedDriver, configuration);
-		logs = ComponentFactory.getComponent(DriverLogs.class, closedDriver);
-		ime = new Ime(closedDriver);
-		interaction = ComponentFactory.getComponent(Interaction.class,
-				closedDriver);
-
+				+ driverClass.getSimpleName());
+		timeout = getComponent(TimeOut.class);
+		timeout.resetAccordingTo(configuration);
 		configurableElements.addConfigurable(timeout);
 
 		// some services are implemented. They have their special logic
@@ -171,9 +137,6 @@ WrapsDriver, HasCapabilities {
 				.getDafaultService(IContextListener.class));
 		DefaultWebdriverListener webdriverListener = (DefaultWebdriverListener) servises
 				.getDafaultService(IWebDriverEventListener.class);
-		//webdriverListener.setHighLighter(elementHighLighter);
-
-		registerAll();
 		resetAccordingTo(configuration);
 	}
 
@@ -213,27 +176,13 @@ WrapsDriver, HasCapabilities {
 
 	// it makes objects of any WebDriver and navigates to specified URL
 	protected void createWebDriver(Class<? extends WebDriver> driverClass,
-			Class<?>[] paramClasses, Object[] values) {
-		//TODO Remove all shit
-		//WebDriver driver = null;
-		//Constructor<?> suitableConstructor = null;
-		/**
-		try {
-			suitableConstructor = driverClass.getConstructor(paramClasses);
-		} catch (NoSuchMethodException | SecurityException e1) {
-			throw new RuntimeException(
-					"Wrong specified or constructor of WebDriver! "
-							+ driverClass.getSimpleName(), e1);
-		}
-		 * 
-		 */
-		
+			Class<?>[] paramClasses, Object[] values) {		
 		try {
 			AnnotationConfigApplicationContext webDriverContext = 
 					new AnnotationConfigApplicationContext(WebDriverBeanConfiguration.class);
 			closedDriver = (WebDriver) webDriverContext.getBean(WebDriverBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
-					configurableElements, driverClass, paramClasses, values);//(WebDriver) suitableConstructor.newInstance(values);
-			actoinsAfterWebDriverCreation();
+					configurableElements, driverClass, paramClasses, values);
+			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
 			if (closedDriver != null)
 				closedDriver.quit();
@@ -247,60 +196,24 @@ WrapsDriver, HasCapabilities {
 		if (closedDriver == null)
 			return;
 		try {
-			unregisterAll();
 			closedDriver.quit();
 		} catch (WebDriverException e) // it may be already dead
 		{
 			return;
 		}
 	}
-
-	public Awaiting getAwaiting() {
-		return awaiting;
-	}
-
-	@Override
-	public Capabilities getCapabilities() {
-		//TODO remove
-		return null;//closedDriver.getCapabilities();
-	}
-
-	public Cookies getCookies() {
-		return cookies;
-	}
-
-	public FrameSupport getFrameSupport() {
-		return frameSupport;
-	}
-
-	public IWebElementHighlighter getHighlighter() {
-		//TODO remove
-		return null;
-	}
-
-	public Ime getIme() {
-		return ime;
-	}
-
-	public Interaction getInteraction() {
-		return interaction;
-	}
-
-	public DriverLogs getLogs() {
-		return logs;
-	}
-
-	public PageFactoryWorker getPageFactoryWorker() {
-		return pageFactoryWorker;
-	}
-
-	public ScriptExecutor getScriptExecutor() {
-		return scriptExecutor;
-	}
-
+	
 	public TimeOut getTimeOut() {
 		return timeout;
 	}
+	
+	public <T extends WebdriverComponent> T getComponent(Class<T> required){
+		return ComponentFactory.getComponent(required, closedDriver);
+	}
+	
+	public <T extends WebdriverComponent> T getComponent(Class<T> required, Class<?>[] params, Object[] values){
+		return ComponentFactory.getComponent(required, closedDriver, params, values);
+	}	
 
 	// it goes to another URL
 	public void getTo(String url) {
@@ -312,52 +225,10 @@ WrapsDriver, HasCapabilities {
 		return closedDriver;
 	}
 
-	private void registerAll() {
-		//TODO remove
-		/**
-		InnerSPIServises servises = InnerSPIServises.getBy(this);
-		List<IWebDriverEventListener> listeners = servises
-				.getServices(IWebDriverEventListener.class);
-		listeners.forEach((listener) -> closedDriver.register(listener));
-		List<WebDriverEventListener> listeners2 = servises
-				.getServices(WebDriverEventListener.class);
-		listeners2.forEach((listener) -> closedDriver.register(listener));
-		 */
-	}
-
-	public void registerListener(IWebDriverEventListener listener) {
-		//TODO remove
-		//closedDriver.register(listener);
-	}
-
-	public void registerListener(WebDriverEventListener listener) {
-		//TODO remove
-		//closedDriver.register(listener);
-	}
 
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		configuration = config;
 		configurableElements.resetAccordingTo(configuration);
-	}
-
-	private void unregisterAll() {
-		InnerSPIServises servises = InnerSPIServises.getBy(this);
-		List<IWebDriverEventListener> listeners = servises
-				.getServices(IWebDriverEventListener.class);
-		listeners.forEach((listener) -> unregisterListener(listener));
-		List<WebDriverEventListener> listeners2 = servises
-				.getServices(WebDriverEventListener.class);
-		listeners2.forEach((listener) -> unregisterListener(listener));
-	}
-
-	public void unregisterListener(IWebDriverEventListener listener) {
-		//TODO remove
-		//closedDriver.unregister(listener);
-	}
-
-	public void unregisterListener(WebDriverEventListener listener) {
-		//TODO remove
-		//closedDriver.unregister(listener);
 	}
 }

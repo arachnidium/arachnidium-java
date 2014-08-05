@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.arachnidium.core.components.bydefault.AlertHandler;
-import org.arachnidium.core.components.bydefault.ComponentFactory;
-import org.arachnidium.core.components.overriden.Awaiting;
+import org.arachnidium.core.components.ComponentFactory;
+import org.arachnidium.core.components.common.AlertHandler;
+import org.arachnidium.core.components.common.Awaiting;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IHasHandle;
 import org.arachnidium.util.logging.Photographer;
@@ -25,7 +25,7 @@ public abstract class Manager implements IDestroyable {
 	}
 
 	final Awaiting awaiting;
-	final WebDriverEncapsulation driverEncapsulation;
+	private final WebDriverEncapsulation driverEncapsulation;
 	boolean isAlive = true;
 	private final HandleReceptionist handleReceptionist = new HandleReceptionist();
 
@@ -39,7 +39,7 @@ public abstract class Manager implements IDestroyable {
 
 	Manager(WebDriverEncapsulation initialDriverEncapsulation) {
 		driverEncapsulation = initialDriverEncapsulation;
-		awaiting = driverEncapsulation.getAwaiting();
+		awaiting = driverEncapsulation.getComponent(Awaiting.class);
 		managerList.add(this);
 	}
 

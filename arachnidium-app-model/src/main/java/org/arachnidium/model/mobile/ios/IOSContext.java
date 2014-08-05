@@ -1,9 +1,9 @@
 package org.arachnidium.model.mobile.ios;
 
 import org.arachnidium.core.SingleContext;
-import org.arachnidium.core.components.bydefault.KeyboardHider;
-import org.arachnidium.core.components.bydefault.NamedTextFieldGetter;
-import org.arachnidium.core.components.bydefault.Shaker;
+import org.arachnidium.core.components.mobile.KeyboardHider;
+import org.arachnidium.core.components.mobile.NamedTextFieldGetter;
+import org.arachnidium.core.components.mobile.Shaker;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Context;
 import org.openqa.selenium.WebElement;
@@ -18,58 +18,58 @@ public class IOSContext extends Context {
 
 	protected IOSContext(FunctionalPart parent) {
 		super(parent);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(FunctionalPart parent, Integer frameIndex) {
 		super(parent, frameIndex);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(FunctionalPart parent, String pathToFrame) {
 		super(parent, pathToFrame);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(FunctionalPart parent, WebElement frameElement) {
 		super(parent, frameElement);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(SingleContext context) {
 		super(context);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(SingleContext context, Integer frameIndex) {
 		super(context, frameIndex);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(SingleContext context, String pathToFrame) {
 		super(context, pathToFrame);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 	protected IOSContext(SingleContext context, WebElement frameElement) {
 		super(context, frameElement);
-		keyboardHider = getComponent(KeyboardHider.class);
-		namedTextFieldGetter = getComponent(NamedTextFieldGetter.class);
-		shaker = getComponent(Shaker.class);
+		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
+		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
+		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
 }
