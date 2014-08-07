@@ -3,6 +3,8 @@
  */
 package org.arachnidium.model.common;
 
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+
 import java.awt.Color;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,6 +16,7 @@ import org.arachnidium.core.WebElementHighLighter;
 import org.arachnidium.core.components.common.FrameSupport;
 import org.arachnidium.core.components.common.Ime;
 import org.arachnidium.core.components.common.Interaction;
+import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.core.interfaces.ISwitchesToItself;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
@@ -55,6 +58,11 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 	private IWebElementHighlighter highLighter;
 	protected final Interaction interaction;
 	protected final Ime ime;
+	protected final TimeOut timeOuts;
+	/**
+	 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
+	 */
+	private final AppiumFieldDecorator appiumFieldDecorator;
 
 	// constructs from another page object
 	protected FunctionalPart(FunctionalPart parent) {
@@ -82,6 +90,14 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	protected FunctionalPart(Handle handle) {
 		super(handle);
+		timeOuts = driverEncapsulation.getTimeOut();
+		/**
+		 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
+		 */
+		appiumFieldDecorator = new AppiumFieldDecorator(
+				driverEncapsulation.getWrappedDriver(),
+				timeOuts.getImplicitlyWaitTimeOut(),
+				timeOuts.getImplicitlyWaitTimeUnit());
 		frameSupport = driverEncapsulation.getComponent(FrameSupport.class);
 		highLighter = new WebElementHighLighter();
 		interaction = driverEncapsulation.getComponent(Interaction.class);
@@ -217,7 +233,7 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	// The method below simply loads page factory
 	protected void load() {
-		PageFactory.initElements(driverEncapsulation.getWrappedDriver(), this);
+		PageFactory.initElements(appiumFieldDecorator, this);
 	}
 
 	protected void load(FieldDecorator decorator) {

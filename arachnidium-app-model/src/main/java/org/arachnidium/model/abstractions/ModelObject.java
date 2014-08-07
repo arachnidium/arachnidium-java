@@ -51,7 +51,6 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 
 	final List<ModelObject> children = Collections
 			.synchronizedList(new ArrayList<ModelObject>());
-
 	protected ModelObject(Handle handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();

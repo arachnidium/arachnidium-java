@@ -18,11 +18,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.arachnidium</groupId>
-			<artifactId>arachnidium-testng-addon</artifactId>
-			<version>${actual.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.arachnidium</groupId>
 			<artifactId>arachnidium-core</artifactId>
 			<version>${actual.version}</version>
 		</dependency>

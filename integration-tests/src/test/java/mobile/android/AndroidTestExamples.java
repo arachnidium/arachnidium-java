@@ -10,12 +10,9 @@ import org.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
 import org.arachnidium.mobile.android.selendroid.testapp.Webview;
 import org.arachnidium.model.mobile.MobileAppliction;
 import org.arachnidium.model.mobile.MobileFactory;
-import org.arachnidium.testng.ReportBuildingTestListener;
 import org.arachnidium.util.configuration.Configuration;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(ReportBuildingTestListener.class)
 public class AndroidTestExamples {
 	
   @Test

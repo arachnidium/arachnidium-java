@@ -6,7 +6,6 @@ import java.util.Arrays;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandles;
@@ -20,11 +19,8 @@ public abstract class Application extends ModelObject implements
 		IHasManyHandles {
 
 	protected final Manager manager;
-	protected final TimeOut timeOuts;
-
 	protected Application(Handle handle) {
 		super(handle);
-		timeOuts = driverEncapsulation.getTimeOut();
 		manager = handle.getManager();
 	}
 
@@ -301,10 +297,6 @@ public abstract class Application extends ModelObject implements
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, handle),
 				values);
-	}
-
-	public TimeOut getTimeOuts() {
-		return timeOuts;
 	}
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {

@@ -1,8 +1,8 @@
 package org.arachnidium.web.google;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.core.Handle;
@@ -10,7 +10,7 @@ import org.arachnidium.core.Handle;
 public class LinksAreFound extends FunctionalPart implements ILinkList {
 	
 	@FindBy(id = "ires")
-	private WebElement result;
+	private RemoteWebElement result;
 	
 	protected LinksAreFound(Handle handle) {
 		super(handle);

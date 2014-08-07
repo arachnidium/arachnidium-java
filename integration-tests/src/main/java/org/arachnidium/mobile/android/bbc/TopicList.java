@@ -1,21 +1,32 @@
 package org.arachnidium.mobile.android.bbc;
 
-import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
+import org.arachnidium.model.common.FunctionalPart;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
-import  org.arachnidium.model.common.FunctionalPart;
 
 public class TopicList extends FunctionalPart {
-
-	@FindBy(id = "bbc.mobile.news.ww:id/personalisationListView")
-	private WebElement topicList;	
+	@CacheLookup
+	@AndroidFindBys({@AndroidFindBy(id = "bbc.mobile.news.ww:id/personalisationListView"),
+		@AndroidFindBy(className = "android.widget.LinearLayout"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/feedTitle\")")})
+	private List<WebElement> titles;
+	@CacheLookup
+	@AndroidFindBys({@AndroidFindBy(id = "bbc.mobile.news.ww:id/personalisationListView"),
+		@AndroidFindBy(className = "android.widget.LinearLayout"),
+		@AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.CheckBox\")")})
+	private List<WebElement> checkBoxes;
+	
 	@FindBy(id = "bbc.mobile.news.ww:id/personlisationOkButton")
 	private WebElement okButton;
+	
+	
 	
 	protected TopicList(FunctionalPart parent) {
 		super(parent);
@@ -24,22 +35,19 @@ public class TopicList extends FunctionalPart {
 	
 	@InteractiveMethod
 	public void setTopicChecked(String topicText, boolean checked) {
-		List<WebElement> topics = topicList.findElements(By
-				.className("android.widget.LinearLayout"));
-		for (WebElement topic : topics) {
-			if (((FindsByAndroidUIAutomator) topic)
-					.findElementByAndroidUIAutomator(
-							"new UiSelector().resourceId(\"bbc.mobile.news.ww:id/feedTitle\")")
-					.getText().equals(topicText)) {
-				WebElement checkBox = ((FindsByAndroidUIAutomator) topic)
-						.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.CheckBox\")");
-				if (!checkBox.getAttribute("checked").equals(
-						String.valueOf(checked))) {
-					checkBox.click();
-				}
-				return;
+		for (WebElement title: titles){
+			if (!title.getText().equals(topicText)){
+				continue;
 			}
+			int index = titles.indexOf(title);
+			WebElement checkBox = checkBoxes.get(index);
+			if (!checkBox.getAttribute("checked").equals(
+					String.valueOf(checked))) {
+				checkBox.click();
+			}
+			return;
 		}
+		
 		throw new NoSuchElementException("There is no topic " + topicText);
 	}
 	

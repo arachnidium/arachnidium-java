@@ -6,9 +6,7 @@ import org.arachnidium.core.beans.webdriver.WebDriverBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.components.common.TimeOut;
-import org.arachnidium.core.eventlisteners.DefaultWebdriverListener;
 import org.arachnidium.core.eventlisteners.IContextListener;
-import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.arachnidium.core.eventlisteners.IWindowListener;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.webdriversettings.CapabilitySettings;
@@ -21,6 +19,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
@@ -107,12 +106,12 @@ WrapsDriver{
 	}
 
 	/** creates instance using externally initiated webdriver **/
-	public WebDriverEncapsulation(WebDriver externallyInitiatedWebDriver) {
+	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver) {
 		this(externallyInitiatedWebDriver, Configuration.byDefault);
 	}
 
 	/** creates instance using externally initiated webdriver **/
-	public WebDriverEncapsulation(WebDriver externallyInitiatedWebDriver,
+	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver,
 			Configuration configuration) {
 		this.configuration = configuration;		
 		AnnotationConfigApplicationContext webDriverContext = 
@@ -135,8 +134,6 @@ WrapsDriver{
 				.getDafaultService(IWindowListener.class));
 		configurableElements.addConfigurable((IConfigurable) servises
 				.getDafaultService(IContextListener.class));
-		DefaultWebdriverListener webdriverListener = (DefaultWebdriverListener) servises
-				.getDafaultService(IWebDriverEventListener.class);
 		resetAccordingTo(configuration);
 	}
 

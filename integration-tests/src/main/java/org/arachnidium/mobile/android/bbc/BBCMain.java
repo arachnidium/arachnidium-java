@@ -1,6 +1,7 @@
 package org.arachnidium.mobile.android.bbc;
 
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.pagefactory.AndroidFindBy;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,6 +25,8 @@ public class BBCMain extends AndroidContext implements IBar{
 	private WebElement play;
 	@FindBy(id = "bbc.mobile.news.ww:id/optMenuEditAction")
 	private WebElement edit;
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
+	private WebElement refresh;
 	
 	protected BBCMain(SingleContext context) {
 		super(context);
@@ -69,10 +72,7 @@ public class BBCMain extends AndroidContext implements IBar{
 	@Override
 	@InteractiveMethod
 	public void refresh() {
-		byAndroidUIAutomator
-				.findElementByAndroidUIAutomator(
-						"new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
-				.click();		
+		refresh.click();		
 	}
 
 	@Override

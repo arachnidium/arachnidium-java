@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 import org.arachnidium.core.eventlisteners.DefaultContextListener;
-import org.arachnidium.core.eventlisteners.DefaultWebdriverListener;
 import org.arachnidium.core.eventlisteners.DefaultWindowListener;
 import org.arachnidium.core.eventlisteners.IContextListener;
 import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
@@ -50,13 +49,10 @@ class InnerSPIServises {
 
 	private final HashMap<Class<?>, Object> defaultProvidedServices = new HashMap<Class<?>, Object>();
 	private final HashMap<Class<?>, List<Object>> providedServices = new HashMap<Class<?>, List<Object>>();
-	private final Class<?> webdriverExtendedListener = IWebDriverEventListener.class;
 	private final Class<?> windowEventListener = IWindowListener.class;
 	private final Class<?> contextListener = IContextListener.class;
 
 	private InnerSPIServises() {
-		defaultProvidedServices.put(webdriverExtendedListener,
-				new DefaultWebdriverListener());
 		defaultProvidedServices.put(windowEventListener,
 				new DefaultWindowListener());
 		defaultProvidedServices.put(contextListener,

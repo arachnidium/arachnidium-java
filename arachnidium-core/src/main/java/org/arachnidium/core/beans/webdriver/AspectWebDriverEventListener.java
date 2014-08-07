@@ -64,7 +64,6 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			add(TargetLocator.class);
 			add(ContextAware.class);
 			add(Alert.class);
-			add(List.class);
 			add(Options.class);
 		}
 	};
@@ -82,8 +81,9 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			+ "execution(* org.openqa.selenium.WebDriver.TargetLocator.*(..)) || "
 			+ "execution(* org.openqa.selenium.JavascriptExecutor.*(..)) || "
 			+ "execution(* org.openqa.selenium.ContextAware.*(..)) || "
-			+ "execution(* org.openqa.selenium.Alert.*(..)) || "
-			+ "execution(* java.util.List.*(..))";
+			+ "execution(* org.openqa.selenium.Alert.*(..)) || " +
+			  "execution(* io.appium.java_client.MobileElement.*(..)) || "
+			  + "execution(* io.appium.java_client.AppiumDriver.*(..)) ";
 
 	private final List<IWebDriverEventListener> additionalListeners = new ArrayList<IWebDriverEventListener>() {
 		private static final long serialVersionUID = 1L;
@@ -118,13 +118,21 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		this.context = context;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private <T> T getListenable(Object object){
+	private static Class<?> getClassForProxy(Class<?> classOfObject){
 		for (Class<?> c : listenable){
-			if (!c.isAssignableFrom(object.getClass())){
+			if (!c.isAssignableFrom(classOfObject)){
 				continue;
 			}
-			return (T) c.cast(object);
+			return c;
+		}	
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T> T getListenable(Object object){
+		Class<?> classForProxy = getClassForProxy(object.getClass());
+		if (classForProxy != null) {
+			return (T) classForProxy.cast(object);
 		}
 		return null;
 	}
@@ -444,33 +452,61 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		howToHighLightElement.highLight(highLighter, driver, element,
 				logMessage + elementDescription);
 	}
+	
+	private Object transformToListenable(Object result){
+		if (result == null){ //maybe it was "void"
+			return result;
+		}
+		Object o = getListenable(result);
+		if (o != null) { //...so listenable object will be returned! ha-ha-ha
+			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, o);
+		}	
+		return result;
+	}
+	
+	//List of WebElement
+	private List<Object> returnProxyList(List<Object> originalList){
+		try{
+			List<Object> proxyList = new ArrayList<>();
+			for (Object o: originalList){
+				if (getClassForProxy(o.getClass()) == null) {
+					proxyList.add(o);
+				}
+				proxyList.add(context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, o));
+			}
+			return proxyList;
+		}catch (Exception e){
+			throw new RuntimeException(e);
+		}
+		
+	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Around(POINTCUT_VALUE)
 	public Object doAround(ProceedingJoinPoint point) throws Throwable {
 		launchMethod(point, this, WhenLaunch.BEFORE);
 		Throwable t = null;
 		Object result = null;
-		try{
+		try {
 			result = point.proceed();
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 			onException(e, driver);
-			t = e;;
+			t = e;
+			;
 		}
-		if (t!=null){
+		if (t != null) {
 			throw t;
 		}
-		launchMethod(point, this, WhenLaunch.BEFORE);
+		launchMethod(point, this, WhenLaunch.AFTER);
 		
-		if (result == null){ //it was "void"
+		if (result == null){ //maybe it was "void"
 			return result;
-		}
-		Object o = getListenable(result);
-		if (o != null) { //...so listenable object will be returned! ha-ha-ha
-			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, result);
-		}
-		return result;
+		}	
+		if (List.class.isAssignableFrom(result.getClass())){
+			return returnProxyList((List<Object>) result);
+		}		
+		return transformToListenable(result);
 	}
 
 }

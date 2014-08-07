@@ -8,9 +8,6 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.arachnidium.core.SingleContext;
-import org.arachnidium.core.components.mobile.ByAccessibilityId;
-import org.arachnidium.core.components.mobile.ByAndroidUIAutomator;
-import org.arachnidium.core.components.mobile.ByIosUIAutomation;
 import org.arachnidium.core.components.mobile.ComplexFinder;
 import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.core.components.mobile.Pinch;
@@ -77,10 +74,7 @@ Rotatable {
 			return super.intercept(obj, method, args, proxy);
 		}
 	}
-
-	protected final ByAccessibilityId byAccessibilityId;
-	protected final ByAndroidUIAutomator byAndroidUIAutomator;
-	protected final ByIosUIAutomation byIosUIAutomation;
+	
 	protected final TouchActionsPerformer touchActionsPerformer;
 	protected final KeyEventSender keyEventSender;
 	protected final TouchActions touchActions = new TouchActions(this);
@@ -93,9 +87,6 @@ Rotatable {
 
 	protected Context(FunctionalPart parent) {
 		super(parent);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -108,9 +99,6 @@ Rotatable {
 
 	protected Context(FunctionalPart parent, Integer frameIndex) {
 		super(parent, frameIndex);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -123,9 +111,6 @@ Rotatable {
 
 	protected Context(FunctionalPart parent, String pathToFrame) {
 		super(parent, pathToFrame);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -138,9 +123,6 @@ Rotatable {
 
 	protected Context(FunctionalPart parent, WebElement frameElement) {
 		super(parent, frameElement);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -153,9 +135,6 @@ Rotatable {
 
 	protected Context(SingleContext context) {
 		super(context);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -168,9 +147,6 @@ Rotatable {
 
 	protected Context(SingleContext context, Integer frameIndex) {
 		super(context, frameIndex);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -183,9 +159,6 @@ Rotatable {
 
 	protected Context(SingleContext context, String pathToFrame) {
 		super(context, pathToFrame);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -198,9 +171,6 @@ Rotatable {
 
 	protected Context(SingleContext context, WebElement frameElement) {
 		super(context, frameElement);
-		byAccessibilityId = driverEncapsulation.getComponent(ByAccessibilityId.class);
-		byAndroidUIAutomator = driverEncapsulation.getComponent(ByAndroidUIAutomator.class);
-		byIosUIAutomation = driverEncapsulation.getComponent(ByIosUIAutomation.class);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
