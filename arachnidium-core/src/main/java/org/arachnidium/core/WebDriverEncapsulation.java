@@ -2,7 +2,7 @@ package org.arachnidium.core;
 
 import java.net.URL;
 
-import org.arachnidium.core.beans.webdriver.WebDriverBeanConfiguration;
+import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.components.common.TimeOut;
@@ -115,8 +115,8 @@ WrapsDriver{
 			Configuration configuration) {
 		this.configuration = configuration;		
 		AnnotationConfigApplicationContext webDriverContext = 
-				new AnnotationConfigApplicationContext(WebDriverBeanConfiguration.class);
-		closedDriver = (WebDriver) webDriverContext.getBean(WebDriverBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
+				new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
+		closedDriver = (WebDriver) webDriverContext.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
 				configurableElements, externallyInitiatedWebDriver);
 		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
@@ -176,8 +176,8 @@ WrapsDriver{
 			Class<?>[] paramClasses, Object[] values) {		
 		try {
 			AnnotationConfigApplicationContext webDriverContext = 
-					new AnnotationConfigApplicationContext(WebDriverBeanConfiguration.class);
-			closedDriver = (WebDriver) webDriverContext.getBean(WebDriverBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
+					new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
+			closedDriver = (WebDriver) webDriverContext.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
 					configurableElements, driverClass, paramClasses, values);
 			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
