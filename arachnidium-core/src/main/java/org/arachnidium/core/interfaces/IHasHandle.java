@@ -6,4 +6,7 @@ package org.arachnidium.core.interfaces;
  */
 public interface IHasHandle {
 	public String getHandle();
+	default void whenIsCreated() {
+		//does nothing, for listeners only
+	}
 }

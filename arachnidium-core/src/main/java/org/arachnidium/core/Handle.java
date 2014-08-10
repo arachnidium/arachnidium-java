@@ -29,7 +29,6 @@ ITakesPictureOfItSelf, IDestroyable {
 		this.driverEncapsulation = manager.getWebDriverEncapsulation();
 		this.handle = handle;
 		this.receptionist = nativeManager.getHandleReceptionist();
-		receptionist.addKnown(this);
 	}
 
 	@Override
@@ -61,13 +60,9 @@ ITakesPictureOfItSelf, IDestroyable {
 		return nativeManager;
 	}
 
-	void requestToMe() {
-		nativeManager.switchTo(handle);
-	}
-
 	@Override
 	public synchronized void switchToMe() {
-		requestToMe();
+		nativeManager.switchTo(handle);
 	}
 
 	@Override

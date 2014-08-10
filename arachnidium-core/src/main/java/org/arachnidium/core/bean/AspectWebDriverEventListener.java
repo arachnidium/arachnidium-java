@@ -29,7 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.context.support.AbstractApplicationContext;
 
 @Aspect
-public class AspectWebDriverEventListener extends AbstractAspect implements
+class AspectWebDriverEventListener extends AbstractAspect implements
 		IWebDriverEventListener{
 
 	private static enum HowToHighLightElement {
@@ -67,8 +67,6 @@ public class AspectWebDriverEventListener extends AbstractAspect implements
 		}
 	};
 			
-	
-	private final IConfigurationWrapper configurationWrapper;
 	@SupportField
 	private final WebDriver driver;
 	private final WebElementHighLighter highLighter = new WebElementHighLighter();
@@ -112,8 +110,8 @@ public class AspectWebDriverEventListener extends AbstractAspect implements
 
 	public AspectWebDriverEventListener(final WebDriver driver,
 			IConfigurationWrapper configurationWrapper, AbstractApplicationContext context) {
+		super(configurationWrapper);
 		this.driver = driver;
-		this.configurationWrapper = configurationWrapper;
 		this.context = context;
 	}
 	

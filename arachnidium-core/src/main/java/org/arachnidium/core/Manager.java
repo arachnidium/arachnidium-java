@@ -129,4 +129,16 @@ public abstract class Manager implements IDestroyable {
 		Photographer.takeAPictureOfAWarning(
 				driverEncapsulation.getWrappedDriver(), Comment);
 	}
+	
+	/**
+	 * Gets a new created listenable and notifies listener
+	 * that it is a new object
+	 */
+	@SuppressWarnings("unchecked")
+	<T extends Handle> T returnNewCreatedListenableHandle(Handle handle, String beanName){
+		T result = (T) driverEncapsulation.context.getBean(beanName, handle);
+		result.whenIsCreated();
+		getHandleReceptionist().addKnown(result);
+		return result;
+	}
 }

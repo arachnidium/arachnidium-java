@@ -13,6 +13,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -107,6 +108,7 @@ public abstract class AbstractAspect {
 	private final static String PARAMETER_N = "number";
 	private final static Class<?>[] EMPTY_VALUE_ARGS = new Class<?>[] {};
 	private final static Object[] EMPTY_PARAMETER_VALUES = new Object[] {};
+	final IConfigurationWrapper configurationWrapper;
 
 	private static Object getSupportField(Object aspectObject,
 			Class<?> requiredClass) {
@@ -261,6 +263,10 @@ public abstract class AbstractAspect {
 				| InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public AbstractAspect(IConfigurationWrapper configurationWrapper){
+		this.configurationWrapper = configurationWrapper;
 	}
 	
 	public abstract Object doAround(ProceedingJoinPoint point)  throws Throwable;

@@ -3,6 +3,7 @@ package org.arachnidium.core;
 import java.util.List;
 import java.util.Set;
 
+import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.common.FluentWindowConditions;
@@ -97,7 +98,8 @@ public final class WindowManager extends Manager {
 				this);
 		if (initedWindow != null)
 			return initedWindow;
-		return new SingleWindow(handle, this);
+		SingleWindow window = new SingleWindow(handle, this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	@Override
@@ -132,7 +134,8 @@ public final class WindowManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle() {
-		return new SingleWindow(switchToNew(), this);
+		SingleWindow window = new SingleWindow(switchToNew(), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -141,7 +144,8 @@ public final class WindowManager extends Manager {
 	 * specified URL. We can specify it as regular expression list
 	 */
 	public synchronized Handle getNewHandle(List<String> urls) {
-		return new SingleWindow(switchToNew(urls), this);
+		SingleWindow window =  new SingleWindow(switchToNew(urls), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -150,7 +154,8 @@ public final class WindowManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle(long timeOutInSeconds) {
-		return new SingleWindow(switchToNew(timeOutInSeconds), this);
+		SingleWindow window =  new SingleWindow(switchToNew(timeOutInSeconds), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -160,7 +165,8 @@ public final class WindowManager extends Manager {
 	 */
 	public synchronized Handle getNewHandle(long timeOutInSeconds,
 			List<String> urls) {
-		return new SingleWindow(switchToNew(timeOutInSeconds, urls), this);
+		SingleWindow window =  new SingleWindow(switchToNew(timeOutInSeconds, urls), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -170,7 +176,8 @@ public final class WindowManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle(long timeOutInSeconds, String title) {
-		return new SingleWindow(switchToNew(timeOutInSeconds, title), this);
+		SingleWindow window = new SingleWindow(switchToNew(timeOutInSeconds, title), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -180,7 +187,8 @@ public final class WindowManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle(String title) {
-		return new SingleWindow(switchToNew(title), this);
+		SingleWindow window =  new SingleWindow(switchToNew(title), this);
+		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	synchronized String getTitleByHandle(String handle)

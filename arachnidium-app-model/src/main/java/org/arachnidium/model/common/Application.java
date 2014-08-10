@@ -325,7 +325,8 @@ public abstract class Application extends ModelObject implements
 				Arrays.asList(originalParams));
 		int i = params.indexOf(Handle.class);
 		params.remove(Handle.class);
-		params.add(i, actualHandle.getClass());
+		//TODO This is workaround. It has to be refactored
+		params.add(i, actualHandle.getClass().getSuperclass());
 		result = params.toArray(new Class<?>[] {});
 		try {
 			required.getDeclaredConstructor(result);

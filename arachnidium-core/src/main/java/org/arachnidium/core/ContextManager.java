@@ -4,6 +4,7 @@ import io.appium.java_client.AppiumDriver;
 
 import java.util.Set;
 
+import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.mobile.ContextTool;
@@ -14,6 +15,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriverException;
 
 public final class ContextManager extends Manager {
 	private final FluentContextConditions fluent;
@@ -34,7 +36,11 @@ public final class ContextManager extends Manager {
 	synchronized String getActivityByHandle(String handle)
 			throws NoSuchContextException {
 		changeActive(handle);
-		return ((AppiumDriver) getWrappedDriver()).currentActivity();
+		try {
+			return ((AppiumDriver) getWrappedDriver()).currentActivity();
+		}catch (WebDriverException e){
+			return ""; //iOS Appium tools don't support getting of activity. It is frustrating.
+		}
 	}
 
 	@Override
@@ -63,7 +69,8 @@ public final class ContextManager extends Manager {
 				contextName, this);
 		if (initedContext != null)
 			return initedContext;
-		return new SingleContext(contextName, this);
+		SingleContext context = new SingleContext(contextName, this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	/**
@@ -76,7 +83,8 @@ public final class ContextManager extends Manager {
 				handle, this);
 		if (initedContext != null)
 			return initedContext;
-		return new SingleContext(handle, this);
+		SingleContext context = new SingleContext(handle, this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	private ContextTimeOuts getContextTimeOuts() {
@@ -116,7 +124,8 @@ public final class ContextManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle() {
-		return new SingleContext(switchToNew(), this);
+		SingleContext context = new SingleContext(switchToNew(), this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	/**
@@ -125,7 +134,8 @@ public final class ContextManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle(long timeOutInSeconds) {
-		return new SingleContext(switchToNew(timeOutInSeconds), this);
+		SingleContext context =  new SingleContext(switchToNew(timeOutInSeconds), this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	/**
@@ -135,8 +145,9 @@ public final class ContextManager extends Manager {
 	@Override
 	public synchronized Handle getNewHandle(long timeOutInSeconds,
 			String contextName) {
-		return new SingleContext(switchToNew(timeOutInSeconds, contextName),
+		SingleContext context =  new SingleContext(switchToNew(timeOutInSeconds, contextName),
 				this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	/**
@@ -145,7 +156,8 @@ public final class ContextManager extends Manager {
 	 */
 	@Override
 	public synchronized Handle getNewHandle(String contextName) {
-		return new SingleContext(switchToNew(contextName), this);
+		SingleContext context =  new SingleContext(switchToNew(contextName), this);
+		return returnNewCreatedListenableHandle(context, MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	@Override

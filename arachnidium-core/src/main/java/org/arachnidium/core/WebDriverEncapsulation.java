@@ -6,8 +6,6 @@ import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.components.common.TimeOut;
-import org.arachnidium.core.eventlisteners.IContextListener;
-import org.arachnidium.core.eventlisteners.IWindowListener;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.webdriversettings.CapabilitySettings;
 import org.arachnidium.core.webdriversettings.WebDriverSettings;
@@ -21,6 +19,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 WrapsDriver{
@@ -37,6 +36,9 @@ WrapsDriver{
 	protected Configuration configuration = Configuration.byDefault;
 	private final ConfigurableElements configurableElements = new ConfigurableElements(configuration);
 	private TimeOut timeout;
+	final AbstractApplicationContext context = 
+			new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
+	
 	protected WebDriverEncapsulation() {
 		super();
 	}
@@ -114,9 +116,7 @@ WrapsDriver{
 	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver,
 			Configuration configuration) {
 		this.configuration = configuration;		
-		AnnotationConfigApplicationContext webDriverContext = 
-				new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
-		closedDriver = (WebDriver) webDriverContext.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
+		closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 				configurableElements, externallyInitiatedWebDriver);
 		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
@@ -125,15 +125,7 @@ WrapsDriver{
 		Log.message("Getting started with "
 				+ driverClass.getSimpleName());
 		timeout = getComponent(TimeOut.class);
-		timeout.resetAccordingTo(configuration);
 		configurableElements.addConfigurable(timeout);
-
-		// some services are implemented. They have their special logic
-		InnerSPIServises servises = InnerSPIServises.getBy(this);
-		configurableElements.addConfigurable((IConfigurable) servises
-				.getDafaultService(IWindowListener.class));
-		configurableElements.addConfigurable((IConfigurable) servises
-				.getDafaultService(IContextListener.class));
 		resetAccordingTo(configuration);
 	}
 
@@ -175,9 +167,7 @@ WrapsDriver{
 	protected void createWebDriver(Class<? extends WebDriver> driverClass,
 			Class<?>[] paramClasses, Object[] values) {		
 		try {
-			AnnotationConfigApplicationContext webDriverContext = 
-					new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
-			closedDriver = (WebDriver) webDriverContext.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, webDriverContext,
+			closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 					configurableElements, driverClass, paramClasses, values);
 			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
@@ -189,7 +179,6 @@ WrapsDriver{
 
 	@Override
 	public void destroy() {
-		InnerSPIServises.removeBy(this);
 		if (closedDriver == null)
 			return;
 		try {

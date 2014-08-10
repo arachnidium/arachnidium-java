@@ -46,7 +46,8 @@ public class DefaultApplicationFactory {
 				new Class<?>[] { Configuration.class },
 				new Object[] { Configuration.byDefault });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -60,7 +61,8 @@ public class DefaultApplicationFactory {
 		Handle h = getTheFirstHandle(handleManagerClass,
 				new Class<?>[] { Configuration.class }, new Object[] { config });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -75,7 +77,8 @@ public class DefaultApplicationFactory {
 				new Class<?>[] { ESupportedDrivers.class },
 				new Object[] { supportedDriver });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -90,7 +93,8 @@ public class DefaultApplicationFactory {
 				ESupportedDrivers.class, Capabilities.class }, new Object[] {
 				supportedDriver, capabilities });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -106,7 +110,8 @@ public class DefaultApplicationFactory {
 				ESupportedDrivers.class, Capabilities.class, URL.class },
 				new Object[] { supportedDriver, capabilities, remoteAddress });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -121,7 +126,8 @@ public class DefaultApplicationFactory {
 				ESupportedDrivers.class, URL.class }, new Object[] {
 				supportedDriver, remoteAddress });
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
@@ -134,7 +140,8 @@ public class DefaultApplicationFactory {
 			WebDriverEncapsulation wdEncapsulation) {
 		Handle h = getTheFirstHandle(handleManagerClass, wdEncapsulation);
 		return EnhancedProxyFactory.getProxy(appClass,
-				new Class<?>[] { h.getClass() }, new Object[] { h },
+				//TODO This is workaround. It has to be refactored
+				new Class<?>[] { h.getClass().getSuperclass() }, new Object[] { h },
 				getAppInterceptor());
 	}
 
