@@ -5,7 +5,6 @@ import io.appium.java_client.AppiumDriver;
 import java.util.Set;
 
 import org.arachnidium.core.bean.MainBeanConfiguration;
-import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.mobile.ContextTool;
 import org.arachnidium.core.components.mobile.FluentContextConditions;
@@ -24,8 +23,7 @@ public final class ContextManager extends Manager {
 	public ContextManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
 		fluent = getWebDriverEncapsulation().getComponent(FluentContextConditions.class);
-		contextTool = ComponentFactory.getComponent(ContextTool.class,
-				getWrappedDriver());
+		contextTool = getWebDriverEncapsulation().getComponent(ContextTool.class);
 	}
 
 	@Override
@@ -46,10 +44,9 @@ public final class ContextManager extends Manager {
 	@Override
 	public Alert getAlert() throws NoAlertPresentException {
 		ContextTimeOuts timeOuts = getContextTimeOuts();
-		return ComponentFactory
+		return getWebDriverEncapsulation()
 				.getComponent(
 						AlertHandler.class,
-						getWrappedDriver(),
 						new Class[] { long.class },
 						new Object[] { getTimeOut(
 								timeOuts.getSecsForAwaitinAlertPresent(),

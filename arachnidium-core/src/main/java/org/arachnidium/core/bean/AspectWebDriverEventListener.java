@@ -336,7 +336,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		proxyListener.beforeAlertAccept(driver, alert);
 	}
 
-	@BeforeTarget(targetClass = Alert.class, targetMethod = "dissmiss")
+	@BeforeTarget(targetClass = Alert.class, targetMethod = "dismiss")
 	@Override
 	public void beforeAlertDismiss(@SupportParam WebDriver driver,
 			@TargetParam Alert alert) {

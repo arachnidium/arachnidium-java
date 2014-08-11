@@ -1,15 +1,15 @@
 package org.arachnidium.mobile.ios.iucatalog;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.ios.IOSContext;
 import org.arachnidium.core.SingleContext;
 
 public class UICatalog extends IOSContext {
 	@FindBy(name = "UICatalog")
-	private WebElement backToMe;
+	private MobileElement backToMe;
 	
 	public UICatalog(SingleContext context) {
 		super(context);

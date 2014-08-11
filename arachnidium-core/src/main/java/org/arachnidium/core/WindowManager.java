@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.arachnidium.core.bean.MainBeanConfiguration;
-import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.common.FluentWindowConditions;
 import org.arachnidium.core.webdriversettings.WindowsTimeOuts;
@@ -77,10 +76,9 @@ public final class WindowManager extends Manager {
 	@Override
 	public synchronized Alert getAlert() throws NoAlertPresentException {
 		WindowsTimeOuts timeOuts = getWindowTimeOuts();
-		return ComponentFactory
+		return getWebDriverEncapsulation()
 				.getComponent(
 						AlertHandler.class,
-						getWrappedDriver(),
 						new Class[] { long.class },
 						new Object[] { getTimeOut(
 								timeOuts.getSecsForAwaitinAlertPresent(),
