@@ -1,8 +1,9 @@
 package org.arachnidium.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.arachnidium.core.components.ComponentFactory;
@@ -29,18 +30,23 @@ public abstract class Manager implements IDestroyable {
 	boolean isAlive = true;
 	private final HandleReceptionist handleReceptionist = new HandleReceptionist();
 
-	private final static List<Manager> managerList = Collections
-			.synchronizedList(new ArrayList<Manager>());
+	private final static Map<WebDriverEncapsulation, Manager> managerMap = Collections
+			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager>());
 	final static long defaultTime = 1; // default time we waiting for anything
 
 	final static long defaultTimeForNew = 30; // we will wait
-
 	// appearance of a new handle for 30 seconds by default
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Manager> T getInstanstiatedManager(
+			WebDriverEncapsulation driverEncapsulation) {
+		return (T) managerMap.get(driverEncapsulation);
+	}
 
 	Manager(WebDriverEncapsulation initialDriverEncapsulation) {
 		driverEncapsulation = initialDriverEncapsulation;
 		awaiting = driverEncapsulation.getComponent(Awaiting.class);
-		managerList.add(this);
+		managerMap.put(driverEncapsulation, this);
 		driverEncapsulation.addDestroyable(this);
 	}
 
@@ -48,7 +54,7 @@ public abstract class Manager implements IDestroyable {
 
 	@Override
 	public void destroy() {
-		managerList.remove(this);
+		managerMap.remove(driverEncapsulation);
 		isAlive = false;
 		List<IHasHandle> toBeDestroyed = handleReceptionist.getInstantiated();
 		toBeDestroyed.forEach((hasHandle) -> ((IDestroyable) hasHandle)
