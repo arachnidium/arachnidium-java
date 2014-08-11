@@ -51,6 +51,17 @@
     </classes>
   </test> <!-- Test -->
   
+   <test name="Extertal webdriver quit test">
+    <parameter name="path" value="src/test/resources/configs/desctop/"/>
+    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink6" />
+      </methods>
+    </classes>
+  </test> <!-- Test --> 
+  
   <test name="This is just a test of basic functionality. It gets a new object by its partial title and url">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
     <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer_remote.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>

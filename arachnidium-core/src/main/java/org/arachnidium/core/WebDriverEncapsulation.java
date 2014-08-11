@@ -38,6 +38,7 @@ WrapsDriver{
 	private TimeOut timeout;
 	final AbstractApplicationContext context = 
 			new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
+	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	
 	protected WebDriverEncapsulation() {
 		super();
@@ -117,7 +118,7 @@ WrapsDriver{
 			Configuration configuration) {
 		this.configuration = configuration;		
 		closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-				configurableElements, externallyInitiatedWebDriver);
+				configurableElements, destroyableObjects, externallyInitiatedWebDriver);
 		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
 
@@ -168,7 +169,7 @@ WrapsDriver{
 			Class<?>[] paramClasses, Object[] values) {		
 		try {
 			closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-					configurableElements, driverClass, paramClasses, values);
+					configurableElements, destroyableObjects, driverClass, paramClasses, values);
 			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
 			if (closedDriver != null)
@@ -183,10 +184,17 @@ WrapsDriver{
 			return;
 		try {
 			closedDriver.quit();
-		} catch (WebDriverException e) // it may be already dead
-		{
+		} catch (WebDriverException e) { // it may be already dead
 			return;
 		}
+	}
+	
+	/**
+	 * adds an object which related to {@link Webdriver} 
+	 * and has to destroyed after quit
+	 */
+	public void addDestroyable(IDestroyable destroyable){
+		destroyableObjects.add(destroyable);
 	}
 	
 	public TimeOut getTimeOut() {

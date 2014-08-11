@@ -11,6 +11,7 @@ import java.util.ServiceLoader;
 
 import org.arachnidium.core.WebElementHighLighter;
 import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
+import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
@@ -81,6 +82,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			+ "execution(* org.openqa.selenium.Alert.*(..)) || " +
 			  "execution(* io.appium.java_client.MobileElement.*(..)) || "
 			  + "execution(* io.appium.java_client.AppiumDriver.*(..)) ";
+	private final IDestroyable destroyable;
 
 	private final List<IWebDriverEventListener> additionalListeners = new ArrayList<IWebDriverEventListener>() {
 		private static final long serialVersionUID = 1L;
@@ -109,10 +111,11 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 					});
 
 	public AspectWebDriverEventListener(final WebDriver driver,
-			IConfigurationWrapper configurationWrapper, AbstractApplicationContext context) {
+			IConfigurationWrapper configurationWrapper, IDestroyable destroyable, AbstractApplicationContext context) {
 		super(configurationWrapper);
 		this.driver = driver;
 		this.context = context;
+		this.destroyable = destroyable;
 	}
 	
 	private static Class<?> getClassForProxy(Class<?> classOfObject){
@@ -504,6 +507,17 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			return returnProxyList((List<Object>) result);
 		}		
 		return transformToListenable(result);
+	}
+
+	/**
+	 * this method destroys all that related to {@link WebDriver}
+	 * and posts log messages
+	 */
+	@Override
+	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "quit")
+	public void beforeQuit(@SupportParam WebDriver  driver) {
+		destroyable.destroy();
+		proxyListener.beforeQuit(driver);		
 	}
 
 }

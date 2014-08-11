@@ -85,25 +85,29 @@ public class HelloWorldGoogleTest {
 		return new ArrayList<String>();
 	}
 	
+	private void workWithGoogle(Google google, boolean toClickOnALinkWhichWasFound) throws Exception{
+		google.performSearch("Hello world Wikipedia");
+		Assert.assertNotSame(0, google.getLinkCount());
+		if (!toClickOnALinkWhichWasFound){
+			google.openLinkByIndex(1);
+		}
+		else{
+			google.clickOnLinkByIndex(1);
+		}
+		AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
+		anyPage.close();
+		if (!toClickOnALinkWhichWasFound){
+			google.openLinkByIndex(1);
+		}
+		else{
+			google.clickOnLinkByIndex(1);
+		}
+		anyPage = google.getFromHandle(AnyPage.class, 1);		
+	}
+	
 	private void test(Google google, boolean toClickOnALinkWhichWasFound) throws Exception {
 		try {
-			google.performSearch("Hello world Wikipedia");
-			Assert.assertNotSame(0, google.getLinkCount());
-			if (!toClickOnALinkWhichWasFound){
-				google.openLinkByIndex(1);
-			}
-			else{
-				google.clickOnLinkByIndex(1);
-			}
-			AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
-			anyPage.close();
-			if (!toClickOnALinkWhichWasFound){
-				google.openLinkByIndex(1);
-			}
-			else{
-				google.clickOnLinkByIndex(1);
-			}
-			anyPage = google.getFromHandle(AnyPage.class, 1);
+			workWithGoogle(google, toClickOnALinkWhichWasFound);
 		} finally {
 			google.quit();
 		}
@@ -118,6 +122,14 @@ public class HelloWorldGoogleTest {
 			google.quit();
 		}
 	}
+	
+	private void test3(Google google, boolean toClickOnALinkWhichWasFound) throws Exception {
+		try {
+			workWithGoogle(google, toClickOnALinkWhichWasFound);
+		} finally {
+			google.getWrappedDriver().quit();;
+		}
+	}	
 	
 	@Test(description = "This is just a test of basic functionality without any configuration")
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
@@ -176,7 +188,7 @@ public class HelloWorldGoogleTest {
 		}
 	}
 
-	@Test(description = "This is just a test of basic functionality. Checks possibility of service provider working")
+	@Test(description = "This is just a test of basic functionality. Checks possibility of service provider")
 	public void typeHelloWorldAndOpenTheFirstLink5() throws Exception{
 		MockWebDriverListener.listener = null;
 		MockWindowListener.listener = null;
@@ -188,5 +200,24 @@ public class HelloWorldGoogleTest {
 		}
 		Assert.assertEquals(true, MockWebDriverListener.wasInvoked);
 		Assert.assertEquals(true, MockWindowListener.wasInvoked);
+	}
+	
+	@Test(description = "Extertal webdriver quit test")
+	@Parameters(value={"path", "toClick","configList"})
+	public void typeHelloWorldAndOpenTheFirstLink6(
+			@Optional("src/test/resources/configs/desctop/") String path,
+			@Optional("false") String toClick, @Optional("") String configList)
+			throws Exception {
+
+		List<String> configs = getConfigsByCurrentPlatform();
+		String[] configNames = configList.split(",");
+
+		for (String config : configNames) {
+			if (!configs.contains(config)) {
+				continue;
+			}
+			Configuration configuration = Configuration.get(path + config);
+			test3(Google.getNew(configuration), new Boolean(toClick));
+		}
 	}
 }

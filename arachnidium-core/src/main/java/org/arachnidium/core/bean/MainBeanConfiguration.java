@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import org.arachnidium.core.interfaces.IContext;
+import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IExtendedWindow;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.openqa.selenium.WebDriver;
@@ -24,6 +25,7 @@ public class MainBeanConfiguration {
 	private IConfigurationWrapper wrapper;
 	private WebDriver driver;
 	private AbstractApplicationContext context;
+	private IDestroyable destroyable;
 	
 	public final static String COMPONENT_BEAN = "component";
 	public final static String WEBDRIVER_BEAN = "webdriver";
@@ -35,15 +37,13 @@ public class MainBeanConfiguration {
 	@Bean(name = WEBDRIVER_BEAN)
 	public <T extends WebDriver> T getWebdriver(AbstractApplicationContext context, 
 			IConfigurationWrapper configurationWrapper,
+			IDestroyable destroyable,
 			Class<T> required,
 			Class<?>[] paramClasses, Object[] paramValues) {
 		try {
 			Constructor<?> c = required.getConstructor(paramClasses);
 			T result = (T) c.newInstance(paramValues);
-			driver = result;
-			wrapper = configurationWrapper;
-			this.context = context;
-			return result;
+			return (T) populate(context, configurationWrapper, destroyable, result);
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
@@ -51,15 +51,24 @@ public class MainBeanConfiguration {
 		}
 	}
 	
+	private WebDriver populate(AbstractApplicationContext context, 
+			IConfigurationWrapper configurationWrapper,
+			IDestroyable destroyable,
+			WebDriver driver){
+		this.driver = driver;
+		wrapper = configurationWrapper;
+		this.destroyable = destroyable;
+		this.context = context;
+		return driver;
+	}
+	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = WEBDRIVER_BEAN)
 	public WebDriver getWebdriver(AbstractApplicationContext context, 
 			IConfigurationWrapper configurationWrapper,
+			IDestroyable destroyable,
 			WebDriver driver) {
-		this.driver = driver;
-		wrapper = configurationWrapper;
-		this.context = context;
-		return driver;
+		return populate(context, configurationWrapper, destroyable, driver);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -85,7 +94,7 @@ public class MainBeanConfiguration {
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "webdriverAspect")
 	AspectWebDriverEventListener getWebdriverAspect(){
-		return new AspectWebDriverEventListener(driver, wrapper, context);
+		return new AspectWebDriverEventListener(driver, wrapper, destroyable, context);
 	}
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)

@@ -41,6 +41,7 @@ public abstract class Manager implements IDestroyable {
 		driverEncapsulation = initialDriverEncapsulation;
 		awaiting = driverEncapsulation.getComponent(Awaiting.class);
 		managerList.add(this);
+		driverEncapsulation.addDestroyable(this);
 	}
 
 	abstract void changeActive(String handle);

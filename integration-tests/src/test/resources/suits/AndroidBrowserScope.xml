@@ -57,4 +57,16 @@
     </classes>
   </test> <!-- Test -->
   
+  <test name="Extertal webdriver quit test">
+    <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
+    <parameter name="toClick" value="true"/>
+    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink6" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->   
+  
 </suite> <!-- Suite -->

@@ -30,4 +30,6 @@ public interface IWebDriverEventListener extends WebDriverEventListener {
 	
 	public void beforeFindBy(String byString, WebElement element, WebDriver driver); 
 	public void afterFindBy(String byString, WebElement element, WebDriver driver); 
+	
+	public void beforeQuit(WebDriver driver);
 }

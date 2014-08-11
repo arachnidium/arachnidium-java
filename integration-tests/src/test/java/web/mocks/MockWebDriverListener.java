@@ -135,14 +135,20 @@ public class MockWebDriverListener implements IWebDriverEventListener {
 	@Override
 	public void beforeFindBy(String byString, WebElement element,
 			WebDriver driver) {
-		// TODO Auto-generated method stub
+		wasInvoked = true;
 		
 	}
 
 	@Override
 	public void afterFindBy(String byString, WebElement element,
 			WebDriver driver) {
-		// TODO Auto-generated method stub
+		wasInvoked = true;
+		
+	}
+
+	@Override
+	public void beforeQuit(WebDriver driver) {
+		wasInvoked = true;
 		
 	}
 

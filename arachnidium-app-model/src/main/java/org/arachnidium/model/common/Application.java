@@ -22,6 +22,7 @@ public abstract class Application extends ModelObject implements
 	protected Application(Handle handle) {
 		super(handle);
 		manager = handle.getManager();
+		driverEncapsulation.addDestroyable(this);
 	}
 
 	/**
@@ -307,9 +308,7 @@ public abstract class Application extends ModelObject implements
 	 * destroys an Application instance and makes WebDriver quit
 	 */
 	public void quit() {
-		manager.destroy();
 		driverEncapsulation.destroy();
-		destroy();
 	}
 
 	protected Class<?>[] replaceHandleParamIfItNeedsToBe(
