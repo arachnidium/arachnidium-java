@@ -6,6 +6,7 @@ import org.arachnidium.core.SingleContext;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandlesWithNamedContexts;
+import org.arachnidium.model.support.PathStrategy;
 
 /**
  * Representation of a mobile application
@@ -27,11 +28,11 @@ public abstract class MobileAppliction extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			Integer frameIndex, String contextName) {
+			PathStrategy pathStrategy, String contextName) {
 		Handle newHandle = ((ContextManager) manager)
 				.getByContextName(contextName);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -48,22 +49,6 @@ public abstract class MobileAppliction extends Application implements
 				.getByContextName(contextName);
 		Class<?>[] params = new Class[] { Handle.class };
 		Object[] values = new Object[] { newHandle };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the existing handle by context
-	 * name and path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			String pathToFrame, String contextName) {
-		Handle newHandle = ((ContextManager) manager)
-				.getByContextName(contextName);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);

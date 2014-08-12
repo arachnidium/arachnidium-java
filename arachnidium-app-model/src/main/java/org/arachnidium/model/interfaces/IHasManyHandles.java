@@ -1,5 +1,7 @@
 package org.arachnidium.model.interfaces;
 
+import org.arachnidium.model.support.PathStrategy;
+
 /**
  * For objects that open many handles (windows, contexts etc.)
  */
@@ -8,44 +10,29 @@ public interface IHasManyHandles {
 	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
 			int index);
 
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			Integer frameIndex, int index);
-
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			String pathToFrame, int index);
+	public <T extends IDecomposable> T getFromHandle(Class<T> partClass, PathStrategy strategy,
+			int index);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			Integer frameIndex);
+			PathStrategy pathStrategy);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
 			long timeOutSec);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			long timeOutSec, Integer frameIndex);
+			PathStrategy pathStrategy, long timeOutSec);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
 			String stringIdentifier);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String stringIdentifier, Integer frameIndex);
+			PathStrategy pathStrategy, String stringIdentifier);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
 			String stringIdentifier, long timeOutSec);
 
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String stringIdentifier, long timeOutSec, Integer frameIndex);
-
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass);
-
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, long timeOutSec);
-
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String stringIdentifier);
-
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String stringIdentifier, long timeOutSec);
+			PathStrategy pathStrategy, String stringIdentifier, long timeOutSec);
 }

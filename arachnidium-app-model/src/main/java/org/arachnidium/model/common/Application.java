@@ -9,6 +9,7 @@ import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandles;
+import org.arachnidium.model.support.PathStrategy;
 
 /**
  * Common representation of any application Using it you can model your testing
@@ -57,30 +58,16 @@ public abstract class Application extends ModelObject implements
 	 * and frame index
 	 */
 	@Override
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			Integer frameIndex, int index) {
+	public <T extends IDecomposable> T getFromHandle(Class<T> partClass, PathStrategy pathStrategy,
+			int index) {
 		Handle newHandle = manager.getByIndex(index);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
 	}
 
-	/**
-	 * Gets a functional part (page object) from the existing handle by index
-	 * and path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
-			String pathToFrame, int index) {
-		Handle newHandle = manager.getByIndex(index);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
 
 	/**
 	 * Gets a functional part (page object) from the new opened handle
@@ -101,10 +88,10 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			Integer frameIndex) {
+			PathStrategy pathStrategy) {
 		Handle newHandle = manager.getNewHandle();
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -131,10 +118,10 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			long timeOutSec, Integer frameIndex) {
+			PathStrategy pathStrategy, long timeOutSec) {
 		Handle newHandle = manager.getNewHandle(timeOutSec);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -161,10 +148,10 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String stringIdentifier, Integer frameIndex) {
+			PathStrategy pathStrategy, String stringIdentifier) {
 		Handle newHandle = manager.getNewHandle(stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -191,70 +178,10 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String stringIdentifier, long timeOutSec, Integer frameIndex) {
+			PathStrategy pathStrategy, String stringIdentifier, long timeOutSec) {
 		Handle newHandle = manager.getNewHandle(timeOutSec, stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass) {
-		Handle newHandle = manager.getNewHandle();
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * specified timeout and path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, long timeOutSec) {
-		Handle newHandle = manager.getNewHandle(timeOutSec);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * specified string identification and specified path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String stringIdentifier) {
-		Handle newHandle = manager.getNewHandle(stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * specified string identification, timeout and path to required frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String stringIdentifier, long timeOutSec) {
-		Handle newHandle = manager.getNewHandle(timeOutSec, stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -278,23 +205,9 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			Integer frameIndex) {
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { handle, frameIndex };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, handle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the main application handle
-	 * using path to frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			String pathToFrame) {
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { handle, pathToFrame };
+			PathStrategy pathStrategy) {
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { handle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, handle),
 				values);

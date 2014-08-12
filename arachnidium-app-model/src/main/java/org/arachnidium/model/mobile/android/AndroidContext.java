@@ -5,8 +5,8 @@ import org.arachnidium.core.components.mobile.AppStringGetter;
 import org.arachnidium.core.components.mobile.MetastateKeyEventSender;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Context;
-import org.openqa.selenium.WebElement;
-
+import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.PathStrategy;
 /**
  * The same as {@link Context} with some capabilities specifically for Android
  */
@@ -16,49 +16,21 @@ public abstract class AndroidContext extends Context {
 	protected final AppStringGetter appStringGetter;
 
 	protected AndroidContext(FunctionalPart parent) {
-		super(parent);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
+		this(parent, new FramePathStrategy());
 	}
 
-	protected AndroidContext(FunctionalPart parent, Integer frameIndex) {
-		super(parent, frameIndex);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
-	}
-
-	protected AndroidContext(FunctionalPart parent, String pathToFrame) {
-		super(parent, pathToFrame);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
-	}
-
-	protected AndroidContext(FunctionalPart parent, WebElement frameElement) {
-		super(parent, frameElement);
+	protected AndroidContext(FunctionalPart parent, PathStrategy pathStrategy) {
+		super(parent, pathStrategy);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
 	}
 
 	protected AndroidContext(SingleContext context) {
-		super(context);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
+		this(context, new FramePathStrategy());
 	}
 
-	protected AndroidContext(SingleContext context, Integer frameIndex) {
-		super(context, frameIndex);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
-	}
-
-	protected AndroidContext(SingleContext context, String pathToFrame) {
-		super(context, pathToFrame);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
-	}
-
-	protected AndroidContext(SingleContext context, WebElement frameElement) {
-		super(context, frameElement);
+	protected AndroidContext(SingleContext context, PathStrategy pathStrategy) {
+		super(context, pathStrategy);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
 	}

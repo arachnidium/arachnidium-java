@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
 
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.WebElementHighLighter;
-import org.arachnidium.core.components.common.FrameSupport;
 import org.arachnidium.core.components.common.Ime;
 import org.arachnidium.core.components.common.Interaction;
 import org.arachnidium.core.components.common.TimeOut;
@@ -22,7 +21,8 @@ import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
-import org.arachnidium.model.interfaces.IHasWebElementFrames;
+import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.PathStrategy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
@@ -32,8 +32,7 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
  * @author s.tihomirov It describes simple web page or mobile app context or
  *         their fragment
  */
-public abstract class FunctionalPart extends ModelObject implements
-IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
+public abstract class FunctionalPart extends ModelObject implements ITakesPictureOfItSelf, ISwitchesToItself {
 
 	/**
 	 * @author s.tihomirov
@@ -46,19 +45,13 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 	}
 
 	protected FunctionalPart parent; // parent test object
-	protected final FrameSupport frameSupport;
-	// Integer specification of a frame that object is placed on.
-	private Integer frameToSwitchOnInt = null;
-	// String specification of a frame that object is placed on.
-	private String frameToSwitchOnStr = null;
-	// WebElement specification of a frame that object is placed on
-	private Object frameToSwitchOnElem = null;
 	// page object is created by specified entity
 	protected Application application;
 	private IWebElementHighlighter highLighter;
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final TimeOut timeOuts;
+	protected final PathStrategy pathStrategy;
 	/**
 	 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
 	 */
@@ -66,30 +59,21 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 
 	// constructs from another page object
 	protected FunctionalPart(FunctionalPart parent) {
-		this(parent.handle);
-		parent.addChild(this);
+		this(parent.handle, new FramePathStrategy());
 	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, Integer frameIndex) {
-		this(parent.handle, frameIndex);
-		parent.addChild(this);
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, String pathToFrame) {
-		this(parent.handle, pathToFrame);
-		parent.addChild(this);
-	}
-
-	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent, WebElement frameElement) {
-		this(parent.handle, frameElement);
+	
+	protected FunctionalPart(FunctionalPart parent, PathStrategy pathStrategy) {
+		this(parent.handle, pathStrategy);
 		parent.addChild(this);
 	}
 
 	protected FunctionalPart(Handle handle) {
+		this(handle, new FramePathStrategy());
+	}
+
+	protected FunctionalPart(Handle handle, PathStrategy pathStrategy) {
 		super(handle);
+		this.pathStrategy = pathStrategy;
 		timeOuts = driverEncapsulation.getTimeOut();
 		/**
 		 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
@@ -98,29 +82,9 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 				driverEncapsulation.getWrappedDriver(),
 				timeOuts.getImplicitlyWaitTimeOut(),
 				timeOuts.getImplicitlyWaitTimeUnit());
-		frameSupport = driverEncapsulation.getComponent(FrameSupport.class);
 		highLighter = new WebElementHighLighter();
 		interaction = driverEncapsulation.getComponent(Interaction.class);
 		ime = driverEncapsulation.getComponent(Ime.class);
-	}
-
-	// constructor with specified integer frame value
-	protected FunctionalPart(Handle handle, Integer frameIndex) {
-		this(handle);
-		frameToSwitchOnInt = frameIndex;
-	}
-
-	// constructor with specified string frame value. pathToFrame can be
-	// relative to another frame
-	protected FunctionalPart(Handle handle, String pathToFrame) {
-		this(handle);
-		frameToSwitchOnStr = pathToFrame;
-	}
-
-	// constructor with specified WebElement frame value.
-	protected FunctionalPart(Handle handle, WebElement frameElement) {
-		this(handle);
-		frameToSwitchOnElem = frameElement;
 	}
 
 	@Override
@@ -154,28 +118,9 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 	// - with specified frame index
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			Integer frameIndex) {
-		Class<?>[] params = new Class[] { FunctionalPart.class, Integer.class };
-		Object[] values = new Object[] { this, frameIndex };
-		return DefaultApplicationFactory.get(partClass, params, values);
-	}
-
-	// - with specified path to any frame
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			String pathToFrame) {
-		Class<?>[] params = new Class[] { FunctionalPart.class, String.class };
-		Object[] values = new Object[] { this, pathToFrame };
-		return DefaultApplicationFactory.get(partClass, params, values);
-	}
-
-	// - with frame that specified as web element
-	@Override
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			WebElement frameElement) {
-		Class<?>[] params = new Class[] { FunctionalPart.class,
-				WebElement.class };
-		Object[] values = new Object[] { this, frameElement };
+			PathStrategy pathStrategy) {
+		Class<?>[] params = new Class[] { FunctionalPart.class, PathStrategy.class };
+		Object[] values = new Object[] { this, pathStrategy };
 		return DefaultApplicationFactory.get(partClass, params, values);
 	}
 
@@ -254,19 +199,7 @@ IHasWebElementFrames, ITakesPictureOfItSelf, ISwitchesToItself {
 			parent.switchToMe();
 		else
 			handle.switchToMe();
-		// if this object is placed on some frame
-		if (frameToSwitchOnInt != null) { // we should switch to it
-			frameSupport.switchTo(frameToSwitchOnInt);
-			return;
-		}
-		if (frameToSwitchOnStr != null) {
-			frameSupport.switchTo(frameToSwitchOnStr);
-			return;
-		}
-		if (frameToSwitchOnElem != null) {
-			frameSupport.switchTo((WebElement) frameToSwitchOnElem);
-			return;
-		}
+		pathStrategy.switchTo(driverEncapsulation);
 		return;
 	}
 

@@ -18,6 +18,8 @@ import org.arachnidium.core.components.mobile.TouchActionsPerformer;
 import org.arachnidium.core.components.mobile.Zoomer;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.model.common.FunctionalPart;
+import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.PathStrategy;
 import org.arachnidium.util.proxy.DefaultInterceptor;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.Rotatable;
@@ -86,43 +88,11 @@ Rotatable {
 	protected final ComplexFinder complexFinder;
 
 	protected Context(FunctionalPart parent) {
-		super(parent);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
+		this(parent, new FramePathStrategy());
 	}
 
-	protected Context(FunctionalPart parent, Integer frameIndex) {
-		super(parent, frameIndex);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
-	}
-
-	protected Context(FunctionalPart parent, String pathToFrame) {
-		super(parent, pathToFrame);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
-	}
-
-	protected Context(FunctionalPart parent, WebElement frameElement) {
-		super(parent, frameElement);
+	protected Context(FunctionalPart parent, PathStrategy pathStrategy) {
+		super(parent, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -134,43 +104,11 @@ Rotatable {
 	}
 
 	protected Context(SingleContext context) {
-		super(context);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
+		this(context, new FramePathStrategy());
 	}
 
-	protected Context(SingleContext context, Integer frameIndex) {
-		super(context, frameIndex);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
-	}
-
-	protected Context(SingleContext context, String pathToFrame) {
-		super(context, pathToFrame);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
-	}
-
-	protected Context(SingleContext context, WebElement frameElement) {
-		super(context, frameElement);
+	protected Context(SingleContext context, PathStrategy pathStrategy) {
+		super(context, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);

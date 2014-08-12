@@ -5,13 +5,14 @@ import java.net.URL;
 import org.arachnidium.core.SingleWindow;
 import org.arachnidium.core.UnclosedWindowException;
 import org.arachnidium.model.common.FunctionalPart;
+import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.PathStrategy;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Window;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
 /**
@@ -21,35 +22,19 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 		Window {
 
 	protected BrowserPage(FunctionalPart parent) {
-		super(parent);
+		this(parent, new FramePathStrategy());
 	}
 
-	protected BrowserPage(FunctionalPart parent, Integer frameIndex) {
-		super(parent, frameIndex);
-	}
-
-	protected BrowserPage(FunctionalPart parent, String pathToFrame) {
-		super(parent, pathToFrame);
-	}
-
-	protected BrowserPage(FunctionalPart parent, WebElement frameElement) {
-		super(parent, frameElement);
+	protected BrowserPage(FunctionalPart parent, PathStrategy pathStrategy) {
+		super(parent, pathStrategy);
 	}
 
 	protected BrowserPage(SingleWindow window) {
-		super(window);
+		this(window, new FramePathStrategy());
 	}
 
-	protected BrowserPage(SingleWindow window, Integer frameIndex) {
-		super(window, frameIndex);
-	}
-
-	protected BrowserPage(SingleWindow window, String pathToFrame) {
-		super(window, pathToFrame);
-	}
-
-	protected BrowserPage(SingleWindow window, WebElement frameElement) {
-		super(window, frameElement);
+	protected BrowserPage(SingleWindow window, PathStrategy pathStrategy) {
+		super(window, pathStrategy);
 	}
 
 	@Override

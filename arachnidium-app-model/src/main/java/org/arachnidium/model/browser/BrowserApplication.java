@@ -11,6 +11,7 @@ import org.arachnidium.core.components.common.Cookies;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandlesWithURL;
+import org.arachnidium.model.support.PathStrategy;
 
 /**
  * Representation of a browser application
@@ -47,10 +48,10 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			List<String> urls, Integer frameIndex) {
+			List<String> urls, PathStrategy pathStrategy) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(urls);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -79,11 +80,11 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			List<String> urls, long timeOutSec, Integer frameIndex) {
+			PathStrategy pathStrategy, List<String> urls, long timeOutSec) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
 				urls);
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -97,8 +98,8 @@ public abstract class BrowserApplication extends Application implements
 
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String title, Integer frameIndex) {
-		return super.getFromNewHandle(partClass, title, frameIndex);
+			PathStrategy pathStrategy, String title) {
+		return super.getFromNewHandle(partClass, pathStrategy, title);
 	}
 
 	@Override
@@ -109,8 +110,8 @@ public abstract class BrowserApplication extends Application implements
 
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			String title, long timeOutSec, Integer frameIndex) {
-		return super.getFromNewHandle(partClass, title, timeOutSec, frameIndex);
+			PathStrategy pathStrategy, String title, long timeOutSec) {
+		return super.getFromNewHandle(partClass, pathStrategy, title, timeOutSec);
 	}
 
 	/**
@@ -140,7 +141,7 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			final URL url, Integer frameIndex) {
+			PathStrategy pathStrategy, final URL url) {
 		Handle newHandle = ((WindowManager) manager)
 				.getNewHandle(new ArrayList<String>() {
 					private static final long serialVersionUID = -1L;
@@ -148,8 +149,8 @@ public abstract class BrowserApplication extends Application implements
 						add(url.toString());
 					}
 				});
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -161,7 +162,7 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			final URL url, Integer frameIndex, long timeOutSec) {
+			PathStrategy pathStrategy, final URL url, long timeOutSec) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
 				new ArrayList<String>() {
 					private static final long serialVersionUID = -1L;
@@ -169,8 +170,8 @@ public abstract class BrowserApplication extends Application implements
 						add(url.toString());
 					}
 				});
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, frameIndex };
+		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
 				values);
@@ -197,93 +198,6 @@ public abstract class BrowserApplication extends Application implements
 				values);
 	}
 
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * list of regular expressions that describe expected URLs and path to
-	 * required frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, List<String> urls) {
-		Handle newHandle = ((WindowManager) manager).getNewHandle(urls);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * list of regular expressions that describe expected URLs, timeout and path
-	 * to the required frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, List<String> urls, long timeOutSec) {
-		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
-				urls);
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String title) {
-		return super.getFromNewHandle(pathToFrame, partClass, title);
-	}
-
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, String title, long timeOutSec) {
-		return super
-				.getFromNewHandle(pathToFrame, partClass, title, timeOutSec);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * expected URL and path to the required frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, final URL url) {
-		Handle newHandle = ((WindowManager) manager)
-				.getNewHandle(new ArrayList<String>() {
-					private static final long serialVersionUID = -1L;
-					{
-						add(url.toString());
-					}
-				});
-		Class<?>[] params = new Class[] { Handle.class, String.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
-
-	/**
-	 * Gets a functional part (page object) from the new opened handle using
-	 * expected URL, timeout and path to the required frame
-	 */
-	@Override
-	public <T extends IDecomposable> T getFromNewHandle(String pathToFrame,
-			Class<T> partClass, final URL url, long timeOutSec) {
-		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
-				new ArrayList<String>() {
-					private static final long serialVersionUID = -1L;
-					{
-						add(url.toString());
-					}
-				});
-		Class<?>[] params = new Class[] { Handle.class, Integer.class };
-		Object[] values = new Object[] { newHandle, pathToFrame };
-		return get(partClass,
-				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
-				values);
-	}
 
 	public WindowManager getWindowManager() {
 		return (WindowManager) manager;
