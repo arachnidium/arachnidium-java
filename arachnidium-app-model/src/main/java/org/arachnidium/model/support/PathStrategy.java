@@ -1,7 +1,7 @@
 package org.arachnidium.model.support;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
  * that can manage switching between frames and handles (windows, tabs, mobile contexts) 
  * By default there is a frame path
  */
-public interface PathStrategy {
+public interface PathStrategy extends Cloneable{
 	final ArrayList<Object> framePath = new ArrayList<Object>();
 	final static Class<?>[] availableClassesOfFrameIdentifiers = new Class<?>[] {
 			String.class, int.class, By.class, WebElement.class};	
@@ -31,6 +31,10 @@ public interface PathStrategy {
 		throw new IllegalArgumentException("Object of the type " + frameIdentifier.getClass().getName() + " are not alowed! Available classes are " + 
 		availableClassesOfFrameIdentifiers.toString());
 	}	
+	
+	default List<Object> getFramePath(){
+		return framePath;
+	}
 	
 	public <T extends Object> T switchTo(WebDriverEncapsulation webDriverEncapsulation);
 }
