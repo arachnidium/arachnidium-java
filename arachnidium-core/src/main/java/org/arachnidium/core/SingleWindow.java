@@ -15,15 +15,15 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 /**
  * @author s.tihomirov It is performs actions on a single window
  */
-public class SingleWindow extends Handle implements Navigation,
-		IExtendedWindow {
+public class SingleWindow extends Handle implements Navigation, IExtendedWindow {
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 
 	SingleWindow(String handle, WindowManager windowManager) {
 		super(handle, windowManager);
 		this.windowTool = driverEncapsulation.getComponent(WindowTool.class);
-		this.navigationTool = driverEncapsulation.getComponent(NavigationTool.class);
+		this.navigationTool = driverEncapsulation
+				.getComponent(NavigationTool.class);
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class SingleWindow extends Handle implements Navigation,
 
 	@Override
 	public synchronized void close() throws UnclosedWindowException,
-	NoSuchWindowException, UnhandledAlertException,
-	UnreachableBrowserException {
+			NoSuchWindowException, UnhandledAlertException,
+			UnreachableBrowserException {
 		try {
 			((WindowManager) nativeManager).close(handle);
 			destroy();
@@ -55,7 +55,8 @@ public class SingleWindow extends Handle implements Navigation,
 
 	@Override
 	public synchronized String getCurrentUrl() throws NoSuchWindowException {
-		return ((WindowManager) nativeManager).getWindowURLbyHandle(handle);
+		switchToMe();
+		return driverEncapsulation.getWrappedDriver().getCurrentUrl();
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class SingleWindow extends Handle implements Navigation,
 
 	@Override
 	public synchronized String getTitle() {
-		return ((WindowManager) nativeManager).getTitleByHandle(handle);
+		return driverEncapsulation.getWrappedDriver().getTitle();
 	}
 
 	@Override

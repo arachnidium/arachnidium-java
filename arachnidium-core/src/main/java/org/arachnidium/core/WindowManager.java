@@ -189,21 +189,9 @@ public final class WindowManager extends Manager {
 		return returnNewCreatedListenableHandle(window, MainBeanConfiguration.WINDOW_BEAN);
 	}
 
-	synchronized String getTitleByHandle(String handle)
-			throws NoSuchWindowException {
-		changeActive(handle);
-		return getWrappedDriver().getTitle();
-	}
-
 	private WindowsTimeOuts getWindowTimeOuts() {
 		return getWebDriverEncapsulation().configuration
 				.getSection(WindowsTimeOuts.class);
-	}
-
-	synchronized String getWindowURLbyHandle(String handle)
-			throws NoSuchWindowException {
-		changeActive(handle);
-		return getWrappedDriver().getCurrentUrl();
 	}
 
 	@Override

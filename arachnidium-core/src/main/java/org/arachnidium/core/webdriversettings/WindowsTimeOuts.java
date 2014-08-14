@@ -4,6 +4,7 @@ import org.arachnidium.core.webdriversettings.interfaces.IHasAlertTimeOut;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
+@Deprecated
 public class WindowsTimeOuts extends AbstractConfigurationAccessHelper
 		implements IHasAlertTimeOut {
 	private final String newWindowTimeOutSetting = "newWindowTimeOutSec";

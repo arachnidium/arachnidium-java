@@ -31,7 +31,7 @@ WrapsDriver{
 
 	// get tests started with FireFoxDriver by default.
 	private static ESupportedDrivers defaultSupportedDriver = ESupportedDrivers.FIREFOX;
-	private WebDriver closedDriver;
+	private RemoteWebDriver enclosedDriver;
 
 	protected Configuration configuration = Configuration.byDefault;
 	private final ConfigurableElements configurableElements = new ConfigurableElements(configuration);
@@ -40,10 +40,6 @@ WrapsDriver{
 			new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	
-	protected WebDriverEncapsulation() {
-		super();
-	}
-
 	/**
 	 * creates instance by specified driver and remote address using specified
 	 * configuration
@@ -117,7 +113,7 @@ WrapsDriver{
 	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver,
 			Configuration configuration) {
 		this.configuration = configuration;		
-		closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
+		enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 				configurableElements, destroyableObjects, externallyInitiatedWebDriver);
 		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
@@ -165,25 +161,25 @@ WrapsDriver{
 	}
 
 	// it makes objects of any WebDriver and navigates to specified URL
-	protected void createWebDriver(Class<? extends WebDriver> driverClass,
+	private void createWebDriver(Class<? extends WebDriver> driverClass,
 			Class<?>[] paramClasses, Object[] values) {		
 		try {
-			closedDriver = (WebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
+			enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 					configurableElements, destroyableObjects, driverClass, paramClasses, values);
 			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
-			if (closedDriver != null)
-				closedDriver.quit();
+			if (enclosedDriver != null)
+				enclosedDriver.quit();
 			actoinsOnConstructFailure(new RuntimeException(e));
 		}
 	}
 
 	@Override
 	public void destroy() {
-		if (closedDriver == null)
+		if (enclosedDriver == null)
 			return;
 		try {
-			closedDriver.quit();
+			enclosedDriver.quit();
 		} catch (WebDriverException e) { // it may be already dead
 			return;
 		}
@@ -202,21 +198,21 @@ WrapsDriver{
 	}
 	
 	public <T extends WebdriverComponent> T getComponent(Class<T> required){
-		return ComponentFactory.getComponent(required, closedDriver);
+		return ComponentFactory.getComponent(required, enclosedDriver);
 	}
 	
 	public <T extends WebdriverComponent> T getComponent(Class<T> required, Class<?>[] params, Object[] values){
-		return ComponentFactory.getComponent(required, closedDriver, params, values);
+		return ComponentFactory.getComponent(required, enclosedDriver, params, values);
 	}	
 
 	// it goes to another URL
 	public void getTo(String url) {
-		closedDriver.get(url);
+		enclosedDriver.get(url);
 	}
 
 	@Override
 	public WebDriver getWrappedDriver() {
-		return closedDriver;
+		return enclosedDriver;
 	}
 
 

@@ -4,6 +4,7 @@ import org.arachnidium.core.webdriversettings.interfaces.IHasAlertTimeOut;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
+@Deprecated
 public class ContextTimeOuts extends AbstractConfigurationAccessHelper
 		implements IHasAlertTimeOut {
 
