@@ -6,7 +6,6 @@ import org.arachnidium.core.SingleWindow;
 import org.arachnidium.core.UnclosedWindowException;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.support.FramePathStrategy;
-import org.arachnidium.model.support.PathStrategy;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
@@ -25,7 +24,7 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 		this(parent, new FramePathStrategy());
 	}
 
-	protected BrowserPage(FunctionalPart parent, PathStrategy pathStrategy) {
+	protected BrowserPage(FunctionalPart parent, FramePathStrategy pathStrategy) {
 		super(parent, pathStrategy);
 	}
 
@@ -33,7 +32,7 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 		this(window, new FramePathStrategy());
 	}
 
-	protected BrowserPage(SingleWindow window, PathStrategy pathStrategy) {
+	protected BrowserPage(SingleWindow window, FramePathStrategy pathStrategy) {
 		super(window, pathStrategy);
 	}
 

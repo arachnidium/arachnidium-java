@@ -9,7 +9,8 @@ import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandles;
-import org.arachnidium.model.support.PathStrategy;
+import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.IPathStrategy;
 
 /**
  * Common representation of any application Using it you can model your testing
@@ -58,10 +59,10 @@ public abstract class Application extends ModelObject implements
 	 * and frame index
 	 */
 	@Override
-	public <T extends IDecomposable> T getFromHandle(Class<T> partClass, PathStrategy pathStrategy,
+	public <T extends IDecomposable> T getFromHandle(Class<T> partClass, IPathStrategy pathStrategy,
 			int index) {
 		Handle newHandle = manager.getByIndex(index);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -88,9 +89,9 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy) {
+			IPathStrategy pathStrategy) {
 		Handle newHandle = manager.getNewHandle();
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -118,9 +119,9 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, long timeOutSec) {
+			IPathStrategy pathStrategy, long timeOutSec) {
 		Handle newHandle = manager.getNewHandle(timeOutSec);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -148,9 +149,9 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, String stringIdentifier) {
+			IPathStrategy pathStrategy, String stringIdentifier) {
 		Handle newHandle = manager.getNewHandle(stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -178,9 +179,9 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, String stringIdentifier, long timeOutSec) {
+			IPathStrategy pathStrategy, String stringIdentifier, long timeOutSec) {
 		Handle newHandle = manager.getNewHandle(timeOutSec, stringIdentifier);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -205,8 +206,8 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			PathStrategy pathStrategy) {
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+			FramePathStrategy pathStrategy) {
+		Class<?>[] params = new Class[] { Handle.class, FramePathStrategy.class };
 		Object[] values = new Object[] { handle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, handle),

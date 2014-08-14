@@ -19,7 +19,6 @@ import org.arachnidium.core.components.mobile.Zoomer;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.support.FramePathStrategy;
-import org.arachnidium.model.support.PathStrategy;
 import org.arachnidium.util.proxy.DefaultInterceptor;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.Rotatable;
@@ -91,7 +90,7 @@ Rotatable {
 		this(parent, new FramePathStrategy());
 	}
 
-	protected Context(FunctionalPart parent, PathStrategy pathStrategy) {
+	protected Context(FunctionalPart parent, FramePathStrategy pathStrategy) {
 		super(parent, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
@@ -107,7 +106,7 @@ Rotatable {
 		this(context, new FramePathStrategy());
 	}
 
-	protected Context(SingleContext context, PathStrategy pathStrategy) {
+	protected Context(SingleContext context, FramePathStrategy pathStrategy) {
 		super(context, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);

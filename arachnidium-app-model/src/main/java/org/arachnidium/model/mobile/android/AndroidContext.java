@@ -6,7 +6,6 @@ import org.arachnidium.core.components.mobile.MetastateKeyEventSender;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Context;
 import org.arachnidium.model.support.FramePathStrategy;
-import org.arachnidium.model.support.PathStrategy;
 /**
  * The same as {@link Context} with some capabilities specifically for Android
  */
@@ -19,7 +18,7 @@ public abstract class AndroidContext extends Context {
 		this(parent, new FramePathStrategy());
 	}
 
-	protected AndroidContext(FunctionalPart parent, PathStrategy pathStrategy) {
+	protected AndroidContext(FunctionalPart parent, FramePathStrategy pathStrategy) {
 		super(parent, pathStrategy);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
@@ -29,7 +28,7 @@ public abstract class AndroidContext extends Context {
 		this(context, new FramePathStrategy());
 	}
 
-	protected AndroidContext(SingleContext context, PathStrategy pathStrategy) {
+	protected AndroidContext(SingleContext context, FramePathStrategy pathStrategy) {
 		super(context, pathStrategy);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);

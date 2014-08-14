@@ -7,7 +7,6 @@ import org.arachnidium.core.components.mobile.Shaker;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Context;
 import org.arachnidium.model.support.FramePathStrategy;
-import org.arachnidium.model.support.PathStrategy;
 
 /**
  * The same as {@link Context} with some capabilities specifically for iOS
@@ -21,7 +20,7 @@ public abstract class IOSContext extends Context {
 		this(parent, new FramePathStrategy());
 	}
 
-	protected IOSContext(FunctionalPart parent, PathStrategy pathStrategy) {
+	protected IOSContext(FunctionalPart parent, FramePathStrategy pathStrategy) {
 		super(parent, pathStrategy);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
@@ -32,7 +31,7 @@ public abstract class IOSContext extends Context {
 		this(context, new FramePathStrategy());
 	}
 
-	protected IOSContext(SingleContext context, PathStrategy pathStrategy) {
+	protected IOSContext(SingleContext context, FramePathStrategy pathStrategy) {
 		super(context, pathStrategy);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);

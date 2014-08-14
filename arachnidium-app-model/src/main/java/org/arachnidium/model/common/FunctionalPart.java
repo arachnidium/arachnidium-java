@@ -22,7 +22,7 @@ import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.support.FramePathStrategy;
-import org.arachnidium.model.support.PathStrategy;
+import org.arachnidium.model.support.IPathStrategy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
@@ -51,7 +51,7 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final TimeOut timeOuts;
-	protected final PathStrategy pathStrategy;
+	protected final IPathStrategy pathStrategy;
 	/**
 	 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
 	 */
@@ -62,7 +62,7 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 		this(parent.handle, new FramePathStrategy());
 	}
 	
-	protected FunctionalPart(FunctionalPart parent, PathStrategy pathStrategy) {
+	protected FunctionalPart(FunctionalPart parent, FramePathStrategy pathStrategy) {
 		this(parent.handle, pathStrategy);
 		parent.addChild(this);
 	}
@@ -71,7 +71,7 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 		this(handle, new FramePathStrategy());
 	}
 
-	protected FunctionalPart(Handle handle, PathStrategy pathStrategy) {
+	protected FunctionalPart(Handle handle, FramePathStrategy pathStrategy) {
 		super(handle);
 		this.pathStrategy = pathStrategy;
 		timeOuts = driverEncapsulation.getTimeOut();
@@ -118,8 +118,8 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 	// - with specified frame index
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			PathStrategy pathStrategy) {
-		Class<?>[] params = new Class[] { FunctionalPart.class, PathStrategy.class };
+			FramePathStrategy pathStrategy) {
+		Class<?>[] params = new Class[] { FunctionalPart.class, IPathStrategy.class };
 		Object[] values = new Object[] { this, pathStrategy };
 		return DefaultApplicationFactory.get(partClass, params, values);
 	}

@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 /**
  * @author s.tihomirov Fluent waiting for some window conditions
  */
+@Deprecated //TODO Remove this/refactor this
 public abstract class FluentWindowConditions extends WebdriverComponent {
 
 	public FluentWindowConditions(WebDriver driver) {

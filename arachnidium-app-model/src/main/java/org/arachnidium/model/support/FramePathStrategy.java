@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
  * Manages switching between frames on a page or context of the hybrid 
  * mobile application
  */
-public class FramePathStrategy implements PathStrategy {
+public class FramePathStrategy implements IPathStrategy {
 
 	@SuppressWarnings("unchecked")
 	@Override

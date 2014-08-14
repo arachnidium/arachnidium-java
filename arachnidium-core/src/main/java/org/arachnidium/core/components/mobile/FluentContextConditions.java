@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  * Waits for some conditions on native and web-based contexts.
  *
  */
+@Deprecated //TODO Remove this/refactor this
 public abstract class FluentContextConditions extends WebdriverComponent {
 
 	public FluentContextConditions(WebDriver driver) {

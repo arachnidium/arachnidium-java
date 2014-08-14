@@ -14,7 +14,7 @@ import org.arachnidium.core.components.common.ScriptExecutor;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
-import org.arachnidium.model.support.PathStrategy;
+import org.arachnidium.model.support.FramePathStrategy;
 
 public abstract class ModelObject implements IDestroyable, IDecomposable {
 	protected final Handle handle; // handle that object is placed on
@@ -86,5 +86,5 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 
 	@Override
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass,
-			PathStrategy pathStrategy);
+			FramePathStrategy pathStrategy);
 }

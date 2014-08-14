@@ -11,7 +11,7 @@ import org.arachnidium.core.components.common.Cookies;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandlesWithURL;
-import org.arachnidium.model.support.PathStrategy;
+import org.arachnidium.model.support.IPathStrategy;
 
 /**
  * Representation of a browser application
@@ -48,9 +48,9 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			List<String> urls, PathStrategy pathStrategy) {
+			List<String> urls, IPathStrategy pathStrategy) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(urls);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -80,10 +80,10 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, List<String> urls, long timeOutSec) {
+			IPathStrategy pathStrategy, List<String> urls, long timeOutSec) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
 				urls);
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -98,7 +98,7 @@ public abstract class BrowserApplication extends Application implements
 
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, String title) {
+			IPathStrategy pathStrategy, String title) {
 		return super.getFromNewHandle(partClass, pathStrategy, title);
 	}
 
@@ -110,7 +110,7 @@ public abstract class BrowserApplication extends Application implements
 
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, String title, long timeOutSec) {
+			IPathStrategy pathStrategy, String title, long timeOutSec) {
 		return super.getFromNewHandle(partClass, pathStrategy, title, timeOutSec);
 	}
 
@@ -141,7 +141,7 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, final URL url) {
+			IPathStrategy pathStrategy, final URL url) {
 		Handle newHandle = ((WindowManager) manager)
 				.getNewHandle(new ArrayList<String>() {
 					private static final long serialVersionUID = -1L;
@@ -149,7 +149,7 @@ public abstract class BrowserApplication extends Application implements
 						add(url.toString());
 					}
 				});
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
@@ -162,7 +162,7 @@ public abstract class BrowserApplication extends Application implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
-			PathStrategy pathStrategy, final URL url, long timeOutSec) {
+			IPathStrategy pathStrategy, final URL url, long timeOutSec) {
 		Handle newHandle = ((WindowManager) manager).getNewHandle(timeOutSec,
 				new ArrayList<String>() {
 					private static final long serialVersionUID = -1L;
@@ -170,7 +170,7 @@ public abstract class BrowserApplication extends Application implements
 						add(url.toString());
 					}
 				});
-		Class<?>[] params = new Class[] { Handle.class, PathStrategy.class };
+		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, newHandle),
