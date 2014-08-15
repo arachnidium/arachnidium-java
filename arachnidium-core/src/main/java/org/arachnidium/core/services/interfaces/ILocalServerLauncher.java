@@ -1,4 +1,4 @@
-package org.arachnidium.core.webdriverservices.interfaces;
+package org.arachnidium.core.services.interfaces;
 
 import java.net.URL;
 

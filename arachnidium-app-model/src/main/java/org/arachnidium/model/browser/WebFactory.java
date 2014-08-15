@@ -4,7 +4,7 @@ import java.net.URL;
 
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.WindowManager;
-import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
+import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.model.common.DefaultApplicationFactory;
 import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Capabilities;

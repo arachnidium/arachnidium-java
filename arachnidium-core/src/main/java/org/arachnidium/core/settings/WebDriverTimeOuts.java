@@ -1,8 +1,8 @@
-package org.arachnidium.core.webdriversettings;
+package org.arachnidium.core.settings;
 
 import java.util.concurrent.TimeUnit;
 
-import org.arachnidium.core.webdriversettings.interfaces.ITimeUnitSetting;
+import org.arachnidium.core.settings.interfaces.ITimeUnitSetting;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 

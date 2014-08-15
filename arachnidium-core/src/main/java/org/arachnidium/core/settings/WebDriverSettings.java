@@ -1,6 +1,6 @@
-package org.arachnidium.core.webdriversettings;
+package org.arachnidium.core.settings;
 
-import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
+import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 

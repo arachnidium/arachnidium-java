@@ -3,7 +3,7 @@ package org.arachnidium.core;
 import java.awt.Color;
 
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
-import org.arachnidium.core.webdriversettings.ScreenShots;
+import org.arachnidium.core.settings.ScreenShots;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 import org.arachnidium.util.logging.Log;

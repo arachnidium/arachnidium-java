@@ -1,6 +1,8 @@
 package org.arachnidium.core;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
 
 import java.util.Set;
 
@@ -8,22 +10,32 @@ import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.mobile.ContextTool;
 import org.arachnidium.core.components.mobile.FluentContextConditions;
-import org.arachnidium.core.webdriversettings.ContextTimeOuts;
+import org.arachnidium.core.settings.ContextTimeOuts;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public final class ContextManager extends Manager {
 	private final FluentContextConditions fluent;
 	private final ContextTool contextTool;
+	private final boolean isSupportActivities;
 
 	public ContextManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		fluent = getWebDriverEncapsulation().getComponent(FluentContextConditions.class);
-		contextTool = getWebDriverEncapsulation().getComponent(ContextTool.class);
+		fluent = getWebDriverEncapsulation().getComponent(
+				FluentContextConditions.class);
+		contextTool = getWebDriverEncapsulation().getComponent(
+				ContextTool.class);
+		String mobilePlatform = String
+				.valueOf(((RemoteWebDriver) getWebDriverEncapsulation()
+						.getWrappedDriver()).getCapabilities().getCapability(
+						MobileCapabilityType.PLATFORM_NAME));
+		isSupportActivities = mobilePlatform.trim().toUpperCase()
+				.equals(MobilePlatform.ANDROID.toUpperCase());
 	}
 
 	@Override
@@ -34,11 +46,11 @@ public final class ContextManager extends Manager {
 	synchronized String getActivityByHandle(String handle)
 			throws NoSuchContextException {
 		changeActive(handle);
-		try {
+		if (isSupportActivities){
 			return ((AppiumDriver) getWrappedDriver()).currentActivity();
-		}catch (WebDriverException e){
-			return ""; //iOS Appium tools don't support getting of activity. It is frustrating.
 		}
+		//iOS doesn't support activities. It is frustrating.
+		return ""; 
 	}
 
 	@Override

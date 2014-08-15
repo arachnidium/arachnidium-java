@@ -1,6 +1,6 @@
-package org.arachnidium.core.webdriversettings;
+package org.arachnidium.core.settings;
 
-import org.arachnidium.core.webdriversettings.interfaces.IHasAlertTimeOut;
+import org.arachnidium.core.settings.interfaces.IHasAlertTimeOut;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 

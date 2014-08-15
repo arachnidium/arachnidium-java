@@ -12,7 +12,7 @@ import org.arachnidium.core.interfaces.IContext;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.core.interfaces.IHasHandle;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
-import org.arachnidium.core.webdriversettings.ScreenShots;
+import org.arachnidium.core.settings.ScreenShots;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -22,20 +22,20 @@ import org.openqa.selenium.ScreenOrientation;
 
 /**
  * @author s.tihomirov Implementation of @link{IContextListener} by default
- * Listens to mobile context events
+ *         Listens to mobile context events
  */
 @Aspect
 public class AspectContextListener extends DefaultHandleListener implements
 		IContextListener {
 
-	private final List<IContextListener> contextEventListeners = new ArrayList<IContextListener>(){
+	private final List<IContextListener> contextEventListeners = new ArrayList<IContextListener>() {
 		private static final long serialVersionUID = 1L;
-		{   //SPI
-			Iterator<?> providers = ServiceLoader.load(
-					IContextListener.class).iterator();
+		{ // SPI
+			Iterator<?> providers = ServiceLoader.load(IContextListener.class)
+					.iterator();
 			while (providers.hasNext())
-				add((IContextListener) providers.next());	
-		}		
+				add((IContextListener) providers.next());
+		}
 	};
 	private final InvocationHandler contextListenerInvocationHandler = (proxy,
 			method, args) -> {
@@ -44,7 +44,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 				method.invoke(eventListener, args);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
-			};
+			}
+			;
 		});
 		return null;
 	};
@@ -54,7 +55,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 	private final IContextListener windowListenerProxy = (IContextListener) Proxy
 			.newProxyInstance(IContextListener.class.getClassLoader(),
 					new Class[] { IContextListener.class },
-					contextListenerInvocationHandler);	
+					contextListenerInvocationHandler);
 
 	public AspectContextListener(IConfigurationWrapper configurationWrapper) {
 		super(configurationWrapper);
@@ -70,34 +71,38 @@ public class AspectContextListener extends DefaultHandleListener implements
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
-		String activity = String.valueOf(((IHasActivity) handle)
-				.currentActivity());
 		Log.message("Current context is " + handle.getHandle()
-				+ ". Activity is " + activity);
+				+ getActivityDescription(handle));
 		windowListenerProxy.whenIsSwitchedOn(handle);
 	}
 
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
-		String activity = String.valueOf(((IHasActivity) handle)
-				.currentActivity());
 		String message = "A new context " + handle.getHandle()
-				+ ". Activity is " + activity;
+				+ getActivityDescription(handle);
 		if (configurationWrapper.getWrappedConfiguration()
 				.getSection(ScreenShots.class).getToDoScreenShotsOfNewHandles()) {
 			((ITakesPictureOfItSelf) handle).takeAPictureOfAnInfo(message);
-		}
-		else {
+		} else {
 			Log.message(message);
 		}
 		windowListenerProxy.whenNewHandleIsAppeared(handle);
 	}
 
+	private String getActivityDescription(IHasHandle handle) {
+		String activity = String.valueOf(((IHasActivity) handle)
+				.currentActivity());
+		if ("".equals(activity)) {
+			return activity;
+		}
+		return " Activity is " + activity;
+	}
+
 	@Override
 	@Around("execution(* org.arachnidium.core.interfaces.IHasHandle.*(..)) || "
-			+ "execution(* org.arachnidium.core.interfaces.ISwitchesToItself.*(..)) || " +
-			"execution(* org.openqa.selenium.Rotatable.*(..))")
+			+ "execution(* org.arachnidium.core.interfaces.ISwitchesToItself.*(..)) || "
+			+ "execution(* org.openqa.selenium.Rotatable.*(..))")
 	public Object doAround(ProceedingJoinPoint point) throws Throwable {
 		launchMethod(point, this, WhenLaunch.BEFORE);
 		Object result = null;
@@ -106,7 +111,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 		} catch (Exception e) {
 			throw e;
 		}
-		launchMethod(point, this, WhenLaunch.AFTER);	
+		launchMethod(point, this, WhenLaunch.AFTER);
 		return result;
 	}
 
@@ -115,7 +120,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 	public void beforeIsRotated(@TargetParam IHasHandle handle,
 			@UseParameter(number = 0) ScreenOrientation orientation) {
 		Log.debug("Attempt to rotate screen. Context is " + handle.getHandle()
-				+ ", new orientation is " + orientation.toString());
+				+ getActivityDescription(handle) + ", new orientation is "
+				+ orientation.toString());
 		windowListenerProxy.beforeIsRotated(handle, orientation);
 	}
 
@@ -124,7 +130,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 	public void whenIsRotated(@TargetParam IHasHandle handle,
 			@UseParameter(number = 0) ScreenOrientation orientation) {
 		Log.debug("Screen was rotated. Context is " + handle.getHandle()
-				+ ", new orientation is " + orientation.toString());
-		windowListenerProxy.whenIsRotated(handle, orientation);		
+				+ getActivityDescription(handle) + ", new orientation is "
+				+ orientation.toString());
+		windowListenerProxy.whenIsRotated(handle, orientation);
 	}
 }

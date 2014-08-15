@@ -1,4 +1,4 @@
-package org.arachnidium.core.webdriversettings;
+package org.arachnidium.core.settings;
 
 import java.io.File;
 import java.util.ArrayList;

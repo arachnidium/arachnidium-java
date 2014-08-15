@@ -1,4 +1,4 @@
-package org.arachnidium.core.webdriversettings.interfaces;
+package org.arachnidium.core.settings.interfaces;
 
 import java.util.concurrent.TimeUnit;
 

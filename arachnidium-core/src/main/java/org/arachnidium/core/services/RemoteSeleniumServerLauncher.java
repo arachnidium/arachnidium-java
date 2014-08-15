@@ -1,9 +1,9 @@
-package org.arachnidium.core.webdriverservices;
+package org.arachnidium.core.services;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.arachnidium.core.webdriverservices.interfaces.ILocalServerLauncher;
+import org.arachnidium.core.services.interfaces.ILocalServerLauncher;
 import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;

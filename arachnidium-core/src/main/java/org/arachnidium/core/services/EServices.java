@@ -1,13 +1,13 @@
-package org.arachnidium.core.webdriverservices;
+package org.arachnidium.core.services;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.arachnidium.core.webdriversettings.ChromeDriverServerBin;
-import org.arachnidium.core.webdriversettings.IEDriverServerBin;
-import org.arachnidium.core.webdriversettings.PhantomJSDriverBin;
+import org.arachnidium.core.settings.ChromeDriverServerBin;
+import org.arachnidium.core.settings.IEDriverServerBin;
+import org.arachnidium.core.settings.PhantomJSDriverBin;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IHasPathToFile;

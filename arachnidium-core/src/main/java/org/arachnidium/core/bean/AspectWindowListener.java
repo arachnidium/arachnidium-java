@@ -11,7 +11,7 @@ import org.arachnidium.core.eventlisteners.IWindowListener;
 import org.arachnidium.core.interfaces.IExtendedWindow;
 import org.arachnidium.core.interfaces.IHasHandle;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
-import org.arachnidium.core.webdriversettings.ScreenShots;
+import org.arachnidium.core.settings.ScreenShots;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.aspectj.lang.ProceedingJoinPoint;

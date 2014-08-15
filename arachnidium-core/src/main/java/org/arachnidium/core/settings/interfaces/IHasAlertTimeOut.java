@@ -1,4 +1,4 @@
-package org.arachnidium.core.webdriversettings.interfaces;
+package org.arachnidium.core.settings.interfaces;
 
 public interface IHasAlertTimeOut {
 	final String awaitinForAlertPresentSetting = "secsForAwaitinAlertPresent";

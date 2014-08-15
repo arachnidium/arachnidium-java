@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.interfaces.ITimeOutsGetter;
-import org.arachnidium.core.webdriversettings.WebDriverTimeOuts;
+import org.arachnidium.core.settings.WebDriverTimeOuts;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
 import org.arachnidium.util.logging.Log;

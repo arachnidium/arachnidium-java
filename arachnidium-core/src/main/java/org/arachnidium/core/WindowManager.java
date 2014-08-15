@@ -6,7 +6,7 @@ import java.util.Set;
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.common.FluentWindowConditions;
-import org.arachnidium.core.webdriversettings.WindowsTimeOuts;
+import org.arachnidium.core.settings.WindowsTimeOuts;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;

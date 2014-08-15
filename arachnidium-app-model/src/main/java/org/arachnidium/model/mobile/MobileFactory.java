@@ -5,9 +5,9 @@ import java.net.URL;
 
 import org.arachnidium.core.ContextManager;
 import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.core.webdriversettings.CapabilitySettings;
-import org.arachnidium.core.webdriversettings.WebDriverSettings;
-import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
+import org.arachnidium.core.settings.CapabilitySettings;
+import org.arachnidium.core.settings.WebDriverSettings;
+import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.model.common.DefaultApplicationFactory;
 import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Capabilities;

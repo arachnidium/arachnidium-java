@@ -49,44 +49,20 @@
           "value":"10"     
       }       
   },
-  "windowsTimeOuts":
+  "handleWaitingTimeOut":
   {
-      "newWindowTimeOutSec":{
+      "handleWaitingTimeOut":{
           "type":"LONG",
-          "value":"15"     
-      },
-      "windowCountTimeOutSec":{
-          "type":"LONG",
-          "value":"1"     
-      }, 
-      "windowClosingTimeOutSec":{
-          "type":"LONG",
-          "value":"2"     
-      },  
-      "secsForAwaitinAlertPresent":{
-          "type":"LONG",
-          "value":"2"     
-      }      
+          "value":"5"     
+      }
   },
-  "Contexts":
+  "alertIsPresentTimeOut":
   {
-      "contextCountTimeOutSec":{
+      "alertIsPresentTimeOut":{
           "type":"LONG",
-          "value":"1"           
-      },  
-      "newContextTimeOutSec":{
-          "type":"LONG",
-          "value":"20"            
-      },  
-      "isContextPresentTimeOut":{
-          "type":"LONG",
-          "value":"2"            
-      },  
-      "secsForAwaitinAlertPresent":{
-          "type":"LONG",
-          "value":"2"     
-      }  
-  },
+          "value":"5"     
+      }
+  },  
   "Log":
   {
       "Level":{

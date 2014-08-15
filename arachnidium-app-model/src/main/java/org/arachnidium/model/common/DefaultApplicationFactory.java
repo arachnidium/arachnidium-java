@@ -8,7 +8,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.core.webdriversettings.supported.ESupportedDrivers;
+import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.model.abstractions.ModelObjectInterceptor;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.util.configuration.Configuration;
