@@ -62,7 +62,14 @@
           "type":"LONG",
           "value":"5"     
       }
-  },  
+  }, 
+  "windowIsClosedTimeOut":
+  {
+      "windowIsClosedTimeOut":{
+          "type":"LONG",
+          "value":"5"     
+      }
+  },   
   "Log":
   {
       "Level":{

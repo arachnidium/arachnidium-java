@@ -5,22 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.common.Awaiting;
+import org.arachnidium.core.fluenthandle.AbstractFluentHandleStrategy;
+import org.arachnidium.core.fluenthandle.IFluentHandleWaiting;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IHasHandle;
+import org.arachnidium.core.settings.AlertIsPresentTimeOut;
+import org.arachnidium.core.settings.HandleWaitingTimeOut;
 import org.arachnidium.util.logging.Photographer;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 
-public abstract class Manager implements IDestroyable {
+public abstract class Manager<U extends AbstractFluentHandleStrategy> implements IDestroyable {
 
-	static long getTimeOut(Long possibleTimeOut, long defaultValue) {
+	static long getTimeOut(Long possibleTimeOut) {
 		if (possibleTimeOut == null)
-			return defaultValue;
+			return defaultTimeOut;
 		else
 			return possibleTimeOut;
 	}
@@ -30,15 +32,14 @@ public abstract class Manager implements IDestroyable {
 	boolean isAlive = true;
 	private final HandleReceptionist handleReceptionist = new HandleReceptionist();
 
-	private final static Map<WebDriverEncapsulation, Manager> managerMap = Collections
-			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager>());
-	final static long defaultTime = 1; // default time we waiting for anything
-
-	final static long defaultTimeForNew = 30; // we will wait
-	// appearance of a new handle for 30 seconds by default
+	private final static Map<WebDriverEncapsulation, Manager<?>> managerMap = Collections
+			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?>>());
+	final static long defaultTimeOut = 5; // we will wait
+	// appearance of а handle for 5 seconds by default
+	protected IFluentHandleWaiting handleWaiting;
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends Manager> T getInstanstiatedManager(
+	public static <T extends Manager<?>> T getInstanstiatedManager(
 			WebDriverEncapsulation driverEncapsulation) {
 		return (T) managerMap.get(driverEncapsulation);
 	}
@@ -61,18 +62,25 @@ public abstract class Manager implements IDestroyable {
 				.destroy());
 	}
 
-	public abstract Alert getAlert() throws NoAlertPresentException;
+	public Alert getAlert() throws NoAlertPresentException{
+		Long time = driverEncapsulation.configuration
+				.getSection(AlertIsPresentTimeOut.class).getAlertIsPresentTimeOut();
+		return driverEncapsulation.getComponent(AlertHandler.class,
+				new Class[] { long.class },
+				new Object[] {time});
+		
+	}
 
 	public synchronized Alert getAlert(long timeOut)
 			throws NoAlertPresentException {
-		return ComponentFactory.getComponent(AlertHandler.class,
-				getWrappedDriver(), new Class[] { long.class },
+		return driverEncapsulation.getComponent(AlertHandler.class,
+				new Class[] { long.class },
 				new Object[] { timeOut });
 	}
 
-	public abstract Handle getByIndex(int index);
+	public abstract Handle getHandle(int index);
 
-	abstract String getHandleByIndex(int index);
+	abstract String getStringHandle(int index);
 
 	HandleReceptionist getHandleReceptionist() {
 		return handleReceptionist;
@@ -80,14 +88,9 @@ public abstract class Manager implements IDestroyable {
 
 	abstract Set<String> getHandles();
 
-	public abstract Handle getNewHandle();
-
-	public abstract Handle getNewHandle(long timeOutInSeconds);
-
-	public abstract Handle getNewHandle(long timeOutInSeconds,
-			String stringIdentifier);
-
-	public abstract Handle getNewHandle(String stringIdentifier);
+	public abstract Handle getHandle(U fluentHandleStrategy);
+	
+	public abstract Handle getHandle(long timeOut, U fluentHandleStrategy);
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;
@@ -105,13 +108,9 @@ public abstract class Manager implements IDestroyable {
 		changeActive(Handle);
 	}
 
-	abstract String switchToNew();
-
-	abstract String switchToNew(long timeOutInSeconds);
-
-	abstract String switchToNew(long timeOutInSeconds, String stringIdentifier);
-
-	abstract String switchToNew(String stringIdentifier);
+	abstract String getStringHandle(U fluentHandleStrategy);
+	
+	abstract String getStringHandle(long timeOut, U fluentHandleStrategy);
 
 	synchronized void takeAPictureOfAFine(String handle, String Comment) {
 		changeActive(handle);
@@ -147,5 +146,10 @@ public abstract class Manager implements IDestroyable {
 		result.whenIsCreated();
 		getHandleReceptionist().addKnown(result);
 		return result;
+	}
+	
+	HandleWaitingTimeOut getHandleWaitingTimeOut() {
+		return driverEncapsulation.configuration
+				.getSection(HandleWaitingTimeOut.class);
 	}
 }

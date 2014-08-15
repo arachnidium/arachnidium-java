@@ -6,9 +6,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public abstract class AbstractFluentHandleStrategy implements IFluentHandleStrategy {
 
-	private Integer index = null;;
-	private String stringIdentifier = null;
-	private List<String> uniqueIdentifiers = null;
+	protected Integer index = null;;
+	protected String stringIdentifier = null;
+	protected List<String> uniqueIdentifiers = null;
 
 	@Override
 	public void setExpected(int index) {

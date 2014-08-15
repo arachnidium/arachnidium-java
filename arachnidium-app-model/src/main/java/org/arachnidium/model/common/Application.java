@@ -46,7 +46,7 @@ public abstract class Application extends ModelObject implements
 	@Override
 	public <T extends IDecomposable> T getFromHandle(Class<T> partClass,
 			int index) {
-		Handle newHandle = manager.getByIndex(index);
+		Handle newHandle = manager.getHandle(index);
 		Class<?>[] params = new Class[] { Handle.class };
 		Object[] values = new Object[] { newHandle };
 		return get(partClass,
@@ -61,7 +61,7 @@ public abstract class Application extends ModelObject implements
 	@Override
 	public <T extends IDecomposable> T getFromHandle(Class<T> partClass, IPathStrategy pathStrategy,
 			int index) {
-		Handle newHandle = manager.getByIndex(index);
+		Handle newHandle = manager.getHandle(index);
 		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy };
 		return get(partClass,
@@ -75,7 +75,7 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass) {
-		Handle newHandle = manager.getNewHandle();
+		Handle newHandle = manager.getHandle();
 		Class<?>[] params = new Class[] { Handle.class };
 		Object[] values = new Object[] { newHandle };
 		return get(partClass,
@@ -90,7 +90,7 @@ public abstract class Application extends ModelObject implements
 	@Override
 	public <T extends IDecomposable> T getFromNewHandle(Class<T> partClass,
 			IPathStrategy pathStrategy) {
-		Handle newHandle = manager.getNewHandle();
+		Handle newHandle = manager.getHandle();
 		Class<?>[] params = new Class[] { Handle.class, IPathStrategy.class };
 		Object[] values = new Object[] { newHandle, pathStrategy};
 		return get(partClass,

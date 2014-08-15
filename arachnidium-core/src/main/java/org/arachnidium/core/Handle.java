@@ -14,17 +14,17 @@ import org.openqa.selenium.WebDriverException;
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
 ITakesPictureOfItSelf, IDestroyable {
 
-	static IHasHandle isInitiated(String handle, Manager manager) {
+	static IHasHandle isInitiated(String handle, Manager<?> manager) {
 		return manager.getHandleReceptionist().isInstantiated(handle);
 	}
 
 	final String handle;
 	final WebDriverEncapsulation driverEncapsulation;
-	final Manager nativeManager;
+	final Manager<?> nativeManager;
 
 	private final HandleReceptionist receptionist;
 
-	Handle(String handle, Manager manager) {
+	Handle(String handle, Manager<?> manager) {
 		this.nativeManager = manager;
 		this.driverEncapsulation = manager.getWebDriverEncapsulation();
 		this.handle = handle;
@@ -56,7 +56,7 @@ ITakesPictureOfItSelf, IDestroyable {
 		return handle;
 	}
 
-	public Manager getManager() {
+	public Manager<?> getManager() {
 		return nativeManager;
 	}
 

@@ -7,7 +7,7 @@ import org.arachnidium.core.fluenthandle.AbstractFluentHandleStrategy;
 /**
  * Is for mobile contexts only
  */
-public class FluentContextStrategy extends AbstractFluentHandleStrategy {
+public class FluentContextStrategy extends AbstractFluentHandleStrategy implements Cloneable{
 	@Override
 	public void setExpected(int index) {
 		super.setExpected(index);
@@ -21,5 +21,31 @@ public class FluentContextStrategy extends AbstractFluentHandleStrategy {
 	@Override
 	public void setExpected(List<String> activitiesRegExps) {
 		super.setExpected(activitiesRegExps);
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		if (index != null){
+			result = result + " index is " + index.toString();
+		}
+		
+		if (stringIdentifier != null){
+			result = result + " context is " + stringIdentifier.toString();
+		}
+		
+		if (uniqueIdentifiers != null){
+			result = result + " activities are " + uniqueIdentifiers.toArray().toString();
+		}
+		
+		return result;
+	}	
+	
+	public FluentContextStrategy cloneThis(){
+		try {
+			return (FluentContextStrategy) this.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

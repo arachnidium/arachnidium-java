@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  * Returns an {@link ExpectedCondition} 
  * using {@link IFluentHandleWaiting}
  */
-public interface IFluentHandleStrategy extends Cloneable{
+public interface IFluentHandleStrategy {
 	
 	public void setExpected(int index);
 	
