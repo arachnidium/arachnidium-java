@@ -4,8 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 
+import java.util.List;
 import java.util.Set;
-
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.mobile.ContextTool;
 import org.arachnidium.core.fluenthandle.FluentContextWaiting;
@@ -45,6 +45,13 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 		return "";
 	}
 
+	private FluentContextStrategy isSupportActivities(FluentContextStrategy fluentHandleStrategy){
+		if (!isSupportActivities){
+			fluentHandleStrategy.setExpected((List<String>) null);
+		}
+		return fluentHandleStrategy;
+	}
+	
 	/**
 	 * returns context handle by it's index
 	 */
@@ -82,7 +89,7 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 	public Handle getHandle(FluentContextStrategy fluentHandleStrategy)
 			throws NoSuchContextException {
 		SingleContext context = new SingleContext(
-				getStringHandle(fluentHandleStrategy), this);
+				getStringHandle(isSupportActivities(fluentHandleStrategy)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
@@ -92,7 +99,7 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 			FluentContextStrategy fluentHandleStrategy)
 			throws NoSuchContextException {
 		SingleContext context = new SingleContext(getStringHandle(timeOut,
-				fluentHandleStrategy), this);
+				isSupportActivities(fluentHandleStrategy)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}

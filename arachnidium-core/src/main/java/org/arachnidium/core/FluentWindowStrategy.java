@@ -3,11 +3,12 @@ package org.arachnidium.core;
 import java.util.List;
 
 import org.arachnidium.core.fluenthandle.AbstractFluentHandleStrategy;
+import org.arachnidium.core.interfaces.ICloneable;
 
 /**
  * Is for browser windows only
  */
-public class FluentWindowStrategy extends AbstractFluentHandleStrategy implements Cloneable {
+public class FluentWindowStrategy extends AbstractFluentHandleStrategy implements ICloneable {
 	@Override
 	public void setExpected(int index) {
 		super.setExpected(index);
@@ -41,6 +42,8 @@ public class FluentWindowStrategy extends AbstractFluentHandleStrategy implement
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
 	public FluentWindowStrategy cloneThis(){
 		try {
 			return (FluentWindowStrategy) this.clone();
