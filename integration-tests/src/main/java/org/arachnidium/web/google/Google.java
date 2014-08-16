@@ -5,7 +5,7 @@ import org.openqa.selenium.internal.WrapsDriver;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.model.browser.BrowserApplication;
 import org.arachnidium.model.browser.WebFactory;
-import org.arachnidium.core.SingleWindow;
+import org.arachnidium.core.BrowserWindow;
 import org.arachnidium.core.WebDriverEncapsulation;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
@@ -14,7 +14,7 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 	private SearchBar searchBar;
 	private LinksAreFound linksAreFound;
 	
-	protected Google(SingleWindow browserWindow){
+	protected Google(BrowserWindow browserWindow){
 		super(browserWindow);
 		searchBar     = getPart(SearchBar.class);    
 		linksAreFound = getPart(LinksAreFound.class); 
@@ -51,7 +51,7 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 	public void close()
 	{
 		//TODO workaround
-		((SingleWindow) handle).close();
+		((BrowserWindow) handle).close();
 		destroy();
 	}	
 

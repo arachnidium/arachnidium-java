@@ -1,7 +1,7 @@
 package org.arachnidium.web.google;
 
 import org.arachnidium.model.browser.BrowserPage;
-import org.arachnidium.core.SingleWindow;
+import org.arachnidium.core.BrowserWindow;
 
 /**
  * 
@@ -10,7 +10,7 @@ import org.arachnidium.core.SingleWindow;
  */
 public class AnyPage extends BrowserPage {
 
-	public AnyPage(SingleWindow browserWindow){
+	public AnyPage(BrowserWindow browserWindow){
 		super(browserWindow);
 	}
 }

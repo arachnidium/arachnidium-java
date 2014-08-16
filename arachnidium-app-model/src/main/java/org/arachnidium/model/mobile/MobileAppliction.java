@@ -2,7 +2,7 @@ package org.arachnidium.model.mobile;
 
 import org.arachnidium.core.ContextManager;
 import org.arachnidium.core.Handle;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandlesWithNamedContexts;
@@ -14,7 +14,7 @@ import org.arachnidium.model.support.IPathStrategy;
 public abstract class MobileAppliction extends Application implements
 		IHasManyHandlesWithNamedContexts {
 
-	protected MobileAppliction(SingleContext context) {
+	protected MobileAppliction(MobileContext context) {
 		super(context);
 	}
 

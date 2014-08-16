@@ -5,13 +5,13 @@ import io.appium.java_client.TouchAction;
 
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.ios.IOSContext;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 
 public class UICatalog extends IOSContext {
 	@FindBy(name = "UICatalog")
 	private MobileElement backToMe;
 	
-	public UICatalog(SingleContext context) {
+	public UICatalog(MobileContext context) {
 		super(context);
 		load();
 	}

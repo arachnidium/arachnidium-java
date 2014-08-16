@@ -5,12 +5,12 @@ import org.arachnidium.core.interfaces.IContext;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.openqa.selenium.ScreenOrientation;
 
-public class SingleContext extends Handle implements IHasActivity,
+public class MobileContext extends Handle implements IHasActivity,
 		IContext {
 
 	private final Rotator rotator;
 
-	SingleContext(String context, ContextManager manager) {
+	MobileContext(String context, ContextManager manager) {
 		super(context, manager);
 		rotator = driverEncapsulation.getComponent(Rotator.class);
 	}

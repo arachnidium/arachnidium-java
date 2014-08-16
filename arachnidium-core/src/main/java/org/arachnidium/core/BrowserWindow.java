@@ -15,11 +15,11 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 /**
  * @author s.tihomirov It is performs actions on a single window
  */
-public class SingleWindow extends Handle implements Navigation, IExtendedWindow {
+public class BrowserWindow extends Handle implements Navigation, IExtendedWindow {
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 
-	SingleWindow(String handle, WindowManager windowManager) {
+	BrowserWindow(String handle, WindowManager windowManager) {
 		super(handle, windowManager);
 		this.windowTool = driverEncapsulation.getComponent(WindowTool.class);
 		this.navigationTool = driverEncapsulation

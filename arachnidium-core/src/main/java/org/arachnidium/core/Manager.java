@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.arachnidium.core.components.common.AlertHandler;
 import org.arachnidium.core.components.common.Awaiting;
-import org.arachnidium.core.fluenthandle.AbstractFluentHandleStrategy;
+import org.arachnidium.core.fluenthandle.IHowToGetHandle;
 import org.arachnidium.core.fluenthandle.IFluentHandleWaiting;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IHasHandle;
@@ -18,7 +19,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 
-public abstract class Manager<U extends AbstractFluentHandleStrategy> implements IDestroyable {
+public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable {
 
 	static long getTimeOut(Long possibleTimeOut) {
 		if (possibleTimeOut == null)
@@ -88,9 +89,9 @@ public abstract class Manager<U extends AbstractFluentHandleStrategy> implements
 
 	abstract Set<String> getHandles();
 
-	public abstract Handle getHandle(U fluentHandleStrategy);
+	public abstract Handle getHandle(U howToGet);
 	
-	public abstract Handle getHandle(long timeOut, U fluentHandleStrategy);
+	public abstract Handle getHandle(long timeOut, U howToGet);
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;
@@ -108,9 +109,9 @@ public abstract class Manager<U extends AbstractFluentHandleStrategy> implements
 		changeActive(Handle);
 	}
 
-	abstract String getStringHandle(U fluentHandleStrategy);
+	abstract String getStringHandle(U howToGet);
 	
-	abstract String getStringHandle(long timeOut, U fluentHandleStrategy);
+	abstract String getStringHandle(long timeOut, U howToGet);
 
 	synchronized void takeAPictureOfAFine(String handle, String Comment) {
 		changeActive(handle);

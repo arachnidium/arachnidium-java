@@ -1,6 +1,6 @@
 package org.arachnidium.model.interfaces;
 
-import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.HowToGetByFrames;
 
 /**
  * @author s.tihomirov It is an interface for any functional part by itself or
@@ -16,5 +16,5 @@ public interface IDecomposable {
 	 *  if object is placed in frame 
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			FramePathStrategy pathStrategy);
+			HowToGetByFrames pathStrategy);
 }

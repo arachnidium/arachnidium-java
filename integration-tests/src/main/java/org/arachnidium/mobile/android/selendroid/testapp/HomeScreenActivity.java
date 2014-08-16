@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 
 public class HomeScreenActivity extends Context {
 	@FindBy(id = "my_text_field")
@@ -22,7 +22,7 @@ public class HomeScreenActivity extends Context {
 	@FindBy(id = "goBack")
 	private WebElement goBack;
 	
-	public HomeScreenActivity(SingleContext context) {
+	public HomeScreenActivity(MobileContext context) {
 		super(context);
 		load();
 	}

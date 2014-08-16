@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 import org.arachnidium.core.components.mobile.ComplexFinder;
 import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.core.components.mobile.Pinch;
@@ -18,7 +18,7 @@ import org.arachnidium.core.components.mobile.TouchActionsPerformer;
 import org.arachnidium.core.components.mobile.Zoomer;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.model.common.FunctionalPart;
-import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.util.proxy.DefaultInterceptor;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.Rotatable;
@@ -87,10 +87,10 @@ Rotatable {
 	protected final ComplexFinder complexFinder;
 
 	protected Context(FunctionalPart parent) {
-		this(parent, new FramePathStrategy());
+		this(parent, new HowToGetByFrames());
 	}
 
-	protected Context(FunctionalPart parent, FramePathStrategy pathStrategy) {
+	protected Context(FunctionalPart parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
@@ -102,11 +102,11 @@ Rotatable {
 		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
-	protected Context(SingleContext context) {
-		this(context, new FramePathStrategy());
+	protected Context(MobileContext context) {
+		this(context, new HowToGetByFrames());
 	}
 
-	protected Context(SingleContext context, FramePathStrategy pathStrategy) {
+	protected Context(MobileContext context, HowToGetByFrames pathStrategy) {
 		super(context, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
@@ -120,17 +120,17 @@ Rotatable {
 
 	@Override
 	public String currentActivity() {
-		return ((SingleContext) handle).currentActivity();
+		return ((MobileContext) handle).currentActivity();
 	}
 
 	@Override
 	public ScreenOrientation getOrientation() {
-		return ((SingleContext) handle).getOrientation();
+		return ((MobileContext) handle).getOrientation();
 	}
 
 	@Override
 	public void rotate(ScreenOrientation orientation) {
-		((SingleContext) handle).rotate(orientation);
+		((MobileContext) handle).rotate(orientation);
 	}
 
 }

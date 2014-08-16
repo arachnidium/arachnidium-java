@@ -9,7 +9,7 @@ import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IHasManyHandles;
-import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.model.support.IPathStrategy;
 
 /**
@@ -206,8 +206,8 @@ public abstract class Application extends ModelObject implements
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			FramePathStrategy pathStrategy) {
-		Class<?>[] params = new Class[] { Handle.class, FramePathStrategy.class };
+			HowToGetByFrames pathStrategy) {
+		Class<?>[] params = new Class[] { Handle.class, HowToGetByFrames.class };
 		Object[] values = new Object[] { handle, pathStrategy };
 		return get(partClass,
 				replaceHandleParamIfItNeedsToBe(params, partClass, handle),

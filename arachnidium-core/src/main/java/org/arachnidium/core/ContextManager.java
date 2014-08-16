@@ -13,7 +13,7 @@ import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public final class ContextManager extends Manager<FluentContextStrategy> {
+public final class ContextManager extends Manager<HowToGetMobileContext> {
 	private final ContextTool contextTool;
 	private final boolean isSupportActivities;
 
@@ -45,11 +45,11 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 		return "";
 	}
 
-	private FluentContextStrategy isSupportActivities(FluentContextStrategy fluentHandleStrategy){
+	private HowToGetMobileContext isSupportActivities(HowToGetMobileContext howToGet){
 		if (!isSupportActivities){
-			fluentHandleStrategy.setExpected((List<String>) null);
+			howToGet.setExpected((List<String>) null);
 		}
-		return fluentHandleStrategy;
+		return howToGet;
 	}
 	
 	/**
@@ -59,11 +59,11 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 	public synchronized Handle getHandle(int index)
 			throws NoSuchContextException {
 		String handle = this.getStringHandle(index);
-		SingleContext initedContext = (SingleContext) Handle.isInitiated(
+		MobileContext initedContext = (MobileContext) Handle.isInitiated(
 				handle, this);
 		if (initedContext != null)
 			return initedContext;
-		SingleContext context = new SingleContext(handle, this);
+		MobileContext context = new MobileContext(handle, this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
@@ -75,7 +75,7 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 	String getStringHandle(int index) throws NoSuchContextException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		FluentContextStrategy f = new FluentContextStrategy();
+		HowToGetMobileContext f = new HowToGetMobileContext();
 		f.setExpected(index);
 		return getStringHandle(time, f);
 	}
@@ -86,37 +86,37 @@ public final class ContextManager extends Manager<FluentContextStrategy> {
 	}
 
 	@Override
-	public Handle getHandle(FluentContextStrategy fluentHandleStrategy)
+	public Handle getHandle(HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
-		SingleContext context = new SingleContext(
-				getStringHandle(isSupportActivities(fluentHandleStrategy)), this);
+		MobileContext context = new MobileContext(
+				getStringHandle(isSupportActivities(howToGet)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	@Override
 	public Handle getHandle(long timeOut,
-			FluentContextStrategy fluentHandleStrategy)
+			HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
-		SingleContext context = new SingleContext(getStringHandle(timeOut,
-				isSupportActivities(fluentHandleStrategy)), this);
+		MobileContext context = new MobileContext(getStringHandle(timeOut,
+				isSupportActivities(howToGet)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
 	@Override
-	String getStringHandle(FluentContextStrategy fluentHandleStrategy)
+	String getStringHandle(HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		return getStringHandle(time, fluentHandleStrategy);
+		return getStringHandle(time, howToGet);
 	}
 
 	@Override
 	String getStringHandle(long timeOut,
-			FluentContextStrategy fluentHandleStrategy)
+			HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
-		FluentContextStrategy clone = fluentHandleStrategy.cloneThis();
+		HowToGetMobileContext clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
 					clone.getExpectedCondition(handleWaiting));

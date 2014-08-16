@@ -4,7 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 
 /**
  * 
@@ -20,7 +20,7 @@ public class Webview extends Context {
 	@FindBy(xpath = ".//*[@type=\"submit\"]")
 	private WebElement sendMeYourName;
 	
-	protected Webview(SingleContext context) {
+	protected Webview(MobileContext context) {
 		super(context);
 		load();
 	}

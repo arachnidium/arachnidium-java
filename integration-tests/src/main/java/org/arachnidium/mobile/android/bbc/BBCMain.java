@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.android.AndroidContext;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 
 
 public class BBCMain extends AndroidContext implements IBar{
@@ -28,7 +28,7 @@ public class BBCMain extends AndroidContext implements IBar{
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
 	private WebElement refresh;
 	
-	protected BBCMain(SingleContext context) {
+	protected BBCMain(MobileContext context) {
 		super(context);
 		load();
 	}

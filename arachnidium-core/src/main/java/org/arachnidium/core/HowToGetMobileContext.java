@@ -2,13 +2,13 @@ package org.arachnidium.core;
 
 import java.util.List;
 
-import org.arachnidium.core.fluenthandle.AbstractFluentHandleStrategy;
+import org.arachnidium.core.fluenthandle.HowToGetHandle;
 import org.arachnidium.core.interfaces.ICloneable;
 
 /**
  * Is for mobile contexts only
  */
-public class FluentContextStrategy extends AbstractFluentHandleStrategy implements ICloneable{
+public class HowToGetMobileContext extends HowToGetHandle implements ICloneable{
 	@Override
 	public void setExpected(int index) {
 		super.setExpected(index);
@@ -44,9 +44,9 @@ public class FluentContextStrategy extends AbstractFluentHandleStrategy implemen
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public FluentContextStrategy cloneThis(){
+	public HowToGetMobileContext cloneThis(){
 		try {
-			return (FluentContextStrategy) this.clone();
+			return (HowToGetMobileContext) this.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}

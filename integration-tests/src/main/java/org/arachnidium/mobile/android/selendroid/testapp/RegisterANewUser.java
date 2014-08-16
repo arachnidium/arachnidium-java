@@ -3,7 +3,7 @@ package org.arachnidium.mobile.android.selendroid.testapp;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.SingleContext;
+import org.arachnidium.core.MobileContext;
 
 
 public class RegisterANewUser extends Context {
@@ -22,7 +22,7 @@ public class RegisterANewUser extends Context {
     @FindBy(id = "buttonRegisterUser")
     private WebElement buttonRegisterUser;
     
-	protected RegisterANewUser(SingleContext context) {
+	protected RegisterANewUser(MobileContext context) {
 		super(context);
 		load();
 	}

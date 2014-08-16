@@ -2,10 +2,10 @@ package org.arachnidium.model.browser;
 
 import java.net.URL;
 
-import org.arachnidium.core.SingleWindow;
+import org.arachnidium.core.BrowserWindow;
 import org.arachnidium.core.UnclosedWindowException;
 import org.arachnidium.model.common.FunctionalPart;
-import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.HowToGetByFrames;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
@@ -21,24 +21,24 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 		Window {
 
 	protected BrowserPage(FunctionalPart parent) {
-		this(parent, new FramePathStrategy());
+		this(parent, new HowToGetByFrames());
 	}
 
-	protected BrowserPage(FunctionalPart parent, FramePathStrategy pathStrategy) {
+	protected BrowserPage(FunctionalPart parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 	}
 
-	protected BrowserPage(SingleWindow window) {
-		this(window, new FramePathStrategy());
+	protected BrowserPage(BrowserWindow window) {
+		this(window, new HowToGetByFrames());
 	}
 
-	protected BrowserPage(SingleWindow window, FramePathStrategy pathStrategy) {
+	protected BrowserPage(BrowserWindow window, HowToGetByFrames pathStrategy) {
 		super(window, pathStrategy);
 	}
 
 	@Override
 	public void back() {
-		((SingleWindow) handle).back();
+		((BrowserWindow) handle).back();
 	}
 
 	/**
@@ -47,7 +47,7 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 	public void close() throws UnclosedWindowException, NoSuchWindowException,
 	UnhandledAlertException, UnreachableBrowserException {
 		try {
-			((SingleWindow) handle).close();
+			((BrowserWindow) handle).close();
 			destroy();
 		} catch (UnclosedWindowException e) {
 			throw e;
@@ -62,48 +62,48 @@ public abstract class BrowserPage extends FunctionalPart implements Navigation,
 
 	@Override
 	public void forward() {
-		((SingleWindow) handle).forward();
+		((BrowserWindow) handle).forward();
 	}
 
 	@Override
 	public Point getPosition() {
-		return ((SingleWindow) handle).getPosition();
+		return ((BrowserWindow) handle).getPosition();
 	}
 
 	@Override
 	public Dimension getSize() {
-		return ((SingleWindow) handle).getSize();
+		return ((BrowserWindow) handle).getSize();
 	}
 
 	@Override
 	public void maximize() {
-		((SingleWindow) handle).maximize();
+		((BrowserWindow) handle).maximize();
 	}
 
 	@Override
 	public void refresh() {
-		((SingleWindow) handle).refresh();
+		((BrowserWindow) handle).refresh();
 	}
 
 	@Override
 	public void setPosition(Point point) {
-		((SingleWindow) handle).setPosition(point);
+		((BrowserWindow) handle).setPosition(point);
 	}
 
 	@Override
 	public void setSize(Dimension size) {
-		((SingleWindow) handle).setSize(size);
+		((BrowserWindow) handle).setSize(size);
 	}
 
 	@Override
 	public void to(String link) {
-		((SingleWindow) handle).to(link);
+		((BrowserWindow) handle).to(link);
 
 	}
 
 	@Override
 	public void to(URL url) {
-		((SingleWindow) handle).to(url);
+		((BrowserWindow) handle).to(url);
 	}
 
 }

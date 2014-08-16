@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-public final class WindowManager extends Manager<FluentWindowStrategy> {
+public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
@@ -75,11 +75,11 @@ public final class WindowManager extends Manager<FluentWindowStrategy> {
 	public synchronized Handle getHandle(int index)
 			throws NoSuchWindowException {
 		String handle = this.getStringHandle(index);
-		SingleWindow initedWindow = (SingleWindow) Handle.isInitiated(handle,
+		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(handle,
 				this);
 		if (initedWindow != null)
 			return initedWindow;
-		SingleWindow window = new SingleWindow(handle, this);
+		BrowserWindow window = new BrowserWindow(handle, this);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
@@ -91,7 +91,7 @@ public final class WindowManager extends Manager<FluentWindowStrategy> {
 	String getStringHandle(int windowIndex) throws NoSuchWindowException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		FluentWindowStrategy f = new FluentWindowStrategy();
+		HowToGetBrowserWindow f = new HowToGetBrowserWindow();
 		f.setExpected(windowIndex);
 		return getStringHandle(time, f);
 	}
@@ -106,37 +106,37 @@ public final class WindowManager extends Manager<FluentWindowStrategy> {
 	 * returns handle of a new window that we have been waiting for time that
 	 * specified in configuration
 	 */
-	String getStringHandle(FluentWindowStrategy strategy)
+	String getStringHandle(HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		return getStringHandle(time, strategy);
+		return getStringHandle(time, howToGet);
 	}
 
 	@Override
-	public Handle getHandle(FluentWindowStrategy fluentHandleStrategy)
+	public Handle getHandle(HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
-		SingleWindow window = new SingleWindow(
-				getStringHandle(fluentHandleStrategy), this);
+		BrowserWindow window = new BrowserWindow(
+				getStringHandle(howToGet), this);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	@Override
 	public Handle getHandle(long timeOut,
-			FluentWindowStrategy fluentHandleStrategy)
+			HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
-		SingleWindow window = new SingleWindow(getStringHandle(timeOut,
-				fluentHandleStrategy), this);
+		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
+				howToGet), this);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	@Override
 	String getStringHandle(long timeOut,
-			FluentWindowStrategy fluentHandleStrategy)
+			HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
-		FluentWindowStrategy clone = fluentHandleStrategy.cloneThis();
+		HowToGetBrowserWindow clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
 					clone.getExpectedCondition(handleWaiting));

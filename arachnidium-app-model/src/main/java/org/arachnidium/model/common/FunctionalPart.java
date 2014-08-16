@@ -21,7 +21,7 @@ import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
-import org.arachnidium.model.support.FramePathStrategy;
+import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.model.support.IPathStrategy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -59,19 +59,19 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 
 	// constructs from another page object
 	protected FunctionalPart(FunctionalPart parent) {
-		this(parent.handle, new FramePathStrategy());
+		this(parent.handle, new HowToGetByFrames());
 	}
 	
-	protected FunctionalPart(FunctionalPart parent, FramePathStrategy pathStrategy) {
+	protected FunctionalPart(FunctionalPart parent, HowToGetByFrames pathStrategy) {
 		this(parent.handle, pathStrategy);
 		parent.addChild(this);
 	}
 
 	protected FunctionalPart(Handle handle) {
-		this(handle, new FramePathStrategy());
+		this(handle, new HowToGetByFrames());
 	}
 
-	protected FunctionalPart(Handle handle, FramePathStrategy pathStrategy) {
+	protected FunctionalPart(Handle handle, HowToGetByFrames pathStrategy) {
 		super(handle);
 		this.pathStrategy = pathStrategy;
 		timeOuts = driverEncapsulation.getTimeOut();
@@ -118,7 +118,7 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 	// - with specified frame index
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			FramePathStrategy pathStrategy) {
+			HowToGetByFrames pathStrategy) {
 		Class<?>[] params = new Class[] { FunctionalPart.class, IPathStrategy.class };
 		Object[] values = new Object[] { this, pathStrategy };
 		return DefaultApplicationFactory.get(partClass, params, values);

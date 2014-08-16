@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.arachnidium.core.Handle;
-import org.arachnidium.core.SingleWindow;
+import org.arachnidium.core.BrowserWindow;
 import org.arachnidium.core.WindowManager;
 import org.arachnidium.core.components.common.Cookies;
 import org.arachnidium.model.common.Application;
@@ -21,7 +21,7 @@ public abstract class BrowserApplication extends Application implements
 
 	protected final Cookies cookies;
 
-	protected BrowserApplication(SingleWindow window) {
+	protected BrowserApplication(BrowserWindow window) {
 		super(window);
 		cookies = driverEncapsulation.getComponent(Cookies.class);
 	}
