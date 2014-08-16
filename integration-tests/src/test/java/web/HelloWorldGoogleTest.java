@@ -94,7 +94,7 @@ public class HelloWorldGoogleTest {
 		else{
 			google.clickOnLinkByIndex(1);
 		}
-		AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
+		AnyPage anyPage = google.getPart(AnyPage.class, 1);
 		anyPage.close();
 		if (!toClickOnALinkWhichWasFound){
 			google.openLinkByIndex(1);
@@ -102,7 +102,7 @@ public class HelloWorldGoogleTest {
 		else{
 			google.clickOnLinkByIndex(1);
 		}
-		anyPage = google.getFromHandle(AnyPage.class, 1);		
+		anyPage = google.getPart(AnyPage.class, 1);		
 	}
 	
 	private void test(Google google, boolean toClickOnALinkWhichWasFound) throws Exception {

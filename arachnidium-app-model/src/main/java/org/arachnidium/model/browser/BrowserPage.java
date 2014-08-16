@@ -17,14 +17,14 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 /**
  * Can be used to describe a single browser page or its fragment
  */
-public abstract class BrowserPage extends FunctionalPart implements Navigation,
+public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implements Navigation,
 		Window {
 
-	protected BrowserPage(FunctionalPart parent) {
+	protected BrowserPage(FunctionalPart<BrowserWindow> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected BrowserPage(FunctionalPart parent, HowToGetByFrames pathStrategy) {
+	protected BrowserPage(FunctionalPart<BrowserWindow> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 	}
 

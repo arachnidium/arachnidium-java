@@ -18,7 +18,7 @@ public class ModelObjectInterceptor extends DefaultInterceptor {
 		try {
 			return super.intercept(modelObj, method, args, proxy);
 		} catch (Exception e) {
-			return ((ModelObject) modelObj).exceptionHandler.handleException(
+			return ((ModelObject<?>) modelObj).exceptionHandler.handleException(
 					modelObj, method, proxy, args, e);
 		}
 	}

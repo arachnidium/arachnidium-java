@@ -36,7 +36,7 @@ public class HowToGetMobileContext extends HowToGetHandle implements ICloneable{
 		}
 		
 		if (uniqueIdentifiers != null){
-			result = result + " activities are " + uniqueIdentifiers.toArray().toString();
+			result = result + " activities are " + uniqueIdentifiers.toString();
 		}
 		
 		return result;

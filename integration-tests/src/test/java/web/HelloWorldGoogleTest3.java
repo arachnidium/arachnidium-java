@@ -67,10 +67,10 @@ public class HelloWorldGoogleTest3 {
 			google.performSearch("Hello world Wikipedia");
 			Assert.assertNotSame(0, google.getLinkCount());
 			google.openLinkByIndex(1);
-			AnyPage anyPage = google.getFromHandle(AnyPage.class, 1);
+			AnyPage anyPage = google.getPart(AnyPage.class, 1);
 			anyPage.close();
 			google.openLinkByIndex(1);
-			anyPage = google.getFromHandle(AnyPage.class, 1);
+			anyPage = google.getPart(AnyPage.class, 1);
 		} finally {
 			google.quit();
 		}

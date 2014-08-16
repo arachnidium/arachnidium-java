@@ -6,13 +6,13 @@ import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.core.Handle;
 
-public class ActionSheets extends FunctionalPart {
+public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(name = "Okay / Cancel")
 	private WebElement ok_cancel;
 	@FindBy(name = "Other")
 	private WebElement other;
 	
-	public ActionSheets(Handle handle) {
+	public ActionSheets(T handle) {
 		super(handle);
 		load();
 	}

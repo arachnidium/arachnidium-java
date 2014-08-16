@@ -48,5 +48,12 @@
 	          "type":"LONG",
 	          "value":"10"     
 	      }       
+	  },
+	  "handleWaitingTimeOut":
+	  {
+	      "handleWaitingTimeOut":{
+	          "type":"LONG",
+	          "value":"35"     
+	      }
 	  }
   }

@@ -30,7 +30,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 /**
  * Can be used to describe a single mobile app context or its fragment
  */
-public abstract class Context extends FunctionalPart implements IHasActivity,
+public abstract class Context extends FunctionalPart<MobileContext> implements IHasActivity,
 Rotatable {
 
 	/**
@@ -86,11 +86,11 @@ Rotatable {
 	protected final ScrollerTo scroller;
 	protected final ComplexFinder complexFinder;
 
-	protected Context(FunctionalPart parent) {
+	protected Context(FunctionalPart<MobileContext> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected Context(FunctionalPart parent, HowToGetByFrames pathStrategy) {
+	protected Context(FunctionalPart<MobileContext> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);

@@ -11,8 +11,8 @@ import org.arachnidium.core.WebDriverEncapsulation;
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
 	
 	private final static String url = "http://www.google.com/";
-	private SearchBar searchBar;
-	private LinksAreFound linksAreFound;
+	private SearchBar<?> searchBar;
+	private LinksAreFound<?> linksAreFound;
 	
 	protected Google(BrowserWindow browserWindow){
 		super(browserWindow);

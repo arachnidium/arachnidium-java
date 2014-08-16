@@ -5,13 +5,13 @@ import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.core.Handle;
 
-public class SearchBar extends FunctionalPart implements IPerformsSearch{
+public class SearchBar<T extends Handle> extends FunctionalPart<T> implements IPerformsSearch{
 	@FindBy(name = "q")
 	private WebElement searchInput;
 	@FindBy(name="btnG")
 	private WebElement searchButton;
 	
-	protected SearchBar(Handle handle) {
+	protected SearchBar(T handle) {
 		super(handle);
 		load();
 	}

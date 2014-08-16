@@ -38,22 +38,25 @@
 	          "value":"src/test/resources/binaries/"           
 	      }   
 	  },
-	  "windowsTimeOuts":  {
-	      "newWindowTimeOutSec":{
+	  "handleWaitingTimeOut":
+	  {
+	      "handleWaitingTimeOut":{
 	          "type":"LONG",
 	          "value":"15"     
-	      },
-	      "windowCountTimeOutSec":{
-	          "type":"LONG",
-	          "value":"3"     
-	      }, 
-	      "windowClosingTimeOutSec":{
-	          "type":"LONG",
-	          "value":"2"     
-	      },
-	      "secsForAwaitinAlertPresent":{
+	      }
+	  },
+	  "alertIsPresentTimeOut":
+	  {
+	      "alertIsPresentTimeOut":{
 	          "type":"LONG",
 	          "value":"2"     
-      	  }      
-  	   } 	   
+	      }
+	  }, 
+	  "windowIsClosedTimeOut":
+	  {
+	      "windowIsClosedTimeOut":{
+	          "type":"LONG",
+	          "value":"2"     
+	      }
+	  }  	   
   }

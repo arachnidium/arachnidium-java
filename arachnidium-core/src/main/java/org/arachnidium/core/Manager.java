@@ -79,9 +79,11 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 				new Object[] { timeOut });
 	}
 
-	public abstract Handle getHandle(int index);
+	public abstract <T extends Handle> T getHandle(int index);
+	
+	public abstract <T extends Handle> T getHandle(int index, long timeOut);
 
-	abstract String getStringHandle(int index);
+	abstract String getStringHandle(int index, long timeOut);
 
 	HandleReceptionist getHandleReceptionist() {
 		return handleReceptionist;
@@ -89,9 +91,9 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 
 	abstract Set<String> getHandles();
 
-	public abstract Handle getHandle(U howToGet);
+	public abstract <T extends Handle> T getHandle(U howToGet);
 	
-	public abstract Handle getHandle(long timeOut, U howToGet);
+	public abstract <T extends Handle> T getHandle(long timeOut, U howToGet);
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;
@@ -109,8 +111,6 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 		changeActive(Handle);
 	}
 
-	abstract String getStringHandle(U howToGet);
-	
 	abstract String getStringHandle(long timeOut, U howToGet);
 
 	synchronized void takeAPictureOfAFine(String handle, String Comment) {

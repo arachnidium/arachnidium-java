@@ -16,8 +16,8 @@ import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 import org.arachnidium.model.support.HowToGetByFrames;
 
-public abstract class ModelObject implements IDestroyable, IDecomposable {
-	protected final Handle handle; // handle that object is placed on
+public abstract class ModelObject<S extends Handle> implements IDestroyable, IDecomposable {
+	protected final S handle; // handle that object is placed on
 	protected final WebDriverEncapsulation driverEncapsulation; // wrapped web
 																// driver
 	// for situations
@@ -50,9 +50,9 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 						throw t;
 					});
 
-	final List<ModelObject> children = Collections
-			.synchronizedList(new ArrayList<ModelObject>());
-	protected ModelObject(Handle handle) {
+	final List<ModelObject<?>> children = Collections
+			.synchronizedList(new ArrayList<ModelObject<?>>());
+	protected ModelObject(S handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();
 		awaiting = driverEncapsulation.getComponent(Awaiting.class);
@@ -60,7 +60,7 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
 	}
 
-	protected void addChild(ModelObject child) {
+	protected void addChild(ModelObject<?> child) {
 		children.add(child);
 	}
 
@@ -76,7 +76,7 @@ public abstract class ModelObject implements IDestroyable, IDecomposable {
 
 	@Override
 	public void destroy() {
-		for (ModelObject child : children)
+		for (ModelObject<?> child : children)
 			child.destroy();
 		children.clear();
 	}

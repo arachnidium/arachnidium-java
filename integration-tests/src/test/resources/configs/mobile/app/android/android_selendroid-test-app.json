@@ -62,20 +62,5 @@
 	          "type":"BOOL",
 	          "value":"true"           
 	      }   	            
-	  },
-	  "Contexts":
-	  {
-	      "contextCountTimeOutSec":{
-	          "type":"LONG",
-	          "value":"2"           
-	      },  
-	      "newContextTimeOutSec":{
-	          "type":"LONG",
-	          "value":"20"            
-	      },  
-	      "isContextPresentTimeOut":{
-	          "type":"LONG",
-	          "value":"2"            
-	      } 
 	  }
   }

@@ -1,8 +1,12 @@
 package mobile.android;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.appium.java_client.AndroidKeyCode;
 import junit.framework.Assert;
 
+import org.arachnidium.core.HowToGetMobileContext;
 import org.arachnidium.mobile.android.bbc.BBCMain;
 import org.arachnidium.mobile.android.bbc.TopicList;
 import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
@@ -36,7 +40,7 @@ public class AndroidTestExamples {
 			bbcMain.refresh();
 			bbcMain.edit();
 
-			TopicList topicList = bbcMain.getPart(TopicList.class);
+			TopicList<?> topicList = bbcMain.getPart(TopicList.class);
 			topicList.setTopicChecked("LATIN AMERICA", true);
 			topicList.setTopicChecked("UK", true);
 			topicList.ok();
@@ -78,17 +82,31 @@ public class AndroidTestExamples {
 			
 			//hybrid part
 			homeScreenActivity.startWebviewClick();
-			Webview webview = selendroidTestApp.getFromHandle(Webview.class, 1);			
+			Webview webview = selendroidTestApp.getPart(Webview.class, 1);			
 			webview.setName("Sergey");
 			webview.selectCar("mercedes");
 			webview.sendMeYourName();
 			homeScreenActivity.goBackClick();
 			
 			homeScreenActivity.startWebviewClick();
-			webview = selendroidTestApp.getFromHandle(Webview.class, "WEBVIEW_0");			
+			HowToGetMobileContext h = new HowToGetMobileContext();
+			h.setExpected("WEBVIEW_0");
+			webview = selendroidTestApp.getPart(Webview.class, h);			
 			webview.setName("Sergey");
 			webview.selectCar("mercedes");
-			webview.sendMeYourName();
+			webview.sendMeYourName();			
+			homeScreenActivity.goBackClick();
+			
+			List<String> activities = new ArrayList<String>();
+			activities.add("WebViewActivity");			
+			h.setExpected(activities);
+			h.setExpected(1);
+			
+			homeScreenActivity.startWebviewClick();
+			webview = selendroidTestApp.getPart(Webview.class, h);			
+			webview.setName("Sergey");
+			webview.selectCar("mercedes");
+			webview.sendMeYourName();			
 			homeScreenActivity.goBackClick();
 		} finally {
 			selendroidTestApp.quit();

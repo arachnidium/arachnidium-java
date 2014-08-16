@@ -36,7 +36,7 @@ public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable 
 		}
 		
 		if (uniqueIdentifiers != null){
-			result = result + " URLs are " + uniqueIdentifiers.toArray().toString();
+			result = result + " URLs are " + uniqueIdentifiers.toString();
 		}
 		
 		return result;

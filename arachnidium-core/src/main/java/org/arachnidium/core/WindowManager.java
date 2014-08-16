@@ -68,32 +68,13 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		}
 	}
 
-	/**
-	 * returns window handle by it's index
-	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public synchronized Handle getHandle(int index)
-			throws NoSuchWindowException {
-		String handle = this.getStringHandle(index);
-		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(handle,
-				this);
-		if (initedWindow != null)
-			return initedWindow;
-		BrowserWindow window = new BrowserWindow(handle, this);
-		return returnNewCreatedListenableHandle(window,
-				MainBeanConfiguration.WINDOW_BEAN);
-	}
-
-	@Override
-	/**
-	 * returns window handle by it's index
-	 */
-	String getStringHandle(int windowIndex) throws NoSuchWindowException {
+	public BrowserWindow getHandle(int windowIndex)
+			throws NoSuchWindowException {		
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		HowToGetBrowserWindow f = new HowToGetBrowserWindow();
-		f.setExpected(windowIndex);
-		return getStringHandle(time, f);
+		return getHandle(windowIndex, time);
 	}
 
 	@Override
@@ -101,29 +82,18 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		return getWrappedDriver().getWindowHandles();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	/**
-	 * returns handle of a new window that we have been waiting for time that
-	 * specified in configuration
-	 */
-	String getStringHandle(HowToGetBrowserWindow howToGet)
+	public BrowserWindow getHandle(HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		return getStringHandle(time, howToGet);
+		return getHandle(time,howToGet);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Handle getHandle(HowToGetBrowserWindow howToGet)
-			throws NoSuchWindowException {
-		BrowserWindow window = new BrowserWindow(
-				getStringHandle(howToGet), this);
-		return returnNewCreatedListenableHandle(window,
-				MainBeanConfiguration.WINDOW_BEAN);
-	}
-
-	@Override
-	public Handle getHandle(long timeOut,
+	public BrowserWindow getHandle(long timeOut,
 			HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
 		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
@@ -164,5 +134,25 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 	// fluent waiting for the result. See above
 	public static ExpectedCondition<Boolean> isClosed(final String closingHandle) {
 		return from -> isClosed(from, closingHandle);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public BrowserWindow getHandle(int windowIndex, long timeOut) {
+		String handle = this.getStringHandle(windowIndex, timeOut);
+		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(handle,
+				this);
+		if (initedWindow != null)
+			return initedWindow;
+		BrowserWindow window = new BrowserWindow(handle, this);
+		return returnNewCreatedListenableHandle(window,
+				MainBeanConfiguration.WINDOW_BEAN);
+	}
+
+	@Override
+	String getStringHandle(int windowIndex, long timeOut) {
+		HowToGetBrowserWindow f = new HowToGetBrowserWindow();
+		f.setExpected(windowIndex);
+		return getStringHandle(timeOut, f);
 	}
 }

@@ -16,11 +16,11 @@ public abstract class IOSContext extends Context {
 	protected final NamedTextFieldGetter namedTextFieldGetter;
 	protected final Shaker shaker;
 
-	protected IOSContext(FunctionalPart parent) {
+	protected IOSContext(FunctionalPart<MobileContext> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected IOSContext(FunctionalPart parent, HowToGetByFrames pathStrategy) {
+	protected IOSContext(FunctionalPart<MobileContext> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);

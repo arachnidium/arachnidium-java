@@ -6,6 +6,7 @@ import io.appium.java_client.remote.MobilePlatform;
 
 import java.util.List;
 import java.util.Set;
+
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.mobile.ContextTool;
 import org.arachnidium.core.fluenthandle.FluentContextWaiting;
@@ -52,32 +53,13 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 		return howToGet;
 	}
 	
-	/**
-	 * returns context handle by it's index
-	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public synchronized Handle getHandle(int index)
+	public MobileContext getHandle(int contextIndex)
 			throws NoSuchContextException {
-		String handle = this.getStringHandle(index);
-		MobileContext initedContext = (MobileContext) Handle.isInitiated(
-				handle, this);
-		if (initedContext != null)
-			return initedContext;
-		MobileContext context = new MobileContext(handle, this);
-		return returnNewCreatedListenableHandle(context,
-				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
-	}
-
-	@Override
-	/**
-	 * returns context by it's index
-	 */
-	String getStringHandle(int index) throws NoSuchContextException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
-		HowToGetMobileContext f = new HowToGetMobileContext();
-		f.setExpected(index);
-		return getStringHandle(time, f);
+		return getHandle(contextIndex, time);
 	}
 
 	@Override
@@ -85,31 +67,24 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 		return contextTool.getContextHandles();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Handle getHandle(HowToGetMobileContext howToGet)
+	public MobileContext getHandle(HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
-		MobileContext context = new MobileContext(
-				getStringHandle(isSupportActivities(howToGet)), this);
-		return returnNewCreatedListenableHandle(context,
-				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
+		Long time = getTimeOut(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut());
+		return getHandle(time, howToGet);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Handle getHandle(long timeOut,
+	public MobileContext getHandle(long timeOut,
 			HowToGetMobileContext howToGet)
 			throws NoSuchContextException {
 		MobileContext context = new MobileContext(getStringHandle(timeOut,
 				isSupportActivities(howToGet)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
-	}
-
-	@Override
-	String getStringHandle(HowToGetMobileContext howToGet)
-			throws NoSuchContextException {
-		Long time = getTimeOut(getHandleWaitingTimeOut()
-				.getHandleWaitingTimeOut());
-		return getStringHandle(time, howToGet);
 	}
 
 	@Override
@@ -124,6 +99,28 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 			throw new NoSuchContextException(
 					"Can't find context! Condition is " + clone.toString(), e);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MobileContext getHandle(int contextIndex, long timeOut) 
+			throws NoSuchContextException  {
+		String handle = this.getStringHandle(contextIndex, timeOut);
+		MobileContext initedContext = (MobileContext) Handle.isInitiated(
+				handle, this);
+		if (initedContext != null)
+			return initedContext;
+		MobileContext context = new MobileContext(handle, this);
+		return returnNewCreatedListenableHandle(context,
+				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);	
+	}
+
+	@Override
+	String getStringHandle(int contextIndex, long timeOut) 
+			throws NoSuchContextException  {
+		HowToGetMobileContext f = new HowToGetMobileContext();
+		f.setExpected(contextIndex);
+		return getStringHandle(timeOut, f);
 	}
 
 }

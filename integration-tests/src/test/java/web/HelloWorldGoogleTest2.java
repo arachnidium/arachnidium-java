@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.arachnidium.core.components.ComponentFactory;
-import org.arachnidium.core.components.common.Awaiting;
-import org.arachnidium.core.components.common.FluentWindowConditions;
+import org.arachnidium.core.HowToGetBrowserWindow;
 import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.util.logging.Log;
 import org.arachnidium.web.google.AnyPage;
 import org.arachnidium.web.google.Google;
 import org.openqa.selenium.Platform;
@@ -21,114 +18,65 @@ import org.testng.annotations.Test;
 
 public class HelloWorldGoogleTest2 {
 
-	private static class WaitingThread extends Thread {
-		private enum HowToGetANewWindow {
-			BYPARTIALTITLE {
-				@Override
-				AnyPage get(Google google, long timeOut) {
-					Awaiting awaiting = ComponentFactory.getComponent(
-							Awaiting.class, google.getWrappedDriver());
-					FluentWindowConditions fluentWindowConditions = ComponentFactory
-							.getComponent(FluentWindowConditions.class,
-									google.getWrappedDriver());
-					try {
-						awaiting.awaitCondition(timeOut, 100,
-								fluentWindowConditions
-										.newWindowIsAppeared("Hello, world*"));
-						return super.get(google, timeOut);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				}
-			},
-			BYPARTIALURL {
-				@Override
-				AnyPage get(Google google, long timeOut) {
-					Awaiting awaiting = ComponentFactory.getComponent(
-							Awaiting.class, google.getWrappedDriver());
-					ArrayList<String> expectedURLs = new ArrayList<String>() {
-						private static final long serialVersionUID = 1L;
-						{
-							add("wikipedia*org/wiki/");
-						}
-					};
-
-					try {
-						awaiting.awaitCondition(
-								timeOut,
-								100,
-								ComponentFactory.getComponent(
-										FluentWindowConditions.class,
-										google.getWrappedDriver())
-										.newWindowIsAppeared(expectedURLs));
-						return super.get(google, timeOut);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				}
-
-			};
-
-			AnyPage get(Google google, long timeOut) {
-				return google.getFromHandle(AnyPage.class, 1);
+	private enum HowToGetANewWindow {
+		BYPARTIALTITLE {
+			@Override
+			HowToGetBrowserWindow get() {
+				HowToGetBrowserWindow h = super.get();
+				h.setExpected("Hello world*");
+				return h;
 			}
-		}
-
-		private final Google google;
-		private final HowToGetANewWindow howToGet;
-		private Exception exception;
-		private AnyPage anyPage;
-		private boolean isRunning = false;
-		private final long timeOut;
-
-		private WaitingThread(Google google, HowToGetANewWindow howToGet,
-				long timeOut) {
-			this.google = google;
-			this.howToGet = howToGet;
-			this.timeOut = timeOut;
-		}
-
-		@Override
-		public void run() {
-			isRunning = true;
-			try {
-				anyPage = howToGet.get(google, timeOut);
-			} catch (Exception e) {
-				exception = e;
-				throw e;
-			} finally {
-				isRunning = false;
+		},
+		BYPARTIALURL {
+			@Override
+			HowToGetBrowserWindow get() {
+				HowToGetBrowserWindow h = super.get();
+				h.setExpected(new ArrayList<String>(){
+					private static final long serialVersionUID = 1L;
+					{
+						add("[wikipedia//org//wiki]");
+					}
+					
+				});
+				return h;
 			}
+		},
+		FULL {
+			@Override
+			HowToGetBrowserWindow get() {
+				HowToGetBrowserWindow h = super.get();
+				h.setExpected(new ArrayList<String>(){
+					private static final long serialVersionUID = 1L;
+					{
+						add("[wikipedia//org//wiki]");
+					}
+					
+				});
+				h.setExpected("Hello world*");
+				return h;
+			}
+		};
+
+		HowToGetBrowserWindow get() {
+			HowToGetBrowserWindow h = new HowToGetBrowserWindow();
+			h.setExpected(1);
+			return h;
 		}
 	}
 
 	// settings according to current OS
 	private final HashMap<Platform, List<String>> settings = new HashMap<Platform, List<String>>();
 
-	@SuppressWarnings("deprecation")
-	private void test(Google google, WaitingThread.HowToGetANewWindow howToGet,
+	private void test(Google google, HowToGetANewWindow howToGet,
 			boolean toClickOnALinkWhichWasFound, long timeOut) throws Exception {
-		WaitingThread waitingThread = new WaitingThread(google, howToGet,
-				timeOut);
-		waitingThread.start();
 		Thread.sleep(2000);
-		waitingThread.suspend();
-		try {
-			if (!toClickOnALinkWhichWasFound) {
-				google.openLinkByIndex(1);
-			} else {
-				google.clickOnLinkByIndex(1);
-			}
-		} finally {
-			waitingThread.resume();
+		if (!toClickOnALinkWhichWasFound) {
+			google.openLinkByIndex(1);
+		} else {
+			google.clickOnLinkByIndex(1);
 		}
-		while (waitingThread.isRunning) {
-			Log.message("Waiting for...");
-		}
-		if (waitingThread.exception != null) {
-			throw new RuntimeException(waitingThread.exception);
-		}
-		waitingThread.anyPage.close();
+		AnyPage anyPage = google.getPart(AnyPage.class, howToGet.get());	
+		anyPage.close();
 	}
 
 	@Test(description = "This is just a test of basic functionality. It gets a new object by its partial title and url")
@@ -153,8 +101,7 @@ public class HelloWorldGoogleTest2 {
 				String[] howToVars = howToGetANewWindow.split(",");
 				google.performSearch("Hello world Wikipedia");
 				for (String howTo : howToVars) {
-					test(google,
-							WaitingThread.HowToGetANewWindow.valueOf(howTo),
+					test(google, HowToGetANewWindow.valueOf(howTo),
 							new Boolean(toClick), new Long(timeOut));
 				}
 			} finally {

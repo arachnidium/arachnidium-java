@@ -7,12 +7,12 @@ import org.openqa.selenium.support.FindBy;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.core.Handle;
 
-public class LinksAreFound extends FunctionalPart implements ILinkList {
+public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implements ILinkList {
 	
 	@FindBy(id = "ires")
 	private RemoteWebElement result;
 	
-	protected LinksAreFound(Handle handle) {
+	protected LinksAreFound(T handle) {
 		super(handle);
 		load();
 	}

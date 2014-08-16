@@ -22,7 +22,6 @@ import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.support.HowToGetByFrames;
-import org.arachnidium.model.support.IPathStrategy;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
@@ -32,7 +31,7 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
  * @author s.tihomirov It describes simple web page or mobile app context or
  *         their fragment
  */
-public abstract class FunctionalPart extends ModelObject implements ITakesPictureOfItSelf, ISwitchesToItself {
+public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> implements ITakesPictureOfItSelf, ISwitchesToItself {
 
 	/**
 	 * @author s.tihomirov
@@ -44,34 +43,36 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 
 	}
 
-	protected FunctionalPart parent; // parent test object
+	protected FunctionalPart<?> parent; // parent test object
 	// page object is created by specified entity
-	protected Application application;
+	protected Application<?,?> application;
 	private IWebElementHighlighter highLighter;
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final TimeOut timeOuts;
-	protected final IPathStrategy pathStrategy;
+	protected final HowToGetByFrames pathStrategy;
 	/**
 	 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
 	 */
 	private final AppiumFieldDecorator appiumFieldDecorator;
 
 	// constructs from another page object
-	protected FunctionalPart(FunctionalPart parent) {
-		this(parent.handle, new HowToGetByFrames());
+	@SuppressWarnings("unchecked")
+	protected FunctionalPart(FunctionalPart<?> parent) {
+		this((S) parent.handle, new HowToGetByFrames());
 	}
 	
-	protected FunctionalPart(FunctionalPart parent, HowToGetByFrames pathStrategy) {
-		this(parent.handle, pathStrategy);
+	@SuppressWarnings("unchecked")
+	protected FunctionalPart(FunctionalPart<?> parent, HowToGetByFrames pathStrategy) {
+		this((S) parent.handle, pathStrategy);
 		parent.addChild(this);
 	}
 
-	protected FunctionalPart(Handle handle) {
+	protected FunctionalPart(S handle) {
 		this(handle, new HowToGetByFrames());
 	}
 
-	protected FunctionalPart(Handle handle, HowToGetByFrames pathStrategy) {
+	protected FunctionalPart(S handle, HowToGetByFrames pathStrategy) {
 		super(handle);
 		this.pathStrategy = pathStrategy;
 		timeOuts = driverEncapsulation.getTimeOut();
@@ -88,9 +89,9 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 	}
 
 	@Override
-	protected final void addChild(ModelObject child) {
+	protected final void addChild(ModelObject<?> child) {
 		super.addChild(child);
-		FunctionalPart childPart = (FunctionalPart) child;
+		FunctionalPart<?> childPart = (FunctionalPart<?>) child;
 		childPart.parent = this;
 		childPart.application = this.application;
 	}
@@ -110,18 +111,16 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 	// - simple constructor
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		Class<?>[] params = new Class[] { FunctionalPart.class };
 		Object[] values = new Object[] { this };
-		return DefaultApplicationFactory.get(partClass, params, values);
+		return DefaultApplicationFactory.get(partClass, values);
 	}
 
 	// - with specified frame index
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy) {
-		Class<?>[] params = new Class[] { FunctionalPart.class, IPathStrategy.class };
 		Object[] values = new Object[] { this, pathStrategy };
-		return DefaultApplicationFactory.get(partClass, params, values);
+		return DefaultApplicationFactory.get(partClass, values);
 	}
 
 	@InteractiveMethod
@@ -199,7 +198,7 @@ public abstract class FunctionalPart extends ModelObject implements ITakesPictur
 			parent.switchToMe();
 		else
 			handle.switchToMe();
-		pathStrategy.switchTo(driverEncapsulation);
+		pathStrategy.switchTo(driverEncapsulation.getWrappedDriver());
 		return;
 	}
 

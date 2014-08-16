@@ -27,7 +27,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 
 	private static String getHandleWhichMatchesToTitles(String handle,
 			String titleRegExp, String winTitle) {
-		Pattern p = Pattern.compile("^[" + titleRegExp + "]");
+		Pattern p = Pattern.compile(titleRegExp);
 		Matcher m = p.matcher(winTitle);
 		if (m.find()) {
 			return handle;
@@ -38,7 +38,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 	private static String getHandleWhichMatchesToURLs(String handle,
 			List<String> urlsRegExps, String currentUrl) {
 		for (String url : urlsRegExps) {
-			Pattern p = Pattern.compile("^[" + url + "]?(\\?.*)?");
+			Pattern p = Pattern.compile(url);
 			Matcher m = p.matcher(currentUrl);
 
 			if (m.find()) {
@@ -65,7 +65,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 			} catch (TimeoutException e) {
 				return null;
 			}
-			resultHandle = getHandleWhichMatchesToTitles(resultHandle, titleRegExp,
+			resultHandle = getHandleWhichMatchesToTitles(handle, titleRegExp,
 					winTitle);
 			if (resultHandle == null){
 				continue;

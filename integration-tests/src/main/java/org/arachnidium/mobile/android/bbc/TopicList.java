@@ -5,13 +5,14 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 
 import java.util.List;
 
+import org.arachnidium.core.Handle;
 import org.arachnidium.model.common.FunctionalPart;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
-public class TopicList extends FunctionalPart {
+public class TopicList<T extends Handle> extends FunctionalPart<T> {
 	@CacheLookup
 	@AndroidFindBys({@AndroidFindBy(id = "bbc.mobile.news.ww:id/personalisationListView"),
 		@AndroidFindBy(className = "android.widget.LinearLayout"),
@@ -28,7 +29,7 @@ public class TopicList extends FunctionalPart {
 	
 	
 	
-	protected TopicList(FunctionalPart parent) {
+	protected TopicList(FunctionalPart<?> parent) {
 		super(parent);
 		load();
 	}

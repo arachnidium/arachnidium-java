@@ -14,12 +14,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class FluentContextWaiting implements IFluentHandleWaiting {
 	
-	private static String getContextWhichMatchesToContextExpression(String context,
+	private static String getContextWhichMatchesToContextExpression(
 			String contextRegExp, String currentContext) {
-		Pattern p = Pattern.compile("^[" + contextRegExp + "]");
+		Pattern p = Pattern.compile(contextRegExp);
 		Matcher m = p.matcher(currentContext);
 		if (m.find()) {
-			return context;
+			return currentContext;
 		} else
 			return null;
 	}
@@ -27,7 +27,7 @@ public class FluentContextWaiting implements IFluentHandleWaiting {
 	private static String getContextWhichMatchesToActivities(String context,
 			List<String> activitiesRegExps, String currentActivity) {
 		for (String activity : activitiesRegExps) {
-			Pattern p = Pattern.compile("^[" + activity + "]?(\\?.*)?");
+			Pattern p = Pattern.compile(activity);
 			Matcher m = p.matcher(currentActivity);
 	
 			if (m.find()) {
@@ -52,11 +52,8 @@ public class FluentContextWaiting implements IFluentHandleWaiting {
 		if (resultHandle == null) {
 			return null;
 		}
-		resultHandle =getContextWhichMatchesToContextExpression(resultHandle, contextRegExp,
+		resultHandle =getContextWhichMatchesToContextExpression(contextRegExp,
 				resultHandle);
-		if (resultHandle!=null){
-			((ContextAware) from).context(resultHandle);
-		}
 		return resultHandle;
 	}		
 	
@@ -66,13 +63,10 @@ public class FluentContextWaiting implements IFluentHandleWaiting {
 		ContextAware contextAware = ((ContextAware) from);
 		Set<String> handles = contextAware.getContextHandles();
 		for (String handle : handles) {
-			resultHandle = getContextWhichMatchesToContextExpression(resultHandle, contextRegExp,
+			resultHandle = getContextWhichMatchesToContextExpression(contextRegExp, 
 					handle);
 			if (resultHandle == null) {
 				continue;
-			}
-			if (resultHandle!=null){
-				((ContextAware) from).context(resultHandle);
 			}
 			return resultHandle;
 		}
@@ -134,7 +128,7 @@ public class FluentContextWaiting implements IFluentHandleWaiting {
 		ContextAware contextAware = ((ContextAware) from);
 		String currentActivity = ((AppiumDriver) contextAware.context(resultHandle)).currentActivity();
 
-		resultHandle = getContextWhichMatchesToContextExpression(resultHandle, contextRegExp,
+		resultHandle = getContextWhichMatchesToContextExpression(contextRegExp,
 				resultHandle);
 		if (resultHandle == null) {
 			return null;

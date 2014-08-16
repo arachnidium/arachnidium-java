@@ -14,11 +14,11 @@ public abstract class AndroidContext extends Context {
 	protected final MetastateKeyEventSender metastateKeyEventSender;
 	protected final AppStringGetter appStringGetter;
 
-	protected AndroidContext(FunctionalPart parent) {
+	protected AndroidContext(FunctionalPart<MobileContext> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected AndroidContext(FunctionalPart parent, HowToGetByFrames pathStrategy) {
+	protected AndroidContext(FunctionalPart<MobileContext> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);

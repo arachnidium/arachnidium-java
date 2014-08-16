@@ -20,7 +20,7 @@ public class IOSTestExample {
 		uicatalog.shake();
 		uicatalog.selectItem("Action Sheets, AAPLActionSheetViewController");
 		
-		ActionSheets actionSheets = uiCatalog.getPart(ActionSheets.class);
+		ActionSheets<?> actionSheets = uiCatalog.getPart(ActionSheets.class);
 		actionSheets.clickOnOk_Cancel();
 		actionSheets.clickOnSplashButton("OK");
 		actionSheets.clickOnOther();
