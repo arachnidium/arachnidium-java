@@ -33,6 +33,11 @@ public class HowToGetByFrames {
 						driver.findElement((By) frameIdentifier));
 				return;
 			}
+			
+			if (frameIdentifier instanceof WebElement) {
+				driver.switchTo().frame((WebElement) frameIdentifier);
+				return;
+			}			
 		});
 	}
 
