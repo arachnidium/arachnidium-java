@@ -4,14 +4,14 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.ios.IOSContext;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.ios.iOSScreen;
+import org.arachnidium.core.MobileScreen;
 
-public class UICatalog extends IOSContext {
+public class UICatalog extends iOSScreen {
 	@FindBy(name = "UICatalog")
 	private MobileElement backToMe;
 	
-	public UICatalog(MobileContext context) {
+	public UICatalog(MobileScreen context) {
 		super(context);
 		load();
 	}

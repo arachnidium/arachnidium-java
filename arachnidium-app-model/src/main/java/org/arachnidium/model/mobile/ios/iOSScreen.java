@@ -1,37 +1,37 @@
 package org.arachnidium.model.mobile.ios;
 
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.components.mobile.KeyboardHider;
 import org.arachnidium.core.components.mobile.NamedTextFieldGetter;
 import org.arachnidium.core.components.mobile.Shaker;
 import org.arachnidium.model.common.FunctionalPart;
-import org.arachnidium.model.mobile.Context;
+import org.arachnidium.model.mobile.Screen;
 import org.arachnidium.model.support.HowToGetByFrames;
 
 /**
- * The same as {@link Context} with some capabilities specifically for iOS
+ * The same as {@link Screen} with some capabilities specifically for iOS
  */
-public abstract class IOSContext extends Context {
+public abstract class iOSScreen extends Screen {
 	protected final KeyboardHider keyboardHider;
 	protected final NamedTextFieldGetter namedTextFieldGetter;
 	protected final Shaker shaker;
 
-	protected IOSContext(FunctionalPart<MobileContext> parent) {
+	protected iOSScreen(FunctionalPart<MobileScreen> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected IOSContext(FunctionalPart<MobileContext> parent, HowToGetByFrames pathStrategy) {
+	protected iOSScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
 		shaker = driverEncapsulation.getComponent(Shaker.class);
 	}
 
-	protected IOSContext(MobileContext context) {
+	protected iOSScreen(MobileScreen context) {
 		this(context, new HowToGetByFrames());
 	}
 
-	protected IOSContext(MobileContext context, HowToGetByFrames pathStrategy) {
+	protected iOSScreen(MobileScreen context, HowToGetByFrames pathStrategy) {
 		super(context, pathStrategy);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);

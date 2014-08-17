@@ -2,11 +2,11 @@ package org.arachnidium.mobile.android.selendroid.testapp;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.core.MobileScreen;
 
 
-public class RegisterANewUser extends Context {
+public class RegisterANewUser extends Screen {
     @FindBy(id="inputUsername")
 	private WebElement inputUsername;
     @FindBy(id="inputEmail")
@@ -22,7 +22,7 @@ public class RegisterANewUser extends Context {
     @FindBy(id = "buttonRegisterUser")
     private WebElement buttonRegisterUser;
     
-	protected RegisterANewUser(MobileContext context) {
+	protected RegisterANewUser(MobileScreen context) {
 		super(context);
 		load();
 	}

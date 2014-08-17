@@ -2,15 +2,15 @@ package org.arachnidium.mobile.ios.iucatalog;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.core.MobileScreen;
 
 
-public class AlertView extends Context {
+public class AlertView extends Screen {
 	@FindBy(name = "Simple")
 	private WebElement simpleAlert;
 	
-	protected AlertView(MobileContext context) {
+	protected AlertView(MobileScreen context) {
 		super(context);
 		load();
 	}

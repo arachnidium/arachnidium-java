@@ -56,15 +56,31 @@ public class DefaultApplicationFactory {
 						+ paramerers.toString() + ", their classes "
 						+ expectedParameters.toString() + ". " + "Class is "
 						+ requiredClass.getName()));
-	}	
-	
+	}
+
+	/**
+	 * Instantiates {@link Application} by initial parameters
+	 */
+	private static <T extends Application<?, ?>> T getApplication(
+			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
+			Class<?>[] initaialParameterClasses,
+			Object[] initaialParameterValues) {
+		Handle h = getTheFirstHandle(handleManagerClass,
+				initaialParameterClasses, initaialParameterValues);
+		return EnhancedProxyFactory.getProxy(appClass,
+				getParameterClasses(new Object[] { h }, appClass),
+				new Object[] { h }, getAppInterceptor());
+
+	}
+
 	/**
 	 * Creation of any decomposable part of application
 	 */
 	protected static <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] paramValues) {
-		T decomposable = EnhancedProxyFactory.getProxy(partClass, getParameterClasses(paramValues, partClass),
-				paramValues, getInteractiveInterceptor());
+		T decomposable = EnhancedProxyFactory.getProxy(partClass,
+				getParameterClasses(paramValues, partClass), paramValues,
+				getInteractiveInterceptor());
 		return decomposable;
 	}
 
@@ -79,100 +95,83 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass) {
-		Handle h = getTheFirstHandle(handleManagerClass,
+		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { Configuration.class },
 				new Object[] { Configuration.byDefault });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with defined
 	 * configuration
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			Configuration config) {
-		Handle h = getTheFirstHandle(handleManagerClass,
+		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { Configuration.class }, new Object[] { config });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with defined
 	 * webdriver
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver) {
-		Handle h = getTheFirstHandle(handleManagerClass,
+		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { ESupportedDrivers.class },
 				new Object[] { supportedDriver });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with defined
 	 * webdriver and its capabilities
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, Capabilities capabilities) {
-		Handle h = getTheFirstHandle(handleManagerClass, new Class<?>[] {
+		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class }, new Object[] {
 				supportedDriver, capabilities });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with defined
 	 * webdriver, capabilities and URL to remote server
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, Capabilities capabilities,
 			URL remoteAddress) {
-		Handle h = getTheFirstHandle(handleManagerClass, new Class<?>[] {
+		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class, URL.class },
 				new Object[] { supportedDriver, capabilities, remoteAddress });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with defined
 	 * webdriver and URL to remote server
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, URL remoteAddress) {
-		Handle h = getTheFirstHandle(handleManagerClass, new Class<?>[] {
+		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, URL.class }, new Object[] {
 				supportedDriver, remoteAddress });
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
 	}
 
 	/**
 	 * Common method that creates an instance of any application with externally
 	 * instantiated {@link WebDriverEncapsulation}
 	 */
-	protected static <T extends Application<?,?>> T getApplication(
+	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			WebDriverEncapsulation wdEncapsulation) {
 		Handle h = getTheFirstHandle(handleManagerClass, wdEncapsulation);
 		return EnhancedProxyFactory.getProxy(appClass,
 				getParameterClasses(new Object[] { h }, appClass),
 				new Object[] { h }, getAppInterceptor());
+
 	}
 
 	private static <T extends MethodInterceptor> T getInteractiveInterceptor() {
@@ -193,7 +192,7 @@ public class DefaultApplicationFactory {
 		}
 	}
 
-	protected static Handle getTheFirstHandle(
+	private static Handle getTheFirstHandle(
 			Class<? extends Manager<?>> handleManagerClass,
 			Class<?>[] wdEncapsulationParams, Object[] wdEncapsulationParamVals) {
 		try {
@@ -207,13 +206,14 @@ public class DefaultApplicationFactory {
 		}
 	}
 
-	protected static Handle getTheFirstHandle(
+	private static Handle getTheFirstHandle(
 			Class<? extends Manager<?>> handleManagerClass,
 			WebDriverEncapsulation wdeInstance) {
 		try {
 			Constructor<?> c = handleManagerClass
 					.getConstructor(new Class<?>[] { WebDriverEncapsulation.class });
-			Manager<?> m = (Manager<?>) c.newInstance(new Object[] { wdeInstance });
+			Manager<?> m = (Manager<?>) c
+					.newInstance(new Object[] { wdeInstance });
 
 			return m.getHandle(0);
 		} catch (Exception e) {
@@ -222,7 +222,7 @@ public class DefaultApplicationFactory {
 	}
 
 	protected static WebDriverEncapsulation getWebDriverEncapsulation(
-			Application<?,?> app) {
+			Application<?, ?> app) {
 		return app.getWebDriverEncapsulation();
 	}
 

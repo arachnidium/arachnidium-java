@@ -12,7 +12,7 @@ import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-public class FluentContextWaiting implements IFluentHandleWaiting {
+public class FluentScreenWaiting implements IFluentHandleWaiting {
 	
 	private static String getContextWhichMatchesToContextExpression(
 			String contextRegExp, String currentContext) {

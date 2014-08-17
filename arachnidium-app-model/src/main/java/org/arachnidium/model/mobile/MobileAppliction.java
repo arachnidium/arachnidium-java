@@ -1,21 +1,21 @@
 package org.arachnidium.model.mobile;
 
-import org.arachnidium.core.ContextManager;
-import org.arachnidium.core.HowToGetMobileContext;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.core.ScreenManager;
+import org.arachnidium.core.HowToGetMobileScreen;
+import org.arachnidium.core.MobileScreen;
 import org.arachnidium.model.common.Application;
 
 /**
  * Representation of a mobile application
  */
-public abstract class MobileAppliction extends Application<MobileContext, HowToGetMobileContext> {
+public abstract class MobileAppliction extends Application<MobileScreen, HowToGetMobileScreen> {
 
-	protected MobileAppliction(MobileContext context) {
+	protected MobileAppliction(MobileScreen context) {
 		super(context);
 	}
 
-	public ContextManager getContextManager() {
-		return (ContextManager) manager;
+	public ScreenManager getContextManager() {
+		return (ScreenManager) manager;
 	}
 
 }

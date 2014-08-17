@@ -3,15 +3,15 @@ package org.arachnidium.mobile.android.selendroid.testapp;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.core.MobileScreen;
 
 /**
  * 
  * This is HTML content
  *
  */
-public class Webview extends Context {
+public class Webview extends Screen {
 
 	@FindBy(id = "name_input")
 	private WebElement name;
@@ -20,7 +20,7 @@ public class Webview extends Context {
 	@FindBy(xpath = ".//*[@type=\"submit\"]")
 	private WebElement sendMeYourName;
 	
-	protected Webview(MobileContext context) {
+	protected Webview(MobileScreen context) {
 		super(context);
 		load();
 	}

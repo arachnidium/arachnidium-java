@@ -3,10 +3,10 @@ package org.arachnidium.mobile.android.selendroid.testapp;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.arachnidium.model.mobile.Context;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.core.MobileScreen;
 
-public class HomeScreenActivity extends Context {
+public class HomeScreenActivity extends Screen {
 	@FindBy(id = "my_text_field")
 	private WebElement myTextField;	
 	@FindBy(id = "visibleButtonTest")
@@ -22,7 +22,7 @@ public class HomeScreenActivity extends Context {
 	@FindBy(id = "goBack")
 	private WebElement goBack;
 	
-	public HomeScreenActivity(MobileContext context) {
+	public HomeScreenActivity(MobileScreen context) {
 		super(context);
 		load();
 	}

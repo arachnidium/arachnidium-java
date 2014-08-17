@@ -25,10 +25,10 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 	}
 
 	/**
-	 * using any accessible (!!!) FunctionalPart constructor Application creates
+	 * using any accessible FunctionalPart constructor Application creates
 	 * page objects.
 	 */
-	protected <T extends IDecomposable> T get(Class<T> partClass,
+	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] values) {
 		T part = DefaultApplicationFactory.get(partClass, values);
 		// get(partClass, params, values);
@@ -37,13 +37,22 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 		return part;
 	}
 
+	private <T extends IDecomposable> T getPart(Class<T> partClass, Handle handle) {
+		Object[] values = new Object[] { handle };
+		return get(partClass, values);
+	}
+	
+	private <T extends IDecomposable> T getPart(Class<T> partClass, Handle handle, HowToGetByFrames path) {
+		Object[] values = new Object[] { handle, path};
+		return get(partClass, values);
+	}	
+	
 	/**
 	 * Gets a functional part (page object) from the main application handle.
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		Object[] values = new Object[] { handle };
-		return get(partClass, values);
+		return getPart(partClass, this.handle);
 	}
 
 	/**
@@ -52,9 +61,8 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			HowToGetByFrames pathStrategy) {
-		Object[] values = new Object[] { handle, pathStrategy };
-		return get(partClass, values);
+			HowToGetByFrames path) {
+		return getPart(partClass, this.handle, path);
 	}
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
@@ -71,64 +79,48 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex) {
-		Handle newHandle = manager.getHandle(handleIndex);
-		Object[] values = new Object[] { newHandle };
-		return get(partClass, values);
+		return getPart(partClass, manager.getHandle(handleIndex));
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, long timeOut) {
-		Handle newHandle = manager.getHandle(handleIndex, timeOut);
-		Object[] values = new Object[] { newHandle };
-		return get(partClass, values);
+		return getPart(partClass, manager.getHandle(handleIndex, timeOut));
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			int handleIndex, HowToGetByFrames howToGetByFrames) {
-		Handle newHandle = manager.getHandle(handleIndex);
-		Object[] values = new Object[] { newHandle, howToGetByFrames };
-		return get(partClass , values);
+			int handleIndex, HowToGetByFrames path) {
+		return getPart(partClass, manager.getHandle(handleIndex), path);
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			int handleIndex, HowToGetByFrames howToGetByFrames, long timeOut) {
-		Handle newHandle = manager.getHandle(handleIndex, timeOut);
-		Object[] values = new Object[] { newHandle, howToGetByFrames };
-		return get(partClass, values);
+			int handleIndex, HowToGetByFrames path, long timeOut) {
+		return getPart(partClass, manager.getHandle(handleIndex, timeOut), path);
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle) {
-		Handle newHandle = manager.getHandle(howToGetHandle);
-		Object[] values = new Object[] {newHandle};
-		return get(partClass, values);
+		return getPart(partClass, manager.getHandle(howToGetHandle));
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, long timeOut) {
-		Handle newHandle = manager.getHandle(timeOut, howToGetHandle);
-		Object[] values = new Object[] {newHandle};
-		return get(partClass, values);
+		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle));
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			U howToGetHandle, HowToGetByFrames howToGetByFrames) {
-		Handle newHandle = manager.getHandle(howToGetHandle);
-		Object[] values = new Object[] { newHandle, howToGetByFrames };
-		return get(partClass, values);
+			U howToGetHandle, HowToGetByFrames path) {
+		return getPart(partClass, manager.getHandle(howToGetHandle), path);
 	}
 
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			U howToGetHandle, HowToGetByFrames howToGetByFrames, long timeOut) {
-		Handle newHandle = manager.getHandle(timeOut, howToGetHandle);
-		Object[] values = new Object[] { newHandle, howToGetByFrames };
-		return get(partClass, values);
+			U howToGetHandle, HowToGetByFrames path, long timeOut) {
+		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle), path);
 	}
 }

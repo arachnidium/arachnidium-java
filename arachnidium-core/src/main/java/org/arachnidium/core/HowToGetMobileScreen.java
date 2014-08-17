@@ -8,7 +8,7 @@ import org.arachnidium.core.interfaces.ICloneable;
 /**
  * Is for mobile contexts only
  */
-public class HowToGetMobileContext extends HowToGetHandle implements ICloneable{
+public class HowToGetMobileScreen extends HowToGetHandle implements ICloneable{
 	@Override
 	public void setExpected(int index) {
 		super.setExpected(index);
@@ -44,9 +44,9 @@ public class HowToGetMobileContext extends HowToGetHandle implements ICloneable{
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public HowToGetMobileContext cloneThis(){
+	public HowToGetMobileScreen cloneThis(){
 		try {
-			return (HowToGetMobileContext) this.clone();
+			return (HowToGetMobileScreen) this.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}

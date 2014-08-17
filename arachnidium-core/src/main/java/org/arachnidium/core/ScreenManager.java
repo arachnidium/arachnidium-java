@@ -9,16 +9,16 @@ import java.util.Set;
 
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.mobile.ContextTool;
-import org.arachnidium.core.fluenthandle.FluentContextWaiting;
+import org.arachnidium.core.fluenthandle.FluentScreenWaiting;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public final class ContextManager extends Manager<HowToGetMobileContext> {
+public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 	private final ContextTool contextTool;
 	private final boolean isSupportActivities;
 
-	public ContextManager(WebDriverEncapsulation initialDriverEncapsulation) {
+	public ScreenManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
 		contextTool = getWebDriverEncapsulation().getComponent(
 				ContextTool.class);
@@ -28,7 +28,7 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 						MobileCapabilityType.PLATFORM_NAME));
 		isSupportActivities = mobilePlatform.trim().toUpperCase()
 				.equals(MobilePlatform.ANDROID.toUpperCase());
-		handleWaiting = new FluentContextWaiting();
+		handleWaiting = new FluentScreenWaiting();
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 		return "";
 	}
 
-	private HowToGetMobileContext isSupportActivities(HowToGetMobileContext howToGet){
+	private HowToGetMobileScreen isSupportActivities(HowToGetMobileScreen howToGet){
 		if (!isSupportActivities){
 			howToGet.setExpected((List<String>) null);
 		}
@@ -55,7 +55,7 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileContext getHandle(int contextIndex)
+	public MobileScreen getHandle(int contextIndex)
 			throws NoSuchContextException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
@@ -69,7 +69,7 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileContext getHandle(HowToGetMobileContext howToGet)
+	public MobileScreen getHandle(HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
 		Long time = getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut());
@@ -78,10 +78,10 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileContext getHandle(long timeOut,
-			HowToGetMobileContext howToGet)
+	public MobileScreen getHandle(long timeOut,
+			HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
-		MobileContext context = new MobileContext(getStringHandle(timeOut,
+		MobileScreen context = new MobileScreen(getStringHandle(timeOut,
 				isSupportActivities(howToGet)), this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
@@ -89,28 +89,28 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 
 	@Override
 	String getStringHandle(long timeOut,
-			HowToGetMobileContext howToGet)
+			HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
-		HowToGetMobileContext clone = howToGet.cloneThis();
+		HowToGetMobileScreen clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
 					clone.getExpectedCondition(handleWaiting));
 		} catch (TimeoutException e) {
 			throw new NoSuchContextException(
-					"Can't find context! Condition is " + clone.toString(), e);
+					"Can't find screen! Condition is " + clone.toString(), e);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileContext getHandle(int contextIndex, long timeOut) 
+	public MobileScreen getHandle(int contextIndex, long timeOut) 
 			throws NoSuchContextException  {
 		String handle = this.getStringHandle(contextIndex, timeOut);
-		MobileContext initedContext = (MobileContext) Handle.isInitiated(
+		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(
 				handle, this);
 		if (initedContext != null)
 			return initedContext;
-		MobileContext context = new MobileContext(handle, this);
+		MobileScreen context = new MobileScreen(handle, this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);	
 	}
@@ -118,7 +118,7 @@ public final class ContextManager extends Manager<HowToGetMobileContext> {
 	@Override
 	String getStringHandle(int contextIndex, long timeOut) 
 			throws NoSuchContextException  {
-		HowToGetMobileContext f = new HowToGetMobileContext();
+		HowToGetMobileScreen f = new HowToGetMobileScreen();
 		f.setExpected(contextIndex);
 		return getStringHandle(timeOut, f);
 	}

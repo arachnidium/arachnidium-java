@@ -6,7 +6,7 @@ import java.util.List;
 import io.appium.java_client.AndroidKeyCode;
 import junit.framework.Assert;
 
-import org.arachnidium.core.HowToGetMobileContext;
+import org.arachnidium.core.HowToGetMobileScreen;
 import org.arachnidium.mobile.android.bbc.BBCMain;
 import org.arachnidium.mobile.android.bbc.TopicList;
 import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
@@ -89,7 +89,7 @@ public class AndroidTestExamples {
 			homeScreenActivity.goBackClick();
 			
 			homeScreenActivity.startWebviewClick();
-			HowToGetMobileContext h = new HowToGetMobileContext();
+			HowToGetMobileScreen h = new HowToGetMobileScreen();
 			h.setExpected("WEBVIEW_0");
 			webview = selendroidTestApp.getPart(Webview.class, h);			
 			webview.setName("Sergey");

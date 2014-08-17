@@ -3,7 +3,7 @@ package org.arachnidium.model.mobile;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.arachnidium.core.ContextManager;
+import org.arachnidium.core.ScreenManager;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.settings.CapabilitySettings;
 import org.arachnidium.core.settings.WebDriverSettings;
@@ -30,7 +30,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends MobileAppliction> T getApplication(
 			Class<T> appClass, Capabilities capabilities, URL remoteAddress) {
-		return getApplication(ContextManager.class, appClass,
+		return getApplication(ScreenManager.class, appClass,
 				ESupportedDrivers.MOBILE, capabilities, remoteAddress);
 	}
 
@@ -48,7 +48,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 					new URL(configuration.getSection(WebDriverSettings.class)
 							.getRemoteAddress()));
 			wdEncapsulation.resetAccordingTo(configuration);
-			T result = getApplication(ContextManager.class, appClass,
+			T result = getApplication(ScreenManager.class, appClass,
 					wdEncapsulation);
 			return result;
 		} catch (MalformedURLException e) {
@@ -63,7 +63,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends MobileAppliction> T getApplication(
 			Class<T> appClass, URL remoteAddress) {
-		return getApplication(ContextManager.class, appClass,
+		return getApplication(ScreenManager.class, appClass,
 				ESupportedDrivers.MOBILE, remoteAddress);
 	}
 

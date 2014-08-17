@@ -9,11 +9,11 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.android.AndroidContext;
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.model.mobile.android.AndroidScreen;
+import org.arachnidium.core.MobileScreen;
 
 
-public class BBCMain extends AndroidContext implements IBar{
+public class BBCMain extends AndroidScreen implements IBar{
 	
 	@FindBy(id = "bbc.mobile.news.ww:id/articleWrapper")
 	private List<WebElement> articles;
@@ -28,7 +28,7 @@ public class BBCMain extends AndroidContext implements IBar{
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
 	private WebElement refresh;
 	
-	protected BBCMain(MobileContext context) {
+	protected BBCMain(MobileScreen context) {
 		super(context);
 		load();
 	}

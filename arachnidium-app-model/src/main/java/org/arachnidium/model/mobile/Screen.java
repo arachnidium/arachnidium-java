@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.arachnidium.core.MobileContext;
+import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.components.mobile.ComplexFinder;
 import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.core.components.mobile.Pinch;
@@ -30,7 +30,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 /**
  * Can be used to describe a single mobile app context or its fragment
  */
-public abstract class Context extends FunctionalPart<MobileContext> implements IHasActivity,
+public abstract class Screen extends FunctionalPart<MobileScreen> implements IHasActivity,
 Rotatable {
 
 	/**
@@ -41,9 +41,9 @@ Rotatable {
 	 *
 	 */
 	protected class TouchActions {
-		private final Context context;
+		private final Screen context;
 
-		private TouchActions(Context context) {
+		private TouchActions(Screen context) {
 			this.context = context;
 		}
 
@@ -86,11 +86,11 @@ Rotatable {
 	protected final ScrollerTo scroller;
 	protected final ComplexFinder complexFinder;
 
-	protected Context(FunctionalPart<MobileContext> parent) {
+	protected Screen(FunctionalPart<MobileScreen> parent) {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected Context(FunctionalPart<MobileContext> parent, HowToGetByFrames pathStrategy) {
+	protected Screen(FunctionalPart<MobileScreen> parent, HowToGetByFrames pathStrategy) {
 		super(parent, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
@@ -102,11 +102,11 @@ Rotatable {
 		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
 	}
 
-	protected Context(MobileContext context) {
+	protected Screen(MobileScreen context) {
 		this(context, new HowToGetByFrames());
 	}
 
-	protected Context(MobileContext context, HowToGetByFrames pathStrategy) {
+	protected Screen(MobileScreen context, HowToGetByFrames pathStrategy) {
 		super(context, pathStrategy);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
@@ -120,17 +120,17 @@ Rotatable {
 
 	@Override
 	public String currentActivity() {
-		return ((MobileContext) handle).currentActivity();
+		return ((MobileScreen) handle).currentActivity();
 	}
 
 	@Override
 	public ScreenOrientation getOrientation() {
-		return ((MobileContext) handle).getOrientation();
+		return ((MobileScreen) handle).getOrientation();
 	}
 
 	@Override
 	public void rotate(ScreenOrientation orientation) {
-		((MobileContext) handle).rotate(orientation);
+		((MobileScreen) handle).rotate(orientation);
 	}
 
 }

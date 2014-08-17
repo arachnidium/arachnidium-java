@@ -5,19 +5,19 @@ import org.arachnidium.core.interfaces.IContext;
 import org.arachnidium.core.interfaces.IHasActivity;
 import org.openqa.selenium.ScreenOrientation;
 
-public class MobileContext extends Handle implements IHasActivity,
+public class MobileScreen extends Handle implements IHasActivity,
 		IContext {
 
 	private final Rotator rotator;
 
-	MobileContext(String context, ContextManager manager) {
+	MobileScreen(String context, ScreenManager manager) {
 		super(context, manager);
 		rotator = driverEncapsulation.getComponent(Rotator.class);
 	}
 
 	@Override
 	public String currentActivity() {
-		return ((ContextManager) nativeManager).getActivityByHandle(handle);
+		return ((ScreenManager) nativeManager).getActivityByHandle(handle);
 	}
 
 	@Override
