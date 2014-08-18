@@ -24,16 +24,16 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected BrowserPage(FunctionalPart<BrowserWindow> parent, HowToGetByFrames pathStrategy) {
-		super(parent, pathStrategy);
+	protected BrowserPage(FunctionalPart<BrowserWindow> parent, HowToGetByFrames path) {
+		super(parent, path);
 	}
 
 	protected BrowserPage(BrowserWindow window) {
 		this(window, new HowToGetByFrames());
 	}
 
-	protected BrowserPage(BrowserWindow window, HowToGetByFrames pathStrategy) {
-		super(window, pathStrategy);
+	protected BrowserPage(BrowserWindow window, HowToGetByFrames path) {
+		super(window, path);
 	}
 
 	@Override

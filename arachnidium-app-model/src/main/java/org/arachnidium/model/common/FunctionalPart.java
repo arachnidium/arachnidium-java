@@ -51,10 +51,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected final Ime ime;
 	protected final TimeOut timeOuts;
 	protected final HowToGetByFrames pathStrategy;
-	/**
-	 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
-	 */
-	private final AppiumFieldDecorator appiumFieldDecorator;
 
 	// constructs from another page object
 	@SuppressWarnings("unchecked")
@@ -63,8 +59,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected FunctionalPart(FunctionalPart<?> parent, HowToGetByFrames pathStrategy) {
-		this((S) parent.handle, pathStrategy);
+	protected FunctionalPart(FunctionalPart<?> parent, HowToGetByFrames path) {
+		this((S) parent.handle, path);
 		parent.addChild(this);
 	}
 
@@ -72,17 +68,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 		this(handle, new HowToGetByFrames());
 	}
 
-	protected FunctionalPart(S handle, HowToGetByFrames pathStrategy) {
+	protected FunctionalPart(S handle, HowToGetByFrames path) {
 		super(handle);
-		this.pathStrategy = pathStrategy;
+		this.pathStrategy = path;
 		timeOuts = driverEncapsulation.getTimeOut();
-		/**
-		 * TODO this is workaround. Preparation to {@link https://github.com/arachnidium/arachnidium-java/issues/6}
-		 */
-		appiumFieldDecorator = new AppiumFieldDecorator(
-				driverEncapsulation.getWrappedDriver(),
-				timeOuts.getImplicitlyWaitTimeOut(),
-				timeOuts.getImplicitlyWaitTimeUnit());
 		highLighter = new WebElementHighLighter();
 		interaction = driverEncapsulation.getComponent(Interaction.class);
 		ime = driverEncapsulation.getComponent(Ime.class);
@@ -177,7 +166,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	// The method below simply loads page factory
 	protected void load() {
-		PageFactory.initElements(appiumFieldDecorator, this);
+		PageFactory.initElements(new AppiumFieldDecorator(
+				driverEncapsulation.getWrappedDriver(),
+				timeOuts.getImplicitlyWaitTimeOut(),
+				timeOuts.getImplicitlyWaitTimeUnit()), this);
 	}
 
 	protected void load(FieldDecorator decorator) {

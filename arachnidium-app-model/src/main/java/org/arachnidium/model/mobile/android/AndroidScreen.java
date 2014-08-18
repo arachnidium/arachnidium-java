@@ -18,8 +18,8 @@ public abstract class AndroidScreen extends Screen {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames pathStrategy) {
-		super(parent, pathStrategy);
+	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
+		super(parent, path);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
 	}
@@ -28,8 +28,8 @@ public abstract class AndroidScreen extends Screen {
 		this(context, new HowToGetByFrames());
 	}
 
-	protected AndroidScreen(MobileScreen context, HowToGetByFrames pathStrategy) {
-		super(context, pathStrategy);
+	protected AndroidScreen(MobileScreen context, HowToGetByFrames path) {
+		super(context, path);
 		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
 		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
 	}

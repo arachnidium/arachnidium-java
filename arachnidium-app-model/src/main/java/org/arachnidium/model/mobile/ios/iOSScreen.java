@@ -20,8 +20,8 @@ public abstract class iOSScreen extends Screen {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected iOSScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames pathStrategy) {
-		super(parent, pathStrategy);
+	protected iOSScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
+		super(parent, path);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
 		shaker = driverEncapsulation.getComponent(Shaker.class);
@@ -31,8 +31,8 @@ public abstract class iOSScreen extends Screen {
 		this(context, new HowToGetByFrames());
 	}
 
-	protected iOSScreen(MobileScreen context, HowToGetByFrames pathStrategy) {
-		super(context, pathStrategy);
+	protected iOSScreen(MobileScreen context, HowToGetByFrames path) {
+		super(context, path);
 		keyboardHider = driverEncapsulation.getComponent(KeyboardHider.class);
 		namedTextFieldGetter = driverEncapsulation.getComponent(NamedTextFieldGetter.class);
 		shaker = driverEncapsulation.getComponent(Shaker.class);

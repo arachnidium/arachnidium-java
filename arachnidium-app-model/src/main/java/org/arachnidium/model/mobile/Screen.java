@@ -90,8 +90,8 @@ Rotatable {
 		this(parent, new HowToGetByFrames());
 	}
 
-	protected Screen(FunctionalPart<MobileScreen> parent, HowToGetByFrames pathStrategy) {
-		super(parent, pathStrategy);
+	protected Screen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
+		super(parent, path);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
@@ -106,8 +106,8 @@ Rotatable {
 		this(context, new HowToGetByFrames());
 	}
 
-	protected Screen(MobileScreen context, HowToGetByFrames pathStrategy) {
-		super(context, pathStrategy);
+	protected Screen(MobileScreen context, HowToGetByFrames path) {
+		super(context, path);
 		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
 		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
 		tap = driverEncapsulation.getComponent(Tap.class);
