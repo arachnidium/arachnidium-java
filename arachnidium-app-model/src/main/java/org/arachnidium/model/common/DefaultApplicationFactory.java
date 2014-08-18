@@ -2,6 +2,7 @@ package org.arachnidium.model.common;
 
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.util.Arrays;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 
@@ -9,7 +10,6 @@ import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
-import org.arachnidium.model.abstractions.ModelObjectInterceptor;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
@@ -24,9 +24,9 @@ public class DefaultApplicationFactory {
 	private static Class<?>[] getParameterClasses(Object[] paramerers,
 			Class<?> requiredClass) {
 
-		Class<?>[] expectedParameters = new Class<?>[paramerers.length];
+		Class<?>[] givenParameters = new Class<?>[paramerers.length];
 		for (int i = 0; i < paramerers.length; i++) {
-			expectedParameters[i] = paramerers[i].getClass();
+			givenParameters[i] = paramerers[i].getClass();
 		}
 
 		Constructor<?>[] declaredConstructors = requiredClass
@@ -34,14 +34,13 @@ public class DefaultApplicationFactory {
 		for (Constructor<?> constructor : declaredConstructors) {
 			Class<?>[] declaredParameters = constructor.getParameterTypes();
 
-			if (declaredParameters.length != expectedParameters.length) {
+			if (declaredParameters.length != givenParameters.length) {
 				continue;
 			}
 
 			boolean isMatch = true;
 			for (int i = 0; i < declaredParameters.length; i++) {
-				if (!declaredParameters[i]
-						.isAssignableFrom(expectedParameters[i])) {
+				if (!declaredParameters[i].isAssignableFrom(givenParameters[i])) {
 					isMatch = false;
 					break;
 				}
@@ -52,10 +51,9 @@ public class DefaultApplicationFactory {
 			}
 		}
 		throw new RuntimeException(new NoSuchMethodException(
-				"There is no suitable constructor! Parameters: "
-						+ paramerers.toString() + ", their classes "
-						+ expectedParameters.toString() + ". " + "Class is "
-						+ requiredClass.getName()));
+				"There is no suitable constructor! Given parameters: "
+						+ Arrays.asList(givenParameters).toString() + ". "
+						+ "Class is " + requiredClass.getName()));
 	}
 
 	/**
@@ -64,12 +62,20 @@ public class DefaultApplicationFactory {
 	private static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			Class<?>[] initaialParameterClasses,
-			Object[] initaialParameterValues) {
-		Handle h = getTheFirstHandle(handleManagerClass,
-				initaialParameterClasses, initaialParameterValues);
-		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
+			Object[] initaialParameterValues, MethodInterceptor mi) {
+		Handle h = null;
+		try {
+			h = getTheFirstHandle(handleManagerClass, initaialParameterClasses,
+					initaialParameterValues);
+			return EnhancedProxyFactory.getProxy(appClass,
+					getParameterClasses(new Object[] { h }, appClass),
+					new Object[] { h }, mi);
+		} catch (Exception e) {
+			if (h != null) {
+				h.getDriverEncapsulation().destroy();
+			}
+			throw new RuntimeException(e);
+		}
 
 	}
 
@@ -80,13 +86,8 @@ public class DefaultApplicationFactory {
 			Object[] paramValues) {
 		T decomposable = EnhancedProxyFactory.getProxy(partClass,
 				getParameterClasses(paramValues, partClass), paramValues,
-				getInteractiveInterceptor());
+				new InteractiveInterceptor());
 		return decomposable;
-	}
-
-	private static <T extends MethodInterceptor> T getAppInterceptor() {
-		return getInterceptorFromThreadLocal(definedInterceptorForEntities,
-				ModelObjectInterceptor.class);
 	}
 
 	/**
@@ -94,10 +95,11 @@ public class DefaultApplicationFactory {
 	 * configuration
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
-			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass) {
+			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
+			MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { Configuration.class },
-				new Object[] { Configuration.byDefault });
+				new Object[] { Configuration.byDefault }, mi);
 	}
 
 	/**
@@ -106,9 +108,10 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			Configuration config) {
+			Configuration config, MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass,
-				new Class<?>[] { Configuration.class }, new Object[] { config });
+				new Class<?>[] { Configuration.class },
+				new Object[] { config }, mi);
 	}
 
 	/**
@@ -117,10 +120,10 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			ESupportedDrivers supportedDriver) {
+			ESupportedDrivers supportedDriver, MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { ESupportedDrivers.class },
-				new Object[] { supportedDriver });
+				new Object[] { supportedDriver }, mi);
 	}
 
 	/**
@@ -129,10 +132,11 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			ESupportedDrivers supportedDriver, Capabilities capabilities) {
+			ESupportedDrivers supportedDriver, Capabilities capabilities,
+			MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class }, new Object[] {
-				supportedDriver, capabilities });
+				supportedDriver, capabilities }, mi);
 	}
 
 	/**
@@ -142,10 +146,11 @@ public class DefaultApplicationFactory {
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, Capabilities capabilities,
-			URL remoteAddress) {
+			URL remoteAddress, MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class, URL.class },
-				new Object[] { supportedDriver, capabilities, remoteAddress });
+				new Object[] { supportedDriver, capabilities, remoteAddress },
+				mi);
 	}
 
 	/**
@@ -154,10 +159,11 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			ESupportedDrivers supportedDriver, URL remoteAddress) {
+			ESupportedDrivers supportedDriver, URL remoteAddress,
+			MethodInterceptor mi) {
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, URL.class }, new Object[] {
-				supportedDriver, remoteAddress });
+				supportedDriver, remoteAddress }, mi);
 	}
 
 	/**
@@ -166,30 +172,12 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			WebDriverEncapsulation wdEncapsulation) {
+			WebDriverEncapsulation wdEncapsulation, MethodInterceptor mi) {
 		Handle h = getTheFirstHandle(handleManagerClass, wdEncapsulation);
 		return EnhancedProxyFactory.getProxy(appClass,
 				getParameterClasses(new Object[] { h }, appClass),
-				new Object[] { h }, getAppInterceptor());
+				new Object[] { h }, mi);
 
-	}
-
-	private static <T extends MethodInterceptor> T getInteractiveInterceptor() {
-		return getInterceptorFromThreadLocal(definedInteractiveInterceptor,
-				InteractiveInterceptor.class);
-	}
-
-	@SuppressWarnings("unchecked")
-	private static <T extends MethodInterceptor> T getInterceptorFromThreadLocal(
-			ThreadLocal<Class<? extends MethodInterceptor>> from,
-			Class<? extends MethodInterceptor> defaultInterceptorClass) {
-		try {
-			if (from.get() == null)
-				return (T) defaultInterceptorClass.newInstance();
-			return (T) from.get().newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static Handle getTheFirstHandle(
@@ -225,39 +213,5 @@ public class DefaultApplicationFactory {
 			Application<?, ?> app) {
 		return app.getWebDriverEncapsulation();
 	}
-
-	/**
-	 * Resets iterceptor class for {@link Application}
-	 */
-	public static void resetApplicationInterceptor(
-			Class<? extends ModelObjectInterceptor> interceptorClass) {
-		resetInterceptor(definedInterceptorForEntities, interceptorClass);
-	}
-
-	/**
-	 * Resets iterceptor class for {@link FunctionalPart}
-	 */
-	public static void resetInteractiveInterceptor(
-			Class<? extends InteractiveInterceptor> interceptorClass) {
-		resetInterceptor(definedInteractiveInterceptor, interceptorClass);
-	}
-
-	private static void resetInterceptor(
-			ThreadLocal<Class<? extends MethodInterceptor>> to,
-			Class<? extends MethodInterceptor> interceptorClass) {
-		to.set(interceptorClass);
-	}
-
-	/**
-	 * An interceptor for {@link FunctionalPart} inheritor defined by user.
-	 * Defined for each thread
-	 */
-	private static ThreadLocal<Class<? extends MethodInterceptor>> definedInteractiveInterceptor = new ThreadLocal<Class<? extends MethodInterceptor>>();
-
-	/**
-	 * An interceptor for {@link Application} inheritor defined by user. Defined
-	 * for each thread
-	 */
-	private final static ThreadLocal<Class<? extends MethodInterceptor>> definedInterceptorForEntities = new ThreadLocal<Class<? extends MethodInterceptor>>();
 
 }
