@@ -98,9 +98,8 @@ public abstract class ClassDeclarationReader {
 	/**
 	 * Reads {@link Frames} annotation
 	 */
-	public static List<Object> getFramePath(Frames framesInstance){
+	public static List<Object> getFramePath(Frame[] frames){
 		List<Object> result = new ArrayList<Object>();
-		Frame[] frames = getValue(framesInstance, VALUE_METHOD);
 		String info = STRING_PATH_METHOD + ", " + FRAME_INDEX_METHOD + ", {" +
 		HOW_TO_GET_FRAME_ELEMENT + " & " + HOW_TO_GET_LOCATOR_VALUE + "}";
 		for (Frame frame: frames){
@@ -138,9 +137,25 @@ public abstract class ClassDeclarationReader {
 		}
 		return result;
 	}
+	
+	/**
+	 * Attempts to return
+	 * annotations which mark class or superclass of the given class 
+	 */
+	public static Annotation[] getAnnotations(Class<? extends Annotation> requiredAnnotation, Class<?> target){
+		Annotation[] result = target.getAnnotationsByType(requiredAnnotation);
+		Class<?> superC = target.getSuperclass();
+		while (result.length == 0 && superC != null){
+			result = superC.getAnnotationsByType(requiredAnnotation);
+			superC = superC.getSuperclass();
+		}
+		return result;
+	}
 
 	private ClassDeclarationReader() {
 		super();
 	}
 
+	
+	
 }
