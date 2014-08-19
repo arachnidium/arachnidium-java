@@ -5,7 +5,6 @@ import java.net.URL;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.WindowManager;
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
-import org.arachnidium.model.abstractions.ModelObjectInterceptor;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.common.DefaultApplicationFactory;
 import org.arachnidium.util.configuration.Configuration;
@@ -19,7 +18,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass) {
-		return getApplication(WindowManager.class, appClass, /*TODO STUB #12*/new ModelObjectInterceptor());
+		return getApplication(WindowManager.class, appClass,
+				new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -28,7 +28,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Configuration config) {
-		return getApplication(WindowManager.class, appClass, config, /*TODO STUB #12*/new ModelObjectInterceptor());
+		return getApplication(WindowManager.class, appClass, config,
+				new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -37,8 +38,9 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Configuration config, String urlToBeLoaded) {
-		return load(getApplication(WindowManager.class, appClass, config, /*TODO STUB #12*/new ModelObjectInterceptor()),
-				urlToBeLoaded);
+		return load(
+				getApplication(WindowManager.class, appClass, config,
+						new BrowserApplicationInterceptor()), urlToBeLoaded);
 	}
 
 	/**
@@ -47,7 +49,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver) {
-		return getApplication(WindowManager.class, appClass, supportedDriver, /*TODO STUB #12*/new ModelObjectInterceptor());
+		return getApplication(WindowManager.class, appClass, supportedDriver,
+				new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -58,7 +61,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Class<T> appClass, ESupportedDrivers supportedDriver,
 			Capabilities capabilities) {
 		return getApplication(WindowManager.class, appClass, supportedDriver,
-				capabilities, /*TODO STUB #12*/new ModelObjectInterceptor());
+				capabilities, new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -71,7 +74,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Capabilities capabilities, String urlToBeLoaded) {
 		return load(
 				getApplication(WindowManager.class, appClass, supportedDriver,
-						capabilities, /*TODO STUB #12*/new ModelObjectInterceptor()), urlToBeLoaded);
+						capabilities, new BrowserApplicationInterceptor()),
+				urlToBeLoaded);
 	}
 
 	/**
@@ -82,7 +86,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Class<T> appClass, ESupportedDrivers supportedDriver,
 			Capabilities capabilities, URL remoteAddress) {
 		return getApplication(WindowManager.class, appClass, supportedDriver,
-				capabilities, remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor());
+				capabilities, remoteAddress,
+				new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -90,12 +95,13 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 * defined webdriver, capabilities and URL to remote server. Application is
 	 * loaded using it's URL
 	 */
-	public static <T extends Application<?, ?>>T getApplication(
+	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver,
 			Capabilities capabilities, URL remoteAddress, String urlToBeLoaded) {
 		return load(
 				getApplication(WindowManager.class, appClass, supportedDriver,
-						capabilities, remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor()), urlToBeLoaded);
+						capabilities, remoteAddress,
+						new BrowserApplicationInterceptor()), urlToBeLoaded);
 	}
 
 	/**
@@ -106,8 +112,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Class<T> appClass, ESupportedDrivers supportedDriver,
 			String urlToBeLoaded) {
 		return load(
-				getApplication(WindowManager.class, appClass, supportedDriver, /*TODO STUB #12*/new ModelObjectInterceptor()),
-				urlToBeLoaded);
+				getApplication(WindowManager.class, appClass, supportedDriver,
+						new BrowserApplicationInterceptor()), urlToBeLoaded);
 	}
 
 	/**
@@ -118,7 +124,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Class<T> appClass, ESupportedDrivers supportedDriver,
 			URL remoteAddress) {
 		return getApplication(WindowManager.class, appClass, supportedDriver,
-				remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor());
+				remoteAddress, new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -131,7 +137,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 			URL remoteAddress, String urlToBeLoaded) {
 		return load(
 				getApplication(WindowManager.class, appClass, supportedDriver,
-						remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor()), urlToBeLoaded);
+						remoteAddress, new BrowserApplicationInterceptor()),
+				urlToBeLoaded);
 	}
 
 	/**
@@ -140,8 +147,9 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, String urlToBeLoaded) {
-		return load(getApplication(WindowManager.class, appClass, /*TODO STUB #12*/new ModelObjectInterceptor()),
-				urlToBeLoaded);
+		return load(
+				getApplication(WindowManager.class, appClass,
+						new BrowserApplicationInterceptor()), urlToBeLoaded);
 	}
 
 	/**
@@ -150,7 +158,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, WebDriverEncapsulation wdEncapsulation) {
-		return getApplication(WindowManager.class, appClass, wdEncapsulation, /*TODO STUB #12*/new ModelObjectInterceptor());
+		return getApplication(WindowManager.class, appClass, wdEncapsulation,
+				new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -162,8 +171,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 			Class<T> appClass, WebDriverEncapsulation wdEncapsulation,
 			String urlToBeLoaded) {
 		return load(
-				getApplication(WindowManager.class, appClass, wdEncapsulation, /*TODO STUB #12*/new ModelObjectInterceptor()),
-				urlToBeLoaded);
+				getApplication(WindowManager.class, appClass, wdEncapsulation,
+						new BrowserApplicationInterceptor()), urlToBeLoaded);
 	}
 
 	private static <T extends Application<?, ?>> T load(T instance,

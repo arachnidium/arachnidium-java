@@ -39,7 +39,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	 */
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
-	public static @interface InteractiveMethod {
+	protected static @interface InteractiveMethod {
 
 	}
 

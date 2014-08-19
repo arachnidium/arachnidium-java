@@ -8,7 +8,6 @@ import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.settings.CapabilitySettings;
 import org.arachnidium.core.settings.WebDriverSettings;
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
-import org.arachnidium.model.abstractions.ModelObjectInterceptor;
 import org.arachnidium.model.common.Application;
 import org.arachnidium.model.common.DefaultApplicationFactory;
 import org.arachnidium.util.configuration.Configuration;
@@ -33,7 +32,8 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Capabilities capabilities, URL remoteAddress) {
 		return getApplication(ScreenManager.class, appClass,
-				ESupportedDrivers.MOBILE, capabilities, remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor());
+				ESupportedDrivers.MOBILE, capabilities, remoteAddress,
+				new MobileApplicationInterceptor());
 	}
 
 	/**
@@ -51,7 +51,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 							.getRemoteAddress()));
 			wdEncapsulation.resetAccordingTo(configuration);
 			T result = getApplication(ScreenManager.class, appClass,
-					wdEncapsulation, /*TODO STUB #12*/new ModelObjectInterceptor());
+					wdEncapsulation, new MobileApplicationInterceptor());
 			return result;
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
@@ -66,7 +66,8 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, URL remoteAddress) {
 		return getApplication(ScreenManager.class, appClass,
-				ESupportedDrivers.MOBILE, remoteAddress, /*TODO STUB #12*/new ModelObjectInterceptor());
+				ESupportedDrivers.MOBILE, remoteAddress,
+				new MobileApplicationInterceptor());
 	}
 
 	private MobileFactory() {
