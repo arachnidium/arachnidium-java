@@ -18,7 +18,6 @@ public abstract class ClassDeclarationReader {
 
 	private static final String REG_EXP_METHOD = "regExp";
 	private static final String INDEX_METHOD = "index";
-	private static final String VALUE_METHOD = "value";
 	private static final Class<?>[] ANNOTATION_METHOD_PARAM_CLASSES = new Class<?>[] {};
 	private static final Object[] ANNOTATION_METHOD_PARAM_VALUES = new Object[] {};
 
@@ -47,7 +46,7 @@ public abstract class ClassDeclarationReader {
 	 * Returns "regExp()" value
 	 * @param a An instance of Annotation which has "regExp()" method 
 	 */
-	public  static String getRegExpression(Annotation a){
+	private static String getRegExpression(Annotation a){
 		return getValue(a, REG_EXP_METHOD);
 	}
 	
@@ -55,7 +54,7 @@ public abstract class ClassDeclarationReader {
 	 * Returns "index()" value
 	 * @param a An instance of Annotation which has "index()" method 
 	 */	
-	public  static String getIndex(Annotation a){
+	public  static Integer getIndex(Annotation a){
 		return getValue(a, INDEX_METHOD);
 	}	
 	
@@ -63,10 +62,9 @@ public abstract class ClassDeclarationReader {
 	 * Returns "regExp()" value
 	 * @param a An instance of Annotation{@A1}. A1 has "regExp()" method 
 	 */		
-	public static List<String> getRegExpressions(Annotation a){
-		Annotation[] annotations = getValue(a, VALUE_METHOD);
+	public static List<String> getRegExpressions(Annotation[] a){
 		List<String> result = new ArrayList<String>();
-		for (Annotation annotation: annotations){
+		for (Annotation annotation: a){
 			result.add(getRegExpression(annotation));
 		}		
 		return result;		
@@ -142,8 +140,8 @@ public abstract class ClassDeclarationReader {
 	 * Attempts to return
 	 * annotations which mark class or superclass of the given class 
 	 */
-	public static Annotation[] getAnnotations(Class<? extends Annotation> requiredAnnotation, Class<?> target){
-		Annotation[] result = target.getAnnotationsByType(requiredAnnotation);
+	public static <T extends Annotation> T[] getAnnotations(Class<T> requiredAnnotation, Class<?> target){
+		T[] result = target.getAnnotationsByType(requiredAnnotation);
 		Class<?> superC = target.getSuperclass();
 		while (result.length == 0 && superC != null){
 			result = superC.getAnnotationsByType(requiredAnnotation);
