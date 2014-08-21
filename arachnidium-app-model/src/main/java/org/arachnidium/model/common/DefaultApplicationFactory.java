@@ -1,8 +1,6 @@
 package org.arachnidium.model.common;
 
-import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.util.Arrays;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 
@@ -21,71 +19,13 @@ import org.openqa.selenium.Capabilities;
  */
 public class DefaultApplicationFactory {
 
-	private static Class<?>[] getParameterClasses(Object[] paramerers,
-			Class<?> requiredClass) {
-
-		Class<?>[] givenParameters = new Class<?>[paramerers.length];
-		for (int i = 0; i < paramerers.length; i++) {
-			givenParameters[i] = paramerers[i].getClass();
-		}
-
-		Constructor<?>[] declaredConstructors = requiredClass
-				.getDeclaredConstructors();
-		for (Constructor<?> constructor : declaredConstructors) {
-			Class<?>[] declaredParameters = constructor.getParameterTypes();
-
-			if (declaredParameters.length != givenParameters.length) {
-				continue;
-			}
-
-			boolean isMatch = true;
-			for (int i = 0; i < declaredParameters.length; i++) {
-				if (!declaredParameters[i].isAssignableFrom(givenParameters[i])) {
-					isMatch = false;
-					break;
-				}
-			}
-
-			if (isMatch) {
-				return declaredParameters;
-			}
-		}
-		throw new RuntimeException(new NoSuchMethodException(
-				"There is no suitable constructor! Given parameters: "
-						+ Arrays.asList(givenParameters).toString() + ". "
-						+ "Class is " + requiredClass.getName()));
-	}
-
-	/**
-	 * Instantiates {@link Application} by initial parameters
-	 */
-	private static <T extends Application<?, ?>> T getApplication(
-			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			Class<?>[] initaialParameterClasses,
-			Object[] initaialParameterValues, MethodInterceptor mi) {
-		Handle h = null;
-		try {
-			h = getTheFirstHandle(handleManagerClass, initaialParameterClasses,
-					initaialParameterValues);
-			return EnhancedProxyFactory.getProxy(appClass,
-					getParameterClasses(new Object[] { h }, appClass),
-					new Object[] { h }, mi);
-		} catch (Exception e) {
-			if (h != null) {
-				h.getDriverEncapsulation().destroy();
-			}
-			throw new RuntimeException(e);
-		}
-
-	}
-
 	/**
 	 * Creation of any decomposable part of application
 	 */
 	protected static <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] paramValues) {
 		T decomposable = EnhancedProxyFactory.getProxy(partClass,
-				getParameterClasses(paramValues, partClass), paramValues,
+				ModelSupportUtil.getParameterClasses(paramValues, partClass), paramValues,
 				new InteractiveInterceptor());
 		return decomposable;
 	}
@@ -173,45 +113,39 @@ public class DefaultApplicationFactory {
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			WebDriverEncapsulation wdEncapsulation, MethodInterceptor mi) {
-		Handle h = getTheFirstHandle(handleManagerClass, wdEncapsulation);
+		Handle h = ModelSupportUtil.getTheFirstHandle(handleManagerClass, wdEncapsulation);
 		return EnhancedProxyFactory.getProxy(appClass,
-				getParameterClasses(new Object[] { h }, appClass),
+				ModelSupportUtil.getParameterClasses(new Object[] { h }, appClass),
 				new Object[] { h }, mi);
 
-	}
-
-	private static Handle getTheFirstHandle(
-			Class<? extends Manager<?>> handleManagerClass,
-			Class<?>[] wdEncapsulationParams, Object[] wdEncapsulationParamVals) {
-		try {
-			Constructor<?> wdeC = WebDriverEncapsulation.class
-					.getConstructor(wdEncapsulationParams);
-			WebDriverEncapsulation wdeInstance = (WebDriverEncapsulation) wdeC
-					.newInstance(wdEncapsulationParamVals);
-			return getTheFirstHandle(handleManagerClass, wdeInstance);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static Handle getTheFirstHandle(
-			Class<? extends Manager<?>> handleManagerClass,
-			WebDriverEncapsulation wdeInstance) {
-		try {
-			Constructor<?> c = handleManagerClass
-					.getConstructor(new Class<?>[] { WebDriverEncapsulation.class });
-			Manager<?> m = (Manager<?>) c
-					.newInstance(new Object[] { wdeInstance });
-
-			return m.getHandle(0);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	protected static WebDriverEncapsulation getWebDriverEncapsulation(
 			Application<?, ?> app) {
 		return app.getWebDriverEncapsulation();
+	}
+
+	/**
+	 * Instantiates {@link Application} by initial parameters
+	 */
+	private static <T extends Application<?, ?>> T getApplication(
+			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
+			Class<?>[] initaialParameterClasses,
+			Object[] initaialParameterValues, MethodInterceptor mi) {
+		Handle h = null;
+		try {
+			h = ModelSupportUtil.getTheFirstHandle(handleManagerClass, initaialParameterClasses,
+					initaialParameterValues);
+			return EnhancedProxyFactory.getProxy(appClass,
+					ModelSupportUtil.getParameterClasses(new Object[] { h }, appClass),
+					new Object[] { h }, mi);
+		} catch (Exception e) {
+			if (h != null) {
+				h.getDriverEncapsulation().destroy();
+			}
+			throw new RuntimeException(e);
+		}
+	
 	}
 
 }

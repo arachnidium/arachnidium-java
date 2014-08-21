@@ -18,9 +18,14 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 	@Override
 	public synchronized Object intercept(Object funcPart, Method method,
 			Object[] args, MethodProxy methodProxy) throws Throwable {
-		if (method.isAnnotationPresent(FunctionalPart.InteractiveMethod.class))
-			// if there are actions with a page
-			((FunctionalPart<?>) funcPart).switchToMe();
-		return super.intercept(funcPart, method, args, methodProxy);
+		try {
+			if (method
+					.isAnnotationPresent(FunctionalPart.InteractiveMethod.class))
+				// if there are actions with a page
+				((FunctionalPart<?>) funcPart).switchToMe();
+			return super.intercept(funcPart, method, args, methodProxy);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }
