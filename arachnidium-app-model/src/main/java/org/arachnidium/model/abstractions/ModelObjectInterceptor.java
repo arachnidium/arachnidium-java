@@ -18,6 +18,8 @@ import org.arachnidium.util.proxy.DefaultInterceptor;
  */
 public abstract class ModelObjectInterceptor	extends DefaultInterceptor {
 
+	protected static final String GET_PART = "getPart";
+	
 	protected HowToGetByFrames ifClassIsAnnotatedByFrames(
 			Class<? extends IDecomposable> annotatedDecomposable) {
 		List<Object> framePath = ClassDeclarationReader

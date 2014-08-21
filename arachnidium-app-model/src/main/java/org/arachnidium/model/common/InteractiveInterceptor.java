@@ -1,10 +1,14 @@
 package org.arachnidium.model.common;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.arachnidium.model.abstractions.ModelObjectInterceptor;
+import org.arachnidium.model.interfaces.IDecomposable;
+import org.arachnidium.model.support.HowToGetByFrames;
 
 public class InteractiveInterceptor extends ModelObjectInterceptor {
 
@@ -15,6 +19,7 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 	/**
 	 * Interceptor that sets focus on pages to interact with.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized Object intercept(Object funcPart, Method method,
 			Object[] args, MethodProxy methodProxy) throws Throwable {
@@ -23,6 +28,27 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 					.isAnnotationPresent(FunctionalPart.InteractiveMethod.class))
 				// if there are actions with a page
 				((FunctionalPart<?>) funcPart).switchToMe();
+
+			if (method.getName().equals(GET_PART)) {
+				List<Class<?>> paramClasses = Arrays.asList(method
+						.getParameterTypes());
+
+				// if .getPart(SomeClass), //SomeClass can be annotated by
+				// @Frame
+				// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
+				if (!paramClasses.contains(HowToGetByFrames.class)) {
+					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames((Class<? extends IDecomposable>) funcPart
+							.getClass());
+
+					if (howTo != null) {
+						args = ModelSupportUtil.addValues(args, howTo);
+						method = ModelSupportUtil.getSuitableMethod(
+								funcPart.getClass(), GET_PART, args);
+						//TODO 
+					}
+				}
+			}
+
 			return super.intercept(funcPart, method, args, methodProxy);
 		} catch (Exception e) {
 			throw e;
