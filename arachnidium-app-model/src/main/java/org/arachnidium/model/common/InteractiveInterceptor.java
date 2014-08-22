@@ -6,8 +6,8 @@ import java.util.List;
 
 import net.sf.cglib.proxy.MethodProxy;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.arachnidium.model.abstractions.ModelObjectInterceptor;
-import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.support.HowToGetByFrames;
 
 public class InteractiveInterceptor extends ModelObjectInterceptor {
@@ -19,7 +19,6 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 	/**
 	 * Interceptor that sets focus on pages to interact with.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized Object intercept(Object funcPart, Method method,
 			Object[] args, MethodProxy methodProxy) throws Throwable {
@@ -37,14 +36,16 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 				// @Frame
 				// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
 				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames((Class<? extends IDecomposable>) funcPart
-							.getClass());
+					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames(paramClasses
+							//the first parameter is a class which instance we want
+							.get(0));
 
 					if (howTo != null) {
-						args = ModelSupportUtil.addValues(args, howTo);
+						args = ArrayUtils.add(args, howTo);
 						method = ModelSupportUtil.getSuitableMethod(
 								funcPart.getClass(), GET_PART, args);
-						//TODO 
+						methodProxy = ModelSupportUtil.getMethodProxy(
+								funcPart.getClass(), method);
 					}
 				}
 			}

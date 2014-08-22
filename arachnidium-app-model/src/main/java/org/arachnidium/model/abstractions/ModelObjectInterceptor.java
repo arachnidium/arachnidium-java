@@ -2,10 +2,7 @@ package org.arachnidium.model.abstractions;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
 import net.sf.cglib.proxy.MethodProxy;
-
-import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
 import org.arachnidium.model.support.annotations.classdeclaration.Frame;
@@ -21,10 +18,10 @@ public abstract class ModelObjectInterceptor	extends DefaultInterceptor {
 	protected static final String GET_PART = "getPart";
 	
 	protected HowToGetByFrames ifClassIsAnnotatedByFrames(
-			Class<? extends IDecomposable> annotatedDecomposable) {
+			Class<?> annotated) {
 		List<Object> framePath = ClassDeclarationReader
 				.getFramePath(ClassDeclarationReader.getAnnotations(
-						Frame.class, annotatedDecomposable));
+						Frame.class, annotated));
 		if (framePath.size() == 0) {
 			return null;
 		}

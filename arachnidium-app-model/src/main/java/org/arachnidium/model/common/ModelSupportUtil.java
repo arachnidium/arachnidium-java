@@ -3,11 +3,13 @@ package org.arachnidium.model.common;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
+import net.sf.cglib.asm.Type;
+import net.sf.cglib.core.Signature;
+import net.sf.cglib.proxy.MethodProxy;
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
@@ -123,11 +125,19 @@ abstract class ModelSupportUtil {
 		return null;
 	}
 	
-	static Object[] addValues(Object[] originalValues, Object... toBeAdded){
-		Object[] result = originalValues;
-		for (Object o: toBeAdded){
-			result = ArrayUtils.add(result, o);
+	static MethodProxy getMethodProxy(Class<?> clazz, Method m){
+		Type returned = Type.getReturnType(m);
+		Type[] argTypes = Type.getArgumentTypes(m);
+		return MethodProxy.find(clazz,
+				new Signature(m.getName(), returned, argTypes));		
+	}
+	
+	static int getParameterIndex(Parameter[] parameters, Class<?> requredClass){
+		for (int i = 0; i < parameters.length; i ++){
+			if (parameters[i].getType().isAssignableFrom(requredClass)){
+				return i;
+			}
 		}
-		return result;
+		return -1;
 	}
 }

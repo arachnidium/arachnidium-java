@@ -18,6 +18,7 @@ public abstract class ClassDeclarationReader {
 
 	private static final String REG_EXP_METHOD = "regExp";
 	private static final String INDEX_METHOD = "index";
+	private static final String TIME_OUT = "timeOut";
 	private static final Class<?>[] ANNOTATION_METHOD_PARAM_CLASSES = new Class<?>[] {};
 	private static final Object[] ANNOTATION_METHOD_PARAM_VALUES = new Object[] {};
 
@@ -154,6 +155,12 @@ public abstract class ClassDeclarationReader {
 		super();
 	}
 
-	
+	/**
+	 * Returns "timeOut()" value
+	 * @param a An instance of Annotation which has "timeOut()" method 
+	 */	
+	public static long getTimeOut(Annotation a){
+		return getValue(a, TIME_OUT);
+	}
 	
 }
