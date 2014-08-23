@@ -123,4 +123,9 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 			U howToGetHandle, HowToGetByFrames path, long timeOut) {
 		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle), path);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Manager<?>> T getManager(){
+		return (T) manager;
+	}
 }

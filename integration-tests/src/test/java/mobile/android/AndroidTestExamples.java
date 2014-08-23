@@ -10,6 +10,7 @@ import org.arachnidium.core.HowToGetMobileScreen;
 import org.arachnidium.mobile.android.bbc.BBCMain;
 import org.arachnidium.mobile.android.bbc.TopicList;
 import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
+import org.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
 import org.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
 import org.arachnidium.mobile.android.selendroid.testapp.Webview;
 import org.arachnidium.model.mobile.MobileAppliction;
@@ -65,6 +66,7 @@ public class AndroidTestExamples {
 				MobileAppliction.class, config);		
 		try {
 			HomeScreenActivity homeScreenActivity = selendroidTestApp.getPart(HomeScreenActivity.class);
+		
 			homeScreenActivity.fillMyTextField("Test text. Hello world!");
 			homeScreenActivity.clickOnVisibleButtonTest();
 			homeScreenActivity.waitForVisibleTextIsVisible(10);
@@ -88,6 +90,7 @@ public class AndroidTestExamples {
 			webview.sendMeYourName();
 			homeScreenActivity.goBackClick();
 			
+			
 			homeScreenActivity.startWebviewClick();
 			HowToGetMobileScreen h = new HowToGetMobileScreen();
 			h.setExpected("WEBVIEW_0");
@@ -108,6 +111,14 @@ public class AndroidTestExamples {
 			webview.selectCar("mercedes");
 			webview.sendMeYourName();			
 			homeScreenActivity.goBackClick();
+			
+			homeScreenActivity.startWebviewClick();
+			homeScreenActivity.clickOnSpinner();
+			homeScreenActivity.selectSpinnerItem("iframes");
+			
+			ImplicitlyDefinedWebViewFrame implicitlyDefinedWebView = selendroidTestApp.getPart(ImplicitlyDefinedWebViewFrame.class);
+			implicitlyDefinedWebView.clickOnFoo();
+			selendroidTestApp.getManager();
 		} finally {
 			selendroidTestApp.quit();
 		}

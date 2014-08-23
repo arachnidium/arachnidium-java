@@ -6,16 +6,29 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
 import net.sf.cglib.asm.Type;
 import net.sf.cglib.core.Signature;
 import net.sf.cglib.proxy.MethodProxy;
+
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
 
 abstract class ModelSupportUtil {
 
+	private static final HashMap<Class<?>, Class<?>> FOR_USED_SIMPLE_TYPES = new HashMap<Class<?>, Class<?>>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put(Integer.class, int.class);
+			put(Long.class, long.class);
+			put(Boolean.class, boolean.class);
+			// other can be added
+		}
+	};
+	
 	private ModelSupportUtil() {
 		super();
 	}
@@ -68,32 +81,42 @@ abstract class ModelSupportUtil {
 						+ "Class is " + requiredClass.getName()));
 	}
 	
-	private static Class<?>[] getSuitableParameterClasses(Executable[] executables, Object[] paramerers){
-		
+	private static Class<?>[] getSuitableParameterClasses(
+			Executable[] executables, Object[] paramerers) {
+
 		Class<?>[] givenParameters = new Class<?>[paramerers.length];
 		for (int i = 0; i < paramerers.length; i++) {
 			givenParameters[i] = paramerers[i].getClass();
 		}
-		
+
 		for (Executable executable : executables) {
 			Class<?>[] declaredParameters = executable.getParameterTypes();
-	
+
 			if (declaredParameters.length != givenParameters.length) {
 				continue;
 			}
-	
+
 			boolean isMatch = true;
 			for (int i = 0; i < declaredParameters.length; i++) {
-				if (!declaredParameters[i].isAssignableFrom(givenParameters[i])) {
+				boolean areParametersMatch = declaredParameters[i]
+						.isAssignableFrom(givenParameters[i]);
+				Class<?> simpleType = FOR_USED_SIMPLE_TYPES
+						.get(givenParameters[i]);
+				boolean isCastedToSimple = (simpleType != null);
+				if (!areParametersMatch && isCastedToSimple) {
+					areParametersMatch = declaredParameters[i]
+							.isAssignableFrom(simpleType);
+				}
+				if (!areParametersMatch) {
 					isMatch = false;
 					break;
 				}
 			}
-	
+
 			if (isMatch) {
 				return declaredParameters;
 			}
-		}			
+		}
 		return null;
 	}
 	

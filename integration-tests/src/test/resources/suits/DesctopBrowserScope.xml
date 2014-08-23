@@ -81,6 +81,24 @@
               <include name="typeHelloWorldAndOpenTheFirstLink" />
       </methods>
     </classes>
+  </test> <!-- Test -->  
+  
+  <test name="Classes are marked by annotatins whose values form strategies of getting page objects. Check this out!">
+    <classes>
+      <class name="web.GoogleDriveTest"/>
+      <methods>
+              <include name="test1" />
+      </methods>
+    </classes>
   </test> <!-- Test -->
+  
+  <test name="Classes are marked by annotatins whose values form strategies of getting page objects. But some parameters are defined explicitly. Check this out!">
+    <classes>
+      <class name="web.GoogleDriveTest"/>
+      <methods>
+              <include name="test2" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->  
   
 </suite> <!-- Suite -->

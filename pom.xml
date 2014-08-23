@@ -7,7 +7,7 @@
 		<ghostdriver.version>1.1.0</ghostdriver.version>
 		<appium.version>1.6.2</appium.version>
 		<testng.version>6.8.8</testng.version>
-		<actual.version>0.7</actual.version>
+		<actual.version>0.8</actual.version>
 	</properties>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -113,7 +113,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -122,7 +121,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
+			</plugin>		
 		</plugins>
 	</build>
 	<modules>

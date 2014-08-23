@@ -31,7 +31,7 @@ public class IOSTestExample {
 		
 		AlertView alertView = uiCatalog.getPart(AlertView.class);
 		alertView.invokeSimpleAlert();		
-		uiCatalog.getContextManager().getAlert().dismiss();	
+		uiCatalog.getManager().getAlert().dismiss();	
 		uicatalog.backToMe();
 		
 		uiCatalog.quit();

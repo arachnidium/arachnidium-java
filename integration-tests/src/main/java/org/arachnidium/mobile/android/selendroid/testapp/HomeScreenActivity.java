@@ -1,5 +1,10 @@
 package org.arachnidium.mobile.android.selendroid.testapp;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import io.appium.java_client.pagefactory.AndroidFindBy;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,6 +26,10 @@ public class HomeScreenActivity extends Screen {
 	private WebElement buttonStartWebview;
 	@FindBy(id = "goBack")
 	private WebElement goBack;
+	@AndroidFindBy(id = "spinner_webdriver_test_data")
+	private WebElement spinner;
+	@FindBy(id = "text1")
+	private List<WebElement> itemsForSelect;
 	
 	public HomeScreenActivity(MobileScreen context) {
 		super(context);
@@ -66,4 +75,19 @@ public class HomeScreenActivity extends Screen {
 	public void goBackClick(){
 		goBack.click();
 	}	
+	
+	@InteractiveMethod
+	public void clickOnSpinner(){
+		spinner.click();
+	}
+	
+	public void selectSpinnerItem(String item){
+		for (WebElement element: itemsForSelect){
+			if (element.getText().equals(item)){
+				element.click();
+				return;
+			}
+		}
+		throw new NoSuchElementException("There is no item " + item);
+	}
 }

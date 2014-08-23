@@ -70,8 +70,7 @@ public class HelloWorldGoogleTest {
 				add("iOS_emulator_safari_remoteWebDriver.json");
 			}
 			
-		});
-		
+		});		
 	}
 
 	List<String> getConfigsByCurrentPlatform(){
@@ -141,7 +140,7 @@ public class HelloWorldGoogleTest {
 	public void typeHelloWorldAndOpenTheFirstLink2(
 			@Optional("src/test/resources/configs/desctop/") String path,
 			@Optional("false") String toClick,
-			@Optional("") String configList)
+			@Optional("chrome.json,firefox.json") String configList)
 			throws Exception {
 		
 		List<String> configs = getConfigsByCurrentPlatform();
@@ -173,7 +172,7 @@ public class HelloWorldGoogleTest {
 	@Parameters(value={"path","configList"})
 	public void typeHelloWorldAndOpenTheFirstLink4(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("") String configList) throws Exception {
+			@Optional("chrome.json,firefox.json") String configList) throws Exception {
 		
 		String[] configNames = configList.split(",");
 		List<String> configs = getConfigsByCurrentPlatform();
@@ -206,7 +205,7 @@ public class HelloWorldGoogleTest {
 	@Parameters(value={"path", "toClick","configList"})
 	public void typeHelloWorldAndOpenTheFirstLink6(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("false") String toClick, @Optional("") String configList)
+			@Optional("false") String toClick, @Optional("chrome.json,firefox.json") String configList)
 			throws Exception {
 
 		List<String> configs = getConfigsByCurrentPlatform();

@@ -18,7 +18,7 @@ import org.arachnidium.model.support.annotations.classdeclaration.TimeOut;
 
 public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, HandleUniqueIdentifiers extends Annotation, AdditionalStringIdentifier extends Annotation, HowTo extends IHowToGetHandle>
 		extends ModelObjectInterceptor {
-	
+
 	private HowTo getHowToGetHandleStrategy(
 			Class<IndexAnnotation> indexAnnotation,
 			Class<HandleUniqueIdentifiers> handleUniqueIdentifiers,
@@ -54,7 +54,17 @@ public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation,
 		}
 
 		try {
-			return howToClass.newInstance();
+			HowTo result = howToClass.newInstance();
+			if (index != null) {
+				result.setExpected(index);
+			}
+			if (identifiers != null) {
+				result.setExpected(identifiers);
+			}
+			if (additionalStringIdentifier2 != null) {
+				result.setExpected(additionalStringIdentifier2);
+			}
+			return result;
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw e;
 		}
@@ -92,15 +102,21 @@ public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation,
 					.getActualTypeArguments()[3].getTypeName());
 
 			// There is nothing to do if all parameters apparently defined
-			if (!paramClasses.contains(howTo)
+			if (!paramClasses.contains(IHowToGetHandle.class)
 					|| !paramClasses.contains(HowToGetByFrames.class)
 					|| !paramClasses.contains(long.class)) {
 
-				HowTo how = getHowToGetHandleStrategy(indexAnnotationClass,
-						huiA, asiA, paramClasses
+				HowTo how = null;
+				if (!paramClasses.contains(IHowToGetHandle.class)){
+					how = getHowToGetHandleStrategy(indexAnnotationClass,
+						huiA, asiA, (Class<?>) args[0], howTo);
 						// the first parameter is a class which instance we
 						// want
-								.get(0), howTo);
+				}
+				else{
+					how = (HowTo) args[ModelSupportUtil.getParameterIndex(
+							method.getParameters(), howTo)];
+				}
 
 				int paramIndex = ModelSupportUtil.getParameterIndex(
 						method.getParameters(), int.class);
@@ -116,48 +132,42 @@ public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation,
 
 				HowToGetByFrames howToGetByFrames = null;
 				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					howToGetByFrames = ifClassIsAnnotatedByFrames(paramClasses
+					howToGetByFrames = ifClassIsAnnotatedByFrames((Class<?>) args[0]);
 					// the first parameter is a class which instance we want
-							.get(0));
-				}	
-				
+				}
+
 				Long timeOutLong = null;
 				paramIndex = ModelSupportUtil.getParameterIndex(
 						method.getParameters(), long.class);
 				if (paramIndex >= 0) {
 					timeOutLong = (Long) args[paramIndex];
-				}
-				else{
-					timeOutLong = getTimeOut(paramClasses
+				} else {
+					timeOutLong = getTimeOut((Class<?>) args[0]);
 					// the first parameter is a class which instance we want
-							.get(0));
-				}		
-				
-				//attempt to substitute methods is described below
-				Object[] newArgs = new Object[] {args[0]};				
-				if (how != null){
+				}
+
+				// attempt to substitute methods is described below
+				Object[] newArgs = new Object[] { args[0] };
+				if (how != null) {
 					newArgs = ArrayUtils.add(newArgs, how);
+				} else if (index != null) {
+					newArgs = ArrayUtils.add(newArgs, index.intValue());
 				}
-				else if (index != null){
-					int intIndex = index.intValue();
-					newArgs = ArrayUtils.add(newArgs, intIndex);
-				}
-				
-				if (howToGetByFrames != null){
+
+				if (howToGetByFrames != null) {
 					newArgs = ArrayUtils.add(newArgs, howToGetByFrames);
 				}
-				
-				if (timeOutLong != null){
-					long timeOut = timeOutLong.longValue();
-					newArgs = ArrayUtils.add(newArgs, timeOut);
+
+				if (timeOutLong != null) {
+					newArgs = ArrayUtils.add(newArgs, timeOutLong.longValue());
 				}
-				
+
 				args = newArgs;
 				method = ModelSupportUtil.getSuitableMethod(
 						application.getClass(), GET_PART, args);
 				methodProxy = ModelSupportUtil.getMethodProxy(
 						application.getClass(), method);
-				
+
 			}
 			return super.intercept(application, method, args, methodProxy);
 		} catch (Exception e) {

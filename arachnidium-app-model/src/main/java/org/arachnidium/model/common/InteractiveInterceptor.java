@@ -36,9 +36,8 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 				// @Frame
 				// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
 				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames(paramClasses
+					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames((Class<?>) args[0]);
 							//the first parameter is a class which instance we want
-							.get(0));
 
 					if (howTo != null) {
 						args = ArrayUtils.add(args, howTo);

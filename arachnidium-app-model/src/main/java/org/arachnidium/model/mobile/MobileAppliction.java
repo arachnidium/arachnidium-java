@@ -14,8 +14,10 @@ public abstract class MobileAppliction extends Application<MobileScreen, HowToGe
 		super(context);
 	}
 
-	public ScreenManager getContextManager() {
-		return (ScreenManager) manager;
+	@SuppressWarnings("unchecked")
+	@Override
+	public ScreenManager getManager() {
+		return (ScreenManager) super.getManager();
 	}
 
 }

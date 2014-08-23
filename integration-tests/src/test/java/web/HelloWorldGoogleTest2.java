@@ -23,7 +23,7 @@ public class HelloWorldGoogleTest2 {
 			@Override
 			HowToGetBrowserWindow get() {
 				HowToGetBrowserWindow h = super.get();
-				h.setExpected("Hello world*");
+				h.setExpected("^*[?[Hello]\\?[world]]");
 				return h;
 			}
 		},
@@ -52,7 +52,7 @@ public class HelloWorldGoogleTest2 {
 					}
 					
 				});
-				h.setExpected("Hello world*");
+				h.setExpected("^*[?[Hello]\\?[world]]");
 				return h;
 			}
 		};
@@ -84,7 +84,7 @@ public class HelloWorldGoogleTest2 {
 			"howToGetANewWindow", "timeOut" })
 	public void typeHelloWorldAndOpenTheFirstLink(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("false") String toClick, @Optional("") String configList,
+			@Optional("false") String toClick, @Optional("chrome.json,firefox.json") String configList,
 			@Optional("BYPARTIALURL") String howToGetANewWindow,
 			@Optional("10") String timeOut) throws Exception {
 

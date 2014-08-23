@@ -18,7 +18,9 @@ public abstract class BrowserApplication extends Application<BrowserWindow, HowT
 		cookies = driverEncapsulation.getComponent(Cookies.class);
 	}
 
-	public WindowManager getWindowManager() {
-		return (WindowManager) manager;
+	@SuppressWarnings("unchecked")
+	@Override
+	public WindowManager getManager() {
+		return (WindowManager) super.getManager();
 	}
 }
