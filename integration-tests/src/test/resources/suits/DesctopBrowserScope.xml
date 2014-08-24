@@ -101,4 +101,13 @@
     </classes>
   </test> <!-- Test -->  
   
+  <test name="This test checks exception interception and handling">
+    <classes>
+      <class name="web.GoogleExceptionInterceptionTest"/>
+      <methods>
+              <include name="exceptionInterceptionTest" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->   
+  
 </suite> <!-- Suite -->
