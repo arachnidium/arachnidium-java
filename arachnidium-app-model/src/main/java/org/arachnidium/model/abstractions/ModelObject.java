@@ -50,8 +50,9 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable, IDe
 						throw t;
 					});
 
-	final List<ModelObject<?>> children = Collections
-			.synchronizedList(new ArrayList<ModelObject<?>>());
+	@SuppressWarnings("rawtypes")
+	final List<ModelObject> children = Collections
+			.synchronizedList(new ArrayList<ModelObject>());
 	protected ModelObject(S handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();

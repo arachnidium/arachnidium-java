@@ -19,7 +19,7 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(xpath = ".//*[contains(@id,'cancel')]")
 	private WebElement cancel;
 	
-	protected ShareDocumentSettings(FunctionalPart<?> parent,
+	protected ShareDocumentSettings(FunctionalPart<S> parent,
 			HowToGetByFrames path) {
 		super(parent, path);
 		load();

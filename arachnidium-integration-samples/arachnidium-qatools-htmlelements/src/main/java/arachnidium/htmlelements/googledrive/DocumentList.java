@@ -8,21 +8,24 @@ import org.arachnidium.core.Handle;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
 import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
 @IfBrowserURL(regExp = "drive.google.com/drive/")
+@IfBrowserURL(regExp = "drive.google.com")
 @IfBrowserDefaultPageIndex(index = 0)
 public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 
-	@FindBy(className = "ndfHFb-vWsuo-V1ur5d")
+	@FindAll({@FindBy(className = "treedoclistview-root-node-name"),
+		@FindBy(xpath = ".//*[contains(@class,'goog-listitem-container')]")})
 	private List<Button> sections;
 
-	@FindBy(className = "eizQhe-mJRMzd-V1ur5d-fmcmS")
+	@FindBys({@FindBy(className = "doclist-name-wrapper"), @FindBy(tagName = "a")})
 	private List<Link> documents;
 
 	protected DocumentList(S handle) {
@@ -43,12 +46,7 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 		documents
 				.forEach((document) -> {
 					if (document.getText().equals(name)) {
-						Actions a = new Actions(driverEncapsulation
-								.getWrappedDriver());
-						a.doubleClick(document.getWrappedElement());
-						highlightAsInfo(document.getWrappedElement(),
-								"Element will be clicked twice");
-						a.perform();
+						document.click();
 						areFound.add(document);
 					}
 				});

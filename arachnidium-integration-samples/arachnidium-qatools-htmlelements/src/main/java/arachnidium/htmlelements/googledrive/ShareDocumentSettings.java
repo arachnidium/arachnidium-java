@@ -22,7 +22,7 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(xpath = ".//*[contains(@id,'cancel')]")
 	private Button cancel;
 	
-	protected ShareDocumentSettings(FunctionalPart<?> parent,
+	protected ShareDocumentSettings(FunctionalPart<S> parent,
 			HowToGetByFrames path) {
 		super(parent, path);
 		// (!!!)
@@ -33,7 +33,9 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	protected ShareDocumentSettings(S handle,
 			HowToGetByFrames path) {
 		super(handle, path);
-		load();
+		// (!!!)
+		HtmlElementLoader.populatePageObject(this,
+								driverEncapsulation.getWrappedDriver());
 	}	
 	
 	@InteractiveMethod
