@@ -10,5 +10,6 @@
   <modules>
   	<module>arachnidium-qatools-htmlelements</module>
   	<module>arachnidium-thucydides</module>
+  	<module>arachnidium-selenide</module>
   </modules>
 </project>
