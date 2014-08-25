@@ -9,5 +9,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>arachnidium-qatools-htmlelements</module>
+  	<module>arachnidium-thucydides</module>
   </modules>
 </project>
