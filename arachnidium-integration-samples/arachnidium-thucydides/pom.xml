@@ -9,21 +9,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.arachnidium</groupId>
-			<artifactId>arachnidium-core</artifactId>
-			<version>${actual.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.arachnidium.util</groupId>
-			<artifactId>arachnidium-configuration</artifactId>
-			<version>${actual.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.arachnidium.util</groupId>
-			<artifactId>arachnidium-logging</artifactId>
-			<version>${actual.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.arachnidium</groupId>
 			<artifactId>arachnidium-app-model</artifactId>
 			<version>${actual.version}</version>
 		</dependency>
