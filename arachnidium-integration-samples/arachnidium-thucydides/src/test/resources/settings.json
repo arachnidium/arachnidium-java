@@ -10,11 +10,11 @@
 	  {
 	      "toDoScreenShotsOnElementHighLighting":{
 	          "type":"BOOL",
-	          "value":"false"           
+	          "value":"true"           
 	      }, 
 	      "toDoScreenShotsOfNewHandles":{
 	          "type":"BOOL",
-	          "value":"false"           
+	          "value":"true"           
 	      }   	            
 	  },
 	  "ChromeDriver":
