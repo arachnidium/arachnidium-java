@@ -23,14 +23,14 @@ import net.thucydides.core.steps.StepListener;
 import net.thucydides.core.util.SystemEnvironmentVariables;
 import net.thucydides.core.webdriver.SystemPropertiesConfiguration;
 
-public class ArachdidiumAndThucydidesStepListener extends BaseStepListener implements StepListener, 
+public class ArachnidiumAndThucydidesStepListener extends BaseStepListener implements StepListener, 
     //attention please
 	ILogConverter {
 	
 	private static final File outputDirectory = new SystemPropertiesConfiguration(
 			new SystemEnvironmentVariables()).getOutputDirectory();
 
-	public ArachdidiumAndThucydidesStepListener() {
+	public ArachnidiumAndThucydidesStepListener() {
 		super(outputDirectory);
 		Photographer.setCommonOutputFolder(outputDirectory.getAbsolutePath()
 				+ "/");
