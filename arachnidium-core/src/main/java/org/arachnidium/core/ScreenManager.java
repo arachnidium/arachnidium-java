@@ -81,8 +81,13 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 	public MobileScreen getHandle(long timeOut,
 			HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
-		MobileScreen context = new MobileScreen(getStringHandle(timeOut,
-				isSupportActivities(howToGet)), this);
+		String handle = this.getStringHandle(timeOut,
+				isSupportActivities(howToGet));
+		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(
+				handle, this);
+		if (initedContext != null)
+			return initedContext;
+		MobileScreen context = new MobileScreen(handle, this);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}

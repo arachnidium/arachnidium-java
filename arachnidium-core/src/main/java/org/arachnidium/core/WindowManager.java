@@ -96,6 +96,13 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 	public BrowserWindow getHandle(long timeOut,
 			HowToGetBrowserWindow howToGet)
 			throws NoSuchWindowException {
+		String handle = this.getStringHandle(timeOut,
+				howToGet);
+		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(
+				handle, this);
+		if (initedWindow != null) {
+			return initedWindow;
+		}
 		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
 				howToGet), this);
 		return returnNewCreatedListenableHandle(window,

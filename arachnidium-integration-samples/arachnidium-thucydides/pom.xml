@@ -21,12 +21,37 @@
 			<groupId>net.thucydides</groupId>
 			<artifactId>thucydides-core</artifactId>
 			<version>0.9.268</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.thucydides</groupId>
-			<artifactId>thucydides-jbehave-plugin</artifactId>
+			<artifactId>thucydides-junit</artifactId>
 			<version>0.9.268</version>
-		</dependency>	
+		</dependency>
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>${appium.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>selenium-java</artifactId>
+					<groupId>org.seleniumhq.selenium</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-codec</artifactId>
+					<groupId>commons-codec</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>cglib</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies> 
 	
     <build>

@@ -1,1 +1,0 @@
-Scenario: Sample mobile story of BBC

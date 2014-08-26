@@ -26,7 +26,7 @@
 	      }  
 	      "app":{
 	          "type":"STRING",
-	          "value":"src/test/resources/binaries/mobile_test_apps/bbc.mobile.news.ww.apk"    
+	          "value":"src/test/resources/bbc.mobile.news.ww.apk"    
 	      }       
 	  },
 	  "webDriverTimeOuts":
