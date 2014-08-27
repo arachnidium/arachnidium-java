@@ -12,6 +12,7 @@ import org.arachnidium.core.settings.WebDriverSettings;
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
+import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
-WrapsDriver{
+WrapsDriver, IConfigurationWrapper{
 	protected static void prelaunch(ESupportedDrivers supporteddriver,
 			Configuration config, Capabilities capabilities) {
 		supporteddriver.launchRemoteServerLocallyIfWasDefined(config);
@@ -33,8 +34,7 @@ WrapsDriver{
 	private static ESupportedDrivers defaultSupportedDriver = ESupportedDrivers.FIREFOX;
 	private RemoteWebDriver enclosedDriver;
 
-	protected Configuration configuration = Configuration.byDefault;
-	private final ConfigurableElements configurableElements = new ConfigurableElements(configuration);
+	private Configuration configuration = Configuration.byDefault;
 	private TimeOut timeout;
 	final AbstractApplicationContext context = 
 			new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
@@ -114,7 +114,7 @@ WrapsDriver{
 			Configuration configuration) {
 		this.configuration = configuration;		
 		enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-				configurableElements, destroyableObjects, externallyInitiatedWebDriver);
+				this, destroyableObjects, externallyInitiatedWebDriver);
 		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
 	}
 
@@ -122,7 +122,6 @@ WrapsDriver{
 		Log.message("Getting started with "
 				+ driverClass.getSimpleName());
 		timeout = getComponent(TimeOut.class);
-		configurableElements.addConfigurable(timeout);
 		resetAccordingTo(configuration);
 	}
 
@@ -165,7 +164,7 @@ WrapsDriver{
 			Class<?>[] paramClasses, Object[] values) {		
 		try {
 			enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-					configurableElements, destroyableObjects, driverClass, paramClasses, values);
+					this, destroyableObjects, driverClass, paramClasses, values);
 			actoinsAfterWebDriverCreation(driverClass);
 		} catch (Exception e) {
 			if (enclosedDriver != null)
@@ -219,6 +218,11 @@ WrapsDriver{
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		configuration = config;
-		configurableElements.resetAccordingTo(configuration);
+		timeout.resetAccordingTo(config);
+	}
+
+	@Override
+	public Configuration getWrappedConfiguration() {
+		return configuration;
 	}
 }

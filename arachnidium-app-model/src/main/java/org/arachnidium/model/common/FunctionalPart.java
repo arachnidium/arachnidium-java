@@ -12,13 +12,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.arachnidium.core.Handle;
-import org.arachnidium.core.WebElementHighLighter;
 import org.arachnidium.core.components.common.Ime;
 import org.arachnidium.core.components.common.Interaction;
 import org.arachnidium.core.components.common.TimeOut;
+import org.arachnidium.core.highlighting.IWebElementHighlighter;
+import org.arachnidium.core.highlighting.WebElementHighLighter;
 import org.arachnidium.core.interfaces.ISwitchesToItself;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
-import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.support.HowToGetByFrames;
@@ -46,7 +46,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected FunctionalPart<?> parent; // parent test object
 	// page object is created by specified entity
 	protected Application<?,?> application;
-	private IWebElementHighlighter highLighter;
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final TimeOut timeOuts;
@@ -72,7 +71,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 		super(handle);
 		this.pathStrategy = path;
 		timeOuts = driverEncapsulation.getTimeOut();
-		highLighter = new WebElementHighLighter();
 		interaction = driverEncapsulation.getComponent(Interaction.class);
 		ime = driverEncapsulation.getComponent(Ime.class);
 	}
@@ -112,55 +110,61 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 		return DefaultApplicationFactory.get(partClass, values);
 	}
 
+	private IWebElementHighlighter getHighlighter(){
+		WebElementHighLighter highLighter = new WebElementHighLighter();
+		highLighter.resetAccordingTo(driverEncapsulation.getWrappedConfiguration());
+		return highLighter;
+	}
+	
 	@InteractiveMethod
 	public void highlightAsFine(WebElement element, Color highlight,
 			String comment) {
-		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsFine(driverEncapsulation.getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsFine(WebElement element, String comment) {
-		highLighter.highlightAsFine(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsFine(driverEncapsulation.getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsInfo(WebElement element, Color highlight,
 			String comment) {
-		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsInfo(driverEncapsulation.getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsInfo(WebElement element, String comment) {
-		highLighter.highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsInfo(driverEncapsulation.getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsSevere(WebElement element, Color highlight,
 			String comment) {
-		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsSevere(driverEncapsulation.getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsSevere(WebElement element, String comment) {
-		highLighter.highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsSevere(driverEncapsulation.getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsWarning(WebElement element, Color highlight,
 			String comment) {
-		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsWarning(driverEncapsulation.getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsWarning(WebElement element, String comment) {
-		highLighter.highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsWarning(driverEncapsulation.getWrappedDriver(),
 				element, comment);
 	}
 

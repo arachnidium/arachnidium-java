@@ -64,7 +64,7 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	}
 
 	public Alert getAlert() throws NoAlertPresentException{
-		Long time = driverEncapsulation.configuration
+		Long time = driverEncapsulation.getWrappedConfiguration()
 				.getSection(AlertIsPresentTimeOut.class).getAlertIsPresentTimeOut();
 		return driverEncapsulation.getComponent(AlertHandler.class,
 				new Class[] { long.class },
@@ -150,7 +150,7 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	}
 	
 	HandleWaitingTimeOut getHandleWaitingTimeOut() {
-		return driverEncapsulation.configuration
+		return driverEncapsulation.getWrappedConfiguration()
 				.getSection(HandleWaitingTimeOut.class);
 	}
 }

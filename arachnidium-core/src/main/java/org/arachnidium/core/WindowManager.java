@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 
+	private static long TIME_OUT_TO_SWITCH_ON = 2; //two seconds
+	
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
 		handleWaiting = new FluentWindowWaiting();
@@ -28,16 +30,19 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 			throw new NoSuchWindowException("There is no window with handle "
 					+ handle + "!");
 		try {
-			getWrappedDriver().switchTo().window(handle);
+			awaiting.awaitCondition(TIME_OUT_TO_SWITCH_ON, isSwithedOn(handle));
 		} catch (UnhandledAlertException | NoSuchWindowException e) {
 			throw e;
+		}
+		catch (TimeoutException e) {
+			throw new WebDriverException("Can't to switch on window handle " + handle, e);
 		}
 	}
 
 	synchronized void close(String handle) throws UnclosedWindowException,
 			NoSuchWindowException, UnhandledAlertException,
 			UnreachableBrowserException {
-		long timeOut = getTimeOut(getWebDriverEncapsulation().configuration
+		long timeOut = getTimeOut(getWebDriverEncapsulation().getWrappedConfiguration()
 				.getSection(WindowIsClosedTimeOut.class)
 				.getWindowIsClosedTimeOutTimeOut());
 
@@ -137,11 +142,24 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		else
 			return null;
 	}
+	
+	//is window switched on?
+	private static Boolean isSwithedOn(final WebDriver from, String handle) {
+		from.switchTo().window(handle);
+		if (from.getWindowHandle().equals(handle))
+			return true;
+		else
+			return null;
+	}
 
 	// fluent waiting for the result. See above
-	public static ExpectedCondition<Boolean> isClosed(final String closingHandle) {
+	private static ExpectedCondition<Boolean> isClosed(final String closingHandle) {
 		return from -> isClosed(from, closingHandle);
 	}
+	
+	private static ExpectedCondition<Boolean> isSwithedOn(final String handle) {
+		return from -> isSwithedOn(from, handle);
+	}	
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -9,10 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import org.arachnidium.core.WebElementHighLighter;
 import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
+import org.arachnidium.core.highlighting.IWebElementHighlighter;
+import org.arachnidium.core.highlighting.WebElementHighLighter;
 import org.arachnidium.core.interfaces.IDestroyable;
-import org.arachnidium.core.interfaces.IWebElementHighlighter;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
