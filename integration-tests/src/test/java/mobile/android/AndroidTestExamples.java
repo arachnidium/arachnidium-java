@@ -13,7 +13,7 @@ import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
 import org.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
 import org.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
 import org.arachnidium.mobile.android.selendroid.testapp.Webview;
-import org.arachnidium.model.mobile.MobileAppliction;
+import org.arachnidium.model.mobile.MobileApplication;
 import org.arachnidium.model.mobile.MobileFactory;
 import org.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
@@ -24,8 +24,8 @@ public class AndroidTestExamples {
   public void androidNativeAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_bbc.json");
-		MobileAppliction bbc = MobileFactory.getApplication(
-				MobileAppliction.class, config);
+		MobileApplication bbc = MobileFactory.getApplication(
+				MobileApplication.class, config);
 		try {
 			BBCMain bbcMain = bbc.getPart(BBCMain.class);
 			Assert.assertNotSame("", bbcMain.getAppStrings());
@@ -62,8 +62,8 @@ public class AndroidTestExamples {
   public void androidHybridAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app.json");
-		MobileAppliction selendroidTestApp = MobileFactory.getApplication(
-				MobileAppliction.class, config);		
+		MobileApplication selendroidTestApp = MobileFactory.getApplication(
+				MobileApplication.class, config);		
 		try {
 			HomeScreenActivity homeScreenActivity = selendroidTestApp.getPart(HomeScreenActivity.class);
 		

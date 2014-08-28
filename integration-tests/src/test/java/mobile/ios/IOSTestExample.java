@@ -3,7 +3,7 @@ package mobile.ios;
 import org.arachnidium.mobile.ios.iucatalog.ActionSheets;
 import org.arachnidium.mobile.ios.iucatalog.AlertView;
 import org.arachnidium.mobile.ios.iucatalog.UICatalog;
-import org.arachnidium.model.mobile.MobileAppliction;
+import org.arachnidium.model.mobile.MobileApplication;
 import org.arachnidium.model.mobile.MobileFactory;
 import org.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
@@ -14,8 +14,8 @@ public class IOSTestExample {
   	public void iOSUICatalogTest() {
   		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/ios/ios_uiCatalog.json");
-		MobileAppliction uiCatalog = MobileFactory.getApplication(
-				MobileAppliction.class, config);
+		MobileApplication uiCatalog = MobileFactory.getApplication(
+				MobileApplication.class, config);
 		UICatalog uicatalog = uiCatalog.getPart(UICatalog.class);
 		uicatalog.shake();
 		uicatalog.selectItem("Action Sheets, AAPLActionSheetViewController");
