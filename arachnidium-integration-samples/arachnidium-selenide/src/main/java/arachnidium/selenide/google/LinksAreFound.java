@@ -10,7 +10,6 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T>{
 		
 	protected LinksAreFound(T handle) {
 		super(handle);
-		load();
 	}
 
 	@InteractiveMethod

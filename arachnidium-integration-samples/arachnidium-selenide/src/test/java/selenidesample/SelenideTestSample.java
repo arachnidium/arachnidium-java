@@ -16,7 +16,7 @@ public class SelenideTestSample {
 			+ "Starts with Chrome (Win and Android), IE and PhantomJS")
 	@Parameters(value = { "path", "configList" })
 	public void selenideTest(@Optional("src/test/resources/") String path,
-			@Optional("chrome.json,internetexplorer.json,phantomjs.json,"
+			@Optional("chrome.json,internetexplorer.json,phantomjs.json"
 					+ "android_emulator_chrome_remoteWebDriver.json,android_emulator_chrome.json") String configList) {
 
 		String[] configNames = configList.split(",");

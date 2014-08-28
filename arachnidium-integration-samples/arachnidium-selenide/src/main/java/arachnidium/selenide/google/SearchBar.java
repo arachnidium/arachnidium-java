@@ -14,7 +14,6 @@ public class SearchBar<T extends Handle> extends FunctionalPart<T>{
 	
 	protected SearchBar(T handle) {
 		super(handle);
-		load();
 	}
 
 	@InteractiveMethod
