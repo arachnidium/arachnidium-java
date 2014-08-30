@@ -1,12 +1,16 @@
 package org.arachnidium.util.logging;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Proxy;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -153,7 +157,18 @@ public class Log {
 			commonLevel = info;
 		else
 			commonLevel = level;
-		log.setLevel(commonLevel);
+		
+		String config = "\n" + 
+			       "handlers = java.util.logging.ConsoleHandler" + "\n" + 
+			       ".level = " + commonLevel.getLocalizedName() +"\n"+
+			       "java.util.logging.ConsoleHandler.level = " + commonLevel.getLocalizedName() + "\n" +
+			       "";
+		InputStream ins = new ByteArrayInputStream(config.getBytes());
+	    try {
+	       LogManager.getLogManager().readConfiguration(ins);
+	    } catch (IOException e) {
+	       throw new RuntimeException(e);
+	    }
 		return commonLevel;
 	}
 
@@ -183,11 +198,11 @@ public class Log {
 
 	private final static Level info = Level.INFO;
 
-	private static Logger log = Logger.getAnonymousLogger();
-
 	private static Level commonLevel = resetLogLevel(Configuration.byDefault
 			.getSection(LoggingHelper.class).getLevel());
 
+	private static Logger log = Logger.getAnonymousLogger();
+	
 	private static long sequence = 0;
 
 	private static final List<ILogConverter> converters = Collections
