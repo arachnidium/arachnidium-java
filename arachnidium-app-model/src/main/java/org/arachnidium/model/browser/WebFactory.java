@@ -14,26 +14,6 @@ public final class WebFactory extends DefaultApplicationFactory {
 
 	/**
 	 * Common method that creates an instance of a browser application with
-	 * default configuration
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass) {
-		return getApplication(WindowManager.class, appClass,
-				new BrowserApplicationInterceptor());
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined configuration
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, Configuration config) {
-		return getApplication(WindowManager.class, appClass, config,
-				new BrowserApplicationInterceptor());
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
 	 * defined configuration. Application is loaded using it's URL
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
@@ -41,27 +21,6 @@ public final class WebFactory extends DefaultApplicationFactory {
 		return load(
 				getApplication(WindowManager.class, appClass, config,
 						new BrowserApplicationInterceptor()), urlToBeLoaded);
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver) {
-		return getApplication(WindowManager.class, appClass, supportedDriver,
-				new BrowserApplicationInterceptor());
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver and its capabilities
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			Capabilities capabilities) {
-		return getApplication(WindowManager.class, appClass, supportedDriver,
-				capabilities, new BrowserApplicationInterceptor());
 	}
 
 	/**
@@ -78,17 +37,6 @@ public final class WebFactory extends DefaultApplicationFactory {
 				urlToBeLoaded);
 	}
 
-	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver, capabilities and URL to remote server
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			Capabilities capabilities, URL remoteAddress) {
-		return getApplication(WindowManager.class, appClass, supportedDriver,
-				capabilities, remoteAddress,
-				new BrowserApplicationInterceptor());
-	}
 
 	/**
 	 * Common method that creates an instance of a browser application with
@@ -118,17 +66,6 @@ public final class WebFactory extends DefaultApplicationFactory {
 
 	/**
 	 * Common method that creates an instance of a browser application with
-	 * defined webdriver and URL to remote server
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			URL remoteAddress) {
-		return getApplication(WindowManager.class, appClass, supportedDriver,
-				remoteAddress, new BrowserApplicationInterceptor());
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
 	 * defined webdriver and URL to remote server. Application is loaded using
 	 * it's URL
 	 */
@@ -150,16 +87,6 @@ public final class WebFactory extends DefaultApplicationFactory {
 		return load(
 				getApplication(WindowManager.class, appClass,
 						new BrowserApplicationInterceptor()), urlToBeLoaded);
-	}
-
-	/**
-	 * Common method that creates an instance of a browser application with
-	 * externally instantiated {@link WebDriverEncapsulation}
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, WebDriverEncapsulation wdEncapsulation) {
-		return getApplication(WindowManager.class, appClass, wdEncapsulation,
-				new BrowserApplicationInterceptor());
 	}
 
 	/**

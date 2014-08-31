@@ -17,7 +17,10 @@ import net.sf.cglib.proxy.Enhancer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-//for customizing project
+/**
+ * Stores settings read from JSON file
+ * This JSON file has specific format   
+ */
 public class Configuration {
 	public static Configuration get(String filePath) {
 		Callback interceptor = new ConfigurationInterceptor();
