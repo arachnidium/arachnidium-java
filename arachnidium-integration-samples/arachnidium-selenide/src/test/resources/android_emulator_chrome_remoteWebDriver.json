@@ -13,9 +13,13 @@
 	  
 	  "DesiredCapabilities":
 	  {
-	      "device":{
+	      "platformName":{
 	          "type":"STRING",
-	          "value":"Selendroid"    
+	          "value":"Android"    
+	      }, 
+	      "deviceName":{
+	          "type":"STRING",
+	          "value":"Android Emulator"    
 	      },    
 	      "browserName":{
 	          "type":"STRING",
