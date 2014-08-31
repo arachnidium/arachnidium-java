@@ -9,6 +9,7 @@ public class ScreenShots extends AbstractConfigurationAccessHelper {
 	private final String toDoScreenShotsOnElementHighLighting = "toDoScreenShotsOnElementHighLighting";
 	// screenshot group
 	private final String screenShotssGroup = "screenShots";
+	private final Boolean DEFAULT_VALUE = false;
 
 	public ScreenShots(Configuration configuration) {
 		super(configuration);
@@ -19,12 +20,19 @@ public class ScreenShots extends AbstractConfigurationAccessHelper {
 		return getSettingValue(screenShotssGroup, name);
 	}
 
+	private Boolean returnExplicitOrDefaultValue(Boolean value) {
+		if (value == null) {
+			value = DEFAULT_VALUE;
+		}
+		return value;
+	}
+
 	public Boolean getToDoScreenShotsOfNewHandles() {
-		return (Boolean) getSetting(toDoScreenShotsOfNewHandles);
+		return returnExplicitOrDefaultValue((Boolean) getSetting(toDoScreenShotsOfNewHandles));
 	}
 
 	public Boolean getToDoScreenShotsOnElementHighLighting() {
-		return (Boolean) getSetting(toDoScreenShotsOnElementHighLighting);
+		return returnExplicitOrDefaultValue((Boolean) getSetting(toDoScreenShotsOnElementHighLighting));
 	}
 
 }
