@@ -12,8 +12,15 @@ import org.openqa.selenium.WebElement;
  */
 public class HowToGetByFrames {
 
-	final static Class<?>[] availableClassesOfFrameIdentifiers = new Class<?>[] {
-			String.class, int.class, By.class, WebElement.class };
+	final static ArrayList<Class<?>> availableClassesOfFrameIdentifiers =  new ArrayList<Class<?>>() {
+		private static final long serialVersionUID = 1L;
+		{
+			add(String.class);
+			add(Integer.class); 
+			add(By.class);
+			add(WebElement.class); 
+		}
+	};
 	final ArrayList<Object> framePath = new ArrayList<Object>();
 
 	public void switchTo(WebDriver driver) {
