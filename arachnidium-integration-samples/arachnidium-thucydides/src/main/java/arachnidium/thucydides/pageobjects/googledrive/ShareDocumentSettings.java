@@ -33,7 +33,7 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	
 	@InteractiveMethod
 	public void invite(String eMail){
-		Actions a = new Actions(driverEncapsulation.getWrappedDriver());
+		Actions a = new Actions(getWrappedDriver());
 		a.sendKeys(invite, eMail);
 		highlightAsInfo(invite, "eMails of people "
 				+ "to be invited will be printed here");

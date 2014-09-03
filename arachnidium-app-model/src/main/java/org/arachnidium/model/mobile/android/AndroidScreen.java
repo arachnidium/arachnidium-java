@@ -20,8 +20,8 @@ public abstract class AndroidScreen extends Screen {
 
 	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
 		super(parent, path);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
+		metastateKeyEventSender = getComponent(MetastateKeyEventSender.class);
+		appStringGetter = getComponent(AppStringGetter.class);
 	}
 
 	protected AndroidScreen(MobileScreen context) {
@@ -30,8 +30,8 @@ public abstract class AndroidScreen extends Screen {
 
 	protected AndroidScreen(MobileScreen context, HowToGetByFrames path) {
 		super(context, path);
-		metastateKeyEventSender = driverEncapsulation.getComponent(MetastateKeyEventSender.class);
-		appStringGetter = driverEncapsulation.getComponent(AppStringGetter.class);
+		metastateKeyEventSender = getComponent(MetastateKeyEventSender.class);
+		appStringGetter = getComponent(AppStringGetter.class);
 	}
 
 }

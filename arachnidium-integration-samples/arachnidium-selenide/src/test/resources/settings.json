@@ -3,7 +3,7 @@
 	  {
 	      "Level":{
 	          "type":"STRING",
-	          "value":"FINE"           
+	          "value":"INFO"           
 	      }      
 	  },
 	  "screenShots":

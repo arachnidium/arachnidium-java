@@ -27,7 +27,7 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 		super(parent, path);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
-						driverEncapsulation.getWrappedDriver());
+						getWrappedDriver());
 	}
 	
 	protected ShareDocumentSettings(S handle,
@@ -35,12 +35,12 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 		super(handle, path);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
-								driverEncapsulation.getWrappedDriver());
+								getWrappedDriver());
 	}	
 	
 	@InteractiveMethod
 	public void invite(String eMail){
-		Actions a = new Actions(driverEncapsulation.getWrappedDriver());
+		Actions a = new Actions(getWrappedDriver());
 		a.sendKeys(invite.getWrappedElement(), eMail);
 		highlightAsInfo(invite.getWrappedElement(), "eMails of people "
 				+ "to be invited will be printed here");

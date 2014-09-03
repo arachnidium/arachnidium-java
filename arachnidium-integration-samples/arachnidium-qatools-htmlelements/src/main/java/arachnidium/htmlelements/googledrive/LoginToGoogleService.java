@@ -33,7 +33,7 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 		super(handle);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
-						driverEncapsulation.getWrappedDriver());
+						getWrappedDriver());
 	}
 	
 	@InteractiveMethod

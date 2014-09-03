@@ -14,7 +14,7 @@ public class Google extends BrowserApplication {
 	protected Google(BrowserWindow browserWindow){
 		super(browserWindow);
 		//!!!!
-		setWebDriver(driverEncapsulation.getWrappedDriver());
+		setWebDriver(getWrappedDriver());
 	}
 	
 	public static Google getNew()

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.WebDriverEncapsulation;
+import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.components.common.Awaiting;
 import org.arachnidium.core.components.common.DriverLogs;
 import org.arachnidium.core.components.common.ScriptExecutor;
@@ -15,10 +16,13 @@ import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 import org.arachnidium.model.support.HowToGetByFrames;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.internal.WrapsDriver;
 
-public abstract class ModelObject<S extends Handle> implements IDestroyable, IDecomposable {
+public abstract class ModelObject<S extends Handle> implements IDestroyable,
+		IDecomposable, WrapsDriver {
 	protected final S handle; // handle that object is placed on
-	protected final WebDriverEncapsulation driverEncapsulation; // wrapped web
+	private final WebDriverEncapsulation driverEncapsulation; // wrapped web
 																// driver
 	// for situations
 	// when it needs to
@@ -53,6 +57,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable, IDe
 	@SuppressWarnings("rawtypes")
 	final List<ModelObject> children = Collections
 			.synchronizedList(new ArrayList<ModelObject>());
+
 	protected ModelObject(S handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();
@@ -88,4 +93,22 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable, IDe
 	@Override
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy);
+
+	@Override
+	public WebDriver getWrappedDriver() {
+		return driverEncapsulation.getWrappedDriver();
+	}
+
+	protected final <T extends WebdriverComponent> T getComponent(Class<T> required) {
+		return driverEncapsulation.getComponent(required);
+	}
+
+	protected final <T extends WebdriverComponent> T getComponent(Class<T> required,
+			Class<?>[] params, Object[] values) {
+		return driverEncapsulation.getComponent(required, params, values);
+	}
+	
+	public final WebDriverEncapsulation getWebDriverEncapsulation(){
+		return driverEncapsulation;
+	}
 }

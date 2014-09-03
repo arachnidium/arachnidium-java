@@ -31,7 +31,7 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 
 	@InteractiveMethod
 	public void clickOnLinkByIndex(int index) {
-		Actions clickAction = new Actions(driverEncapsulation.getWrappedDriver());
+		Actions clickAction = new Actions(getWrappedDriver());
 		clickAction.click(result.findElements(By.xpath(".//*[@class='r']/a")).get(index - 1));
 		clickAction.perform();
 	}

@@ -32,7 +32,7 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 		super(handle);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
-						driverEncapsulation.getWrappedDriver());
+						getWrappedDriver());
 	}
 
 	@InteractiveMethod

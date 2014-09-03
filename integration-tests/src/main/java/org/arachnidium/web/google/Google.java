@@ -1,6 +1,5 @@
 package org.arachnidium.web.google;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.model.browser.BrowserApplication;
@@ -54,11 +53,6 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 		((BrowserWindow) handle).close();
 		destroy();
 	}	
-
-	@Override
-	public WebDriver getWrappedDriver() {
-		return driverEncapsulation.getWrappedDriver();
-	}
 
 	@Override
 	public void clickOnLinkByIndex(int index) {

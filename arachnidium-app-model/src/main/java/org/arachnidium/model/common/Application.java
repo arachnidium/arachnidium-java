@@ -2,7 +2,6 @@ package org.arachnidium.model.common;
 
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
-import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.fluenthandle.IHowToGetHandle;
 import org.arachnidium.model.abstractions.ModelObject;
 import org.arachnidium.model.interfaces.IDecomposable;
@@ -21,7 +20,7 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 	protected Application(S handle) {
 		super(handle);
 		manager = (Manager<U>) handle.getManager();
-		driverEncapsulation.addDestroyable(this);
+		getWebDriverEncapsulation().addDestroyable(this);
 	}
 
 	/**
@@ -65,15 +64,11 @@ public class Application<S extends Handle, U extends IHowToGetHandle> extends Mo
 		return getPart(partClass, this.handle, path);
 	}
 
-	WebDriverEncapsulation getWebDriverEncapsulation() {
-		return driverEncapsulation;
-	}
-
 	/**
 	 * destroys an Application instance and makes WebDriver quit
 	 */
 	public void quit() {
-		driverEncapsulation.destroy();
+		getWebDriverEncapsulation().destroy();
 	}
 
 	@Override

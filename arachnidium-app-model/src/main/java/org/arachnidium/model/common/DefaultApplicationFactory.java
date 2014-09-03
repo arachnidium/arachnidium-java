@@ -120,11 +120,6 @@ public class DefaultApplicationFactory {
 
 	}
 
-	protected static WebDriverEncapsulation getWebDriverEncapsulation(
-			Application<?, ?> app) {
-		return app.getWebDriverEncapsulation();
-	}
-
 	/**
 	 * Instantiates {@link Application} by initial parameters
 	 */

@@ -29,7 +29,7 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	
 	@InteractiveMethod
 	public void clickOnSplashButton(String name){
-		driverEncapsulation.getWrappedDriver().findElement(By.name(name)).click();
+		getWrappedDriver().findElement(By.name(name)).click();
 	}
 
 }

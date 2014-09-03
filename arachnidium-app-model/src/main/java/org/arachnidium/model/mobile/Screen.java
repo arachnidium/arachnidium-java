@@ -41,16 +41,16 @@ Rotatable {
 	 *
 	 */
 	protected class TouchActions {
-		private final Screen context;
+		private final Screen screen;
 
-		private TouchActions(Screen context) {
-			this.context = context;
+		private TouchActions(Screen screen) {
+			this.screen = screen;
 		}
 
 		public TouchAction getTouchAction() {
 			return EnhancedProxyFactory.getProxy(TouchAction.class,
 					new Class<?>[] { MobileDriver.class },
-					new Object[] { (MobileDriver) context.driverEncapsulation
+					new Object[] { (MobileDriver) screen
 				.getWrappedDriver() },
 				new TouchActionsInterceptor());
 		}
@@ -92,14 +92,14 @@ Rotatable {
 
 	protected Screen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
 		super(parent, path);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
+		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+		keyEventSender = getComponent(KeyEventSender.class);
+		tap = getComponent(Tap.class);
+		swipe = getComponent(Swipe.class);
+		pinch = getComponent(Pinch.class);
+		zoomer = getComponent(Zoomer.class);
+		scroller = getComponent(ScrollerTo.class);
+		complexFinder = getComponent(ComplexFinder.class);
 	}
 
 	protected Screen(MobileScreen context) {
@@ -108,14 +108,14 @@ Rotatable {
 
 	protected Screen(MobileScreen context, HowToGetByFrames path) {
 		super(context, path);
-		touchActionsPerformer = driverEncapsulation.getComponent(TouchActionsPerformer.class);
-		keyEventSender = driverEncapsulation.getComponent(KeyEventSender.class);
-		tap = driverEncapsulation.getComponent(Tap.class);
-		swipe = driverEncapsulation.getComponent(Swipe.class);
-		pinch = driverEncapsulation.getComponent(Pinch.class);
-		zoomer = driverEncapsulation.getComponent(Zoomer.class);
-		scroller = driverEncapsulation.getComponent(ScrollerTo.class);
-		complexFinder = driverEncapsulation.getComponent(ComplexFinder.class);
+		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+		keyEventSender = getComponent(KeyEventSender.class);
+		tap = getComponent(Tap.class);
+		swipe = getComponent(Swipe.class);
+		pinch = getComponent(Pinch.class);
+		zoomer = getComponent(Zoomer.class);
+		scroller = getComponent(ScrollerTo.class);
+		complexFinder = getComponent(ComplexFinder.class);
 	}
 
 	@Override

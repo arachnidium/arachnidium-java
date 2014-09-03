@@ -15,6 +15,7 @@ import org.arachnidium.core.Handle;
 import org.arachnidium.core.components.common.Ime;
 import org.arachnidium.core.components.common.Interaction;
 import org.arachnidium.core.components.common.TimeOut;
+import org.arachnidium.core.fluenthandle.IHowToGetHandle;
 import org.arachnidium.core.highlighting.IWebElementHighlighter;
 import org.arachnidium.core.highlighting.WebElementHighLighter;
 import org.arachnidium.core.interfaces.ISwitchesToItself;
@@ -70,9 +71,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected FunctionalPart(S handle, HowToGetByFrames path) {
 		super(handle);
 		this.pathStrategy = path;
-		timeOuts = driverEncapsulation.getTimeOut();
-		interaction = driverEncapsulation.getComponent(Interaction.class);
-		ime = driverEncapsulation.getComponent(Ime.class);
+		timeOuts = getWebDriverEncapsulation().getTimeOut();
+		interaction = getComponent(Interaction.class);
+		ime =         getComponent(Ime.class);
 	}
 
 	@Override
@@ -112,66 +113,67 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	private IWebElementHighlighter getHighlighter(){
 		WebElementHighLighter highLighter = new WebElementHighLighter();
-		highLighter.resetAccordingTo(driverEncapsulation.getWrappedConfiguration());
+		highLighter.resetAccordingTo(getWebDriverEncapsulation().
+				getWrappedConfiguration());
 		return highLighter;
 	}
 	
 	@InteractiveMethod
 	public void highlightAsFine(WebElement element, Color highlight,
 			String comment) {
-		getHighlighter().highlightAsFine(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsFine(getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsFine(WebElement element, String comment) {
-		getHighlighter().highlightAsFine(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsFine(getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsInfo(WebElement element, Color highlight,
 			String comment) {
-		getHighlighter().highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsInfo(getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsInfo(WebElement element, String comment) {
-		getHighlighter().highlightAsInfo(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsInfo(getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsSevere(WebElement element, Color highlight,
 			String comment) {
-		getHighlighter().highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsSevere(getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsSevere(WebElement element, String comment) {
-		getHighlighter().highlightAsSevere(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsSevere(getWrappedDriver(),
 				element, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsWarning(WebElement element, Color highlight,
 			String comment) {
-		getHighlighter().highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsWarning(getWrappedDriver(),
 				element, highlight, comment);
 	}
 
 	@InteractiveMethod
 	public void highlightAsWarning(WebElement element, String comment) {
-		getHighlighter().highlightAsWarning(driverEncapsulation.getWrappedDriver(),
+		getHighlighter().highlightAsWarning(getWrappedDriver(),
 				element, comment);
 	}
 
 	// The method below simply loads page factory
 	protected void load() {
 		PageFactory.initElements(new AppiumFieldDecorator(
-				driverEncapsulation.getWrappedDriver(),
+				getWrappedDriver(),
 				timeOuts.getImplicitlyWaitTimeOut(),
 				timeOuts.getImplicitlyWaitTimeUnit()), this);
 	}
@@ -194,7 +196,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 			parent.switchToMe();
 		else
 			handle.switchToMe();
-		pathStrategy.switchTo(driverEncapsulation.getWrappedDriver());
+		pathStrategy.switchTo(getWrappedDriver());
 		return;
 	}
 
@@ -228,5 +230,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	@Override
 	public void takeAPictureOfAWarning(String comment) {
 		handle.takeAPictureOfAWarning(comment);
+	}
+	
+	public Application<? extends Handle, ? extends IHowToGetHandle> getApplication(){
+		return application;
 	}
 }

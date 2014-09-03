@@ -15,7 +15,7 @@ public abstract class BrowserApplication extends Application<BrowserWindow, HowT
 
 	protected BrowserApplication(BrowserWindow window) {
 		super(window);
-		cookies = driverEncapsulation.getComponent(Cookies.class);
+		cookies = getComponent(Cookies.class);
 	}
 
 	@SuppressWarnings("unchecked")

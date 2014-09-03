@@ -22,7 +22,7 @@ public class LogOut<S extends Handle> extends FunctionalPart<S> {
 		super(parent);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
-						driverEncapsulation.getWrappedDriver());
+						getWrappedDriver());
 	}
 	
 	@InteractiveMethod
