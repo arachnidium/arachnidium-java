@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>arachnidium</artifactId>
-    <version>${actual.version}</version>
+    <version>0.8.7</version>
   </parent>
   <artifactId>arachnidium-app-model</artifactId>
   <dependencies>

@@ -58,18 +58,6 @@ public final class MobileFactory extends DefaultApplicationFactory {
 		}
 	}
 
-	/**
-	 * Common method that creates an instance of a mobile application using
-	 * defined address of remote server. It is important: Remote Appium server
-	 * should be tuned
-	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, URL remoteAddress) {
-		return getApplication(ScreenManager.class, appClass,
-				ESupportedDrivers.MOBILE, remoteAddress,
-				new MobileApplicationInterceptor());
-	}
-
 	private MobileFactory() {
 		super();
 	}

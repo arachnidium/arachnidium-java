@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>arachnidium-integration-samples</artifactId>
-    <version>${actual.version}</version>
+    <version>0.8.7</version>
   </parent>
   <artifactId>arachnidium-selenide</artifactId>
   
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
+			<version>6.8.8</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
