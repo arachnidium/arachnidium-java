@@ -49,7 +49,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected Application<?,?> application;
 	protected final Interaction interaction;
 	protected final Ime ime;
-	protected final TimeOut timeOuts;
 	protected final HowToGetByFrames pathStrategy;
 
 	// constructs from another page object
@@ -71,7 +70,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected FunctionalPart(S handle, HowToGetByFrames path) {
 		super(handle);
 		this.pathStrategy = path;
-		timeOuts = getWebDriverEncapsulation().getTimeOut();
 		interaction = getComponent(Interaction.class);
 		ime =         getComponent(Ime.class);
 	}
@@ -172,10 +170,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	// The method below simply loads page factory
 	protected void load() {
+		TimeOut timeOut = getWebDriverEncapsulation().getTimeOut();
 		PageFactory.initElements(new AppiumFieldDecorator(
 				getWrappedDriver(),
-				timeOuts.getImplicitlyWaitTimeOut(),
-				timeOuts.getImplicitlyWaitTimeUnit()), this);
+				timeOut.getImplicitlyWaitTimeOut(),
+				timeOut.getImplicitlyWaitTimeUnit()), this);
 	}
 
 	protected void load(FieldDecorator decorator) {
