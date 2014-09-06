@@ -7,7 +7,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 /**
  *
- * A default interceptor for all proxy objects
+ * The default {@link MethodInterceptor} implementor
  *
  */
 public class DefaultInterceptor implements MethodInterceptor {

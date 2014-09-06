@@ -19,7 +19,23 @@ import org.json.simple.parser.JSONParser;
 
 /**
  * Stores settings read from JSON file
- * This JSON file has specific format   
+ * A JSON file has specific format
+ * 
+ * 
+ * {
+ * ...
+	"settingGroupName":
+	  {
+	      "settingName1":{
+	          "type":"Type you need", // {@link String} (STRING), 
+	          // {@link Boolean} (BOOL), {@link Integer} (INT), {@link Long} (LONG), {@link Float} (Float)
+	          "value":"some value"
+	      }
+	      ...
+	  } 
+	... 
+	}
+ *    
  */
 public class Configuration {
 	public static Configuration get(String filePath) {
