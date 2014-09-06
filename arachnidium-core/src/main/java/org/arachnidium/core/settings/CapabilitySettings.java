@@ -70,7 +70,7 @@ implements HasCapabilities, Capabilities {
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(capabilityGroup, name);
 	}
 

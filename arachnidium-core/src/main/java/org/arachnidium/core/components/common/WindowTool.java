@@ -4,6 +4,9 @@ import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Window;
 
+/**
+ * {@link Window} implementor
+ */
 public abstract class WindowTool extends WebdriverComponent
 		implements Window {
 

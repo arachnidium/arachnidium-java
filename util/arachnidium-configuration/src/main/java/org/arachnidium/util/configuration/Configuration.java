@@ -146,6 +146,7 @@ public class Configuration {
 		try {
 			Constructor<?> requiredConstructor = requiredClass
 					.getConstructor(Configuration.class);
+			requiredConstructor.setAccessible(true);
 			helper = (T) requiredConstructor.newInstance(this);
 		} catch (NoSuchMethodException | SecurityException
 				| InstantiationException | IllegalAccessException
@@ -198,12 +199,13 @@ public class Configuration {
 	 * @param settingName is "settingName1"
 	 * @return "some value" cast to "Type you need"
 	 */
-	public Object getSettingValue(String groupName, String settingName) {
+	@SuppressWarnings("unchecked")
+	public <T extends Object> T getSettingValue(String groupName, String settingName) {
 		HashMap<String, Object> group = getSettingGroup(groupName);
 		// if there is no group with specified name
 		if (group == null)
 			return null;
-		return group.get(settingName);
+		return (T) group.get(settingName);
 	}
 
 	/**

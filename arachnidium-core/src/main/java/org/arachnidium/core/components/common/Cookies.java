@@ -6,6 +6,11 @@ import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * 
+ * Works with {@link Cookie}
+ *
+ */
 public abstract class Cookies extends WebdriverComponent {
 
 	public Cookies(WebDriver driver) {

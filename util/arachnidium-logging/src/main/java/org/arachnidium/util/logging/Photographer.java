@@ -5,16 +5,18 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
-
-import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.Augmenter;
 
+/**
+ * Takes screenshots using {@link WebDriver} instance
+ */
 public final class Photographer {
 	private static Photographer get() {
 		Photographer photographer = photographerThreadLocal.get();
@@ -25,49 +27,79 @@ public final class Photographer {
 		return photographer;
 	}
 
+	/**
+	 * Resets path to the default folder where screenshots are collected
+	 * 
+	 * @param pathToFolder An absolute or relative path 
+	 * to the default folder where screenshots are collected
+	 */
 	public static synchronized void setCommonOutputFolder(String pathToFolder) {
 		pictureFolderNameByDefault = pathToFolder;
 	}
 
-	public static void setOutputFolder(String pathToFolder) {
-		get().folder = pathToFolder;
-	}
-
-	// takes pictures of full browser windows
+	/**
+	 *  takes pictures of full browser windows
+	 * @param driver an instance of {@link WebDriver} 
+	 * @param LogLevel A {@link Level} of the log message. To this message file will be 
+	 * attached
+	 * @param comment Message text
+	 */
 	public static void takeAPictureForLog(WebDriver driver,
-			eAvailableLevels LogLevel, String Comment)
-			throws NoSuchWindowException {
+			eAvailableLevels LogLevel, String comment) {
 		Photographer photographer = get();
 		try {
 			BufferedImage imageForLog = photographer.takeAPicture(driver);
-			photographer.makeFileForLog(imageForLog, LogLevel, Comment);
+			photographer.makeFileForLog(imageForLog, LogLevel, comment);
 		} catch (IOException e) {
 			Log.warning("Can't post a picture to log! " + e.getMessage());
-			Log.log(LogLevel, Comment);
-		} catch (NoSuchWindowException e) {
-			throw e;
+			Log.log(LogLevel, comment);
 		} catch (ClassCastException | UnsupportedOperationException e) {
 			Log.debug(
 					"Operation is not supported! Take a screenshot. "
 					+ e.getMessage(), e);
-			Log.log(LogLevel, Comment);
+			Log.log(LogLevel, comment);
 		}
 	}
 
-	public static void takeAPictureOfAFine(WebDriver driver, String Comment) {
-		takeAPictureForLog(driver, eAvailableLevels.FINE, Comment);
+	/**
+	 * Creates a log message with the FINE {@link Level} and
+	 * attached screenshot
+	 * @param driver an instance of {@link WebDriver} 
+	 * @param comment The narrative comment to the picture
+	 */
+	public static void takeAPictureOfAFine(WebDriver driver, String comment) {
+		takeAPictureForLog(driver, eAvailableLevels.FINE, comment);
 	}
 
-	public static void takeAPictureOfAnInfo(WebDriver driver, String Comment) {
-		takeAPictureForLog(driver, eAvailableLevels.INFO, Comment);
+	/**
+	 * Creates a log message with the INFO {@link Level} and
+	 * attached screenshot
+	 * @param driver an instance of {@link WebDriver} 
+	 * @param comment The narrative comment to the picture
+	 */	
+	public static void takeAPictureOfAnInfo(WebDriver driver, String comment) {
+		takeAPictureForLog(driver, eAvailableLevels.INFO, comment);
+	}
+	
+	
+	/**
+	 * Creates a log message with the SEVERE {@link Level} and
+	 * attached screenshot
+	 * @param driver an instance of {@link WebDriver} 
+	 * @param comment The narrative comment to the picture
+	 */	
+	public static void takeAPictureOfASevere(WebDriver driver, String comment) {
+		takeAPictureForLog(driver, eAvailableLevels.SEVERE, comment);
 	}
 
-	public static void takeAPictureOfASevere(WebDriver driver, String Comment) {
-		takeAPictureForLog(driver, eAvailableLevels.SEVERE, Comment);
-	}
-
-	public static void takeAPictureOfAWarning(WebDriver driver, String Comment) {
-		takeAPictureForLog(driver, eAvailableLevels.WARN, Comment);
+	/**
+	 * Creates a log message with the WARN {@link Level} and
+	 * attached screenshot
+	 * @param driver an instance of {@link WebDriver} 
+	 * @param comment The narrative comment to the picture
+	 */		
+	public static void takeAPictureOfAWarning(WebDriver driver, String comment) {
+		takeAPictureForLog(driver, eAvailableLevels.WARN, comment);
 	}
 
 	private final static String pictureNameByDefault = "picture";
@@ -114,7 +146,7 @@ public final class Photographer {
 
 	// applies images
 	private synchronized void makeFileForLog(BufferedImage imageForLog,
-			eAvailableLevels LogLevel, String Comment) {
+			eAvailableLevels LogLevel, String comment) {
 
 		String FolderPath = folder;
 
@@ -125,7 +157,7 @@ public final class Photographer {
 				+ UUID.randomUUID().toString() + "." + format);
 		try {
 			ImageIO.write(imageForLog, format, picForLog);
-			Log.log(LogLevel, Comment, picForLog);
+			Log.log(LogLevel, comment, picForLog);
 		} catch (IOException e) {
 			Log.warning("Can't take a screenshot! " + e.getMessage());
 		}
@@ -133,14 +165,12 @@ public final class Photographer {
 
 	// takes pictures and makes buffered images
 	private synchronized BufferedImage takeAPicture(WebDriver driver)
-			throws IOException, NoSuchWindowException,
+			throws IOException, 
 			UnsupportedOperationException {
 		try {
 			return getImageFromDriver(driver);
 		} catch (UnsupportedOperationException e) {
 			throw e;
-		} catch (NoSuchWindowException e1) {
-			throw e1;
 		} catch (IOException e2) {
 			throw e2;
 		}

@@ -16,7 +16,7 @@ public class ScreenShots extends AbstractConfigurationAccessHelper {
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(screenShotssGroup, name);
 	}
 
@@ -28,11 +28,11 @@ public class ScreenShots extends AbstractConfigurationAccessHelper {
 	}
 
 	public Boolean getToDoScreenShotsOfNewHandles() {
-		return returnExplicitOrDefaultValue((Boolean) getSetting(toDoScreenShotsOfNewHandles));
+		return returnExplicitOrDefaultValue(getSetting(toDoScreenShotsOfNewHandles));
 	}
 
 	public Boolean getToDoScreenShotsOnElementHighLighting() {
-		return returnExplicitOrDefaultValue((Boolean) getSetting(toDoScreenShotsOnElementHighLighting));
+		return returnExplicitOrDefaultValue(getSetting(toDoScreenShotsOnElementHighLighting));
 	}
 
 }

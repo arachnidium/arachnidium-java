@@ -12,12 +12,12 @@ public class AlertIsPresentTimeOut extends AbstractConfigurationAccessHelper {
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(alertIsPresentTimeOutGroup, name);
 	}
 	
 	public Long getAlertIsPresentTimeOut(){
-		return (Long) getSetting(alertIsPresentTimeOutSetting);
+		return getSetting(alertIsPresentTimeOutSetting);
 	}
 
 }

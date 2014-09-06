@@ -23,16 +23,16 @@ implements IHasPathToFile {
 
 	@Override
 	public String getFile() {
-		return (String) getSetting(fileSettingName);
+		return getSetting(fileSettingName);
 	}
 
 	@Override
 	public String getFolder() {
-		return (String) getSetting(folderSettingName);
+		return getSetting(folderSettingName);
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(localWebdriverServiceGroup, name);
 	}
 

@@ -1,5 +1,7 @@
 package org.arachnidium.core.components.mobile;
 
+import io.appium.java_client.AppiumDriver;
+
 import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +13,7 @@ public abstract class NamedTextFieldGetter extends WebdriverComponent {
 	}
 	
 	/**
+	 * Is taken from {@link AppiumDriver}:
 	 * In iOS apps, named TextFields have the same accessibility Id as their
 	 * containing TableElement. This is a convenience method for getting the
 	 * named TextField, rather than its containing element.

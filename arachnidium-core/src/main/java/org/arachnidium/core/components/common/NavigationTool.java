@@ -4,6 +4,9 @@ import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 
+/**
+ * {@link Navigation} implementor
+ */
 public abstract class NavigationTool extends WebdriverComponent
 		implements Navigation {
 

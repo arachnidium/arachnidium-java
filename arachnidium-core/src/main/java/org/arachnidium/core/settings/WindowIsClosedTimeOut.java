@@ -12,12 +12,12 @@ public class WindowIsClosedTimeOut extends AbstractConfigurationAccessHelper {
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(windowIsClosedTimeOutGroup, name);
 	}
 	
 	public Long getWindowIsClosedTimeOutTimeOut(){
-		return (Long) getSetting(windowIsClosedTimeOutSetting);
+		return getSetting(windowIsClosedTimeOutSetting);
 	}
 
 }

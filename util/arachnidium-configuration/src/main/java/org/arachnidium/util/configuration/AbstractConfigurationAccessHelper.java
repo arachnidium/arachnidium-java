@@ -19,9 +19,9 @@ public abstract class AbstractConfigurationAccessHelper{
 		return configuration.getSettingGroup(groupName);
 	}
 	
-	public abstract Object getSetting(String name);
+	public abstract <T extends Object> T getSetting(String name);
 
-	protected Object getSettingValue(String groupName, String settingName) {
+	protected <T extends Object> T getSettingValue(String groupName, String settingName) {
 		return configuration.getSettingValue(groupName, settingName);
 	}
 }

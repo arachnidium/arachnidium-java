@@ -12,12 +12,12 @@ public class HandleWaitingTimeOut extends AbstractConfigurationAccessHelper {
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(handleWaitingTimeOutGroup, name);
 	}
 	
 	public Long getHandleWaitingTimeOut(){
-		return (Long) getSetting(handleWaitingTimeOutSetting);
+		return getSetting(handleWaitingTimeOutSetting);
 	}
 
 }

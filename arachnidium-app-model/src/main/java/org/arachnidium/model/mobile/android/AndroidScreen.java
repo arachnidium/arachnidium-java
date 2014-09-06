@@ -2,7 +2,7 @@ package org.arachnidium.model.mobile.android;
 
 import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.components.mobile.AppStringGetter;
-import org.arachnidium.core.components.mobile.MetastateKeyEventSender;
+import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Screen;
 import org.arachnidium.model.support.HowToGetByFrames;
@@ -11,7 +11,7 @@ import org.arachnidium.model.support.HowToGetByFrames;
  */
 public abstract class AndroidScreen extends Screen {
 
-	protected final MetastateKeyEventSender metastateKeyEventSender;
+	protected final KeyEventSender keyEventSender;
 	protected final AppStringGetter appStringGetter;
 
 	protected AndroidScreen(FunctionalPart<MobileScreen> parent) {
@@ -20,7 +20,7 @@ public abstract class AndroidScreen extends Screen {
 
 	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
 		super(parent, path);
-		metastateKeyEventSender = getComponent(MetastateKeyEventSender.class);
+		keyEventSender = getComponent(KeyEventSender.class);
 		appStringGetter = getComponent(AppStringGetter.class);
 	}
 
@@ -30,7 +30,7 @@ public abstract class AndroidScreen extends Screen {
 
 	protected AndroidScreen(MobileScreen context, HowToGetByFrames path) {
 		super(context, path);
-		metastateKeyEventSender = getComponent(MetastateKeyEventSender.class);
+		keyEventSender = getComponent(KeyEventSender.class);
 		appStringGetter = getComponent(AppStringGetter.class);
 	}
 

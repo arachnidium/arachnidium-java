@@ -6,6 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Just a simple tool to 
+ * perform waiting for something using {@link ExpectedCondition}
+ */
 public abstract class Awaiting extends WebdriverComponent {
 
 	public Awaiting(WebDriver driver) {

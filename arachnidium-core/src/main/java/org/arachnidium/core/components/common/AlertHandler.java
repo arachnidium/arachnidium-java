@@ -8,8 +8,19 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+/**
+ * {@link Alert} implementor
+ *
+ */
 public abstract class AlertHandler extends WebdriverComponent implements Alert {
 
+	/**
+	 * Creates an alert representation 
+	 * 
+	 * @param driver {@link WebDriver} instance 
+	 * @param secTimeOut time out in second of awaiting for an alert
+	 * @throws NoAlertPresentException
+	 */
 	public AlertHandler(WebDriver driver, long secTimeOut)
 			throws NoAlertPresentException {
 		super(driver);

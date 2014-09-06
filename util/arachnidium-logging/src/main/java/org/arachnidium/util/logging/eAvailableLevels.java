@@ -2,6 +2,9 @@ package org.arachnidium.util.logging;
 
 import java.util.logging.Level;
 
+/**
+ * Stores the list of available {@link Level} 
+ */
 public enum eAvailableLevels {
 	FINE(Level.FINE), INFO(Level.INFO), SEVERE(Level.SEVERE), WARN(
 			Level.WARNING);

@@ -18,7 +18,7 @@ import org.arachnidium.util.configuration.Configuration;
 
 public class Log {
 	/**
-	 * @author s.tihomirov java.util.logging.LogRecord with attached files
+	 * java.util.logging.LogRecord with attached files
 	 */
 	public static class LogRecWithAttach extends LogRecord {
 
@@ -30,17 +30,32 @@ public class Log {
 			super(level, msg);
 		}
 
+		/**
+		 * Gets attached file
+		 * @return {@link File} which was attached to message
+		 */
 		public File getAttachedFile() {
 			return attached;
 		}
 
+		/**
+		 * attaches file
+		 * @param attached File which has to be attached
+		 */
 		private void setAttachment(File attached) {
 			this.attached = attached;
 		}
 
 	}
 
-	// add new sender to any other logging system or framework
+    /**
+	 *  add new converter of log messages 
+	 *  Is useful for integration with reporting or another 
+	 *  logging frameworks
+	 *  
+     * @param converter An instance of {@link ILogConverter} 
+     * implementor
+     */
 	public static void addConverter(ILogConverter converter) {
 		converters.add(converter);
 	}
@@ -57,41 +72,100 @@ public class Log {
 		applyLogRec(rec);
 	}
 
+	/**
+	 * Creates a log message with FINE {@link Level}
+	 * 
+	 * @param msg Message text
+	 */
 	public static void debug(String msg) {
 		applyLogRec(getRecordForLog(eAvailableLevels.FINE, msg));
 	}
 
+    /**
+     * Creates a log message with FINE {@link Level} and
+     * attached file
+     * 
+     * @param msg Message text
+     * @param attached attached {@link File}
+     */
 	public static void debug(String msg, File attached) {
 		applyLogRec(getRecordForLog(eAvailableLevels.FINE, msg), attached);
 	}
 
+    /**
+     * Creates a log message with FINE {@link Level} and
+     * throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     */	
 	public static void debug(String msg, Throwable t) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.FINE, msg), t));
 	}
 
+    /**
+     * Creates a log message with FINE {@link Level}, 
+     * attached file and throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     * @param attached attached {@link File}
+     */
 	public static void debug(String msg, Throwable t, File attached) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.FINE, msg), t),
 				attached);
 	}
 
+	/**
+	 * Creates a log message with SEVERE {@link Level}
+	 * 
+	 * @param msg Message text
+	 */
 	public static void error(String msg) {
 		applyLogRec(getRecordForLog(eAvailableLevels.SEVERE, msg));
 	}
 
+    /**
+     * Creates a log message with SEVERE {@link Level} and
+     * attached file
+     * 
+     * @param msg Message text
+     * @param attached attached file {@link File}
+     */	
 	public static void error(String msg, File attached) {
 		applyLogRec(getRecordForLog(eAvailableLevels.SEVERE, msg), attached);
 	}
 
+    /**
+     * Creates a log message with SEVERE {@link Level} and
+     * throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     */		
 	public static void error(String msg, Throwable t) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.SEVERE, msg), t));
 	}
 
+    /**
+     * Creates a log message with SEVERE {@link Level}, 
+     * attached file and throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     * @param attached attached {@link File}
+     */	
 	public static void error(String msg, Throwable t, File attached) {
 		applyLogRec(
 				setThrown(getRecordForLog(eAvailableLevels.SEVERE, msg), t),
 				attached);
 	}
 
+	/**
+	 * Gets current {@link Level}
+	 * 
+	 * @return {@link Level}
+	 */
 	public static Level getLevel() {
 		return commonLevel;
 	}
@@ -113,45 +187,99 @@ public class Log {
 		return rec;
 	}
 
+	/**
+	 * Creates a log message with available {@link Level}
+	 * 
+	 * @param msg Message text
+	 */
 	public static void log(eAvailableLevels level, String msg) {
 		applyLogRec(getRecordForLog(level, msg));
 	}
 
+    /**
+     * Creates a log message with available {@link Level} and
+     * attached file
+     * 
+     * @param msg Message text
+     * @param attached attached file {@link File}
+     */	
 	public static void log(eAvailableLevels level, String msg, File attached) {
 		applyLogRec(getRecordForLog(level, msg), attached);
 	}
 
+    /**
+     * Creates a log message with available {@link Level} and
+     * throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     */		
 	public static void log(eAvailableLevels level, String msg, Throwable t) {
 		applyLogRec(setThrown(getRecordForLog(level, msg), t));
 	}
 
+    /**
+     * Creates a log message with available {@link Level}, 
+     * attached file and throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     * @param attached attached {@link File}
+     */		
 	public static void log(eAvailableLevels level, String msg, Throwable t,
 			File attached) {
 		applyLogRec(setThrown(getRecordForLog(level, msg), t), attached);
 	}
 
+	/**
+	 * Creates a log message with INFO {@link Level}
+	 * 
+	 * @param msg Message text
+	 */	
 	public static void message(String msg) {
 		applyLogRec(getRecordForLog(eAvailableLevels.INFO, msg));
 	}
 
+    /**
+     * Creates a log message with INFO {@link Level} and
+     * attached file
+     * 
+     * @param msg Message text
+     * @param attached attached file {@link File}
+     */		
 	public static void message(String msg, File attached) {
 		applyLogRec(getRecordForLog(eAvailableLevels.INFO, msg), attached);
 	}
 
+    /**
+     * Creates a log message with INFO {@link Level} and
+     * throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     */	
 	public static void message(String msg, Throwable t) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.INFO, msg), t));
 	}
 
+    /**
+     * Creates a log message with INFO {@link Level}, 
+     * attached file and throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     * @param attached attached {@link File}
+     */		
 	public static void message(String msg, Throwable t, File attached) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.INFO, msg), t),
 				attached);
 	}
 
-	public static void removeConverter(ILogConverter converter) {
-		converters.remove(converter);
-	}
-
-	// reset log level parameters
+	/**
+	 * changes current log {@link Level}
+	 * @param level
+	 * @return new current {@link Level}
+	 */
 	public static Level resetLogLevel(Level level) {
 		if (level == null)
 			commonLevel = info;
@@ -177,18 +305,45 @@ public class Log {
 		return rec;
 	}
 
+	/**
+	 * Creates a log message with WARN {@link Level}
+	 * 
+	 * @param msg Message text
+	 */	
 	public static void warning(String msg) {
 		applyLogRec(getRecordForLog(eAvailableLevels.WARN, msg));
 	}
 
+    /**
+     * Creates a log message with WARN {@link Level} and
+     * attached file
+     * 
+     * @param msg Message text
+     * @param attached attached file {@link File}
+     */		
 	public static void warning(String msg, File attached) {
 		applyLogRec(getRecordForLog(eAvailableLevels.WARN, msg), attached);
 	}
 
+    /**
+     * Creates a log message with WARN {@link Level} and
+     * throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     */		
 	public static void warning(String msg, Throwable t) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.WARN, msg), t));
 	}
 
+    /**
+     * Creates a log message with WARN {@link Level}, 
+     * attached file and throwable instance
+     * 
+     * @param msg Message text
+     * @param t Some {@link Throwable}
+     * @param attached attached {@link File}
+     */		
 	public static void warning(String msg, Throwable t, File attached) {
 		applyLogRec(setThrown(getRecordForLog(eAvailableLevels.WARN, msg), t),
 				attached);

@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.HasTouchScreen;
 
+/**
+ * Implements {@link HasInputDevices} and {@link HasTouchScreen }
+ */
 public abstract class Interaction extends WebdriverComponent
 		implements HasInputDevices, HasTouchScreen {
 

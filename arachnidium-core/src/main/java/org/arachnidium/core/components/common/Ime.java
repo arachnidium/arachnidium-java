@@ -6,6 +6,11 @@ import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.ImeHandler;
 
+/**
+ * 
+ * {@link IME} implementor
+ *
+ */
 public abstract class Ime extends WebdriverComponent implements ImeHandler {
 
 	public Ime(WebDriver driver) {

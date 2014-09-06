@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.arachnidium.core.MobileScreen;
-import org.arachnidium.core.components.mobile.ComplexFinder;
 import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.core.components.mobile.Pinch;
 import org.arachnidium.core.components.mobile.ScrollerTo;
@@ -84,8 +83,6 @@ Rotatable {
 	protected final Pinch pinch;
 	protected final Zoomer zoomer;
 	protected final ScrollerTo scroller;
-	protected final ComplexFinder complexFinder;
-
 	protected Screen(FunctionalPart<MobileScreen> parent) {
 		this(parent, new HowToGetByFrames());
 	}
@@ -99,7 +96,6 @@ Rotatable {
 		pinch = getComponent(Pinch.class);
 		zoomer = getComponent(Zoomer.class);
 		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
 	}
 
 	protected Screen(MobileScreen context) {
@@ -115,7 +111,6 @@ Rotatable {
 		pinch = getComponent(Pinch.class);
 		zoomer = getComponent(Zoomer.class);
 		scroller = getComponent(ScrollerTo.class);
-		complexFinder = getComponent(ComplexFinder.class);
 	}
 
 	@Override

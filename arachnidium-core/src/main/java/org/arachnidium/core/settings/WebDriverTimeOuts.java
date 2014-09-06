@@ -23,25 +23,25 @@ implements ITimeUnitSetting {
 	}
 
 	public Long getImplicitlyWaitTimeOut() {
-		return (Long) getSetting(implicitlyWaitTimeOutSetting);
+		return getSetting(implicitlyWaitTimeOutSetting);
 	}
 
 	public Long getLoadTimeout() {
-		return (Long) getSetting(pageLoadTimeoutSetting);
+		return getSetting(pageLoadTimeoutSetting);
 	}
 
 	public Long getScriptTimeOut() {
-		return (Long) getSetting(scriptTimeOutSetting);
+		return getSetting(scriptTimeOutSetting);
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(webDriverTimeOutsGroup, name);
 	}
 
 	@Override
 	public TimeUnit getTimeUnit() {
-		String timeUnitStr = (String) getSetting(timeUnitSetting);
+		String timeUnitStr = getSetting(timeUnitSetting);
 		if (timeUnitStr != null)
 			return TimeUnit.valueOf(timeUnitStr.toUpperCase());
 		else

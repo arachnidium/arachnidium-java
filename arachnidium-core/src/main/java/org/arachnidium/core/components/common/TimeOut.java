@@ -12,6 +12,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebDriverException;
 
+/**
+ * {@link Timeouts} implementor
+ * New possibilities: It can pass out given time outs values.
+ */
 public abstract class TimeOut extends WebdriverComponent implements Timeouts,
 		ITimeOutsGetter, IConfigurable {
 

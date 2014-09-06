@@ -18,16 +18,16 @@ public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 	}
 
 	public String getRemoteAddress() {
-		return (String) getSetting(remoteAddress);
+		return getSetting(remoteAddress);
 	}
 
 	@Override
-	public Object getSetting(String name) {
+	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(webDriverGroup, name);
 	}
 
 	public ESupportedDrivers getSupoortedWebDriver() {
-		String name = (String) getSetting(webDriverName);
+		String name = getSetting(webDriverName);
 		if (name != null)
 			return ESupportedDrivers.parse(name);
 		else

@@ -2,6 +2,10 @@ package org.arachnidium.util.logging;
 
 import java.awt.Color;
 
+/**
+ * Stores the list of available {@link Color}
+ * for page highlighting 
+ */
 public enum eLogColors {
 	CORRECTSTATECOLOR(new Color(0, 255, 0), "Green"), WARNSTATECOLOR(new Color(
 			255, 255, 0), "Yellow"), DEBUGCOLOR(new Color(255, 250, 250),
