@@ -34,7 +34,7 @@ import org.json.simple.parser.JSONParser;
 	      ...
 	  } 
 	... 
-	}
+ *	}
  *    
  */
 public class Configuration {
@@ -89,7 +89,9 @@ public class Configuration {
 		parseSettings(String.valueOf(filePath));
 	}
 
-	// parsing of each one setting
+	/**
+	 *  parsing of each one setting
+	 */
 	private HashMap<String, Object> getParsedGroup(JSONObject jsonObject) {
 		HashMap<String, Object> result = new HashMap<>();
 		@SuppressWarnings("unchecked")
@@ -124,12 +126,16 @@ public class Configuration {
 
 	@SuppressWarnings("unchecked")
 	/**
-	 * @author s.tihomirov This method is similar as HashMap<String, Object>
-	 *         getSettingGroup(String groupName). But it returns some helper
-	 *         instead of HashMap. This helper makes access to required section
-	 *         or set of setting sections easier. Class of the required helper
-	 *         should be implemented with constructor like this: new
-	 *         Helper(org.primitive.configuration.Configuration configuration)
+	 * @author s.tihomirov This method is similar as 
+	 * 
+	 * HashMap<String, Object> getSettingGroup(String groupName). 
+	 * 
+	 * It returns some "helper" instead of HashMap. 
+	 * This helper makes access to required section
+	 * or set of setting sections easier. Class of the required helper
+	 * overrides {@AbstractConfigurationAccessHelper} and 
+	 * should have a constructor like this: new
+	 *         Helper({@link{Configuration} configuration)
 	 */
 	public <T extends AbstractConfigurationAccessHelper> T getSection(
 			Class<T> requiredClass) {
@@ -151,11 +157,47 @@ public class Configuration {
 		return helper;
 	}
 
-	// gets setting group from mapped serrings
+	/**
+	 *  gets mapped settings
+	 * {
+	 * ...
+		"settingGroupName":
+		  {
+		      "settingName1":{
+		          "type":"Type you need",
+		          "value":"some value"
+		      }
+		      ...
+		  } 
+		... 
+	 *	}
+	 * @param groupName is "settingGroupName".
+	 * @return Instance of HashMap<String, Object> where key is  "settingName1" and 
+	 * value is "some value" cast to "Type you need"
+	 */
 	public HashMap<String, Object> getSettingGroup(String groupName) {
 		return mappedSettings.get(groupName);
 	}
-
+	
+	/**
+	 * Returns an object defined in JSON setting file
+	 * {
+	 * ...
+		"settingGroupName":
+		  {
+		      "settingName1":{
+		          "type":"Type you need",
+		          "value":"some value"
+		      }
+		      ...
+		  } 
+		... 
+	 *	}
+	 * 
+	 * @param groupName is "settingGroupName"
+	 * @param settingName is "settingName1"
+	 * @return "some value" cast to "Type you need"
+	 */
 	public Object getSettingValue(String groupName, String settingName) {
 		HashMap<String, Object> group = getSettingGroup(groupName);
 		// if there is no group with specified name
@@ -164,7 +206,10 @@ public class Configuration {
 		return group.get(settingName);
 	}
 
-	// parsing of json configuration
+	/**
+	 *  parsing of json configuration
+	 * @param filePath - path to explicitly given JSON file 
+	 */
 	private void parseSettings(String filePath) {
 
 		File settingFile = new File(filePath);

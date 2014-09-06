@@ -3,8 +3,8 @@ package org.arachnidium.util.configuration;
 import java.util.HashMap;
 
 /**
- * @author s.tihomirov Inheritors of this class should make access to
- *         configuration data easier
+ * Subclasses of this should make access to
+ *         {@link Configuration} data easier
  */
 public abstract class AbstractConfigurationAccessHelper{
 

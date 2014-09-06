@@ -3,9 +3,9 @@ package org.arachnidium.util.configuration;
 import java.lang.reflect.Constructor;
 
 /**
- * @author s.tihomirov It has got types that are used by Configuration.java and
- *         returns objects of this types This classes should have constructors
- *         like this: new Class(String value);
+ * It has got types which are used by {@link Configuration} and
+ * returns objects of these types. These classes should have constructor
+ * like this: new Class(String value);
  */
 enum EAvailableDataTypes {
 	STRING(String.class), BOOL(Boolean.class), LONG(Long.class), FLOAT(

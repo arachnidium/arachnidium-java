@@ -6,8 +6,8 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
- * @author s.tihomirov it does requests to default configuration when there is
- *         no data in specified configuration
+ * It makes requests to default configuration when there is
+ *         no data in given configuration
  */
 class ConfigurationInterceptor implements MethodInterceptor {
 
