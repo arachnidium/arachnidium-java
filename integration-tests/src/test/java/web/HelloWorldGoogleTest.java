@@ -140,7 +140,7 @@ public class HelloWorldGoogleTest {
 	public void typeHelloWorldAndOpenTheFirstLink2(
 			@Optional("src/test/resources/configs/desctop/") String path,
 			@Optional("false") String toClick,
-			@Optional("chrome.json,firefox.json") String configList)
+			@Optional("chrome.json,chrome_remote.json,firefox.json") String configList)
 			throws Exception {
 		
 		List<String> configs = getConfigsByCurrentPlatform();

@@ -3,9 +3,20 @@ package org.arachnidium.core.settings;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IHasPathToFile;
+import org.openqa.selenium.ie.InternetExplorerDriverService;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.service.DriverService;
 
 /**
- * @author s.tihomirov getters for local webdriver service configuration data
+ * Stores path to folder and file name
+ * of chromedriver*, IEDriverServer.exe, phantomjs*
+ * 
+ * @see Configuration
+ * @see DriverService
+ * @see ChromeDriverServerBin
+ * @see InternetExplorerDriverService
+ * @see PhantomJSDriverService
+ * 
  */
 class LocalWebDriverServiceSettings extends AbstractConfigurationAccessHelper
 implements IHasPathToFile {
@@ -21,16 +32,27 @@ implements IHasPathToFile {
 		localWebdriverServiceGroup = groupName;
 	}
 
+	/**
+	 * @return file name of {@link DriverService} binary file
+	 * specified in {@link Configuration}
+	 */
 	@Override
 	public String getFile() {
 		return getSetting(fileSettingName);
 	}
 
+	/**
+	 * @return path to folder with {@link DriverService} binary file
+	 * specified in {@link Configuration}
+	 */
 	@Override
 	public String getFolder() {
 		return getSetting(folderSettingName);
 	}
 
+	/**
+	 * @see org.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
+	 */
 	@Override
 	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(localWebdriverServiceGroup, name);

@@ -126,7 +126,7 @@ public class WebElementHighLighter implements IConfigurable, IWebElementHighligh
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		Boolean toDoScreenShots = config.getSection(ScreenShots.class)
-				.getToDoScreenShotsOnElementHighLighting();
+				.getToTakeScreenShotsOnElementHighLighting();
 		if (toDoScreenShots == null)
 			this.toDoScreenShots = isDoingScreenShotsByDefault;
 		else

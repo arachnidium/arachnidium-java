@@ -2,13 +2,11 @@ package org.arachnidium.core.services.interfaces;
 
 import java.net.URL;
 
-import org.arachnidium.util.configuration.interfaces.IConfigurable;
-
 /**
  * Launches remote server locally
  *
  */
-public interface ILocalServerLauncher extends IConfigurable {
+public interface ILocalServerLauncher {
 	public URL getLocalHost();
 
 	public int getPort();

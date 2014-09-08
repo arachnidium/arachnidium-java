@@ -1,6 +1,5 @@
 package org.arachnidium.model.mobile;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.arachnidium.core.ScreenManager;
@@ -43,19 +42,15 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Configuration configuration) {
-		try {
-			WebDriverEncapsulation wdEncapsulation = new WebDriverEncapsulation(
-					ESupportedDrivers.MOBILE,
-					configuration.getSection(CapabilitySettings.class),
-					new URL(configuration.getSection(WebDriverSettings.class)
-							.getRemoteAddress()));
-			wdEncapsulation.resetAccordingTo(configuration);
-			T result = getApplication(ScreenManager.class, appClass,
-					wdEncapsulation, new MobileApplicationInterceptor());
-			return result;
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
+		WebDriverEncapsulation wdEncapsulation = new WebDriverEncapsulation(
+				ESupportedDrivers.MOBILE,
+				configuration.getSection(CapabilitySettings.class),
+				configuration.getSection(WebDriverSettings.class)
+						.getRemoteAddress());
+		wdEncapsulation.resetAccordingTo(configuration);
+		T result = getApplication(ScreenManager.class, appClass,
+				wdEncapsulation, new MobileApplicationInterceptor());
+		return result;
 	}
 
 	private MobileFactory() {

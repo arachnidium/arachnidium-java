@@ -15,7 +15,25 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.server.SeleniumServer;
 
+/**
+ * There is information about supported {@link WebDriver} implementors
+ * - {@link FirefoxDriver}
+ * - {@link ChromeDriver}
+ * - {@link InternetExplorerDriver}
+ * - {@link SafariDriver}
+ * - {@link PhantomJSDriver}
+ * - {@link RemoteWebDriver}
+ * - {@link AppiumDriver} 
+ * 
+ * Additional info:
+ * - default {@link Capabilities}
+ * - information about {@link DriverService}
+ * - can {@link WebDriver} be started remotely?
+ * - is  {@link WebDriver} require URL of remotely or locally started
+ * server. ({@link SeleniumServer} or Appium Node.js server (see {@link http://appium.io/slate/en/master/?ruby#appium-design}) 
+ */
 public enum ESupportedDrivers {
 	FIREFOX(
 			DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
@@ -87,14 +105,24 @@ public enum ESupportedDrivers {
 		this.requiresRemoteURL = requiresRemoteURL;
 	}
 
+	/**
+	 * @return {@link Capabilities} Default capabilities of given {@link WebDriver} implementor
+	 */
 	public Capabilities getDefaultCapabilities() {
 		return capabilities;
 	}
 
+	/**
+	 * @return Class of supported {@link WebDriver} implementor
+	 */
 	public Class<? extends WebDriver> getUsingWebDriverClass() {
 		return driverClazz;
 	}
 
+	/**
+	 * Starts remote server locally
+	 * It is possible to launch {@link SeleniumServer} locally for now
+	 */
 	public synchronized void launchRemoteServerLocallyIfWasDefined(
 			Configuration configuration) {
 		if (serverLauncher == null)
@@ -102,17 +130,26 @@ public enum ESupportedDrivers {
 		if (serverLauncher.isLaunched())
 			return;
 		try {
-			serverLauncher.resetAccordingTo(configuration);
 			serverLauncher.launch();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * @return flag of necessity of URL 
+	 * (remote server)
+	 */
 	public boolean requiresRemoteURL() {
 		return requiresRemoteURL;
 	}
 
+	/**
+	 * 
+	 * @param configInstance. An instance of {@link Configuration}
+	 * where path to chromedriver*, IEDriverServer.exe or phantomjs* are 
+	 * defined
+	 */
 	private void setSystemProperty(Configuration configInstance) {
 		if (service != null)
 			this.service.setSystemProperty(configInstance);
@@ -127,6 +164,11 @@ public enum ESupportedDrivers {
 		setSystemProperty(configInstance);
 	}
 
+	/**
+	 * @return flag of of possibility
+	 * to start {@link WebDriver} implementor
+	 * remotely
+	 */
 	public boolean startsRemotely() {
 		return startsRemotely;
 	}

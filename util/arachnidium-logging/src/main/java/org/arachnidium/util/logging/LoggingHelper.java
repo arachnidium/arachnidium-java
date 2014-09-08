@@ -6,8 +6,23 @@ import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
 /**
- * Settings of logger. It uses java.utils.logging It is used
- *         only with default configuration
+ * Stores minimal {@link Level} of messages that are shown by console
+ * and minimal {@link Level} of a user message
+ * implicitly waiting.
+ * 
+ * @see Configuration
+ * 
+ * Specification:
+ * 
+ * ...
+ * "Log":
+  {
+      "Level":{
+          "type":"STRING",
+          "value":"some level designation" @see Level           
+      }      
+  }
+  ...
  */
 class LoggingHelper extends AbstractConfigurationAccessHelper {
 
@@ -19,6 +34,9 @@ class LoggingHelper extends AbstractConfigurationAccessHelper {
 		super(configuration);
 	}
 
+	/**
+	 * @return Specified log {@link Level}
+	 */
 	public Level getLevel() {
 		String levelName = getSetting(levelSetting);
 		if (levelName != null)
@@ -27,6 +45,9 @@ class LoggingHelper extends AbstractConfigurationAccessHelper {
 			return null;
 	}
 
+	/**
+	 * @see org.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
+	 */
 	@Override
 	public <T extends Object> T getSetting(String name) {
 		return getSettingValue(loggingGroup, name);

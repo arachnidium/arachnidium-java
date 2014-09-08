@@ -127,7 +127,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
 		if (configurationWrapper.getWrappedConfiguration()
-				.getSection(ScreenShots.class).getToDoScreenShotsOfNewHandles()) {
+				.getSection(ScreenShots.class).getToTakeScreenShotsOfNewHandles()) {
 			((ITakesPictureOfItSelf) handle)
 					.takeAPictureOfAnInfo("The new window/tab");
 		}

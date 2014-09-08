@@ -8,11 +8,11 @@
 	  },
 	  "screenShots":
 	  {
-	      "toDoScreenShotsOnElementHighLighting":{
+	      "toTakeScreenShotsOnElementHighLighting":{
 	          "type":"BOOL",
 	          "value":"false"           
 	      }, 
-	      "toDoScreenShotsOfNewHandles":{
+	      "toTakeScreenShotsOfNewHandles":{
 	          "type":"BOOL",
 	          "value":"false"           
 	      }   	            

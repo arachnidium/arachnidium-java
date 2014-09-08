@@ -59,7 +59,7 @@ WrapsDriver, IConfigurationWrapper{
 		if (capabilities.asMap().size() == 0)
 			capabilities = supportedDriver.getDefaultCapabilities();
 
-		String remoteAdress = this.configuration.getSection(
+		URL remoteAdress = this.configuration.getSection(
 				WebDriverSettings.class).getRemoteAddress();
 		if (remoteAdress == null) {// local starting
 			prelaunch(supportedDriver, this.configuration, capabilities);
@@ -68,8 +68,7 @@ WrapsDriver, IConfigurationWrapper{
 		}
 
 		try {
-			URL remoteUrl = new URL(remoteAdress);
-			constructorBody(supportedDriver, capabilities, remoteUrl);
+			constructorBody(supportedDriver, capabilities, remoteAdress);
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}

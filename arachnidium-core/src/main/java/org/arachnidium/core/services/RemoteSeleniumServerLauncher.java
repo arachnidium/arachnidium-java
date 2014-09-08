@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.arachnidium.core.services.interfaces.ILocalServerLauncher;
-import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.server.RemoteControlConfiguration;
@@ -60,12 +59,6 @@ public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
 		} catch (Exception e) {
 			throw new WebDriverException("Cann't start server on localhost!", e);
 		}
-	}
-
-	@Deprecated
-	@Override
-	public void resetAccordingTo(Configuration config) {
-		// Does nothing
 	}
 
 	@Override

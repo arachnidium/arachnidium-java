@@ -82,7 +82,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 		String message = "A new context " + handle.getHandle()
 				+ getActivityDescription(handle);
 		if (configurationWrapper.getWrappedConfiguration()
-				.getSection(ScreenShots.class).getToDoScreenShotsOfNewHandles()) {
+				.getSection(ScreenShots.class).getToTakeScreenShotsOfNewHandles()) {
 			((ITakesPictureOfItSelf) handle).takeAPictureOfAnInfo(message);
 		} else {
 			Log.message(message);
