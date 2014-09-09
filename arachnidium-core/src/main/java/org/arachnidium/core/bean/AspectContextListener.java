@@ -9,7 +9,6 @@ import java.util.ServiceLoader;
 
 import org.arachnidium.core.eventlisteners.IContextListener;
 import org.arachnidium.core.interfaces.IContext;
-import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.core.interfaces.IHasHandle;
 import org.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import org.arachnidium.core.settings.ScreenShots;
@@ -91,12 +90,11 @@ public class AspectContextListener extends DefaultHandleListener implements
 	}
 
 	private String getActivityDescription(IHasHandle handle) {
-		String activity = String.valueOf(((IHasActivity) handle)
-				.currentActivity());
-		if ("".equals(activity)) {
-			return activity;
+		if (((IContext) handle).isSupportActivities()){
+			Log.message("Activities are not supported...");
+			return "";
 		}
-		return " Activity is " + activity;
+		return " Activity is " + ((IContext) handle).currentActivity();
 	}
 
 	@Override

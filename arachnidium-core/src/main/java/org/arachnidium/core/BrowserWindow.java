@@ -15,15 +15,17 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 /**
  * @author s.tihomirov It is performs actions on a single window
  */
-public class BrowserWindow extends Handle implements Navigation, IExtendedWindow {
+public class BrowserWindow extends Handle implements Navigation,
+		IExtendedWindow {
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 
 	BrowserWindow(String handle, WindowManager windowManager) {
 		super(handle, windowManager);
-		this.windowTool = driverEncapsulation.getComponent(WindowTool.class);
-		this.navigationTool = driverEncapsulation
-				.getComponent(NavigationTool.class);
+		this.windowTool = getDriverEncapsulation().getComponent(
+				WindowTool.class);
+		this.navigationTool = getDriverEncapsulation().getComponent(
+				NavigationTool.class);
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class BrowserWindow extends Handle implements Navigation, IExtendedWindow
 			NoSuchWindowException, UnhandledAlertException,
 			UnreachableBrowserException {
 		try {
-			((WindowManager) nativeManager).close(handle);
+			getManager().close(handle);
 			destroy();
 		} catch (UnhandledAlertException | UnclosedWindowException e) {
 			throw e;
@@ -56,7 +58,7 @@ public class BrowserWindow extends Handle implements Navigation, IExtendedWindow
 	@Override
 	public synchronized String getCurrentUrl() throws NoSuchWindowException {
 		switchToMe();
-		return driverEncapsulation.getWrappedDriver().getCurrentUrl();
+		return getDriverEncapsulation().getWrappedDriver().getCurrentUrl();
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class BrowserWindow extends Handle implements Navigation, IExtendedWindow
 
 	@Override
 	public synchronized String getTitle() {
-		return driverEncapsulation.getWrappedDriver().getTitle();
+		return getDriverEncapsulation().getWrappedDriver().getTitle();
 	}
 
 	@Override
@@ -111,5 +113,11 @@ public class BrowserWindow extends Handle implements Navigation, IExtendedWindow
 		switchToMe();
 		navigationTool.to(url);
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public WindowManager getManager() {
+		return super.getManager();
 	}
 }

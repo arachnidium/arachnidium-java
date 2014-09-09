@@ -3,7 +3,6 @@ package org.arachnidium.core.components.common;
 import java.util.concurrent.TimeUnit;
 
 import org.arachnidium.core.components.WebdriverComponent;
-import org.arachnidium.core.interfaces.ITimeOutsGetter;
 import org.arachnidium.core.settings.WebDriverTimeOuts;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.configuration.interfaces.IConfigurable;
@@ -17,7 +16,7 @@ import org.openqa.selenium.WebDriverException;
  * New possibilities: It can pass out given time outs values.
  */
 public abstract class TimeOut extends WebdriverComponent implements Timeouts,
-		ITimeOutsGetter, IConfigurable {
+		IConfigurable {
 
 	private final long defaultTimeOut = 20000; // 20 seconds
 
@@ -37,32 +36,26 @@ public abstract class TimeOut extends WebdriverComponent implements Timeouts,
 		delegate = this;
 	}
 
-	@Override
 	public long getImplicitlyWaitTimeOut() {
 		return implicitlyWaitTimeOut;
 	}
 
-	@Override
 	public TimeUnit getImplicitlyWaitTimeUnit() {
 		return implicitlyWaitTimeUnit;
 	}
 
-	@Override
 	public long getPageLoadTimeOut() {
 		return pageLoadTimeOut;
 	}
 
-	@Override
 	public TimeUnit getPageLoadTimeUnit() {
 		return pageLoadTimeUnit;
 	}
 
-	@Override
 	public long getScriptTimeOut() {
 		return scriptTimeOut;
 	}
 
-	@Override
 	public TimeUnit getScriptTimeUnit() {
 		return scriptTimeUnit;
 	}

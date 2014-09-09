@@ -15,7 +15,6 @@ import org.arachnidium.core.components.mobile.Swipe;
 import org.arachnidium.core.components.mobile.Tap;
 import org.arachnidium.core.components.mobile.TouchActionsPerformer;
 import org.arachnidium.core.components.mobile.Zoomer;
-import org.arachnidium.core.interfaces.IHasActivity;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.util.proxy.DefaultInterceptor;
@@ -29,8 +28,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 /**
  * Can be used to describe a single mobile app context or its fragment
  */
-public abstract class Screen extends FunctionalPart<MobileScreen> implements IHasActivity,
-Rotatable {
+public abstract class Screen extends FunctionalPart<MobileScreen> implements Rotatable {
 
 	/**
 	 * {@link WebElement} implementations are not instances of
@@ -114,11 +112,6 @@ Rotatable {
 	}
 
 	@Override
-	public String currentActivity() {
-		return ((MobileScreen) handle).currentActivity();
-	}
-
-	@Override
 	public ScreenOrientation getOrientation() {
 		return ((MobileScreen) handle).getOrientation();
 	}
@@ -127,5 +120,4 @@ Rotatable {
 	public void rotate(ScreenOrientation orientation) {
 		((MobileScreen) handle).rotate(orientation);
 	}
-
 }

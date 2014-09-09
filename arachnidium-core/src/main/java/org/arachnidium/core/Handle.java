@@ -19,8 +19,8 @@ ITakesPictureOfItSelf, IDestroyable {
 	}
 
 	final String handle;
-	final WebDriverEncapsulation driverEncapsulation;
-	final Manager<?> nativeManager;
+	private final WebDriverEncapsulation driverEncapsulation;
+	private final Manager<?> nativeManager;
 
 	private final HandleReceptionist receptionist;
 
@@ -56,8 +56,9 @@ ITakesPictureOfItSelf, IDestroyable {
 		return handle;
 	}
 
-	public Manager<?> getManager() {
-		return nativeManager;
+	@SuppressWarnings("unchecked")
+	public <T extends Manager<?>> T getManager() {
+		return (T) nativeManager;
 	}
 
 	@Override

@@ -33,5 +33,9 @@ public abstract class AndroidScreen extends Screen {
 		keyEventSender = getComponent(KeyEventSender.class);
 		appStringGetter = getComponent(AppStringGetter.class);
 	}
+	
+	public String currentActivity(){
+		return ((MobileScreen) handle).currentActivity();
+	}
 
 }

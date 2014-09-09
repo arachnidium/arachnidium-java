@@ -127,5 +127,9 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		f.setExpected(contextIndex);
 		return getStringHandle(timeOut, f);
 	}
+	
+	boolean isSupportActivities(){
+		return isSupportActivities;
+	}
 
 }

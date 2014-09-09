@@ -1,23 +1,18 @@
 package org.arachnidium.core;
 
+import io.appium.java_client.AppiumDriver;
+
 import org.arachnidium.core.components.mobile.Rotator;
 import org.arachnidium.core.interfaces.IContext;
-import org.arachnidium.core.interfaces.IHasActivity;
 import org.openqa.selenium.ScreenOrientation;
 
-public class MobileScreen extends Handle implements IHasActivity,
-		IContext {
+public class MobileScreen extends Handle implements IContext {
 
 	private final Rotator rotator;
 
 	MobileScreen(String context, ScreenManager manager) {
 		super(context, manager);
-		rotator = driverEncapsulation.getComponent(Rotator.class);
-	}
-
-	@Override
-	public String currentActivity() {
-		return ((ScreenManager) nativeManager).getActivityByHandle(handle);
+		rotator = getDriverEncapsulation().getComponent(Rotator.class);
 	}
 
 	@Override
@@ -30,7 +25,28 @@ public class MobileScreen extends Handle implements IHasActivity,
 	public synchronized void rotate(ScreenOrientation orientation) {
 		switchToMe();
 		rotator.rotate(orientation);
-
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public ScreenManager getManager() {
+		return super.getManager();
+	}
+
+	@Override
+	public boolean isSupportActivities() {
+		return getManager().isSupportActivities();
+	}
+
+	@Override
+	public synchronized String currentActivity() {
+		if (!isSupportActivities()) {
+			
+			return "";
+		}
+		return ((AppiumDriver) getDriverEncapsulation().getWrappedDriver())
+				.currentActivity();
+	}
+	
+	
 }
