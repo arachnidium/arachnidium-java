@@ -126,9 +126,9 @@ public class Configuration {
 
 	@SuppressWarnings("unchecked")
 	/**
-	 * @author s.tihomirov This method is similar as 
+	 * This method is similar as 
 	 * 
-	 * HashMap<String, Object> getSettingGroup(String groupName). 
+	 * @see org.arachnidium.util.configuration.Configuration#getSettingGroup(String)
 	 * 
 	 * It returns some "helper" instead of HashMap. 
 	 * This helper makes access to required section

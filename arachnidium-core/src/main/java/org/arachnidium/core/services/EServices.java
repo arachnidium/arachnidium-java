@@ -15,7 +15,11 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.service.DriverService;
 
+/**
+ * Sets system properties of required {@link DriverService}
+ */
 public enum EServices {
 	CHROMESERVICE(ChromeDriverServerBin.class,
 			ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
@@ -61,7 +65,11 @@ public enum EServices {
 		this.propertyName = propertyName;
 	}
 
-	// system properties should be set
+	/**
+	 * Attempt to change system properties
+	 * @param configInstance is {@link Configuration} where
+	 * values of properties are specified
+	 */
 	public void setSystemProperty(Configuration configInstance) {
 		if (System.getProperty(propertyName) != null) {
 			return; // if property is already set up

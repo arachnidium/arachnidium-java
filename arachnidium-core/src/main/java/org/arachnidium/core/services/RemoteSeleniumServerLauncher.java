@@ -5,13 +5,12 @@ import java.net.URL;
 
 import org.arachnidium.core.services.interfaces.ILocalServerLauncher;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.server.RemoteControlConfiguration;
 import org.openqa.selenium.server.SeleniumServer;
 
 /**
  *
- * Launches {@link RemoteWebDriver} server locally
+ * Launches {@link SeleniumServer} server locally
  *
  */
 public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
@@ -28,6 +27,10 @@ public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
 	}
 
 	@Override
+	/**
+	 * @return Local URL of the locally started {@link SeleniumServer} 
+	 * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#getLocalHost()
+	 */
 	public URL getLocalHost() {
 		URL localHost = null;
 		try {
@@ -39,11 +42,19 @@ public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
 		return localHost;
 	}
 
+	/**
+	 * @return Port number of the locally started {@link SeleniumServer} 
+	 * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#getPort()
+	 */
 	@Override
 	public int getPort() {
 		return rcc.getPort();
 	}
 
+    /**
+     * @return flag of the local {@link SeleniumServer} state
+     * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#isLaunched()
+     */
 	@Override
 	public boolean isLaunched() {
 		if (server == null)
@@ -51,6 +62,10 @@ public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
 		return server.getServer().isStarted();
 	}
 
+	/**
+	 * Attempts to launch {@link SeleniumServer} locally
+	 * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#launch()
+	 */
 	@Override
 	public void launch() throws Exception {
 		try {
@@ -61,11 +76,20 @@ public class RemoteSeleniumServerLauncher implements ILocalServerLauncher {
 		}
 	}
 
+	/**
+	 * @param A new port number of the local {@link SeleniumServer}
+	 * before it is launched
+	 * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#setPort(int)
+	 */
 	@Override
 	public void setPort(int port) {
 		rcc.setPort(port);
 	}
 
+	/**
+	 * Terminates local {@link SeleniumServer}
+	 * @see org.arachnidium.core.services.interfaces.ILocalServerLauncher#stop()
+	 */
 	@Override
 	public void stop() {
 		if (server == null)

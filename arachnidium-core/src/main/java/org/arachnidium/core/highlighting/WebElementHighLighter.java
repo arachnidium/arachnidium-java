@@ -17,9 +17,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
- * @author s.tihomirov it can highlight elements and do screenshots
+ * The default implementor of {@link IWebElementHighlighter}
  */
-public class WebElementHighLighter implements IConfigurable, IWebElementHighlighter {
+public class WebElementHighLighter implements IConfigurable,
+		IWebElementHighlighter {
 
 	// is this doing screenshots
 	private boolean toDoScreenShots;
@@ -40,68 +41,112 @@ public class WebElementHighLighter implements IConfigurable, IWebElementHighligh
 		return elementToBeHiglighted.getAttribute("style");
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsFine(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)   
+	 */
 	@Override
 	public synchronized void highlightAsFine(WebDriver driver,
-			WebElement webElement, Color highlight, String Comment) {
+			WebElement webElement, Color highlight, String comment) {
 		highlightelement(driver, webElement, highlight, eAvailableLevels.FINE,
-				Comment);
+				comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsFine(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 * 
+	 * Highlighting color is 
+	 * @see eLogColors#DEBUGCOLOR     
+	 */
 	@Override
 	public synchronized void highlightAsFine(WebDriver driver,
-			WebElement webElement, String Comment) {
+			WebElement webElement, String comment) {
 		highlightelement(driver, webElement,
 				eLogColors.DEBUGCOLOR.getStateColor(), eAvailableLevels.FINE,
-				Comment);
+				comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsInfo(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
+	 */
 	@Override
 	public synchronized void highlightAsInfo(WebDriver driver,
-			WebElement webElement, Color highlight, String Comment) {
+			WebElement webElement, Color highlight, String comment) {
 		highlightelement(driver, webElement, highlight, eAvailableLevels.INFO,
-				Comment);
+				comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsInfo(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 * 
+	 * Highlighting color is 
+	 * @see eLogColors#CORRECTSTATECOLOR     
+	 */
 	@Override
 	public synchronized void highlightAsInfo(WebDriver driver,
-			WebElement webElement, String Comment) {
+			WebElement webElement, String comment) {
 		highlightelement(driver, webElement,
 				eLogColors.CORRECTSTATECOLOR.getStateColor(),
-				eAvailableLevels.INFO, Comment);
+				eAvailableLevels.INFO, comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsSevere(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
+	 */
 	@Override
 	public synchronized void highlightAsSevere(WebDriver driver,
-			WebElement webElement, Color highlight, String Comment) {
+			WebElement webElement, Color highlight, String comment) {
 		highlightelement(driver, webElement, highlight,
-				eAvailableLevels.SEVERE, Comment);
+				eAvailableLevels.SEVERE, comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsSevere(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 *  
+	 * Highlighting color is  
+	 * @see eLogColors#SEVERESTATECOLOR     
+	 */
 	@Override
 	public synchronized void highlightAsSevere(WebDriver driver,
-			WebElement webElement, String Comment) {
+			WebElement webElement, String comment) {
 		highlightelement(driver, webElement,
 				eLogColors.SEVERESTATECOLOR.getStateColor(),
-				eAvailableLevels.SEVERE, Comment);
+				eAvailableLevels.SEVERE, comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsWarning(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
+	 */
 	@Override
 	public synchronized void highlightAsWarning(WebDriver driver,
-			WebElement webElement, Color highlight, String Comment) {
+			WebElement webElement, Color highlight, String comment) {
 		highlightelement(driver, webElement, highlight, eAvailableLevels.WARN,
-				Comment);
+				comment);
 	}
 
+	/**
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsWarning(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 *   
+	 * Highlighting color is  
+	 * @see eLogColors#WARNSTATECOLOR     
+	 */
 	@Override
 	public synchronized void highlightAsWarning(WebDriver driver,
-			WebElement webElement, String Comment) {
+			WebElement webElement, String comment) {
 		highlightelement(driver, webElement,
 				eLogColors.WARNSTATECOLOR.getStateColor(),
-				eAvailableLevels.WARN, Comment);
+				eAvailableLevels.WARN, comment);
 	}
 
 	private void highlightelement(WebDriver driver, WebElement webElement,
-			Color color, eAvailableLevels LogLevel, String Comment) {
+			Color color, eAvailableLevels LogLevel, String comment) {
 		try {
 			String originalStyle = getOriginalStyle(webElement);
 			setNewColor((JavascriptExecutor) driver, webElement,
@@ -109,17 +154,17 @@ public class WebElementHighLighter implements IConfigurable, IWebElementHighligh
 							+ Integer.toString(color.getGreen()) + ","
 							+ Integer.toString(color.getBlue()) + ")");
 			if (toDoScreenShots)
-				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
+				Photographer.takeAPictureForLog(driver, LogLevel, comment);
 			else
-				Log.log(LogLevel, Comment);
+				Log.log(LogLevel, comment);
 			setStyle((JavascriptExecutor) driver, webElement, originalStyle);
 		} // There is a problem with mobile applications. Not all locators are
 			// supported
 		catch (WebDriverException e) {
 			if (toDoScreenShots)
-				Photographer.takeAPictureForLog(driver, LogLevel, Comment);
+				Photographer.takeAPictureForLog(driver, LogLevel, comment);
 			else
-				Log.log(LogLevel, Comment);
+				Log.log(LogLevel, comment);
 		}
 	}
 

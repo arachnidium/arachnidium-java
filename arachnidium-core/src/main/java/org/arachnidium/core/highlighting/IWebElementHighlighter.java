@@ -1,72 +1,78 @@
 package org.arachnidium.core.highlighting;
 
 import java.awt.Color;
+import java.util.logging.Level;
 
+import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * @author s.tihomirov it is possible that classes implements this will
- *         highlight elements on a page and generate log messages
+ * There is an assumption that implementors will
+ * highlight HTML elements and generate {@link Log} messages
  */
 public interface IWebElementHighlighter {
 	/**
-	 * @author s.tihomirov It highlights element any color you want. I thing
-	 *         that log messages of FINE level will be generated
+	 * There is an assumption that HTML element will be highlighted any color you want
+	 * and FINE {@link Level} {@link Log} message will be 
+	 * created
 	 */
 	public void highlightAsFine(WebDriver driver, WebElement webElement,
-			Color highlight, String Comment);
+			Color highlight, String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you have specified by
-	 *         this method implementation. I thing that log messages of FINE
-	 *         level will be generated
+	 * There is an assumption that HTML element will be highlighted 
+	 * and FINE {@link Level} {@link Log} message will be 
+	 * created. Color of highlighting will be defined by implementor
 	 */
 	public void highlightAsFine(WebDriver driver, WebElement webElement,
-			String Comment);
+			String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you want. I thing
-	 *         that log messages of INFO level will be generated
+	 * There is an assumption that HTML element will be highlighted any color you want
+	 * and INFO {@link Level} {@link Log} message will be 
+	 * created
 	 */
 	public void highlightAsInfo(WebDriver driver, WebElement webElement,
-			Color highlight, String Comment);
+			Color highlight, String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you have specified by
-	 *         this method implementation. I thing that log messages of INFO
-	 *         level will be generated
+	 * There is an assumption that HTML element will be highlighted 
+	 * and INFO {@link Level} {@link Log} message will be 
+	 * created. Color of highlighting will be defined by implementor
 	 */
 	public void highlightAsInfo(WebDriver driver, WebElement webElement,
 			String Comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you want. I thing
-	 *         that log messages of SEVERE level will be generated
+	 * There is an assumption that HTML element will be highlighted any color you want
+	 * and SEVERE {@link Level} {@link Log} message will be 
+	 * created
 	 */
 	public void highlightAsSevere(WebDriver driver, WebElement webElement,
-			Color highlight, String Comment);
+			Color highlight, String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you have specified by
-	 *         this method implementation. I thing that log messages of SEVERE
-	 *         level will be generated
+	 * There is an assumption that HTML element will be highlighted 
+	 * and SEVERE {@link Level} {@link Log} message will be 
+	 * created. Color of highlighting will be defined by implementor
 	 */
 	public void highlightAsSevere(WebDriver driver, WebElement webElement,
-			String Comment);
+			String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you want. I thing
-	 *         that log messages of WARNING level will be generated
+	 * There is an assumption that HTML element will be highlighted any color you want
+	 * and WARN {@link Level} {@link Log} message will be 
+	 * created
 	 */
 	public void highlightAsWarning(WebDriver driver, WebElement webElement,
-			Color highlight, String Comment);
+			Color highlight, String comment);
 
 	/**
-	 * @author s.tihomirov It highlights element any color you have specified by
-	 *         this method implementation. I thing that log messages of WARNING
-	 *         level will be generated
+	 * There is an assumption that HTML element will be highlighted 
+	 * and WARN {@link Level} {@link Log} message will be 
+	 * created. Color of highlighting will be defined by implementor
 	 */
 	public void highlightAsWarning(WebDriver driver, WebElement webElement,
-			String Comment);
+			String comment);
 }
