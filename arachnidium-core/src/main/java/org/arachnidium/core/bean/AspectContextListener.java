@@ -90,7 +90,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 	}
 
 	private String getActivityDescription(IHasHandle handle) {
-		if (((IContext) handle).isSupportActivities()){
+		if (!((IContext) handle).isSupportActivities()){
 			Log.message("Activities are not supported...");
 			return "";
 		}
