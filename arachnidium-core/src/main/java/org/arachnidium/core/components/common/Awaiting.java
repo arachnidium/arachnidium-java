@@ -1,6 +1,5 @@
 package org.arachnidium.core.components.common;
 
-import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -10,11 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * Just a simple tool to 
  * perform waiting for something using {@link ExpectedCondition}
  */
-public abstract class Awaiting extends WebdriverComponent {
-
+public class Awaiting {
+    private final WebDriver driver;
+    
 	public Awaiting(WebDriver driver) {
-		super(driver);
-		delegate = this;
+		this.driver = driver;
 	}
 
 	@SuppressWarnings("unchecked")

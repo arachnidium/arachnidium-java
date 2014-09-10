@@ -47,7 +47,7 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 
 	Manager(WebDriverEncapsulation initialDriverEncapsulation) {
 		driverEncapsulation = initialDriverEncapsulation;
-		awaiting = driverEncapsulation.getComponent(Awaiting.class);
+		awaiting = new Awaiting(driverEncapsulation.getWrappedDriver());
 		managerMap.put(driverEncapsulation, this);
 		driverEncapsulation.addDestroyable(this);
 	}

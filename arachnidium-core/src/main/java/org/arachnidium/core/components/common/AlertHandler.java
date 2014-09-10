@@ -1,6 +1,5 @@
 package org.arachnidium.core.components.common;
 
-import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
@@ -25,7 +24,7 @@ public abstract class AlertHandler extends WebdriverComponent implements Alert {
 			throws NoAlertPresentException {
 		super(driver);
 		try {
-			delegate = ComponentFactory.getComponent(Awaiting.class, driver)
+			delegate = new Awaiting(driver)
 					.awaitCondition(secTimeOut,
 							ExpectedConditions.alertIsPresent());
 		} catch (TimeoutException e) {
