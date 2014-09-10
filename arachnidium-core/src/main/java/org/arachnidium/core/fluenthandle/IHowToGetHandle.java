@@ -29,7 +29,7 @@ public interface IHowToGetHandle {
 	
 	/**
 	 * @param fluentHandleWaiting where given parameter are set up
-	 * @return {@link ExpectedCondition} which waits for some window/contexts
+	 * @return {@link ExpectedCondition} which waits for some window/context
 	 */
 	public ExpectedCondition<String> getExpectedCondition(IFluentHandleWaiting fluentHandleWaiting);
 }

@@ -11,8 +11,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
- * Fluent waiting for
- * browser window handle
+ * Fluent waiting for browser window handle
+ * 
+ * @see IFluentHandleWaiting
  */
 public class FluentWindowWaiting implements IFluentHandleWaiting {
 
@@ -48,11 +49,6 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		return null;
 	}
 
-	/***
-	 * returns handle of a browser window that we have been waiting for
-	 * specified time. A browser window should have defined title. We can
-	 * specify part of a title as a regular expression
-	 * **/
 	private String getWindowHandleByTitle(final WebDriver from,
 			String titleRegExp) {
 		String resultHandle = null;
@@ -67,7 +63,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 			}
 			resultHandle = getHandleWhichMatchesToTitles(handle, titleRegExp,
 					winTitle);
-			if (resultHandle == null){
+			if (resultHandle == null) {
 				continue;
 			}
 			return resultHandle;
@@ -75,11 +71,6 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		return resultHandle;
 	}
 
-	/***
-	 * returns handle of a browser window that we have been waiting for
-	 * specified time. Browser window should have page that is loaded by
-	 * specified URLs URLs can be defined partially as regular expressions
-	 */
 	private String getWindowHandleByURLs(final WebDriver from,
 			List<String> urlsRegExps) {
 		String resultHandle = null;
@@ -103,12 +94,6 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		return resultHandle;
 	}
 
-	/***
-	 * returns handle of a browser window that we have been waiting for
-	 * specified time. A browser window should have defined title and it has to
-	 * be loaded by specified URLs. We can specify part of a title as a regular
-	 * expression. URLs can be defined partially as regular expressions too
-	 * **/
 	private String getWindowHandleByTitleAndURLs(final WebDriver from,
 			List<String> urlsRegExps, String titleRegExp) {
 
@@ -128,7 +113,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
 				currentUrl);
 	}
-	
+
 	private String getWindowHandleByIndexAndTitle(final WebDriver from,
 			int windowIndex, String titleRegExp) {
 		String resultHandle = getWindowHandleByIndex(from, windowIndex);
@@ -146,7 +131,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 
 		return getHandleWhichMatchesToTitles(resultHandle, titleRegExp,
 				winTitle);
-	}	
+	}
 
 	private String getWindowHandleByAllConditions(final WebDriver from,
 			int windowIndex, List<String> urlsRegExps, String titleRegExp) {
@@ -173,7 +158,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
 				currentUrl);
 	}
-	
+
 	private String getWindowHandleByIndexAndURLs(final WebDriver from,
 			int windowIndex, List<String> urlsRegExps) {
 		String resultHandle = getWindowHandleByIndex(from, windowIndex);
@@ -190,23 +175,60 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 		}
 		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
 				currentUrl);
-	}	
+	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. The window is defined by index
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index) {
 		return from -> getWindowHandleByIndex(from, index);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. 
+	 * 
+	 * The browser window should have defined title. We can
+	 * specify part of a title as a regular expression
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(String titleRegExp) {
 		return from -> getWindowHandleByTitle(from, titleRegExp);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. 
+	 * 
+	 * Browser window should have page that is loaded at
+	 * specified URLs URLs can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(List<String> urlsRegExps) {
 		return from -> getWindowHandleByURLs(from, urlsRegExps);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. 
+	 * 
+	 * The browser window should have defined title. We can
+	 * specify part of a title as a regular expression
+	 * 
+	 * Browser window should have page that is loaded at
+	 * specified URLs URLs can be defined partially as regular expressions
+	 *
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String,
+	 *      java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(String titleRegExp,
 			List<String> urlsRegExps) {
@@ -214,6 +236,19 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 				titleRegExp);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. The window is defined by index
+	 * 
+	 * The browser window should have defined title. We can
+	 * specify part of a title as a regular expression
+	 * 
+	 * Browser window should have page that is loaded at
+	 * specified URLs URLs can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.lang.String, java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index, String titleRegExp,
 			List<String> urlsRegExps) {
@@ -221,11 +256,31 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 				titleRegExp);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. The window is defined by index
+	 * 
+	 * The browser window should have defined title. We can specify part of a
+	 * title as a regular expression
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.lang.String)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index, String titleRegExp) {
 		return from -> getWindowHandleByIndexAndTitle(from, index, titleRegExp);
 	}
 
+	/**
+	 * returns handle of a browser window that we have been waiting for
+	 * specified time. The window is defined by index
+	 * 
+	 * Browser window should have page that is loaded at
+	 * specified URLs URLs can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index,
 			List<String> urlsRegExps) {

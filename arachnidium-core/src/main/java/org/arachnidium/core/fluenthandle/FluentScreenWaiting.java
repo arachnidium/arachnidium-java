@@ -137,38 +137,110 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 				currentActivity);
 	}	
 	
+	/**
+	 * returns context that we have been waiting for
+	 * specified time. The context is defined by index
+	 * 
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index) {
 		return from -> getContextByIndex(from, index);
 	}
 
+	
+	/**
+     * returns context that we have been waiting for
+	 * specified time.
+	 * 
+	 * The context should have defined name. We can specify part of a
+	 * context name as a regular expression
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
+	 */	
 	@Override
 	public ExpectedCondition<String> getHandle(String contextRegExp) {
 		return from -> getContextByExpression(from, contextRegExp);
 	}
 
+	/**
+	 * returns context that we have been waiting for
+	 * specified time. The context is defined by index
+	 * 
+	 * The context should have defined name. We can specify part of a
+	 * context name as a regular expression
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.lang.String)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index, String contextRegExp) {
 		return from -> getContextByIndexAndContextExpression(from, index, contextRegExp);
 	}
 
+	/**
+	 returns context that we have been waiting for
+	 * specified time.
+	 * 
+     * There should be activity 
+     * from the given list Activities can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
+	 */	
 	@Override
 	public ExpectedCondition<String> getHandle(List<String> activitiesRegExps) {
 		return from -> getContextByAcivities(from, activitiesRegExps);
 	}
 
+	/**
+	 * returns context that we have been waiting for
+	 * specified time. The context is defined by index
+	 * 
+     * There should be activity 
+     * from the given list Activities can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(int index,
 			List<String> activitiesRegExps) {
 		return from -> getContextByIndexAndActivities(from, index, activitiesRegExps);
 	}
 
+	/**
+	 * returns context that we have been waiting for
+	 * specified time.
+	 * 
+	 * The context should have defined name. We can specify part of a
+	 * context name as a regular expression
+	 * 
+     * There should be activity 
+     * from the given list Activities can be defined partially as regular expressions
+	 *
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String,
+	 *      java.util.List)
+	 */
 	@Override
 	public ExpectedCondition<String> getHandle(String contextRegExp,
 			List<String> activitiesRegExps) {
 		return from -> getContextByContextExpressionAndActivities(from, activitiesRegExps, contextRegExp);
 	}
 
+	/**
+     * returns context that we have been waiting for
+	 * specified time. The context is defined by index
+	 * 
+	 * The context should have defined name. We can specify part of a
+	 * context name as a regular expression
+	 *    
+	 * There should be activity 
+     * from the given list Activities can be defined partially as regular expressions
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
+	 *      java.lang.String, java.util.List)
+	 */	
 	@Override
 	public ExpectedCondition<String> getHandle(int index, String contextRegExp,
 			List<String> activitiesRegExps) {
