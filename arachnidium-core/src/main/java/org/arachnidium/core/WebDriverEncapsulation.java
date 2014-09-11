@@ -24,9 +24,10 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 WrapsDriver, IConfigurationWrapper{
-	protected static void prelaunch(ESupportedDrivers supporteddriver,
+	
+	private static void prelaunch(ESupportedDrivers supporteddriver,
 			Configuration config, Capabilities capabilities) {
-		supporteddriver.launchRemoteServerLocallyIfWasDefined(config);
+		supporteddriver.launchRemoteServerLocallyIfWasDefined();
 		supporteddriver.setSystemProperty(config, capabilities);
 	}
 
@@ -114,28 +115,13 @@ WrapsDriver, IConfigurationWrapper{
 		this.configuration = configuration;		
 		enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 				this, destroyableObjects, externallyInitiatedWebDriver);
-		actoinsAfterWebDriverCreation(externallyInitiatedWebDriver.getClass());
-	}
-
-	private void actoinsAfterWebDriverCreation(Class<? extends WebDriver> driverClass) {
-		Log.message("Getting started with "
-				+ driverClass.getSimpleName());
+		Log.message("Getting started with already instantiated "
+				+ externallyInitiatedWebDriver.getClass());
 		timeout = getComponent(TimeOut.class);
 		resetAccordingTo(configuration);
 	}
 
-	// if attempt to create a new web driver instance has been failed
-	protected void actoinsOnConstructFailure(RuntimeException e) {
-		Log.error(
-				"Attempt to create a new web driver instance has been failed! "
-						+ e.getMessage(), e);
-		destroy();
-		throw e;
-
-	}
-
 	// other methods:
-
 	private void constructorBody(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
 		if (supporteddriver.startsRemotely() & remoteAddress != null)
@@ -164,11 +150,16 @@ WrapsDriver, IConfigurationWrapper{
 		try {
 			enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
 					this, destroyableObjects, driverClass, paramClasses, values);
-			actoinsAfterWebDriverCreation(driverClass);
+			Log.message("Getting started with "
+					+ driverClass.getSimpleName());
+			timeout = getComponent(TimeOut.class);
+			resetAccordingTo(configuration);
 		} catch (Exception e) {
-			if (enclosedDriver != null)
-				enclosedDriver.quit();
-			actoinsOnConstructFailure(new RuntimeException(e));
+			Log.error(
+					"Attempt to create a new web driver instance has been failed! "
+							+ e.getMessage(), e);
+			destroy();
+			throw e;
 		}
 	}
 
@@ -202,11 +193,6 @@ WrapsDriver, IConfigurationWrapper{
 	public <T extends WebdriverComponent> T getComponent(Class<T> required, Class<?>[] params, Object[] values){
 		return ComponentFactory.getComponent(required, enclosedDriver, params, values);
 	}	
-
-	// it goes to another URL
-	public void getTo(String url) {
-		enclosedDriver.get(url);
-	}
 
 	@Override
 	public WebDriver getWrappedDriver() {

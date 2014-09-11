@@ -104,7 +104,8 @@ public final class WebFactory extends DefaultApplicationFactory {
 
 	private static <T extends Application<?, ?>> T load(T instance,
 			String urlToBeLoaded) {
-		instance.getWebDriverEncapsulation().getTo(urlToBeLoaded);
+		instance.getWebDriverEncapsulation().getWrappedDriver().navigate()
+				.to(urlToBeLoaded);
 		return instance;
 	}
 

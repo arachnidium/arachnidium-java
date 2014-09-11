@@ -123,8 +123,7 @@ public enum ESupportedDrivers {
 	 * Starts remote server locally
 	 * It is possible to launch {@link SeleniumServer} locally for now
 	 */
-	public synchronized void launchRemoteServerLocallyIfWasDefined(
-			Configuration configuration) {
+	public synchronized void launchRemoteServerLocallyIfWasDefined() {
 		if (serverLauncher == null)
 			return;
 		if (serverLauncher.isLaunched())
