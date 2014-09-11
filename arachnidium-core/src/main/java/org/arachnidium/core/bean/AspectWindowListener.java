@@ -60,6 +60,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		super(configurationWrapper);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
 	public void beforeIsSwitchedOn(@TargetParam IHasHandle handle) {
@@ -67,6 +70,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeIsSwitchedOn(handle);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
 	public void beforeWindowIsClosed(@TargetParam IExtendedWindow window) {
@@ -75,6 +81,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeWindowIsClosed(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
 	public void beforeWindowIsMaximized(@TargetParam IExtendedWindow window) {
@@ -83,6 +92,10 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeWindowIsMaximized(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
+	 *      org.openqa.selenium.Point)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
 	public void beforeWindowIsMoved(@TargetParam IExtendedWindow window, @UseParameter(number =0) Point point) {
@@ -93,6 +106,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeWindowIsMoved(window, point);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
 	public void beforeWindowIsRefreshed(@TargetParam IExtendedWindow window) {
@@ -101,6 +117,10 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeWindowIsRefreshed(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
+	 *      org.openqa.selenium.Dimension)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
 	public void beforeWindowIsResized(@TargetParam  IExtendedWindow window,
@@ -116,6 +136,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		Log.message("URL is " + window.getCurrentUrl());
 	}
 
+    /**
+     * @see org.arachnidium.core.eventlisteners.IHandletListener#whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+     */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
@@ -123,6 +146,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenIsSwitchedOn(handle);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
@@ -138,6 +164,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenNewHandleIsAppeared(handle);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
 	public void whenWindowIsClosed(@TargetParam IExtendedWindow window) {
@@ -145,6 +174,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenWindowIsClosed(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
 	public void whenWindowIsMaximized(@TargetParam IExtendedWindow window) {
@@ -152,6 +184,10 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenWindowIsMaximized(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
+	 *      org.openqa.selenium.Point)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
 	public void whenWindowIsMoved(@TargetParam IExtendedWindow window, @UseParameter(number =0) Point point) {
@@ -162,6 +198,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenWindowIsMoved(window, point);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
 	public void whenWindowIsRefreshed(@TargetParam IExtendedWindow window) {
@@ -170,6 +209,10 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenWindowIsRefreshed(window);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
+	 *      org.openqa.selenium.Dimension)
+	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
 	public void whenWindowIsResized(@TargetParam IExtendedWindow window, @UseParameter(number=0) Dimension dimension) {
@@ -180,6 +223,9 @@ class AspectWindowListener extends DefaultHandleListener implements
 		windowListenerProxy.whenWindowIsResized(window, dimension);
 	}
 
+	/**
+	 * @see org.arachnidium.core.bean.AbstractAspect#doAround(org.aspectj.lang.ProceedingJoinPoint)
+	 */
 	@Override
 	@Around("execution(* org.arachnidium.core.interfaces.IExtendedWindow.*(..)) || "
 			+ "execution(* org.arachnidium.core.interfaces.IHasHandle.*(..)) || "

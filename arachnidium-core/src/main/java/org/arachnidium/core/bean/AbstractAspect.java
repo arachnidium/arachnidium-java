@@ -39,8 +39,13 @@ public abstract class AbstractAspect {
 	}
 
 	/**
-	 * By this annotations methods of all listeners Should be marked
+	 * Customized annotations which are used by {@link AbstractAspect} subclasses
 	 */
+	
+    /**
+     * This annotation should mark methods 
+     * that are invoked before target methods
+     */
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	@Repeatable(BeforeTargets.class)
@@ -56,6 +61,10 @@ public abstract class AbstractAspect {
 		BeforeTarget[] value();
 	}
 
+    /**
+     * This annotation should mark methods 
+     * that are invoked after target methods
+     */	
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	@Repeatable(AfterTargets.class)
@@ -71,6 +80,11 @@ public abstract class AbstractAspect {
 		AfterTarget[] value();
 	}
 
+    /**
+     * This annotation should mark parameter
+     * of the listener method if it is assumed to
+     * use target object
+     */
 	@Target(value = ElementType.PARAMETER)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	// listenable target
@@ -78,12 +92,29 @@ public abstract class AbstractAspect {
 	protected @interface TargetParam {
 	}
 
+    /**
+     * This annotation should mark listener field.
+     * It is possible that some object is a parameter
+     * of the listener method. But is not a target and 
+     * it is not one of target method parameters.
+     * 
+     *  So. This object can be instantiated by listener someway.
+     *  After it can be inserted to listener method signature.
+     */	
 	@Target(value = ElementType.FIELD)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	// This field value can be inserted as a parameter
 	protected @interface SupportField {
 	}
 
+	/**
+	 * If parameter is marked by 
+	 * this it means that one of instantiated 
+	 * field values will be inserted here. 
+	 * 
+	 * Field should be marked by {@link SupportField} 
+	 * and to have suitable class
+	 */
 	@Target(value = ElementType.PARAMETER)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	// Field marked by @SuppotField
@@ -91,6 +122,11 @@ public abstract class AbstractAspect {
 	protected @interface SupportParam {
 	}
 
+	/**
+     * If parameter is marked by 
+	 * this it means that one of the target method parameters
+	 * will be inserted here 
+	 */
 	@Target(value = ElementType.PARAMETER)
 	@Retention(value = RetentionPolicy.RUNTIME)
 	// Field marked by @SuppotField
@@ -269,6 +305,13 @@ public abstract class AbstractAspect {
 		this.configurationWrapper = configurationWrapper;
 	}
 	
+	/**
+	 * This abstract method will implement logic of the listening. 
+	 * 
+	 * @param point @see {@link ProceedingJoinPoint}
+	 * @return Object that has been returned by target method
+	 * @throws Throwable
+	 */
 	public abstract Object doAround(ProceedingJoinPoint point)  throws Throwable;
 
 }

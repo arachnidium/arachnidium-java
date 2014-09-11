@@ -1,5 +1,8 @@
 package org.arachnidium.core.bean;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -7,18 +10,27 @@ import org.arachnidium.core.interfaces.IContext;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.interfaces.IExtendedWindow;
 import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.ContextAware;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Navigation;
+import org.openqa.selenium.WebDriver.Options;
+import org.openqa.selenium.WebDriver.TargetLocator;
+import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.AbstractApplicationContext;
 
-/**
- * creates beans of {@link WebDriver} and related objects
- */
 
+/**
+ * This is {@link AnnotationConfigApplicationContext}
+ * 
+ */
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class MainBeanConfiguration {
@@ -32,6 +44,20 @@ public class MainBeanConfiguration {
 	public final static String WINDOW_BEAN    = "window";
 	public final static String MOBILE_CONTEXT_BEAN    = "mobile_context";
 	
+	/**
+	 * Creates {@link WebDriver} instance and makes it listenable
+	 * 
+	 * @param context instantiated {@link AbstractApplicationContext} 
+	 * which is used by {@link AspectWebDriverEventListener}
+	 * @param configurationWrapper something that wraps {@link Configuration}
+	 * {@link AspectWebDriverEventListener} needs it
+	 * @param destroyable Something that implements {@link IDestroyable}
+	 * @param required Class of {@link WebDriver} implementor
+	 * @param paramClasses  Are constructor parameters
+	 * @param paramValues Are constructor parameter values
+	 * 
+	 * @return A listenable {@link WebDriver} instance
+	 */
 	@SuppressWarnings("unchecked")
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = WEBDRIVER_BEAN)
@@ -62,6 +88,21 @@ public class MainBeanConfiguration {
 		return driver;
 	}
 	
+	/**
+	 * It makes instantiated {@link WebDriver} listenable
+	 * 
+	 * @param context nstantiated {@link AbstractApplicationContext} 
+	 * which is used by {@link AspectWebDriverEventListener}
+	 * 
+	 * @param configurationWrapper something that wraps {@link Configuration}
+	 * {@link AspectWebDriverEventListener} needs it
+	 * @param destroyable Something that implements {@link IDestroyable}
+	 * @param driver An instance of {@link WebDriver}
+	 * 
+	 * @return A listenable {@link WebDriver} instance
+	 * 
+	 * @see Bean
+	 */
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = WEBDRIVER_BEAN)
 	public WebDriver getWebdriver(AbstractApplicationContext context, 
@@ -71,6 +112,13 @@ public class MainBeanConfiguration {
 		return populate(context, configurationWrapper, destroyable, driver);
 	}
 	
+	/**
+	 * Makes an instance of {@link IExtendedWindow} listenable
+	 * @param window An original instance of {@link IExtendedWindow}
+	 * @return The listenable instance of {@link IExtendedWindow}
+	 * 
+	 * @see Bean
+	 */
 	@SuppressWarnings("unchecked")
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = WINDOW_BEAN)
@@ -78,6 +126,13 @@ public class MainBeanConfiguration {
 		return (T) window;
 	}	
 	
+	/**
+	 * Makes an instance of {@link IContext} listenable
+	 * @param window An original instance of {@link IContext}
+	 * @return The listenable instance of {@link IContext}
+	 * 
+	 * @see Bean
+	 */	
 	@SuppressWarnings("unchecked")
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = MOBILE_CONTEXT_BEAN)
@@ -85,6 +140,25 @@ public class MainBeanConfiguration {
 		return (T) context;
 	}		
 	
+	/**
+	 * It return listenable {@link WebDriver} components
+	 * 
+	 * @see WebDriver
+	 * @see WebElement
+	 * @see Navigation
+	 * @see Options
+	 * @see TargetLocator
+	 * @see JavascriptExecutor
+	 * @see ContextAware
+	 * @see Alert
+	 * @see MobileElement
+	 * @see AppiumDriver
+	 *  
+	 * @param component It is an object of types above
+	 * @return The listenable object of types above
+	 * 
+	 * @see Bean
+	 */
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = COMPONENT_BEAN)
 	Object  getComponent(Object component) {

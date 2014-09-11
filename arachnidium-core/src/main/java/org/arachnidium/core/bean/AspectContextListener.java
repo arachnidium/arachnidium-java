@@ -60,6 +60,9 @@ public class AspectContextListener extends DefaultHandleListener implements
 		super(configurationWrapper);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void beforeIsSwitchedOn(@TargetParam IHasHandle handle) {
@@ -67,6 +70,9 @@ public class AspectContextListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeIsSwitchedOn(handle);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
@@ -75,6 +81,9 @@ public class AspectContextListener extends DefaultHandleListener implements
 		windowListenerProxy.whenIsSwitchedOn(handle);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
+	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
@@ -97,6 +106,9 @@ public class AspectContextListener extends DefaultHandleListener implements
 		return " Activity is " + ((IContext) handle).currentActivity();
 	}
 
+	/**
+	 * @see org.arachnidium.core.bean.AbstractAspect#doAround(org.aspectj.lang.ProceedingJoinPoint)
+	 */
 	@Override
 	@Around("execution(* org.arachnidium.core.interfaces.IHasHandle.*(..)) || "
 			+ "execution(* org.arachnidium.core.interfaces.ISwitchesToItself.*(..)) || "
@@ -113,6 +125,10 @@ public class AspectContextListener extends DefaultHandleListener implements
 		return result;
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IContextListener#beforeIsRotated(org.arachnidium.core.interfaces.IHasHandle,
+	 *      org.openqa.selenium.ScreenOrientation)
+	 */
 	@Override
 	@BeforeTarget(targetClass = IContext.class, targetMethod = "rotate")
 	public void beforeIsRotated(@TargetParam IHasHandle handle,
@@ -123,6 +139,10 @@ public class AspectContextListener extends DefaultHandleListener implements
 		windowListenerProxy.beforeIsRotated(handle, orientation);
 	}
 
+	/**
+	 * @see org.arachnidium.core.eventlisteners.IContextListener#whenIsRotated(org.arachnidium.core.interfaces.IHasHandle,
+	 *      org.openqa.selenium.ScreenOrientation)
+	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "rotate")
 	public void whenIsRotated(@TargetParam IHasHandle handle,
