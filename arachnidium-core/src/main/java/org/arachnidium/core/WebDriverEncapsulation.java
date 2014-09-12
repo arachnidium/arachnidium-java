@@ -16,15 +16,21 @@ import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
+/**
+ * This class creates an instance of required {@link WebDriver} implementor,
+ * wraps it and creates related components ({@link WebdriverComponent})
+ *
+ */
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
-WrapsDriver, IConfigurationWrapper{
-	
+		WrapsDriver, IConfigurationWrapper {
+
 	private static void prelaunch(ESupportedDrivers supporteddriver,
 			Configuration config, Capabilities capabilities) {
 		supporteddriver.launchRemoteServerLocallyIfWasDefined();
@@ -37,13 +43,14 @@ WrapsDriver, IConfigurationWrapper{
 
 	private Configuration configuration = Configuration.byDefault;
 	private TimeOut timeout;
-	final AbstractApplicationContext context = 
-			new AnnotationConfigApplicationContext(MainBeanConfiguration.class);
+	final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
+			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
-	
+
 	/**
-	 * creates instance by specified driver and remote address using specified
-	 * configuration
+	 * Creates and wraps an instance of {@link RemoteWebDriver} by given
+	 * 
+	 * @param {@link Configuration}
 	 */
 	public WebDriverEncapsulation(Configuration configuration) {
 		this.configuration = configuration;
@@ -75,28 +82,69 @@ WrapsDriver, IConfigurationWrapper{
 		}
 	}
 
-	/** creates instance by specified driver */
+	/**
+	 * Creates and wraps an instance of required {@link RemoteWebDriver}
+	 * subclass
+	 * 
+	 * @param supporteddriver
+	 *            Is the one element from {@link ESupportedDrivers} enumeration
+	 *            which contains the class of required {@link RemoteWebDriver}
+	 *            subclass
+	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver) {
 		this(supporteddriver, supporteddriver.getDefaultCapabilities());
 	}
 
-	// constructors are below:
-	/** creates instance by specified driver and capabilities */
+	/**
+	 * Creates and wraps an instance of required {@link RemoteWebDriver}
+	 * subclass with given {@link Capabilities}
+	 * 
+	 * @param supporteddriver
+	 *            Is the one element from {@link ESupportedDrivers} enumeration
+	 *            which contains the class of required {@link RemoteWebDriver}
+	 *            subclass
+	 * 
+	 * @param capabilities
+	 *            in an instance of {@link Capabilities}
+	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities) {
 		prelaunch(supporteddriver, this.configuration, capabilities);
 		constructorBody(supporteddriver, capabilities, (URL) null);
 	}
 
-	/** creates instance by specified driver, capabilities and remote address */
+	/**
+	 * Creates and wraps an instance of required {@link RemoteWebDriver}
+	 * subclass with given {@link Capabilities}. It should be launched on the
+	 * remote host.
+	 * 
+	 * @param supporteddriver
+	 *            Is the one element from {@link ESupportedDrivers} enumeration
+	 *            which contains the class of required {@link RemoteWebDriver}
+	 *            subclass
+	 * 
+	 * @param capabilities
+	 *            in an instance of {@link Capabilities}
+	 * 
+	 * @param remoteAddress
+	 *            is the URL of the required remote host
+	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
 		constructorBody(supporteddriver, capabilities, remoteAddress);
 	}
 
 	/**
-	 * creates instance by specified driver and remote address using default
-	 * capabilities
+	 * Creates and wraps an instance of required {@link RemoteWebDriver}
+	 * subclass. It should be launched on the remote host.
+	 * 
+	 * @param supporteddriver
+	 *            Is the one element from {@link ESupportedDrivers} enumeration
+	 *            which contains the class of required {@link RemoteWebDriver}
+	 *            subclass
+	 * 
+	 * @param remoteAddress
+	 *            is the URL of the required remote host
 	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			URL remoteAddress) {
@@ -104,19 +152,33 @@ WrapsDriver, IConfigurationWrapper{
 				remoteAddress);
 	}
 
-	/** creates instance using externally initiated webdriver **/
-	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver) {
-		this(externallyInitiatedWebDriver, Configuration.byDefault);
+	/**
+	 * Wraps an instance of required {@link RemoteWebDriver} subclass which is
+	 * already instantiated
+	 * 
+	 * @param explicitlyInitiatedWebDriver
+	 *            it is already instantiated {@link RemoteWebDriver}
+	 */
+	public WebDriverEncapsulation(RemoteWebDriver explicitlyInitiatedWebDriver) {
+		this(explicitlyInitiatedWebDriver, Configuration.byDefault);
 	}
 
-	/** creates instance using externally initiated webdriver **/
-	public WebDriverEncapsulation(RemoteWebDriver externallyInitiatedWebDriver,
+	/**
+	 * Wraps an instance of required {@link RemoteWebDriver} subclass which is
+	 * already instantiated and applies given {@link Configuration}
+	 * 
+	 * @param explicitlyInitiatedWebDriver
+	 *            it is already instantiated {@link RemoteWebDriver}
+	 * @param {@link Configuration}
+	 */
+	public WebDriverEncapsulation(RemoteWebDriver explicitlyInitiatedWebDriver,
 			Configuration configuration) {
-		this.configuration = configuration;		
-		enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-				this, destroyableObjects, externallyInitiatedWebDriver);
+		this.configuration = configuration;
+		enclosedDriver = (RemoteWebDriver) context.getBean(
+				MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
+				destroyableObjects, explicitlyInitiatedWebDriver);
 		Log.message("Getting started with already instantiated "
-				+ externallyInitiatedWebDriver.getClass());
+				+ explicitlyInitiatedWebDriver.getClass());
 		timeout = getComponent(TimeOut.class);
 		resetAccordingTo(configuration);
 	}
@@ -146,12 +208,12 @@ WrapsDriver, IConfigurationWrapper{
 
 	// it makes objects of any WebDriver and navigates to specified URL
 	private void createWebDriver(Class<? extends WebDriver> driverClass,
-			Class<?>[] paramClasses, Object[] values) {		
+			Class<?>[] paramClasses, Object[] values) {
 		try {
-			enclosedDriver = (RemoteWebDriver) context.getBean(MainBeanConfiguration.WEBDRIVER_BEAN, context,
-					this, destroyableObjects, driverClass, paramClasses, values);
-			Log.message("Getting started with "
-					+ driverClass.getSimpleName());
+			enclosedDriver = (RemoteWebDriver) context.getBean(
+					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
+					destroyableObjects, driverClass, paramClasses, values);
+			Log.message("Getting started with " + driverClass.getSimpleName());
 			timeout = getComponent(TimeOut.class);
 			resetAccordingTo(configuration);
 		} catch (Exception e) {
@@ -163,6 +225,10 @@ WrapsDriver, IConfigurationWrapper{
 		}
 	}
 
+	/**
+	 * Attempts to shut down {@link RemoteWebDriver} and destroys all related
+	 * information
+	 */
 	@Override
 	public void destroy() {
 		if (enclosedDriver == null)
@@ -173,39 +239,78 @@ WrapsDriver, IConfigurationWrapper{
 			return;
 		}
 	}
-	
+
 	/**
-	 * adds an object which related to {@link Webdriver} 
-	 * and has to destroyed after quit
+	 * adds an object which related to {@link Webdriver} and has to destroyed
+	 * after quit
 	 */
-	public void addDestroyable(IDestroyable destroyable){
+	public void addDestroyable(IDestroyable destroyable) {
 		destroyableObjects.add(destroyable);
 	}
-	
+
+	/**
+	 * This methods returns timeouts
+	 * 
+	 * @return {@link TimeOut}
+	 * 
+	 * @see Timeouts
+	 */
 	public TimeOut getTimeOut() {
 		return timeout;
 	}
-	
-	public <T extends WebdriverComponent> T getComponent(Class<T> required){
+
+	/**
+	 * @param required {@link WebdriverComponent} subclass
+	 * @return The instance of required {@link WebdriverComponent} subclass
+	 */
+	public <T extends WebdriverComponent> T getComponent(Class<T> required) {
 		return ComponentFactory.getComponent(required, enclosedDriver);
 	}
-	
-	public <T extends WebdriverComponent> T getComponent(Class<T> required, Class<?>[] params, Object[] values){
-		return ComponentFactory.getComponent(required, enclosedDriver, params, values);
-	}	
 
+	/**
+	 * 
+	 * @param required {@link WebdriverComponent} subclass
+	 * 
+	 * @param params is a Class[] which excludes {@link WebDriver}.class
+	 * {@link WebDriver} + given Class[] should match to {@link WebdriverComponent} subclass
+	 * constructor parameters
+	 *   
+	 * @param values is a Object[] which excludes {@link WebDriver} instance
+	 * {@link WebDriver} instance + given Object[] should match to {@link WebdriverComponent} subclass
+	 * constructor 
+	 * 
+	 * @return The instance of required {@link WebdriverComponent} subclass
+	 */
+	public <T extends WebdriverComponent> T getComponent(Class<T> required,
+			Class<?>[] params, Object[] values) {
+		return ComponentFactory.getComponent(required, enclosedDriver, params,
+				values);
+	}
+
+	/**
+	 * @see org.openqa.selenium.internal.WrapsDriver#getWrappedDriver()
+	 */
 	@Override
 	public WebDriver getWrappedDriver() {
 		return enclosedDriver;
 	}
 
-
+	/**
+	 * This method replaces previous {@link Configuration}
+	 * 
+	 * @see org.arachnidium.util.configuration.interfaces.IConfigurable#resetAccordingTo(org.arachnidium.util.configuration.Configuration)
+	 */
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		configuration = config;
 		timeout.resetAccordingTo(config);
 	}
 
+	/**
+	 * Returns {@link Configuration}
+	 * 
+	 * @see org.arachnidium.util.configuration.interfaces.IConfigurationWrapper#getWrappedConfiguration()
+	 */
 	@Override
 	public Configuration getWrappedConfiguration() {
 		return configuration;
