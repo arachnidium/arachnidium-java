@@ -22,6 +22,10 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		handleWaiting = new FluentWindowWaiting();
 	}
 
+	/**
+	 * Changes active window
+	 * @see org.arachnidium.core.Manager#changeActive(java.lang.String)
+	 */
 	@Override
 	void changeActive(String handle) throws NoSuchWindowException,
 			UnhandledAlertException {
@@ -39,6 +43,19 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		}
 	}
 
+	/**
+	 * Closes browser window
+	 * 
+	 * @param handle
+	 *            Given string wibdow handle
+	 * 
+	 * @throws UnclosedWindowException
+	 *             If window is not closed
+	 * @throws NoSuchWindowException
+	 *             If window has been already closed
+	 * @throws UnhandledAlertException
+	 * @throws UnreachableBrowserException
+	 */
 	synchronized void close(String handle) throws UnclosedWindowException,
 			NoSuchWindowException, UnhandledAlertException,
 			UnreachableBrowserException {
@@ -73,6 +90,9 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		}
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandle(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public BrowserWindow getHandle(int windowIndex)
@@ -82,11 +102,17 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		return getHandle(windowIndex, time);
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandles()
+	 */
 	@Override
 	Set<String> getHandles() {
 		return getWrappedDriver().getWindowHandles();
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandle(org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public BrowserWindow getHandle(HowToGetBrowserWindow howToGet)
@@ -96,6 +122,12 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		return getHandle(time,howToGet);
 	}
 
+	/**
+	 *  Actual strategy is {@link HowToGetBrowserWindow}
+	 * 
+	 * @see org.arachnidium.core.Manager#getHandle(long,
+	 *      org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public BrowserWindow getHandle(long timeOut,
@@ -114,6 +146,12 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
 
+	/**
+	 * Actual strategy is {@link HowToGetBrowserWindow}
+	 * 
+	 * @see org.arachnidium.core.Manager#getStringHandle(long,
+	 *      org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 */
 	@Override
 	String getStringHandle(long timeOut,
 			HowToGetBrowserWindow howToGet)
@@ -161,6 +199,9 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		return from -> isSwithedOn(from, handle);
 	}	
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandle(int, long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public BrowserWindow getHandle(int windowIndex, long timeOut) {
@@ -174,6 +215,9 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getStringHandle(int, long)
+	 */
 	@Override
 	String getStringHandle(int windowIndex, long timeOut) {
 		HowToGetBrowserWindow f = new HowToGetBrowserWindow();

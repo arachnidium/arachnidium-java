@@ -1,6 +1,5 @@
 package org.arachnidium.core;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 
@@ -31,28 +30,27 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		handleWaiting = new FluentScreenWaiting();
 	}
 
+	/**
+	 * Changes active context
+	 * 
+	 * @see org.arachnidium.core.Manager#changeActive(java.lang.String)
+	 */
 	@Override
 	void changeActive(String context) throws NoSuchContextException {
 		contextTool.context(context);
 	}
 
-	synchronized String getActivityByHandle(String handle)
-			throws NoSuchContextException {
-		changeActive(handle);
-		if (isSupportActivities) {
-			return ((AppiumDriver) getWrappedDriver()).currentActivity();
-		}
-		// iOS doesn't support activities. It is frustrating.
-		return "";
-	}
-
-	private HowToGetMobileScreen isSupportActivities(HowToGetMobileScreen howToGet){
-		if (!isSupportActivities){
+	private HowToGetMobileScreen isSupportActivities(
+			HowToGetMobileScreen howToGet) {
+		if (!isSupportActivities) {
 			howToGet.setExpected((List<String>) null);
 		}
 		return howToGet;
 	}
-	
+
+	/**
+	 * @see org.arachnidium.core.Manager#getHandle(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public MobileScreen getHandle(int contextIndex)
@@ -62,11 +60,19 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		return getHandle(contextIndex, time);
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandles()
+	 */
 	@Override
 	public Set<String> getHandles() {
 		return contextTool.getContextHandles();
 	}
 
+	/**
+	 * Actual strategy is {@link HowToGetMobileScreen}
+	 * 
+	 * @see org.arachnidium.core.Manager#getHandle(org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public MobileScreen getHandle(HowToGetMobileScreen howToGet)
@@ -76,15 +82,19 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		return getHandle(time, howToGet);
 	}
 
+	/**
+	 * Actual strategy is {@link HowToGetMobileScreen}
+	 * 
+	 * @see org.arachnidium.core.Manager#getHandle(long, org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileScreen getHandle(long timeOut,
-			HowToGetMobileScreen howToGet)
+	public MobileScreen getHandle(long timeOut, HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
 		String handle = this.getStringHandle(timeOut,
 				isSupportActivities(howToGet));
-		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(
-				handle, this);
+		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(handle,
+				this);
 		if (initedContext != null)
 			return initedContext;
 		MobileScreen context = new MobileScreen(handle, this);
@@ -93,42 +103,48 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 	}
 
 	@Override
-	String getStringHandle(long timeOut,
-			HowToGetMobileScreen howToGet)
+	String getStringHandle(long timeOut, HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
 		HowToGetMobileScreen clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
 					clone.getExpectedCondition(handleWaiting));
 		} catch (TimeoutException e) {
-			throw new NoSuchContextException(
-					"Can't find screen! Condition is " + clone.toString(), e);
+			throw new NoSuchContextException("Can't find screen! Condition is "
+					+ clone.toString(), e);
 		}
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getHandle(int, long)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public MobileScreen getHandle(int contextIndex, long timeOut) 
-			throws NoSuchContextException  {
+	public MobileScreen getHandle(int contextIndex, long timeOut)
+			throws NoSuchContextException {
 		String handle = this.getStringHandle(contextIndex, timeOut);
-		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(
-				handle, this);
+		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(handle,
+				this);
 		if (initedContext != null)
 			return initedContext;
 		MobileScreen context = new MobileScreen(handle, this);
 		return returnNewCreatedListenableHandle(context,
-				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);	
+				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 
+	/**
+	 * @see org.arachnidium.core.Manager#getStringHandle(int, long)
+	 */
 	@Override
-	String getStringHandle(int contextIndex, long timeOut) 
-			throws NoSuchContextException  {
+	String getStringHandle(int contextIndex, long timeOut)
+			throws NoSuchContextException {
 		HowToGetMobileScreen f = new HowToGetMobileScreen();
 		f.setExpected(contextIndex);
 		return getStringHandle(timeOut, f);
 	}
+
 	
-	boolean isSupportActivities(){
+	boolean isSupportActivities() {
 		return isSupportActivities;
 	}
 

@@ -6,19 +6,37 @@ import org.arachnidium.core.fluenthandle.HowToGetHandle;
 import org.arachnidium.core.interfaces.ICloneable;
 
 /**
- * Is for browser windows only
+ * Strategy of a browser window receiving
  */
 public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable {
+	
+	/**
+	 * @param expected window index
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.HowToGetHandle#setExpected(int)
+	 */
 	@Override
 	public void setExpected(int index) {
 		super.setExpected(index);
 	}
 
+	/**
+	 * @param expected window title.
+	 * A title can be defined as a regular expression
+	 * 
+	 * @see org.arachnidium.core.fluenthandle.HowToGetHandle#setExpected(java.lang.String)
+	 */
 	@Override
 	public void setExpected(String titleRegExp) {
 		super.setExpected(titleRegExp);
 	}
 
+	/**
+	 * @param Expected URLs.
+	 * URLs can be defined as a regular expressions
+	 *  
+	 * @see org.arachnidium.core.fluenthandle.HowToGetHandle#setExpected(java.util.List)
+	 */
 	@Override
 	public void setExpected(List<String> urlsRegExps) {
 		super.setExpected(urlsRegExps);
@@ -42,6 +60,9 @@ public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable 
 		return result;
 	}
 	
+	/**
+	 * @see org.arachnidium.core.interfaces.ICloneable#cloneThis()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public HowToGetBrowserWindow cloneThis(){

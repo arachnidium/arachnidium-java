@@ -10,15 +10,16 @@ import org.arachnidium.util.configuration.Configuration;
  * 
  * Setting specification:
  * 
- * ...
+ * <code>...
  * "alertIsPresentTimeOut":
-  {
-      "alertIsPresentTimeOut":{
-          "type":"LONG",
-          "value":"some long value"     
-      }
-  }
-  ...
+ * {
+ *      "alertIsPresentTimeOut":{
+ *        "type":"LONG",
+ *        "value":"some long value"     
+ *       }
+ * }
+ * ...
+ * </code>
  */
 public class AlertIsPresentTimeOut extends AbstractConfigurationAccessHelper {
 	private final String alertIsPresentTimeOutGroup = "alertIsPresentTimeOut";

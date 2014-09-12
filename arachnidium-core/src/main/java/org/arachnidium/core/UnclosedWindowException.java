@@ -6,8 +6,8 @@ package org.arachnidium.core;
 import org.openqa.selenium.WebDriverException;
 
 /**
- * @author s.tihomirov
- *
+ * This exception is thrown when 
+ * browser window is not closed 
  */
 public class UnclosedWindowException extends WebDriverException {
 	/**
