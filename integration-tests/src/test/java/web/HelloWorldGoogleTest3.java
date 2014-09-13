@@ -43,7 +43,7 @@ public class HelloWorldGoogleTest3 {
 		Platform current = Platform.getCurrent();
 		Set<Entry<Platform, String>> rules = configEndsWithMap.entrySet();
 		for (Entry<Platform, String> rule : rules) {
-			if (rule.getKey().is(current)) {
+			if (current.is(rule.getKey())) {
 				final String endsWith = rule.getValue();
 				File[] configJSONs = new File(whereAreConfigs)
 						.listFiles(new FilenameFilter() {

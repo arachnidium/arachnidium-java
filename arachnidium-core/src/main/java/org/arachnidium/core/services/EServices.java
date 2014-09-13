@@ -96,7 +96,7 @@ public enum EServices {
 		// checks by current operating system
 		Platform currentOS = Platform.getCurrent();
 		for (Entry<Platform, String> accordance : accordances) {
-			if (accordance.getKey().is(currentOS)) {
+			if (currentOS.is(accordance.getKey())) {
 				fileName = accordance.getValue();
 
 				serverFile = new File(folder + fileName);

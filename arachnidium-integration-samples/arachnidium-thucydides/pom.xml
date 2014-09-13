@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>arachnidium-integration-samples</artifactId>
-    <version>0.8.9.1</version>
+    <version>0.8.9.5</version>
   </parent>
   <artifactId>arachnidium-thucydides</artifactId>
 	<dependencies>
@@ -26,31 +26,16 @@
 					<artifactId>cglib</artifactId>
 					<groupId>cglib</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.thucydides</groupId>
 			<artifactId>thucydides-junit</artifactId>
 			<version>0.9.268</version>
-		</dependency>
-		<dependency>
-			<groupId>io.appium</groupId>
-			<artifactId>java-client</artifactId>
-			<version>${appium.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>selenium-java</artifactId>
-					<groupId>org.seleniumhq.selenium</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-codec</artifactId>
-					<groupId>commons-codec</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>cglib</artifactId>
-					<groupId>cglib</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies> 
 	

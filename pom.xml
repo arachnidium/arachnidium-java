@@ -3,16 +3,16 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<selenium.version>2.42.2</selenium.version>
+		<selenium.version>2.43.1</selenium.version>
 		<ghostdriver.version>1.1.0</ghostdriver.version>
 		<appium.version>1.6.2</appium.version>
-		<actual.version>0.8.9.1</actual.version>
+		<actual.version>0.8.9.5</actual.version>
 	</properties>
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.8.9.1</version>
+	<version>0.8.9.5</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 	

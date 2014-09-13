@@ -160,7 +160,7 @@ public class HelloWorldGoogleTest2 {
 	List<String> getConfigsByCurrentPlatform() {
 		Set<Entry<Platform, List<String>>> entries = settings.entrySet();
 		for (Entry<Platform, List<String>> entry : entries) {
-			if (entry.getKey().is(Platform.getCurrent())) {
+			if (Platform.getCurrent().is(entry.getKey())) {
 				return entry.getValue();
 			}
 		}

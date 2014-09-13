@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.arachnidium</groupId>
 		<artifactId>arachnidium-integration-samples</artifactId>
-		<version>0.8.9.1</version>
+		<version>0.8.9.5</version>
 	</parent>
 	<artifactId>arachnidium-qatools-htmlelements</artifactId>
 	<dependencies>
@@ -12,6 +12,12 @@
 			<groupId>ru.yandex.qatools.htmlelements</groupId>
 			<artifactId>htmlelements-java</artifactId>
 			<version>1.12</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.arachnidium</groupId>
