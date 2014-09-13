@@ -3,7 +3,7 @@ package org.arachnidium.model.interfaces;
 import org.arachnidium.core.fluenthandle.IHowToGetHandle;
 import org.arachnidium.model.support.HowToGetByFrames;
 
-public interface IDecomposibleByHandles<U extends IHowToGetHandle> extends IDecomposable {
+public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDecomposable {
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex);
 	

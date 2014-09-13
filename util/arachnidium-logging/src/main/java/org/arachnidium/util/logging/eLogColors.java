@@ -7,9 +7,24 @@ import java.awt.Color;
  * for page highlighting 
  */
 public enum eLogColors {
-	CORRECTSTATECOLOR(new Color(0, 255, 0), "Green"), WARNSTATECOLOR(new Color(
-			255, 255, 0), "Yellow"), DEBUGCOLOR(new Color(255, 250, 250),
-			"Snow"), SEVERESTATECOLOR(new Color(255, 0, 0), "Red");
+	/**
+	 * Green
+	 */
+	CORRECTSTATECOLOR(new Color(0, 255, 0), "Green"), 
+	/**
+	 * Yellow
+	 */
+	WARNSTATECOLOR(new Color(
+			255, 255, 0), "Yellow"), 
+	/**
+	 * Snow		
+	 */
+	DEBUGCOLOR(new Color(255, 250, 250),
+			"Snow"), 
+	/**
+	 * Red		
+	 */
+	SEVERESTATECOLOR(new Color(255, 0, 0), "Red");
 
 	private Color stateColor;
 	private String htmlColorDescription;

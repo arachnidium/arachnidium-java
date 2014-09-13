@@ -7,6 +7,8 @@ import org.arachnidium.model.common.Application;
 
 /**
  * Representation of a browser application
+ * 
+ * @see Application
  */
 public abstract class BrowserApplication extends Application<BrowserWindow, HowToGetBrowserWindow> {
 

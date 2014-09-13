@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.arachnidium.core.BrowserWindow;
 import org.arachnidium.core.Handle;
+import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.WebDriverEncapsulation;
 import org.arachnidium.core.components.WebdriverComponent;
 import org.arachnidium.core.components.common.Awaiting;
@@ -19,18 +21,35 @@ import org.arachnidium.model.support.HowToGetByFrames;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
 
+/**
+ * This is a basic abstraction 
+ * which describes objects are used for modeling application and is parts.
+ * 
+ * @param <S> It means that objects can be stationed on browser window or mobile application screen.
+ * 
+ * If there is <S extends {@link Handle}> or <{@link Handle}> it means that 
+ * both {@link BrowserWindow} and {@link MobileScreen} are possible. It is good
+ * for situations when interaction with UI of  browser client and the same mobile client 
+ * has to be automated.
+ * 
+ * If it needs to be bounded by only one {@link Handle} subclass ({@link BrowserWindow} or {@link MobileScreen})
+ * then 
+ * - <{@link BrowserWindow}> - only browser windows
+ * 
+ * or 
+ * 
+ * - {@link MobileScreen} - only mobile screens
+ */
 public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		IDecomposable, WrapsDriver {
-	protected final S handle; // handle that object is placed on
-	private final WebDriverEncapsulation driverEncapsulation; // wrapped web
-																// driver
-	// for situations
-	// when it needs to
-	// be used
+	protected final S handle; //window or mobile context. This object is stationed on it.
+	private final WebDriverEncapsulation driverEncapsulation;
 
-	protected final Awaiting awaiting;
-	protected final ScriptExecutor scriptExecutor;
-	protected final DriverLogs logs;
+	protected final Awaiting awaiting; //performs waiting
+	protected final ScriptExecutor scriptExecutor; //executes given javaScript
+	protected final DriverLogs logs; //is for getting WebDriver logs
+	
+	//this is for interception and automatically handling exceptions
 	protected final HashSet<ModelObjectExceptionHandler> checkedInExceptionHandlers = new HashSet<ModelObjectExceptionHandler>();
 
 	// this will be invoked when some exception is caught out
@@ -58,6 +77,13 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	final List<ModelObject> children = Collections
 			.synchronizedList(new ArrayList<ModelObject>());
 
+	/**
+	 * This is the general constructor.
+	 * 
+	 * @param handle is the given browser window or 
+	 * mobile context which currently present
+	 * 
+	 */
 	protected ModelObject(S handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();
@@ -66,10 +92,28 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
 	}
 
+	/**
+	 * Adds the child object
+	 * 
+	 * @param child is the child {@link ModelObject}
+	 */
 	protected void addChild(ModelObject<?> child) {
 		children.add(child);
 	}
 
+	/**
+	 * This method add an object that 
+	 * performs automatically handling of 
+	 * some caught exception.  
+	 * 
+	 * @param exceptionHandler is the object which
+	 * performs automatically handling of 
+	 * some caught exception
+	 * 
+	 * @see ModelObjectExceptionHandler
+	 * 
+	 * @see IModelObjectExceptionHandler 
+	 */
 	public void checkInExceptionHandler(
 			ModelObjectExceptionHandler exceptionHandler) {
 		checkedInExceptionHandlers.add(exceptionHandler);
@@ -80,6 +124,10 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		checkedInExceptionHandlers.remove(exceptionHandler);
 	}
 
+	/**
+	 * This method destroys information
+	 * about child objects 
+	 */
 	@Override
 	public void destroy() {
 		for (ModelObject<?> child : children)
@@ -87,22 +135,55 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		children.clear();
 	}
 
+	/**
+	 * @see org.arachnidium.model.interfaces.IDecomposable#getPart(java.lang.Class)
+	 */
 	@Override
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass);
 
+	/**
+	 * @see org.arachnidium.model.interfaces.IDecomposable#getPart(java.lang.Class, org.arachnidium.model.support.HowToGetByFrames)
+	 * 
+	 * @see HowToGetByFrames
+	 */
 	@Override
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy);
 
+	/**
+	 * @see org.openqa.selenium.internal.WrapsDriver#getWrappedDriver()
+	 */
 	@Override
 	public WebDriver getWrappedDriver() {
 		return driverEncapsulation.getWrappedDriver();
 	}
 
+	/**
+	 * @param required {@link WebdriverComponent} subclass
+	 * @return The instance of required {@link WebdriverComponent} subclass
+	 * 
+	 * It is supposed to be for internal usage
+	 */
 	protected final <T extends WebdriverComponent> T getComponent(Class<T> required) {
 		return driverEncapsulation.getComponent(required);
 	}
 
+	/**
+	 * 
+	 * @param required {@link WebdriverComponent} subclass
+	 * 
+	 * @param params is a Class[] which excludes {@link WebDriver}.class
+	 * {@link WebDriver} + given Class[] should match to {@link WebdriverComponent} subclass
+	 * constructor parameters
+	 *   
+	 * @param values is a Object[] which excludes {@link WebDriver} instance
+	 * {@link WebDriver} instance + given Object[] should match to {@link WebdriverComponent} subclass
+	 * constructor 
+	 * 
+	 * @return The instance of required {@link WebdriverComponent} subclass
+	 * 
+	 * It is supposed to be for internal usage
+	 */
 	protected final <T extends WebdriverComponent> T getComponent(Class<T> required,
 			Class<?>[] params, Object[] values) {
 		return driverEncapsulation.getComponent(required, params, values);

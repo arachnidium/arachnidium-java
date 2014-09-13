@@ -7,6 +7,8 @@ import org.arachnidium.model.common.Application;
 
 /**
  * Representation of a mobile application
+ * 
+ * @see Application
  */
 public abstract class MobileApplication extends Application<MobileScreen, HowToGetMobileScreen> {
 

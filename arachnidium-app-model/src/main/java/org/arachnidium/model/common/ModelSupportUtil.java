@@ -17,6 +17,11 @@ import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
 
+/**
+ * 
+ * This the class for iiner usage
+ *
+ */
 abstract class ModelSupportUtil {
 
 	private static final HashMap<Class<?>, Class<?>> FOR_USED_SIMPLE_TYPES = new HashMap<Class<?>, Class<?>>() {

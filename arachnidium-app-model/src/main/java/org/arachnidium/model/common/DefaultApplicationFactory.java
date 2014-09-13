@@ -12,6 +12,7 @@ import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * Utility class that contains methods which create {@link Application}
@@ -31,7 +32,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with default
+	 * Common method that creates an instance of any application using default
 	 * configuration
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
@@ -43,7 +44,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with defined
+	 * Common method that creates an instance of any application using defined
 	 * configuration
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
@@ -55,8 +56,8 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with defined
-	 * webdriver
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class. This class is contained by {@link ESupportedDrivers} 
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
@@ -67,8 +68,10 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with defined
-	 * webdriver and its capabilities
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and its {@link Capabilities}.
+	 * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
@@ -80,8 +83,11 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with defined
-	 * webdriver, capabilities and URL to remote server
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and its {@link Capabilities} and URL of remote
+	 * host where it should be launched.
+     * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
@@ -94,8 +100,11 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with defined
-	 * webdriver and URL to remote server
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and URL of remote
+	 * host where it should be launched.
+     * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
@@ -120,9 +129,6 @@ public class DefaultApplicationFactory {
 
 	}
 
-	/**
-	 * Instantiates {@link Application} by initial parameters
-	 */
 	private static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			Class<?>[] initaialParameterClasses,

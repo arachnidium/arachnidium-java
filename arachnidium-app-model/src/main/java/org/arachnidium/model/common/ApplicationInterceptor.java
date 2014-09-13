@@ -10,15 +10,99 @@ import java.util.List;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.arachnidium.core.HowToGetBrowserWindow;
+import org.arachnidium.core.HowToGetMobileScreen;
 import org.arachnidium.core.fluenthandle.IHowToGetHandle;
 import org.arachnidium.model.abstractions.ModelObjectInterceptor;
+import org.arachnidium.model.interfaces.IDecomposable;
+import org.arachnidium.model.interfaces.IDecomposableByHandles;
 import org.arachnidium.model.support.HowToGetByFrames;
 import org.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
+import org.arachnidium.model.support.annotations.classdeclaration.Frame;
+import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
+import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
+import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
+import org.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroidActivity;
+import org.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
+import org.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
 import org.arachnidium.model.support.annotations.classdeclaration.TimeOut;
 
-public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, HandleUniqueIdentifiers extends Annotation, AdditionalStringIdentifier extends Annotation, HowTo extends IHowToGetHandle>
+/**
+ *<p>This an iterceptor of {@link Application} methods.
+ *<p>It invokes methods. If some exception is thrown
+ *<p>it attempts to handle it implicitly 
+ *<p>
+ *<p>Also it performs the substitution of methods specified 
+ *<p>by {@link IDecomposable} and {@link IDecomposableByHandles}. 
+ *<p>This substitution depends on annotations that mark 
+ *<p>class of {@link Application}. Possible annotations are 
+ *<p> described by parameters below  
+ *<p>
+ *@param <IndexAnnotation>
+ *<p>possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
+ *<p>These annotations are used when class describes UI or the fragment UI  
+ *<p>which is stationed on not the first browser window or mobile context by default. 
+ *<p>It is always the second, the third ad so on.
+ *<p> 
+ *@param <HandleUniqueIdentifiers>
+ *<p>Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
+ *<p>These annotations are used when it is possible that UI or the fragment of UI
+ *<p>can be identified by the set of page URLs or Android activities (!!! Android-only feature, ignored by iOS)
+ *<p>This set should be limited. URL or activity value can be specified by regular expression
+ *<p>
+ *@param <AdditionalStringIdentifier>
+ *<p>Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
+ *<p>These annotations are used when it is possible that UI or the fragment of UI
+ *<p>can be additionally identified by page title or mobile context name.
+ *<p>Title or mobile context name value can be specified by regular expression
+ *<p>
+ *@param <HowTo>
+ *<p>Possible classes are {@link HowToGetBrowserWindow} and {@link HowToGetMobileScreen}
+ *<p>By instances of this classes parameters (see above) will be combined
+ *<p>
+ *@see
+ *<p> Annotation that additionally used:
+ *<p> 
+ *{@link Frame}
+ *<p>
+ *{@link TimeOut}
+ *<p>
+ */
+public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, 
+HandleUniqueIdentifiers extends Annotation, 
+AdditionalStringIdentifier extends Annotation, 
+HowTo extends IHowToGetHandle>
 		extends ModelObjectInterceptor {
 
+	/**
+	 *<p> This methods transforms
+	 *<p> values of annotations that marks
+	 *<p> the given class to strategies 
+	 *<p> {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
+	 *<p> 
+	 *@param indexAnnotation is the class of annotation which 
+	 *<p> is expected marks the given class
+	 *<p>possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
+	 *<p> 
+	 *@param handleUniqueIdentifiers is the class of annotation which 
+	 *<p> is expected marks the given class
+	 *<p> Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
+	 *<p> 
+	 *@param additionalStringIdentifieris the class of annotation which 
+	 *<p> is expected marks the given class
+	 *<p> Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
+	 *<p> 
+	 *@param annotated is a given class that can be marked by annotations above
+	 *<p> 
+	 *@param howToClass is the class of strategy that combines values of 
+	 *<p> annotations above. Available classes are {@link HowToGetBrowserWindow} 
+	 *<p> and {@link HowToGetMobileScreen}
+	 *<p> 
+	 *<p> @return the instance of a strategy class defined by 
+	 *@param howToClass
+	 *<p> 
+	 *<p> @throws ReflectiveOperationException
+	 */
 	private HowTo getHowToGetHandleStrategy(
 			Class<IndexAnnotation> indexAnnotation,
 			Class<HandleUniqueIdentifiers> handleUniqueIdentifiers,
@@ -79,6 +163,18 @@ public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation,
 		return ClassDeclarationReader.getTimeOut(timeOuts[0]);
 	}
 
+	/**
+	 *<p>This methods invokes methods and performs
+	 *<p>the substitution of methods specified 
+     *<p>by {@link IDecomposable} and {@link IDecomposableByHandles}. 
+     *<p>
+     *@see MethodInterceptor#intercept(Object, Method, Object[], MethodProxy) 
+     *<p>
+     *@see ModelObjectInterceptor#intercept(Object, Method, Object[], MethodProxy)
+     *<p>
+     *@see DefaultInterceptor#intercept(Object, Method, Object[], MethodProxy)
+     *<p>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object intercept(Object application, Method method, Object[] args,

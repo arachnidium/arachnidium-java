@@ -1,5 +1,6 @@
 package org.arachnidium.mobile.ios.iucatalog;
 
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 
@@ -22,7 +23,7 @@ public class UICatalog extends iOSScreen {
 	
 	@InteractiveMethod
 	public void selectItem(String item){
-		TouchAction touchAction = touchActions.getTouchAction();
+		TouchAction touchAction = new TouchAction((MobileDriver) getWrappedDriver());
 		touchAction.tap(namedTextFieldGetter.getNamedTextField(item));
 		touchActionsPerformer.performTouchAction(touchAction);
 	}

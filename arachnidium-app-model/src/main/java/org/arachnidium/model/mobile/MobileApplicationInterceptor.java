@@ -6,7 +6,13 @@ import org.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroi
 import org.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 import org.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
 
-class MobileApplicationInterceptor extends ApplicationInterceptor<IfMobileDefaultContextIndex, IfMobileAndroidActivity, 
-	IfMobileContext, HowToGetMobileScreen> {
+/**
+ * see {@link ApplicationInterceptor}
+ *
+ */
+class MobileApplicationInterceptor extends ApplicationInterceptor<IfMobileDefaultContextIndex, 
+    IfMobileAndroidActivity, 
+	IfMobileContext, 
+	HowToGetMobileScreen> {
 
 }

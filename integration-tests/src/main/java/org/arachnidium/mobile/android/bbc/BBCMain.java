@@ -1,5 +1,6 @@
 package org.arachnidium.mobile.android.bbc;
 
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
@@ -90,7 +91,8 @@ public class BBCMain extends AndroidScreen implements IBar{
 	@Override
 	@InteractiveMethod
 	public void edit() {
-		TouchAction touchAction = touchActions.getTouchAction();
+		TouchAction touchAction = new TouchAction(
+				(MobileDriver) getWrappedDriver());
 		touchAction.tap(edit);
 		touchActionsPerformer.performTouchAction(touchAction);
 	}

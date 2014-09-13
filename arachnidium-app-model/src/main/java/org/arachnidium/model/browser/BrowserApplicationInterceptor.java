@@ -6,6 +6,11 @@ import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefau
 import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
 import org.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
 
-class BrowserApplicationInterceptor extends ApplicationInterceptor<IfBrowserDefaultPageIndex, IfBrowserURL, 
-	IfBrowserPageTitle, HowToGetBrowserWindow> {
+/**
+ * @see ApplicationInterceptor
+ */
+class BrowserApplicationInterceptor extends ApplicationInterceptor<IfBrowserDefaultPageIndex, 
+    IfBrowserURL, 
+	IfBrowserPageTitle, 
+	HowToGetBrowserWindow> {
 }

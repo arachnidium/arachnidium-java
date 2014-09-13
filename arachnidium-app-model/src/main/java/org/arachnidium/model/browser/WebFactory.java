@@ -9,12 +9,13 @@ import org.arachnidium.model.common.Application;
 import org.arachnidium.model.common.DefaultApplicationFactory;
 import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public final class WebFactory extends DefaultApplicationFactory {
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined configuration. Application is loaded using it's URL
+	 * Common method that creates an instance of any application using defined
+	 * configuration. Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Configuration config, String urlToBeLoaded) {
@@ -24,9 +25,12 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver and its capabilities. Application is loaded using it's
-	 * URL
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and its {@link Capabilities}.
+	 * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver,
@@ -39,9 +43,13 @@ public final class WebFactory extends DefaultApplicationFactory {
 
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver, capabilities and URL to remote server. Application is
-	 * loaded using it's URL
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and its {@link Capabilities} and URL of remote
+	 * host where it should be launched.
+     * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver,
@@ -53,8 +61,10 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver. Application is loaded using it's URL
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class. This class is contained by {@link ESupportedDrivers} 
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver,
@@ -65,9 +75,13 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * defined webdriver and URL to remote server. Application is loaded using
-	 * it's URL
+	 * Common method that creates an instance of any application using required
+	 * {@link RemoteWebDriver} class and URL of remote
+	 * host where it should be launched.
+     * The class of {@link RemoteWebDriver} subclass 
+	 * is contained by {@link ESupportedDrivers} 
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, ESupportedDrivers supportedDriver,
@@ -79,8 +93,10 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * default configuration. Application is loaded using it's URL
+	 * Common method that creates an instance of any application using default
+	 * configuration
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, String urlToBeLoaded) {
@@ -90,9 +106,10 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of a browser application with
-	 * externally instantiated {@link WebDriverEncapsulation}. Application is
-	 * loaded using it's URL
+	 * Common method that creates an instance of any application with externally
+	 * instantiated {@link WebDriverEncapsulation}
+	 * 
+	 * Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, WebDriverEncapsulation wdEncapsulation,
