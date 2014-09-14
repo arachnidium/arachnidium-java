@@ -31,7 +31,7 @@ public interface ITakesPictureOfItSelf {
 
 	/**
 	 * There is an assumption that implementor
-	 * will crate a WARN {@link Level} {@link Log} message 
+	 * will crate a WARNING {@link Level} {@link Log} message 
 	 * with attached screenshot
 	 */	
 	public void takeAPictureOfAWarning(String Comment);

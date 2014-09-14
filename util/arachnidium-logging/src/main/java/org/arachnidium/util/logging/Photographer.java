@@ -42,7 +42,7 @@ public final class Photographer {
 	 * @param driver an instance of {@link WebDriver} 
 	 * @param LogLevel A {@link Level} of the log message. To this message file will be 
 	 * attached
-	 * @param comment Message text
+	 * @param comment Narrative message text
 	 */
 	public static void takeAPictureForLog(WebDriver driver,
 			eAvailableLevels LogLevel, String comment) {
@@ -93,7 +93,7 @@ public final class Photographer {
 	}
 
 	/**
-	 * Creates a log message with the WARN {@link Level} and
+	 * Creates a log message with the WARNING {@link Level} and
 	 * attached screenshot
 	 * @param driver an instance of {@link WebDriver} 
 	 * @param comment The narrative comment to the picture

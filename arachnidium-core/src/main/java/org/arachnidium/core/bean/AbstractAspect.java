@@ -95,10 +95,10 @@ public abstract class AbstractAspect {
     /**
      * This annotation should mark listener field.
      * It is possible that some object is a parameter
-     * of the listener method. But is not a target and 
+     * of the listener method. But it is not a target and 
      * it is not one of target method parameters.
      * 
-     *  So. This object can be instantiated by listener someway.
+     *  So. This object can be instantiated by listener.
      *  After it can be inserted to listener method signature.
      */	
 	@Target(value = ElementType.FIELD)
@@ -113,7 +113,7 @@ public abstract class AbstractAspect {
 	 * field values will be inserted here. 
 	 * 
 	 * Field should be marked by {@link SupportField} 
-	 * and to have suitable class
+	 * and have suitable class
 	 */
 	@Target(value = ElementType.PARAMETER)
 	@Retention(value = RetentionPolicy.RUNTIME)
@@ -308,9 +308,11 @@ public abstract class AbstractAspect {
 	/**
 	 * This abstract method will implement logic of the listening. 
 	 * 
-	 * @param point @see {@link ProceedingJoinPoint}
+	 * @param point is the {@link ProceedingJoinPoint} instance
 	 * @return Object that has been returned by target method
 	 * @throws Throwable
+	 * 
+	 * @see {@link ProceedingJoinPoint}
 	 */
 	public abstract Object doAround(ProceedingJoinPoint point)  throws Throwable;
 

@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Bean;
 
 /**
- * This an abstraction that describes 
+ * This an abstraction that describes the
  * way how to get a new {@link Handle} and 
  * how to switch from one another
  * 
@@ -77,7 +77,7 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 
 	/**
 	 * This method destroys information
-	 * about related windows or mobile context
+	 * about related windows or mobile contexts
 	 */
 	@Override
 	public void destroy() {

@@ -21,6 +21,9 @@ import org.openqa.selenium.remote.service.DriverService;
  * Sets system properties of required {@link DriverService}
  */
 public enum EServices {
+	/**
+	 * {@link ChromeDriverService}
+	 */
 	CHROMESERVICE(ChromeDriverServerBin.class,
 			ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
 			new HashMap<Platform, String>() {
@@ -31,7 +34,11 @@ public enum EServices {
 			put(Platform.LINUX, "chromedriver");
 		}
 
-	}), IEXPLORERSERVICE(IEDriverServerBin.class,
+	}),
+	/**
+	 * {@link InternetExplorerDriverService}
+	 */
+	IEXPLORERSERVICE(IEDriverServerBin.class,
 			InternetExplorerDriverService.IE_DRIVER_EXE_PROPERTY,
 			new HashMap<Platform, String>() {
 		private static final long serialVersionUID = 1L;
@@ -39,7 +46,11 @@ public enum EServices {
 			put(Platform.WINDOWS, "IEDriverServer.exe");
 		}
 
-	}), PHANTOMJSSERVICE(PhantomJSDriverBin.class,
+	}), 
+	/**
+	 * {@link PhantomJSDriverService}
+	 */
+	PHANTOMJSSERVICE(PhantomJSDriverBin.class,
 			PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
 			new HashMap<Platform, String>() {
 		private static final long serialVersionUID = 1L;

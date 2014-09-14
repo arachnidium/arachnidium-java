@@ -33,7 +33,7 @@ public class HowToGetMobileScreen extends HowToGetHandle implements ICloneable{
 
 	/**
 	 * @param expected activities.
-	 * Activities can be defined as a regular expressions
+	 * Each one activity can be defined as a regular expression.
 	 * 
 	 * This parameter is ignored by iOS
 	 * 

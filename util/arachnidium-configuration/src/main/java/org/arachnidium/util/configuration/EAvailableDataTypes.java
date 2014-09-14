@@ -8,8 +8,27 @@ import java.lang.reflect.Constructor;
  * like this: new Class(String value);
  */
 enum EAvailableDataTypes {
-	STRING(String.class), BOOL(Boolean.class), LONG(Long.class), FLOAT(
-			Float.class), INT(Integer.class);
+	/**
+	 * java.lang.String
+	 */
+	STRING(String.class), 
+	/**
+	 * java.lang.Boolean
+	 */
+	BOOL(Boolean.class), 
+	/**
+	 * java.lang.Long
+	 */	
+	LONG(Long.class), 
+	/**
+	 * java.lang.Float
+	 */	
+	FLOAT(
+			Float.class), 
+	/**
+	* java.lang.Integer
+	*/			
+	INT(Integer.class);
 
 	private final Class<?> usingClass;
 

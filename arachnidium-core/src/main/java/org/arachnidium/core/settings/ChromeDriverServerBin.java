@@ -1,27 +1,33 @@
 package org.arachnidium.core.settings;
 
 import org.arachnidium.util.configuration.Configuration;
+import org.openqa.selenium.chrome.ChromeDriverService;
 
 /**
  * Settings of chromedriver*
- * {@link https://code.google.com/p/selenium/wiki/ChromeDriver}
+ * <p>
+ * {@link https://code.google.com/p/selenium/wiki/ChromeDriver}</p>
+ * 
+ * <p>
+ * Specification:</p>
+ * 
+ * <p><br/>
+ *"ChromeDriver":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"folder":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"path to chromedriver binary"<br/>           
+ *&nbsp;&nbsp;},<br/>  
+ *&nbsp;&nbsp;"file":{  //It is not a necessary parameter<br/> 
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"chromedriver.exe" (or chromedriver on Mac OS X or Linux)<br/>         
+ *&nbsp;&nbsp;}<br/>      
+ *},<br/>
+ *</p>
+ * 
  * @see LocalWebDriverServiceSettings
+ * @see ChromeDriverService
  * @see Configuration
- * 
- * Specification:
- * 
- *   "ChromeDriver":
-  {
-       "folder":{
-          "type":"STRING",
-          "value":"path to chromedriver binary"           
-      },  
-       "file":{  //It is not a necessary parameter 
-          "type":"STRING",
-          "value":"chromedriver.exe" (or chromedriver on Mac OS X or Linux)         
-      }      
-  },
- * 
  */
 public class ChromeDriverServerBin extends LocalWebDriverServiceSettings {
 	private static final String chromeDriverGroup = "ChromeDriver";

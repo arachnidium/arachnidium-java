@@ -9,19 +9,21 @@ import org.openqa.selenium.WebDriver.Window;
  * Stores time out of {@link Window} or context ({@link ContextAware}) 
  * implicitly waiting.
  * 
- * @see Configuration
- * 
  * Specification:
  * 
- * ...
- * "handleWaitingTimeOut":
-  {
-      "handleWaitingTimeOut":{
-          "type":"LONG",
-          "value":"some long value"     
-      }
-  }
-  ...
+ * <p><br/>
+ *...<br/>
+ *"handleWaitingTimeOut":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"handleWaitingTimeOut":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"LONG",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"some long value"<br/>     
+ *&nbsp;&nbsp;}<br/>
+ *}<br/>
+ *...<br/>
+ *</p>
+ *
+ *@see Configuration
  */
 public class HandleWaitingTimeOut extends AbstractConfigurationAccessHelper {
 	private final String handleWaitingTimeOutGroup = "handleWaitingTimeOut";	

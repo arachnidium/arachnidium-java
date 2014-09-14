@@ -6,10 +6,37 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A default index of the opened browser page 
+ * This annotation is for
+ * UI specifications when it is 
+ * possible the interaction with
+ * more than one browser window at the same time.
+ * 
+ * If some page is always loaded at the first window (or second
+ * and so on) the class-specification could be marked 
+ * by the annotation.
+ * <p>
+ * Examples:
+ * <p>
+ * <code>
+ * <p>
+ * <p>@IfBrowserDefaultPageIndex(index = 0) //is always on the first browser window
+ * <p>public class ...
+ * </code>
+ * <p>
+ * or
+ * <p>
+ * <code>
+ * <p>
+ * <p>@IfBrowserDefaultPageIndex(index = 1) //is always on the second browser window
+ * <p>public class ...
+ * </code>
+ * 
  */
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface IfBrowserDefaultPageIndex {
+	/**
+	 * @return The specified default browser window index
+	 */
 	int index();
 }

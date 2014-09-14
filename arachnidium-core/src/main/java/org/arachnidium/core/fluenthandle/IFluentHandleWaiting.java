@@ -62,8 +62,9 @@ public interface IFluentHandleWaiting {
 	
 	/**
 	 * It gets some handle by its index in the set, 
-	 * possible unique identifiers, string identifier (title 
-	 * or context name) and handle  
+	 * string identifier (title or context name) and
+	 * possible unique identifiers (e.g. URLs and activities)
+	 * 
 	 * @param expected index
 	 * @param identifier Title of a browser page or
 	 * context name (NATIVE_APP, WEBWIEV ect)  

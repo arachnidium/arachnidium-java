@@ -4,22 +4,23 @@ import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 
 /**
- * Stores time out of closing the window implicitly waiting
+ * Stores time out of closing the window implicitly waiting<br/>
+ * 
+ * Setting specification:<br/>
+ * 
+ * <p><br/>
+ * "windowIsClosedTimeOut":<br/>
+ * {<br/>
+ * &nbsp;&nbsp;"windowIsClosedTimeOut":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"LONG",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some long value"<br/>     
+ * &nbsp;&nbsp;}<br/>
+ * }<br/>
+ * </p>
+ * 
+ * Is applied on browser. Is ignored by mobile apps.
  * 
  * @see Configuration
- * 
- * Setting specification:
- * 
- * 
-  "windowIsClosedTimeOut":
-  {
-      "windowIsClosedTimeOut":{
-          "type":"LONG",
-          "value":"some long value"     
-      }
-  }
- * 
- * Is applied with browser. Is ignored by apps.
  */
 public class WindowIsClosedTimeOut extends AbstractConfigurationAccessHelper {
 	private final String windowIsClosedTimeOutGroup = "windowIsClosedTimeOut";	

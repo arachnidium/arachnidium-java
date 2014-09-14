@@ -19,39 +19,58 @@ import org.openqa.selenium.server.SeleniumServer;
 
 /**
  * There is information about supported {@link WebDriver} implementors
- * - {@link FirefoxDriver}
- * - {@link ChromeDriver}
- * - {@link InternetExplorerDriver}
- * - {@link SafariDriver}
- * - {@link PhantomJSDriver}
- * - {@link RemoteWebDriver}
- * - {@link AppiumDriver} 
- * 
- * Additional info:
- * - default {@link Capabilities}
- * - information about {@link DriverService}
- * - can {@link WebDriver} be started remotely?
- * - is  {@link WebDriver} require URL of remotely or locally started
- * server. ({@link SeleniumServer} or Appium Node.js server (see {@link http://appium.io/slate/en/master/?ruby#appium-design}) 
+ * <br/>
+ * - {@link FirefoxDriver}<br/>
+ * - {@link ChromeDriver}<br/>
+ * - {@link InternetExplorerDriver}<br/>
+ * - {@link SafariDriver}<br/>
+ * - {@link PhantomJSDriver}<br/>
+ * - {@link RemoteWebDriver}<br/>
+ * - {@link AppiumDriver}<br/> 
+ * <br/>
+ * Additional info:<br/>
+ * - default {@link Capabilities}<br/>
+ * - information about {@link DriverService}<br/>
+ * - can {@link WebDriver} be started remotely?<br/>
+ * - is  {@link WebDriver} require URL of remotely or locally started<br/>
+ * server. ({@link SeleniumServer} or Appium Node.js server (see http://appium.io/slate/en/master/?ruby#appium-design)<br/> 
  */
 public enum ESupportedDrivers {
+	/**
+	 * {@link FirefoxDriver}
+	 */
 	FIREFOX(
 			DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
 			false, false), 
+	/**
+	 * {@link ChromeDriver}		
+	 */
 	CHROME(
 			DesiredCapabilities.chrome(),
 			ChromeDriver.class, EServices.CHROMESERVICE, null, false, false), 
+	/**
+	 * {@link InternetExplorerDriver}		
+	 */
 	INTERNETEXPLORER(
 			DesiredCapabilities.internetExplorer(),
 			InternetExplorerDriver.class, EServices.IEXPLORERSERVICE, null,
-			false, false), 
+			false, false),
+	/**
+	 * {@link SafariDriver}		
+	 */
 	SAFARI(
 			DesiredCapabilities.safari(),
 			SafariDriver.class, null, null, false, false), 
+	/**
+	 * {@link PhantomJSDriver}		
+	 */
 	PHANTOMJS(
 			DesiredCapabilities.phantomjs(), 
 	        PhantomJSDriver.class,
 			EServices.PHANTOMJSSERVICE, null, false, false), 
+	/**
+	 * {@link RemoteWebDriver}		
+	 */
 	REMOTE(
 			DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
 			new RemoteSeleniumServerLauncher(), true, false) {
@@ -71,6 +90,9 @@ public enum ESupportedDrivers {
 				PHANTOMJS.setSystemProperty(configInstance);
 		}
 	},
+	/**
+	 * {@link AppiumDriver}
+	 */
 	MOBILE(new DesiredCapabilities(), AppiumDriver.class, null, null, true,
 			true);
 

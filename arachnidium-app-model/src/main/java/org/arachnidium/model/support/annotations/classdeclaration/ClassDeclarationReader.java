@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.How;
 
 /**
- * Reads annotations which mark classes
- *
+ * Reads annotations which mark classes.
+ * It is the inner utility class.
  */
 public abstract class ClassDeclarationReader {
 

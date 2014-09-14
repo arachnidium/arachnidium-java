@@ -5,22 +5,27 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 
 /**
  * Settings of phantomjs*
+ * 
+ * <p>
+ * Specification:</p>
+ * 
+ * <p><br/>
+ *"PhantomJSDriver":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"folder":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"path to phantomjs binary"<br/>           
+ *&nbsp;&nbsp;},<br/>  
+ *&nbsp;&nbsp;"file":{ //It is not a necessary parameter<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"phantomjs.exe" (or chromedriver on Mac OS X or Linux)<br/>            
+ *&nbsp;&nbsp;}<br/>       
+ *}<br/>  
+ *</p>
+ *
  * @see PhantomJSDriverService
  * @see LocalWebDriverServiceSettings
- * 
- * Specification:
- * 
- * "PhantomJSDriver":
-  {
-       "folder":{
-          "type":"STRING",
-          "value":"path to phantomjs binary"           
-      },  
-       "file":{ //It is not a necessary parameter
-          "type":"STRING",
-          "value":"phantomjs.exe" (or chromedriver on Mac OS X or Linux)            
-      }       
-  }  
+ * @see Configuration
  */
 public class PhantomJSDriverBin extends LocalWebDriverServiceSettings {
 	private static final String phantomJSDriverGroup = "PhantomJSDriver";

@@ -207,8 +207,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	 *<p>
 	 *@see org.arachnidium.model.abstractions.ModelObject#getPart(Class, HowToGetByFrames)
 	 *<p>
-	 *@see org.arachnidium.model.abstractions.ModelObject#getPart(java.lang.Class,
-	 *<p>     org.arachnidium.model.support.HowToGetByFrames)
+	 *@see IDecomposable#getPart(Class, HowToGetByFrames)
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,

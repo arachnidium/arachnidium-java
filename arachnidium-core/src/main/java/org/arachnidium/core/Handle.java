@@ -11,8 +11,8 @@ import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.WebDriverException;
 
 /**
- * Represents objects that have handles
- * They are browser window and mobile context/screen
+ * Represents objects that have handles e.g.
+ * browser window and mobile context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
 ITakesPictureOfItSelf, IDestroyable {
@@ -86,7 +86,7 @@ ITakesPictureOfItSelf, IDestroyable {
 	/**
 	 * Takes a picture of itself.
 	 * It creates FINE {@link Level} {@link Log} message with 
-	 * attached picture 
+	 * attached picture (optionally)
 	 */
 	@Override
 	public synchronized void takeAPictureOfAFine(String comment) {
@@ -96,7 +96,7 @@ ITakesPictureOfItSelf, IDestroyable {
 	/**
 	 * Takes a picture of itself.
 	 * It creates INFO {@link Level} {@link Log} message with 
-	 * attached picture 
+	 * attached picture (optionally)
 	 */	
 	@Override
 	public synchronized void takeAPictureOfAnInfo(String comment) {
@@ -106,7 +106,7 @@ ITakesPictureOfItSelf, IDestroyable {
 	/**
 	 * Takes a picture of itself.
 	 * It creates SEVERE {@link Level} {@link Log} message with 
-	 * attached picture 
+	 * attached picture (optionally)
 	 */		
 	@Override
 	public synchronized void takeAPictureOfASevere(String comment) {
@@ -116,7 +116,7 @@ ITakesPictureOfItSelf, IDestroyable {
 	/**
 	 * Takes a picture of itself.
 	 * It creates WARN {@link Level} {@link Log} message with 
-	 * attached picture 
+	 * attached picture (optionally)
 	 */		
 	@Override
 	public synchronized void takeAPictureOfAWarning(String comment) {

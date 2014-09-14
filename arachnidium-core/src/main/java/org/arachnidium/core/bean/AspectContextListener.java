@@ -20,8 +20,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.ScreenOrientation;
 
 /**
- * @author s.tihomirov Implementation of @link{IContextListener} by default
- *         Listens to mobile context events
+ * @link{IContextListener} general implementor.
+ * It listens to mobile context events
  */
 @Aspect
 public class AspectContextListener extends DefaultHandleListener implements
@@ -48,10 +48,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 		});
 		return null;
 	};
-	/**
-	 * It listens to window events and invokes listener methods
-	 */
-	private final IContextListener windowListenerProxy = (IContextListener) Proxy
+
+	private final IContextListener contextListenerProxy = (IContextListener) Proxy
 			.newProxyInstance(IContextListener.class.getClassLoader(),
 					new Class[] { IContextListener.class },
 					contextListenerInvocationHandler);
@@ -61,28 +59,31 @@ public class AspectContextListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IHandletListener#beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
+	 * beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void beforeIsSwitchedOn(@TargetParam IHasHandle handle) {
 		Log.debug("Attempt to switch to context " + handle.getHandle());
-		windowListenerProxy.beforeIsSwitchedOn(handle);
+		contextListenerProxy.beforeIsSwitchedOn(handle);
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
+	 * whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
 		Log.message("Current context is " + handle.getHandle()
 				+ getActivityDescription(handle));
-		windowListenerProxy.whenIsSwitchedOn(handle);
+		contextListenerProxy.whenIsSwitchedOn(handle);
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
+	 * whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
@@ -95,7 +96,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 		} else {
 			Log.message(message);
 		}
-		windowListenerProxy.whenNewHandleIsAppeared(handle);
+		contextListenerProxy.whenNewHandleIsAppeared(handle);
 	}
 
 	private String getActivityDescription(IHasHandle handle) {
@@ -107,7 +108,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.bean.AbstractAspect#doAround(org.aspectj.lang.ProceedingJoinPoint)
+	 * @see org.arachnidium.core.bean.AbstractAspect#
+	 * doAround(org.aspectj.lang.ProceedingJoinPoint)
 	 */
 	@Override
 	@Around("execution(* org.arachnidium.core.interfaces.IHasHandle.*(..)) || "
@@ -136,7 +138,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 		Log.debug("Attempt to rotate screen. Context is " + handle.getHandle()
 				+ getActivityDescription(handle) + ", new orientation is "
 				+ orientation.toString());
-		windowListenerProxy.beforeIsRotated(handle, orientation);
+		contextListenerProxy.beforeIsRotated(handle, orientation);
 	}
 
 	/**
@@ -150,6 +152,6 @@ public class AspectContextListener extends DefaultHandleListener implements
 		Log.debug("Screen was rotated. Context is " + handle.getHandle()
 				+ getActivityDescription(handle) + ", new orientation is "
 				+ orientation.toString());
-		windowListenerProxy.whenIsRotated(handle, orientation);
+		contextListenerProxy.whenIsRotated(handle, orientation);
 	}
 }

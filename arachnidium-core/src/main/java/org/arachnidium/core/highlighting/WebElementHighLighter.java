@@ -42,6 +42,8 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	 * Optionally takes screenshots.
+	 * 
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsFine(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)   
 	 */
@@ -53,11 +55,12 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	 * Optionally takes screenshots.
+	 * Highlighting color is {@link eLogColors#DEBUGCOLOR}
+	 * 
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsFine(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement, java.lang.String)
-	 * 
-	 * Highlighting color is 
-	 * @see eLogColors#DEBUGCOLOR     
+	 *   
 	 */
 	@Override
 	public synchronized void highlightAsFine(WebDriver driver,
@@ -68,6 +71,7 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	  * Optionally takes screenshots.
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsInfo(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
 	 */
@@ -79,11 +83,11 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
-	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsInfo(org.openqa.selenium.WebDriver,
-	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 * Optionally takes screenshots.
+	 * Highlighting color is {@link eLogColors#CORRECTSTATECOLOR}   
 	 * 
-	 * Highlighting color is 
-	 * @see eLogColors#CORRECTSTATECOLOR     
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsInfo(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String) 
 	 */
 	@Override
 	public synchronized void highlightAsInfo(WebDriver driver,
@@ -94,6 +98,8 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	 * Optionally takes screenshots.
+	 * 
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsSevere(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
 	 */
@@ -105,11 +111,11 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
-	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsSevere(org.openqa.selenium.WebDriver,
-	 *      org.openqa.selenium.WebElement, java.lang.String)
+	 * Optionally takes screenshots.
+	 * Highlighting color is {@link eLogColors#SEVERESTATECOLOR} 
 	 *  
-	 * Highlighting color is  
-	 * @see eLogColors#SEVERESTATECOLOR     
+	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsSevere(org.openqa.selenium.WebDriver,
+	 *      org.openqa.selenium.WebElement, java.lang.String)   
 	 */
 	@Override
 	public synchronized void highlightAsSevere(WebDriver driver,
@@ -120,6 +126,8 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	 * Optionally takes screenshots.
+	 * 
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsWarning(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement, java.awt.Color, java.lang.String)
 	 */
@@ -131,11 +139,11 @@ public class WebElementHighLighter implements IConfigurable,
 	}
 
 	/**
+	 * Optionally takes screenshots.
+	 * Highlighting color is {@link eLogColors#WARNSTATECOLOR}   
+	 * 
 	 * @see org.arachnidium.core.highlighting.IWebElementHighlighter#highlightAsWarning(org.openqa.selenium.WebDriver,
-	 *      org.openqa.selenium.WebElement, java.lang.String)
-	 *   
-	 * Highlighting color is  
-	 * @see eLogColors#WARNSTATECOLOR     
+	 *      org.openqa.selenium.WebElement, java.lang.String)  
 	 */
 	@Override
 	public synchronized void highlightAsWarning(WebDriver driver,

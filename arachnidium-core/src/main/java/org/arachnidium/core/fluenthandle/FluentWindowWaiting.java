@@ -207,7 +207,7 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 	 * specified time. 
 	 * 
 	 * Browser window should have page that is loaded at
-	 * specified URLs URLs can be defined partially as regular expressions
+	 * specified URLs. Each URL can be defined partially as regular expression
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */
@@ -221,10 +221,10 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 	 * specified time. 
 	 * 
 	 * The browser window should have defined title. We can
-	 * specify part of a title as a regular expression
+	 * specify part of a title as a regular expression.
 	 * 
 	 * Browser window should have page that is loaded at
-	 * specified URLs URLs can be defined partially as regular expressions
+	 * specified URLs. Each URL can be defined partially as regular expression.
 	 *
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String,
 	 *      java.util.List)
@@ -238,13 +238,13 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 
 	/**
 	 * returns handle of a browser window that we have been waiting for
-	 * specified time. The window is defined by index
+	 * specified time. The window is defined by index.
 	 * 
 	 * The browser window should have defined title. We can
-	 * specify part of a title as a regular expression
+	 * specify part of a title as a regular expression.
 	 * 
 	 * Browser window should have page that is loaded at
-	 * specified URLs URLs can be defined partially as regular expressions
+	 * specified URLs. Each URL can be defined partially as regular expression
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
 	 *      java.lang.String, java.util.List)
@@ -258,10 +258,10 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 
 	/**
 	 * returns handle of a browser window that we have been waiting for
-	 * specified time. The window is defined by index
+	 * specified time. The window is defined by index.
 	 * 
 	 * The browser window should have defined title. We can specify part of a
-	 * title as a regular expression
+	 * title as a regular expression.
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
 	 *      java.lang.String)
@@ -273,10 +273,10 @@ public class FluentWindowWaiting implements IFluentHandleWaiting {
 
 	/**
 	 * returns handle of a browser window that we have been waiting for
-	 * specified time. The window is defined by index
+	 * specified time. The window is defined by index.
 	 * 
 	 * Browser window should have page that is loaded at
-	 * specified URLs URLs can be defined partially as regular expressions
+	 * specified URLs. Each URL can be defined partially as regular expression.
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
 	 *      java.util.List)

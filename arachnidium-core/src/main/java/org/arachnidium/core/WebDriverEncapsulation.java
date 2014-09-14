@@ -48,7 +48,8 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 
 	/**
-	 * Creates and wraps an instance of {@link RemoteWebDriver} by given
+	 * Creates and wraps an instance of {@link RemoteWebDriver} using the given
+	 * {@link Configuration}
 	 * 
 	 * @param {@link Configuration}
 	 */
@@ -241,7 +242,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	}
 
 	/**
-	 * adds an object which related to {@link Webdriver} and has to destroyed
+	 * adds an object which related to {@link Webdriver} and has to be "destroyed"
 	 * after quit
 	 */
 	public void addDestroyable(IDestroyable destroyable) {
@@ -297,6 +298,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 
 	/**
 	 * This method replaces previous {@link Configuration}
+	 * and applies new given parameters 
 	 * 
 	 * @see org.arachnidium.util.configuration.interfaces.IConfigurable#resetAccordingTo(org.arachnidium.util.configuration.Configuration)
 	 */

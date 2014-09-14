@@ -10,19 +10,21 @@ import org.arachnidium.util.configuration.Configuration;
  * and minimal {@link Level} of a user message
  * implicitly waiting.
  * 
- * @see Configuration
- * 
  * Specification:
  * 
- * ...
- * "Log":
-  {
-      "Level":{
-          "type":"STRING",
-          "value":"some level designation" @see Level           
-      }      
-  }
-  ...
+ * <p><br/>
+ * ...<br/>
+ * "Log":<br/>
+ * {<br/>
+ * &nbsp;&nbsp;"Level":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some level designation"<br/>           
+ * &nbsp;&nbsp;}<br/>      
+ *}<br/>
+ * ...<br/>
+ * 
+  @see Configuration
+ *@see Level
  */
 class LoggingHelper extends AbstractConfigurationAccessHelper {
 
@@ -46,7 +48,8 @@ class LoggingHelper extends AbstractConfigurationAccessHelper {
 	}
 
 	/**
-	 * @see org.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
+	 * @see org.arachnidium.util.configuration.
+	 * AbstractConfigurationAccessHelper#getSetting(java.lang.String)
 	 */
 	@Override
 	public <T extends Object> T getSetting(String name) {

@@ -18,24 +18,24 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 /**
- * Stores settings read from JSON file
+ * Stores settings read from JSON file.
  * A JSON file has specific format
  * 
- * 
- * {
- * ...
-	"settingGroupName":
-	  {
-	      "settingName1":{
-	          "type":"Type you need", // {@link String} (STRING), 
-	          // {@link Boolean} (BOOL), {@link Integer} (INT), {@link Long} (LONG), {@link Float} (Float)
-	          "value":"some value"
-	      }
-	      ...
-	  } 
-	... 
- *	}
- *    
+ * <p>
+ * {<br/>
+ * ...<br/>
+ * &nbsp;&nbsp;"settingGroupName":<br/>
+ * &nbsp;&nbsp;{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"settingName1":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":"Type you need", <code>// {@link String} (STRING),<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// {@link Boolean} (BOOL), {@link Integer} (INT), {@link Long} (LONG), {@link Float} (Float)<br/></code>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value":"some value"<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+ * &nbsp;&nbsp;}<br/> 
+ * ...<br/> 
+ * }<br/>
+ * </p> 
  */
 public class Configuration {
 	public static Configuration get(String filePath) {
@@ -74,7 +74,11 @@ public class Configuration {
 
 	private final static String commonFileName = "settings.json"; // default
 																	// settings
-	// file should be put in project directory
+	/**
+	 * The default settings that are read 
+	 * from <code>settings.json</code> located 
+	 * in <code>.classPath</code> folder or subfolders
+	 */
 	public final static Configuration byDefault = get(getPathToDefault("."));
 
 	private static final String typeTag = "type";
@@ -124,11 +128,10 @@ public class Configuration {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	/**
 	 * This method is similar as 
 	 * 
-	 * @see org.arachnidium.util.configuration.Configuration#getSettingGroup(String)
+	 * <p>Configuration.getSettingGroup(String)</p>
 	 * 
 	 * It returns some "helper" instead of HashMap. 
 	 * This helper makes access to required section
@@ -136,7 +139,11 @@ public class Configuration {
 	 * overrides {@AbstractConfigurationAccessHelper} and 
 	 * should have a constructor like this: new
 	 *         Helper({@link{Configuration} configuration)
+	 *               
+     * @param requiredClass that extends {@link AbstractConfigurationAccessHelper} 
+	 * @return instance of class specified by <code>requiredClass</code> parameter
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends AbstractConfigurationAccessHelper> T getSection(
 			Class<T> requiredClass) {
 		T helper = (T) initedHelpers.get(requiredClass);
@@ -160,18 +167,22 @@ public class Configuration {
 
 	/**
 	 *  gets mapped settings
-	 * {
-	 * ...
-		"settingGroupName":
-		  {
-		      "settingName1":{
-		          "type":"Type you need",
-		          "value":"some value"
-		      }
-		      ...
-		  } 
-		... 
-	 *	}
+     *
+	 * <p>
+	 * {<br/>
+	 * ...<br/>
+	 * &nbsp;&nbsp;"settingGroupName":<br/>
+	 * &nbsp;&nbsp;{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"settingName1":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":"Type you need",<br/> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value":"some value"<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+	 * &nbsp;&nbsp;}<br/> 
+	 * ...<br/> 
+	 * }<br/>
+	 * </p> 
+	 * 
 	 * @param groupName is "settingGroupName".
 	 * @return Instance of HashMap<String, Object> where key is  "settingName1" and 
 	 * value is "some value" cast to "Type you need"
@@ -182,18 +193,20 @@ public class Configuration {
 	
 	/**
 	 * Returns an object defined in JSON setting file
-	 * {
-	 * ...
-		"settingGroupName":
-		  {
-		      "settingName1":{
-		          "type":"Type you need",
-		          "value":"some value"
-		      }
-		      ...
-		  } 
-		... 
-	 *	}
+	 * <p>
+	 * {<br/>
+	 * ...<br/>
+	 * &nbsp;&nbsp;"settingGroupName":<br/>
+	 * &nbsp;&nbsp;{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"settingName1":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":"Type you need",<br/> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value":"some value"<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+	 * &nbsp;&nbsp;}<br/> 
+	 * ...<br/> 
+	 * }<br/>
+	 * </p> 
 	 * 
 	 * @param groupName is "settingGroupName"
 	 * @param settingName is "settingName1"

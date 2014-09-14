@@ -306,7 +306,7 @@ public class Log {
 	}
 
 	/**
-	 * Creates a log message with WARN {@link Level}
+	 * Creates a log message with WARNING {@link Level}
 	 * 
 	 * @param msg Message text
 	 */	
@@ -315,7 +315,7 @@ public class Log {
 	}
 
     /**
-     * Creates a log message with WARN {@link Level} and
+     * Creates a log message with WARNING {@link Level} and
      * attached file
      * 
      * @param msg Message text
@@ -326,7 +326,7 @@ public class Log {
 	}
 
     /**
-     * Creates a log message with WARN {@link Level} and
+     * Creates a log message with WARNING {@link Level} and
      * throwable instance
      * 
      * @param msg Message text
@@ -337,7 +337,7 @@ public class Log {
 	}
 
     /**
-     * Creates a log message with WARN {@link Level}, 
+     * Creates a log message with WARNING {@link Level}, 
      * attached file and throwable instance
      * 
      * @param msg Message text

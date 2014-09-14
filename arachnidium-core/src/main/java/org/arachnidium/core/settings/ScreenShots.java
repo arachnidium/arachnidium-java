@@ -6,28 +6,30 @@ import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver.Window;
 
 /**
- * Stores these flags:
- * - to take screenshots when element is highlighted
- * - to take screenshots when new browser {@link Window} or context (see {@link ContextAware})
- * is found 
+ * Stores these flags:<br/>
+ * - to take screenshots when element is highlighted<br/>
+ * - to take screenshots when new browser {@link Window} or context (see {@link ContextAware})<br/>
+ * is found<br/> 
+ * <br/> 
+ * Specification:<br/> 
  * 
- * @see Configuration
- * 
- * Specification:
- * 
- * ...
- *"screenShots":
-  {
-      "toTakeScreenShotsOnElementHighLighting":{
-          "type":"BOOL",
-          "value":"flag value"           
-      },
-      "toTakeScreenShotsOfNewHandles":{
-          "type":"BOOL",
-          "value":"flag value"           
-      }              
-  }
- *...
+ * <p><br/>
+ * ...<br/>
+ *"screenShots":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"toTakeScreenShotsOnElementHighLighting":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"BOOL",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"flag value"<br/>           
+ *&nbsp;&nbsp;},<br/>
+ *&nbsp;&nbsp;"toTakeScreenShotsOfNewHandles":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"BOOL",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"flag value"<br/>           
+ *&nbsp;&nbsp;}<br/>              
+ *}<br/>
+ *...<br/>
+ *</p>
+ *
+ *@see Configuration
  */
 public class ScreenShots extends AbstractConfigurationAccessHelper {
 

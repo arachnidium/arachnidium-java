@@ -7,34 +7,37 @@ import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.WebDriver.Timeouts;
 
-/**
+/** 
+ * Specification:
+ * 
+ * <p><br/>
+ * ...<br/>
+ * "webDriverTimeOuts":<br/>
+ * {<br/>
+ * &nbsp;&nbsp;"timeUnit":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some time unit designation"<br/>           
+ * &nbsp;&nbsp;},<br/> 
+ * &nbsp;&nbsp;"implicitlyWait":{<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"LONG",<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some long value"<br/>      
+ * &nbsp;&nbsp;},<br/> 
+ * &nbsp;&nbsp;"pageLoadTimeout":{<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"LONG",<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some long value"<br/>      
+ * &nbsp;&nbsp;},<br/>  
+ * &nbsp;&nbsp;"setScriptTimeout":{<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"LONG",<br/> 
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some long value"<br/>      
+ * &nbsp;&nbsp;}<br/>        
+ *}<br/> 
+ * ..<br/> 
+ * </p>
+ * 
  * @author Stores values of specified time outs
  * @see Configuration
  * @see Timeouts
- * 
- * Specification:
- * 
- * ...
- * "webDriverTimeOuts":
-  {
-      "timeUnit":{
-          "type":"STRING",
-          "value":"some time unit designation" @see {@link TimeUnit}           
-      },
-      "implicitlyWait":{
-          "type":"LONG",
-          "value":"some long value"     
-      },
-      "pageLoadTimeout":{
-          "type":"LONG",
-          "value":"some long value"     
-      }, 
-      "setScriptTimeout":{
-          "type":"LONG",
-          "value":"some long value"     
-      }       
-  }
- * ..
+ * @see TimeUnit
  */
 public class WebDriverTimeOuts extends AbstractConfigurationAccessHelper {
 

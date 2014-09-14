@@ -4,13 +4,18 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 
 /**
  * It is the abstraction which describes the process of 
- * automated exception handling
+ * implicit and automated exception handling
+ * 
+ * @see IModelObjectExceptionHandler
+ * @see MethodProxy
+ * @see MethodInterceptor
  */
 public abstract class ModelObjectExceptionHandler implements
 IModelObjectExceptionHandler {

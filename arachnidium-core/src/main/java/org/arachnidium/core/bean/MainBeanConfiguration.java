@@ -45,7 +45,7 @@ public class MainBeanConfiguration {
 	public final static String MOBILE_CONTEXT_BEAN    = "mobile_context";
 	
 	/**
-	 * Creates {@link WebDriver} instance and makes it listenable
+	 * Creates {@link WebDriver} instance and makes it listenable.
 	 * 
 	 * @param context instantiated {@link AbstractApplicationContext} 
 	 * which is used by {@link AspectWebDriverEventListener}

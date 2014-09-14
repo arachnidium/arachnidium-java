@@ -17,31 +17,36 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 /**
  * There are specified {@link WebDriver} {@link Capabilities}
  * 
- * @see Configuration
  * 
  * Specification:
  * 
- * ...
- * "DesiredCapabilities":
-  {
-      "browserName":{
-          "type":"STRING",
-          "value":"some browser name"   //firefox, chrome etc. 
-      },      
-      "version": {
-          "type":"STRING",
-          "value":"some version" 
-      },
-      "platform": {
-          "type":"STRING",
-          "value":"some platform"  @see Platform        
-      },
-      "javascriptEnabled":{
-          "type":"BOOL",
-          "value":"some flag"           
-      }
-  }
-  ...
+ * <p><br/>
+ * ...<br/>
+ * "DesiredCapabilities":<br/>
+ *{<br/>
+ * &nbsp;&nbsp;"browserName":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some browser name"   //firefox, chrome etc.<br/> 
+ * &nbsp;&nbsp;},<br/>      
+ * &nbsp;&nbsp;"version": {<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some version"<br/> 
+ * &nbsp;&nbsp;},<br/>
+ * &nbsp;&nbsp;"platform": {<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some platform"<br/>        
+ * &nbsp;&nbsp;},<br/>
+ * &nbsp;&nbsp;"javascriptEnabled":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"BOOL",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"some flag"<br/>           
+ * &nbsp;&nbsp;}<br/>
+ * &nbsp;&nbsp;... and so on<br/>
+ * }<br/>
+ * ...<br/>
+ * </p>
+ * @see Configuration
+ * @see Platform 
+ * @see Capabilities
  */
 public class CapabilitySettings extends AbstractConfigurationAccessHelper
 implements HasCapabilities, Capabilities {

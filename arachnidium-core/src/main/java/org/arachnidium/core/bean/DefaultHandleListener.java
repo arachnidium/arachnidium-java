@@ -6,7 +6,7 @@ import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 
 /**
  * 
- * An abstract listener which will be used by {@link IHasHandle} implementations
+ * An abstract listener which will be used by {@link IHasHandle} implementors
  *
  */
 abstract class DefaultHandleListener extends AbstractAspect implements IHandletListener {

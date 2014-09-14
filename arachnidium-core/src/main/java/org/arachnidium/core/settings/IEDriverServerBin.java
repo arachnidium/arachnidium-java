@@ -1,26 +1,33 @@
 package org.arachnidium.core.settings;
 
 import org.arachnidium.util.configuration.Configuration;
+import org.openqa.selenium.ie.InternetExplorerDriverService;
 
 /**
  * Settings of IEDriverServer.exe
- * {@link https://code.google.com/p/selenium/wiki/InternetExplorerDriver}
- * @see LocalWebDriverServiceSettings
- * @see Configuration
+ * <p>
+ * {@link https://code.google.com/p/selenium/wiki/InternetExplorerDriver}</p>
  * 
- * Specification:
+ * <p>
+ * Specification:</p>
  * 
- *"IEDriver":
-  {
-       "folder":{
-          "type":"STRING",
-          "value":"path to IEDriverServer.exe"           
-      },  
-       "file":{  //It is not a necessary parameter 
-          "type":"STRING",
-          "value":"IEDriverServer.exe"           
-      }       
-  },
+ * <p><br/>
+ *"IEDriver":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"folder":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"path to IEDriverServer.exe"<br/>           
+ *&nbsp;&nbsp;},<br/>  
+ *&nbsp;&nbsp;"file":{  //It is not a necessary parameter<br/> 
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"IEDriverServer.exe"<br/>           
+ *&nbsp;&nbsp;}<br/>       
+ *},<br/>
+ *</p>
+ *
+ *@see LocalWebDriverServiceSettings
+ *@see InternetExplorerDriverService
+ *@see Configuration
  */
 public class IEDriverServerBin extends LocalWebDriverServiceSettings {
 	private static final String ieDriverGroup = "IEDriver";

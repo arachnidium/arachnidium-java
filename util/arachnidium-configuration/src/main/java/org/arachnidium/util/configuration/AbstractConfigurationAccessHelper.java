@@ -10,6 +10,12 @@ public abstract class AbstractConfigurationAccessHelper{
 
 	private final Configuration configuration;
 
+	/**
+	 * This constructor should present in subclass
+	 * 
+	 * @param configuration to get data from
+	 * @see Configuration
+	 */
 	public AbstractConfigurationAccessHelper(Configuration configuration) {
 		super();
 		this.configuration = configuration;

@@ -2,13 +2,17 @@ package org.arachnidium.model.support;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
 
 /**
- * Manages switching between frames on a page or context of the hybrid mobile
+ * This manages switching between frames on a page or context of the hybrid mobile
  * application
+ * 
+ * @see TargetLocator
  */
 public class HowToGetByFrames {
 
@@ -23,6 +27,15 @@ public class HowToGetByFrames {
 	};
 	final ArrayList<Object> framePath = new ArrayList<Object>();
 
+	/**
+	 * This method performs the switching from
+	 * one to another specified frame
+	 * 
+	 * @param driver is the instance of {@link WebDriver} 
+	 * On this instance the switching is performed
+	 * 
+	 * @see TargetLocator
+	 */
 	public void switchTo(WebDriver driver) {
 		framePath.forEach((frameIdentifier) -> {
 			if (frameIdentifier instanceof String) {
@@ -52,7 +65,7 @@ public class HowToGetByFrames {
 	 * Collects sequential frame path
 	 * 
 	 * @param frameIdentifier
-	 *            is object of {@link String}, {@link int}, {@link By} or
+	 *            is object of {@link String}, {@link Integer}, {@link By} or
 	 *            {@link WebElement}
 	 * @throws IllegalArgumentException
 	 */

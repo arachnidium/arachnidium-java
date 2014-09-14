@@ -33,7 +33,7 @@ public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable 
 
 	/**
 	 * @param Expected URLs.
-	 * URLs can be defined as a regular expressions
+	 * Each one URL can be defined as a regular expression
 	 *  
 	 * @see org.arachnidium.core.fluenthandle.HowToGetHandle#setExpected(java.util.List)
 	 */

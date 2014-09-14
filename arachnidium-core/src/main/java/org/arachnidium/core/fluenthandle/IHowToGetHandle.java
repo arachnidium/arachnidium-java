@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 public interface IHowToGetHandle {
 	/**
 	 * @param It is an expected index in the set 
-	 * of active windows/contexts 
+	 * of present windows/contexts 
 	 */
 	public void setExpected(int index);
 	
@@ -23,7 +23,6 @@ public interface IHowToGetHandle {
 	
 	/**
 	 * @param It is an expected page URLs or Android activities,
-	 * for example
 	 */	
 	public void setExpected(List<String> uniqueIdentifiers);
 	

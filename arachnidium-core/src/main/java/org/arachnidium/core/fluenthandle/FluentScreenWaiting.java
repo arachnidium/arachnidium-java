@@ -184,7 +184,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * specified time.
 	 * 
      * There should be activity 
-     * from the given list Activities can be defined partially as regular expressions
+     * from the given list. Activities can be defined partially as regular expressions
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */	
@@ -195,10 +195,10 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 
 	/**
 	 * returns context that we have been waiting for
-	 * specified time. The context is defined by index
+	 * specified time. The context is defined by index.
 	 * 
      * There should be activity 
-     * from the given list Activities can be defined partially as regular expressions
+     * from the given list. Activities can be defined partially as regular expressions
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
 	 *      java.util.List)
@@ -217,7 +217,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * context name as a regular expression
 	 * 
      * There should be activity 
-     * from the given list Activities can be defined partially as regular expressions
+     * from the given list. Activities can be defined partially as regular expressions
 	 *
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String,
 	 *      java.util.List)
@@ -230,13 +230,13 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 
 	/**
      * returns context that we have been waiting for
-	 * specified time. The context is defined by index
+	 * specified time. The context is defined by index.
 	 * 
 	 * The context should have defined name. We can specify part of a
-	 * context name as a regular expression
+	 * context name as a regular expression.
 	 *    
 	 * There should be activity 
-     * from the given list Activities can be defined partially as regular expressions
+     * from the given list. Activities can be defined partially as regular expressions
 	 * 
 	 * @see org.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int,
 	 *      java.lang.String, java.util.List)

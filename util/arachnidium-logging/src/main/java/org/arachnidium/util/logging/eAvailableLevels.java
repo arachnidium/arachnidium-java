@@ -6,8 +6,22 @@ import java.util.logging.Level;
  * Stores the list of available {@link Level} 
  */
 public enum eAvailableLevels {
-	FINE(Level.FINE), INFO(Level.INFO), SEVERE(Level.SEVERE), WARN(
-			Level.WARNING);
+	/**
+	 * {@link Level#FINE}
+	 */
+	FINE(Level.FINE), 
+	/**
+	 * {@link Level#INFO}
+	 */
+	INFO(Level.INFO), 
+	/**
+	 * {@link Level#SEVERE}
+	 */
+	SEVERE(Level.SEVERE), 
+	/**
+	 * {@link Level#WARNING}
+	 */
+	WARN(Level.WARNING);
 
 	private final Level level;
 

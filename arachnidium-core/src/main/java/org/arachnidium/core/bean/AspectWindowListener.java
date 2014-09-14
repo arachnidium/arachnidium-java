@@ -21,7 +21,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
 /**
- * @author s.tihomirov Implementation of @link{IWindowListener} by default
+ *@link{IWindowListener} general implementor
  * Listens to browser window events
  */
 @Aspect
@@ -48,9 +48,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 		});
 		return null;
 	};
-	/**
-	 * It listens to window events and invokes listener methods
-	 */
+
 	private final IWindowListener windowListenerProxy = (IWindowListener) Proxy
 			.newProxyInstance(IWindowListener.class.getClassLoader(),
 					new Class[] { IWindowListener.class },
@@ -61,7 +59,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IHandletListener#beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
+	 * beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
@@ -71,7 +70,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * beforeWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
@@ -82,7 +82,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * beforeWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
@@ -93,7 +94,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * beforeWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
 	 *      org.openqa.selenium.Point)
 	 */
 	@Override
@@ -107,7 +109,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * beforeWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
@@ -118,7 +121,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#beforeWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * beforeWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
 	 *      org.openqa.selenium.Dimension)
 	 */
 	@Override
@@ -137,7 +141,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
     /**
-     * @see org.arachnidium.core.eventlisteners.IHandletListener#whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+     * @see org.arachnidium.core.eventlisteners.IHandletListener#
+     * whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
      */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
@@ -147,7 +152,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IHandletListener#whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
+	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
+	 * whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "whenIsCreated")
@@ -165,7 +171,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * whenWindowIsClosed(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
@@ -175,7 +182,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * whenWindowIsMaximized(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
@@ -185,7 +193,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * whenWindowIsMoved(org.arachnidium.core.interfaces.IExtendedWindow,
 	 *      org.openqa.selenium.Point)
 	 */
 	@Override
@@ -199,7 +208,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * whenWindowIsRefreshed(org.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
 	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
@@ -210,7 +220,8 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	/**
-	 * @see org.arachnidium.core.eventlisteners.IWindowListener#whenWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
+	 * @see org.arachnidium.core.eventlisteners.IWindowListener#
+	 * whenWindowIsResized(org.arachnidium.core.interfaces.IExtendedWindow,
 	 *      org.openqa.selenium.Dimension)
 	 */
 	@Override

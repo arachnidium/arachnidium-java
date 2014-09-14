@@ -43,7 +43,7 @@ public abstract class EnhancedProxyFactory {
 	 * @param paramValues An array of values which matches to required constructor 
 	 * parameter list
 	 * @param interceptor Some {@link MethodInterceptor} implementor instance 
-	 * @return
+	 * @return A proxy instance of the defined class
 	 */
 	public static <T extends Object> T getProxy(Class<T> clazz,
 			Class<?>[] paramClasses, Object[] paramValues,

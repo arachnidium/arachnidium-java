@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
  */
 public interface IWebElementHighlighter {
 	/**
-	 * There is an assumption that HTML element will be highlighted any color you want
+	 * HTML element will be highlighted any color you want
 	 * and FINE {@link Level} {@link Log} message will be 
 	 * created
 	 */
@@ -21,7 +21,7 @@ public interface IWebElementHighlighter {
 			Color highlight, String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted 
+	 * HTML element will be highlighted 
 	 * and FINE {@link Level} {@link Log} message will be 
 	 * created. Color of highlighting will be defined by implementor
 	 */
@@ -29,7 +29,7 @@ public interface IWebElementHighlighter {
 			String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted any color you want
+	 * HTML element will be highlighted any color you want
 	 * and INFO {@link Level} {@link Log} message will be 
 	 * created
 	 */
@@ -37,7 +37,7 @@ public interface IWebElementHighlighter {
 			Color highlight, String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted 
+	 * HTML element will be highlighted 
 	 * and INFO {@link Level} {@link Log} message will be 
 	 * created. Color of highlighting will be defined by implementor
 	 */
@@ -45,7 +45,7 @@ public interface IWebElementHighlighter {
 			String Comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted any color you want
+	 * HTML element will be highlighted any color you want
 	 * and SEVERE {@link Level} {@link Log} message will be 
 	 * created
 	 */
@@ -53,7 +53,7 @@ public interface IWebElementHighlighter {
 			Color highlight, String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted 
+	 * HTML element will be highlighted 
 	 * and SEVERE {@link Level} {@link Log} message will be 
 	 * created. Color of highlighting will be defined by implementor
 	 */
@@ -61,16 +61,16 @@ public interface IWebElementHighlighter {
 			String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted any color you want
-	 * and WARN {@link Level} {@link Log} message will be 
+	 * HTML element will be highlighted any color you want
+	 * and WARNING {@link Level} {@link Log} message will be 
 	 * created
 	 */
 	public void highlightAsWarning(WebDriver driver, WebElement webElement,
 			Color highlight, String comment);
 
 	/**
-	 * There is an assumption that HTML element will be highlighted 
-	 * and WARN {@link Level} {@link Log} message will be 
+	 * HTML element will be highlighted 
+	 * and WARNING {@link Level} {@link Log} message will be 
 	 * created. Color of highlighting will be defined by implementor
 	 */
 	public void highlightAsWarning(WebDriver driver, WebElement webElement,

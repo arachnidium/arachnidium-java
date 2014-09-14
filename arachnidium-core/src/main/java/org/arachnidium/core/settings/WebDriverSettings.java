@@ -18,33 +18,35 @@ import org.openqa.selenium.safari.SafariDriver;
 
 /**
  * Parameters of a {@link WebDriver} that have to be instantiated
- * @see Configuration
  * 
  * Specification:
  * 
- * ..
- * "webdriver":
-  {
-      "driverName":{
-          "type":"STRING",
-          "value":"some {@link WebDriver} designation"
-      },    
-      Allowed designation:
-        - {@link FirefoxDriver} - FIREFOX/firefox
-        - {@link ChromeDriver} - CHROME/chrome
-        - {@link InternetExplorerDriver} - INTERNETEXPLORER/internetexplorer
-        - {@link SafariDriver} - SAFARI/safari
-        - {@link PhantomJSDriver} - PHANTOMJS/phantomjs
-        - {@link RemoteWebDriver} - REMOTE/remote
-        - {@link AppiumDriver} - MOBILE/mobile        
-      "remoteAdress":{
-          "type":"STRING",
-          "value":"URL of the remote server like http://127.0.0.1:4444/wd/hub"
-      } //this parameter is applied to {@link RemoteWebDriver} and {@link AppiumDriver}
-      //by other is ignored
-  }
-  ...
+ *<p><br/>
+ *...<br/>
+ * "webdriver":<br/>
+ *{<br/>
+ *&nbsp;&nbsp;"driverName":{<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ *&nbsp;&nbsp;&nbsp;&nbsp;"value":"some {@link WebDriver} designation"<br/>
+ *&nbsp;&nbsp;},<br/>    
+ *     Allowed designation:<br/>
+ *       - {@link FirefoxDriver} - FIREFOX/firefox<br/>
+ *       - {@link ChromeDriver} - CHROME/chrome<br/>
+ *       - {@link InternetExplorerDriver} - INTERNETEXPLORER/internetexplorer<br/>
+ *       - {@link SafariDriver} - SAFARI/safari<br/>
+ *       - {@link PhantomJSDriver} - PHANTOMJS/phantomjs<br/>
+ *       - {@link RemoteWebDriver} - REMOTE/remote<br/>
+ *       - {@link AppiumDriver} - MOBILE/mobile<br/>        
+ * &nbsp;&nbsp;"remoteAdress":{<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;"value":"URL of the remote server like http://127.0.0.1:4444/wd/hub"<br/>
+ * &nbsp;&nbsp;}<code>//this parameter is applied to {@link RemoteWebDriver} and {@link AppiumDriver}</code><br/>
+ * &nbsp;&nbsp;<code>//by other is ignored</code><br/>
+ * }<br/>
+ * ...<br/>
+ * </p>
  * 
+ *@see Configuration
  */
 public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 
