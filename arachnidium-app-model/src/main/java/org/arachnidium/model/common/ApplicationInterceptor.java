@@ -28,45 +28,42 @@ import org.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaul
 import org.arachnidium.model.support.annotations.classdeclaration.TimeOut;
 
 /**
- *<p>This an iterceptor of {@link Application} methods.
- *<p>It invokes methods. If some exception is thrown
- *<p>it attempts to handle it implicitly 
- *<p>
- *<p>Also it performs the substitution of methods specified 
- *<p>by {@link IDecomposable} and {@link IDecomposableByHandles}. 
- *<p>This substitution depends on annotations that mark 
- *<p>class of {@link Application}. Possible annotations are 
- *<p> described by parameters below  
- *<p>
+ *This an iterceptor of {@link Application} methods.
+ *It invokes methods. If some exception is thrown
+ *it attempts to handle it implicitly 
+ *
+ *Also it performs the substitution of methods specified 
+ *by {@link IDecomposable} and {@link IDecomposableByHandles}. 
+ *This substitution depends on annotations that mark 
+ *class of {@link Application}. Possible annotations are 
+ * described by parameters below <br/> 
+ * <br/> 
+ * Annotations that additionally used: <br/> 
+ *- {@link Frame} <br/> 
+ *- {@link TimeOut} <br/> 
+ *
  *@param <IndexAnnotation>
- *<p>possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
- *<p>These annotations are used when class describes UI or the fragment UI  
- *<p>which is stationed on not the first browser window or mobile context by default. 
- *<p>It is always the second, the third ad so on.
- *<p> 
+ *possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
+ *These annotations are used when class describes UI or the peace of UI
+ *on the given browser window\mobile context defined by the index (e.g. the first, the seconds and so
+ *on).  
+ * 
  *@param <HandleUniqueIdentifiers>
- *<p>Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
- *<p>These annotations are used when it is possible that UI or the fragment of UI
- *<p>can be identified by the set of page URLs or Android activities (!!! Android-only feature, ignored by iOS)
- *<p>This set should be limited. URL or activity value can be specified by regular expression
- *<p>
+ *Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
+ *These annotations are used when it is possible that UI or the peace of UI
+ *can be identified by the set of page URLs or Android activities (!!! Android-only feature, ignored by iOS).
+ *This set should be limited. Each one URL or activity value can be specified by regular expression
+ *
  *@param <AdditionalStringIdentifier>
- *<p>Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
- *<p>These annotations are used when it is possible that UI or the fragment of UI
- *<p>can be additionally identified by page title or mobile context name.
- *<p>Title or mobile context name value can be specified by regular expression
- *<p>
+ *Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
+ *These annotations are used when it is possible that UI or the peace of UI
+ *can be additionally identified by the page title or mobile context name.
+ *Each one title or context name value can be specified by regular expression
+ *
  *@param <HowTo>
- *<p>Possible classes are {@link HowToGetBrowserWindow} and {@link HowToGetMobileScreen}
- *<p>By instances of this classes parameters (see above) will be combined
- *<p>
- *@see
- *<p> Annotation that additionally used:
- *<p> 
- *{@link Frame}
- *<p>
- *{@link TimeOut}
- *<p>
+ *Possible classes are {@link HowToGetBrowserWindow} and {@link HowToGetMobileScreen}
+ *By instances of this classes parameters (see above) will be combined
+ *
  */
 public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, 
 HandleUniqueIdentifiers extends Annotation, 
@@ -75,33 +72,33 @@ HowTo extends IHowToGetHandle>
 		extends ModelObjectInterceptor {
 
 	/**
-	 *<p> This methods transforms
-	 *<p> values of annotations that marks
-	 *<p> the given class to strategies 
-	 *<p> {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
-	 *<p> 
+	 * This methods transforms
+	 * values of annotations that marks
+	 * the given class to strategies 
+	 * {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
+	 * 
 	 *@param indexAnnotation is the class of annotation which 
-	 *<p> is expected marks the given class
-	 *<p>possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
-	 *<p> 
+	 * is expected marks the given class
+	 *possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
+	 * 
 	 *@param handleUniqueIdentifiers is the class of annotation which 
-	 *<p> is expected marks the given class
-	 *<p> Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
-	 *<p> 
+	 * is expected marks the given class
+	 * Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
+	 * 
 	 *@param additionalStringIdentifieris the class of annotation which 
-	 *<p> is expected marks the given class
-	 *<p> Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
-	 *<p> 
+	 * is expected marks the given class
+	 * Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
+	 * 
 	 *@param annotated is a given class that can be marked by annotations above
-	 *<p> 
+	 * 
 	 *@param howToClass is the class of strategy that combines values of 
-	 *<p> annotations above. Available classes are {@link HowToGetBrowserWindow} 
-	 *<p> and {@link HowToGetMobileScreen}
-	 *<p> 
-	 *<p> @return the instance of a strategy class defined by 
+	 * annotations above. Available classes are {@link HowToGetBrowserWindow} 
+	 * and {@link HowToGetMobileScreen}
+	 * 
+	 * @return the instance of a strategy class defined by 
 	 *@param howToClass
-	 *<p> 
-	 *<p> @throws ReflectiveOperationException
+	 * 
+	 * @throws ReflectiveOperationException
 	 */
 	private HowTo getHowToGetHandleStrategy(
 			Class<IndexAnnotation> indexAnnotation,
@@ -164,16 +161,16 @@ HowTo extends IHowToGetHandle>
 	}
 
 	/**
-	 *<p>This methods invokes methods and performs
-	 *<p>the substitution of methods specified 
-     *<p>by {@link IDecomposable} and {@link IDecomposableByHandles}. 
-     *<p>
+	 *Invokes methods and performs
+	 *the substitution of methods specified 
+     *by {@link IDecomposable} and {@link IDecomposableByHandles}. 
+     *
      *@see MethodInterceptor#intercept(Object, Method, Object[], MethodProxy) 
-     *<p>
+     *
      *@see ModelObjectInterceptor#intercept(Object, Method, Object[], MethodProxy)
-     *<p>
+     *
      *@see DefaultInterceptor#intercept(Object, Method, Object[], MethodProxy)
-     *<p>
+     *
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

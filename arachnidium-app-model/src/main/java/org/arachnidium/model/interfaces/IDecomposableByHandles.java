@@ -8,7 +8,7 @@ import org.arachnidium.model.support.HowToGetByFrames;
 
 /**
  * There is an assumption that any object (whole application, page/screen and so on)
- * could be decomposed to limited set of logically final and reusable part.
+ * could be decomposed to limited set of logically final and reusable parts.
  * 
  * This interface specifies decomposition model 
  * provided by Arachnidium Java framework.

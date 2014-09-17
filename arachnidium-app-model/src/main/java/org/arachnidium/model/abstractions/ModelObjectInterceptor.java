@@ -27,16 +27,16 @@ public abstract class ModelObjectInterceptor	extends DefaultInterceptor {
 	protected static final String GET_PART = "getPart";
 	
 	/**
-	 * Creates a strategy of {@link HowToGetByFrames} class if
-	 * the given class is annotated by {@link Frame} annotation
+	 * Creates an instance of {@link HowToGetByFrames} class if
+	 * the given class is annotated by {@link Frame}.
 	 * 
-	 * @param annotated It is class that is supposed to be annotated by {@link Frame} annotation
+	 * @param annotated It is a class which is supposed to be annotated by {@link Frame}
 	 * 
-	 * @return The specified {@link HowToGetByFrames}  strategy if the 
-	 * given class is annotated by {@link Frame} annotation
-	 * 
+	 * @return A {@link HowToGetByFrames} strategy instance if the 
+	 * given class is annotated by {@link Frame} <br/>
+	 * <br/>
 	 * <code>null</code> if the 
-	 * given class isn't by {@link Frame} annotation
+	 * given class isn't annotated by {@link Frame}
 	 */
 	protected HowToGetByFrames ifClassIsAnnotatedByFrames(
 			Class<?> annotated) {

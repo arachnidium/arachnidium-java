@@ -33,24 +33,24 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 /**
- *<p>This class is for description of browser or mobile UI or the fragment 
- *<p>of this UI. It is assumed that this description can be reusable.
- *<p>
- *<p>Interaction and behavior should describe subclasses of this. 
- *<p>
+ *This class is for description of browser or mobile UI or the fragment 
+ *of this UI. It is assumed that this description can be reusable.
+ *
+ *Interaction and behavior should describe subclasses of this. 
+ *
  */
 public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> implements ITakesPictureOfItSelf, ISwitchesToItself {
 
 	/**
-	 *<p>This annotation is useful 
-	 *<p>when there is need to interact with more
-	 *<p>than one browser window/mobile context
-	 *<p>at the same time. Also it is convenient
-	 *<p>when described UI is inside frame
-	 *<p>
-	 *<p>The presence of this annotation means
-	 *<p>that {@link WebDriver} will be switched
-	 *<p>to window/context and to frame automatically 
+	 *This annotation is useful 
+	 *when there is need to interact with more
+	 *than one browser window/mobile context
+	 *at the same time. Also it is convenient
+	 *when described UI is inside frame
+	 *
+	 *The presence of this annotation means
+	 *that {@link WebDriver} will be switched
+	 *to window/context and to frame automatically 
 	 */
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
@@ -66,18 +66,18 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected final HowToGetByFrames pathStrategy;
 
 	/**
-	 *<p>This constructor should present 
-	 *<p>when it is possible that described UI or its part
-	 *<p>we are going to got from another (more general).
-	 *<p>
-	 *<p>
-	 *<p>Example:
-	 *<p><code>someUIDescriptionInstance.getPart(someUIDescriptionInstance.class)</code>
-	 *<p> 
-	 *<p>This instantiation means that described UI or fragment is stationed
-     *<p>on the same window/mobile context and inside the same frame (it is
-     *<p>actual for browser and mobile hybrid apps) as the "parent"
-	 *<p> 
+	 *This constructor should present 
+	 *when it is possible that described UI or its part
+	 *we are going to got from another (more general).<br/>
+	 *<br/>
+	 *<br/>
+	 *Example:<br/>
+	 *<code>someUIDescriptionInstance.getPart(someUIDescription.class)</code>
+	 * <br/>
+	 *This instantiation means that described UI or fragment is stationed
+     *on the same window/mobile context and inside the same frame (it is
+     *actual for browser and mobile hybrid apps) as the "parent"
+	 * 
 	 *@param parent is like a more general UI or part of client UI
 	 */
 	@SuppressWarnings("unchecked")
@@ -86,25 +86,25 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	/**
-	 *<p>This constructor should present 
-	 *<p>when it is possible that described UI or its part
-	 *<p>we are going to got from another (more general).
-	 *<p>The described piece of UI is stationed inside frame.
-	 *<p>Path to the frame is specified by {@link HowToGetByFrames}
-	 *<p>instance
-	 *<p>
-	 *<p>
-	 *<p>Example:
-	 *<p><code>someUIDescriptionInstance.getPart(someUIDescriptionInstance.class,
-	 *<p>howToGetByFramesObject)</code>
-	 *<p> 
-	 *<p>This instantiation means that described UI or fragment is stationed
-     *<p>on the same window/mobile context and inside the same frame (it is
-     *<p>actual for browser and mobile hybrid apps) as the "parent".
-	 *<p> 
+	 *This constructor should present 
+	 *when it is possible that described UI or its part
+	 *we are going to got from another (more general).
+	 *Example:<br/>
+	 *<code>someUIDescriptionInstance.getPart(someUIDescription.class,
+	 *howToGetByFramesObject)</code><br/>
+	 * <br/>
+	 * 
+     *The described piece of UI is stationed inside frame.
+	 *Path to the frame is specified by {@link HowToGetByFrames}
+	 *instance. <br/>
+	 *
+	 *This instantiation means that described UI or fragment is stationed
+     *on the same window/mobile context and inside the same frame (it is
+     *actual for browser and mobile hybrid apps) as the "parent".
+	 * 
 	 *@param parent is like a more general UI or part of client UI
 	 *@param path is a path to frame which is specified by {@link HowToGetByFrames}
-	 *<p>
+	 *
 	 *@see HowToGetByFrames
 	 */	
 	@SuppressWarnings("unchecked")
@@ -114,33 +114,33 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>This constructor should present 
-	 *<p>when it is possible that described UI or its part
-	 *<p>we are going to got from the given browser window
-	 *<p>or mobile context. It is expected that this is
-	 *<p>most frequently used case. 
-	 *<p>
+	 *This constructor should present 
+	 *when it is possible that described UI or its part
+	 *we are going to got from the given browser window
+	 *or mobile context. It is expected that this is
+	 *most frequently used case. 
+	 *
 	 *@param handle is the given browser window
-	 *<p>or mobile context
+	 *or mobile context
 	 */
 	protected FunctionalPart(S handle) {
 		this(handle, new HowToGetByFrames());
 	}
 
 	/**
-	 *<p>This constructor should present 
-	 *<p>when it is possible that described UI or its part
-	 *<p>we are going to got from the given browser window
-	 *<p>or mobile context. Also, this piece of UI
-	 *<p>is stationed inside frame (it is actual for browser and mobile hybrid apps). 
-	 *<p>Path to the frame is specified 
-	 *<p>by {@link HowToGetByFrames} instance
-	 *<p>
+	 *This constructor should present 
+	 *when it is possible that described UI or its part
+	 *we are going to got from the given browser window
+	 *or mobile context. Also, this piece of UI
+	 *is stationed inside frame (it is actual for browser and mobile hybrid apps). 
+	 *Path to the frame is specified 
+	 *by {@link HowToGetByFrames} instance
+	 *
 	 *@param handle is the given browser window
-	 *<p>or mobile context
-	 *<p>
+	 *or mobile context
+	 *
 	 *@param path is a path to frame which is specified by {@link HowToGetByFrames}
-	 *<p>
+	 *
 	 *@see HowToGetByFrames	
 	*/
 	protected FunctionalPart(S handle, HowToGetByFrames path) {
@@ -162,9 +162,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>this method 
-	 *<p>starts destruction of related
-	 *<p>information
+	 *this method 
+	 *starts destruction of related
+	 *information
 	 */
 	@Override
 	public void destroy() {
@@ -175,17 +175,17 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
     /**
-     *<p>This method returns another UI description (child).
-     *<p>It is assumed that current UI is more generalized and the
-     *<p>child is more specific. 
-     *<p>
-     *<p>It means, that required UI or fragment of UI 
-     *<p>is stationed on the same browser window/mobile screen as the
-     *<p>current. Also "child" is inside the same frame as the
-     *<p>current (it is actual for browser and mobile hybrid apps). 
-     *<p>
+     *This method returns another UI description (child).
+     *It is assumed that current UI is more generalized and the
+     *child is more specific. 
+     *
+     *It means, that required UI or fragment of UI 
+     *is stationed on the same browser window/mobile screen as the
+     *current. Also "child" is inside the same frame as the
+     *current (it is actual for browser and mobile hybrid apps). 
+     *
      *@see org.arachnidium.model.abstractions.ModelObject#getPart(java.lang.Class)
-     *<p>
+     *
      *@see IDecomposable#getPart(Class)
      */
 	@Override
@@ -195,18 +195,18 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-     *<p>This method returns another UI description (child).
-     *<p>It is assumed that current UI is more generalized and the
-     *<p>child is more specific. 
-     *<p>
-     *<p>It means, that required UI or fragment of UI 
-     *<p>is stationed on the same browser window/mobile screen as the
-     *<p>current. Also "child" is inside the same frame as the
-     *<p>current. The child is in enclosed frame. 
-     *<p>Frames are actual for browser and mobile hybrid apps.
-	 *<p>
+     *This method returns another UI description (child).
+     *It is assumed that current UI is more generalized and the
+     *child is more specific. 
+     *
+     *It means, that required UI or fragment of UI 
+     *is stationed on the same browser window/mobile screen as the
+     *current. Also "child" is inside the same frame as the
+     *current. The child is in enclosed frame. 
+     *Frames are actual for browser and mobile hybrid apps.
+	 *
 	 *@see org.arachnidium.model.abstractions.ModelObject#getPart(Class, HowToGetByFrames)
-	 *<p>
+	 *
 	 *@see IDecomposable#getPart(Class, HowToGetByFrames)
 	 */
 	@Override
@@ -224,10 +224,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with FINE {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with FINE {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
 	 *@param element to highlighted
 	 *@param highlight is a using color
 	 *@param comment is a narrative message text
@@ -240,12 +240,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with FINE {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
-	 *<p>{@link eLogColors#DEBUGCOLOR} is used.
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with FINE {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
+	 *{@link eLogColors#DEBUGCOLOR} is used.
+	 *
 	 *@param element to highlighted
 	 *@param comment is a narrative message text
 	 */	
@@ -256,10 +256,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with INFO {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with INFO {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
 	 *@param element to highlighted
 	 *@param highlight is a using color
 	 *@param comment is a narrative message text
@@ -272,12 +272,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with INFO {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
-	 *<p>{@link eLogColors#CORRECTSTATECOLOR} is used.
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with INFO {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
+	 *{@link eLogColors#CORRECTSTATECOLOR} is used.
+	 *
 	 *@param element to highlighted
 	 *@param comment is a narrative message text
 	 */		
@@ -288,10 +288,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with SEVERE {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with SEVERE {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
 	 *@param element to highlighted
 	 *@param highlight is a using color
 	 *@param comment is a narrative message text
@@ -304,12 +304,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with SEVERE {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
-	 *<p>{@link eLogColors#SEVERESTATECOLOR} is used.
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with SEVERE {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
+	 *{@link eLogColors#SEVERESTATECOLOR} is used.
+	 *
 	 *@param element to highlighted
 	 *@param comment is a narrative message text
 	 */		
@@ -320,10 +320,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with WARN {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with WARN {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
 	 *@param element to highlighted
 	 *@param highlight is a using color
 	 *@param comment is a narrative message text
@@ -336,12 +336,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Highlights HTML element by given color, creates 
-	 *<p>{@link Log} message with WARN {@link Level} and narrative
-	 *<p>text, optionally takes a screen shot and attaches to {@link Log} 
-	 *<p>
-	 *<p>{@link eLogColors#WARNSTATECOLOR} is used.
-	 *<p>
+	 *Highlights HTML element by given color, creates 
+	 *{@link Log} message with WARN {@link Level} and narrative
+	 *text, optionally takes a screen shot and attaches to {@link Log} 
+	 *
+	 *{@link eLogColors#WARNSTATECOLOR} is used.
+	 *
 	 *@param element to highlighted
 	 *@param comment is a narrative message text
 	 */		
@@ -352,8 +352,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Instantiates declared {@link WebElement} fields
-	 *<p>using {@link PageFactory} and {@link AppiumFieldDecorator}
+	 *Instantiates declared {@link WebElement} fields
+	 *using {@link PageFactory} and {@link AppiumFieldDecorator}
 	 */
 	protected void load() {
 		TimeOut timeOut = getWebDriverEncapsulation().getTimeOut();
@@ -364,36 +364,36 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>Instantiates declared {@link WebElement} fields
-	 *<p>using {@link PageFactory} and customized 
-	 *<p>{@link FieldDecorator}
-	 *<p>
+	 *Instantiates declared {@link WebElement} fields
+	 *using {@link PageFactory} and customized 
+	 *{@link FieldDecorator}
+	 *
 	 *@param decorator is an instance of the customized
-	 *<p>{@link FieldDecorator}
+	 *{@link FieldDecorator}
 	 */
 	protected void load(FieldDecorator decorator) {
 		PageFactory.initElements(decorator, this);
 	}
 
 	/**
-	 *<p> Instantiates declared {@link WebElement} fields
-	 *<p>using {@link PageFactory} and customized 
-	 *<p>{@link ElementLocatorFactory}
-	 *<p>
+	 * Instantiates declared {@link WebElement} fields
+	 *using {@link PageFactory} and customized 
+	 *{@link ElementLocatorFactory}
+	 *
 	 *@param factoryis an instance of the customized
-	 *<p>{@link ElementLocatorFactory}
+	 *{@link ElementLocatorFactory}
 	 */
 	protected void load(ElementLocatorFactory factory) {
 		PageFactory.initElements(factory, this);
 	}
 
 	/**
-	 *<p>Performs focus on the described UI.
-	 *<p>
-	 *<p>First of all it performs switch to the window/mobile 
-	 *<p>context where UI is existing now.
-	 *<p>If described UI is inside frame this method
-	 *<p>performs switching from one frame to another
+	 *Performs focus on the described UI.
+	 *
+	 *First of all it performs switch to the window/mobile 
+	 *context where UI is existing now.
+	 *If described UI is inside frame this method
+	 *performs switching from one frame to another
 	 */
 	@Override
 	public synchronized void switchToMe() {
@@ -407,9 +407,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>takes screenshots and attache it to
-	 *<p>log messages with FINE {@link Level}
-	 *<p>
+	 *takes screenshots and attache it to
+	 *log messages with FINE {@link Level}
+	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAFine(java.lang.String)
 	 */
 	@Override
@@ -418,9 +418,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>takes screenshots and attache it to
-	 *<p>log messages with INFO {@link Level}
-	 *<p>
+	 *takes screenshots and attache it to
+	 *log messages with INFO {@link Level}
+	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
 	@Override
@@ -429,9 +429,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>takes screenshots and attache it to
-	 *<p>log messages with SEVERE {@link Level}
-	 *<p>
+	 *takes screenshots and attache it to
+	 *log messages with SEVERE {@link Level}
+	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
 	@Override
@@ -440,9 +440,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *<p>takes screenshots and attache it to
-	 *<p>log messages with WARN {@link Level}
-	 *<p>
+	 *takes screenshots and attache it to
+	 *log messages with WARN {@link Level}
+	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
 	@Override
@@ -451,8 +451,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	/**
-	 *<p>@return An instance of the Application 
-	 *<p>this this UI description has been received from 
+	 *@return An instance of the Application 
+	 *this this UI description has been received from 
 	 */
 	public Application<? extends Handle, ? extends IHowToGetHandle> getApplication(){
 		return application;

@@ -23,22 +23,24 @@ import org.openqa.selenium.internal.WrapsDriver;
 
 /**
  * This is a basic abstraction 
- * which describes objects are used for modeling application and is parts.
+ * which describes objects are used for modeling application.
  * 
- * @param <S> It means that objects can be stationed on browser window or mobile application screen.
+ * @param <S> It means that objects can be stationed on browser window or mobile application screen.<br/>
  * 
- * If there is <S extends {@link Handle}> or <{@link Handle}> it means that 
+ * If there is<br/> 
+ * <code>&lt;S extends {@link Handle}&gt;</code> or <br/> * 
+ * <code>&lt;{@link Handle}&gt;</code> it means that 
  * both {@link BrowserWindow} and {@link MobileScreen} are possible. It is good
- * for situations when interaction with UI of  browser client and the same mobile client 
- * has to be automated.
- * 
+ * for situations when interaction with UI of  browser client and the perfectly similar mobile client 
+ * has to be automated.<br/>
+ * <br/>
  * If it needs to be bounded by only one {@link Handle} subclass ({@link BrowserWindow} or {@link MobileScreen})
- * then 
- * - <{@link BrowserWindow}> - only browser windows
- * 
- * or 
- * 
- * - {@link MobileScreen} - only mobile screens
+ * then <br/>
+ * - <code>&lt;{@link BrowserWindow}&gt;</code> - only browser windows <br/>
+ * <br/>
+ * or<br/> 
+ * <br/>
+ * - <code>&lt;{@link MobileScreen}&gt;</code> - only mobile screens
  */
 public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		IDecomposable, WrapsDriver {
