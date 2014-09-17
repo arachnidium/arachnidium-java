@@ -13,7 +13,7 @@ import org.arachnidium.model.support.HowToGetByFrames;
 public interface IDecomposable {
 
 	/**
-	 * This method should provide the receiving of more specific 
+	 * This method should provide the getting of more specific 
 	 * part from another which is more generalized. 
 	 * 
 	 * @param partClass is required class that implements {@link IDecomposable}
@@ -25,7 +25,7 @@ public interface IDecomposable {
 
 	
 	/**
-	 * This method should provide the receiving of more specific 
+	 * This method should provide the getting of more specific 
 	 * part from another which is more generalized. 
 	 * 
 	 * As it is all about UI of browser and mobile applications, 

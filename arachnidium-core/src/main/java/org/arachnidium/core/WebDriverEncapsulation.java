@@ -48,7 +48,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 
 	/**
-	 * Creates and wraps an instance of {@link RemoteWebDriver} using the given
+	 * Creates and wraps an instance of {@link RemoteWebDriver} by the given
 	 * {@link Configuration}
 	 * 
 	 * @param {@link Configuration}

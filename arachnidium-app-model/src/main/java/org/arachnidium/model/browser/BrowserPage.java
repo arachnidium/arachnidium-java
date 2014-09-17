@@ -59,7 +59,7 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 	}
 
 	/**
-	 * Closes browser window and destroys all page objects that are placed on it
+	 * Closes browser window and destroys all related page objects
 	 * 
 	 * @throws UnclosedWindowException
 	 * @throws NoSuchWindowException

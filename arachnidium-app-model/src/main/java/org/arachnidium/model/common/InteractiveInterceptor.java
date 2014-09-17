@@ -20,9 +20,9 @@ import org.arachnidium.model.support.annotations.classdeclaration.Frame;
  *<p>
  *<p>Also it performs the substitution of methods specified 
  *<p>by {@link IDecomposable}. This substitution depends on 
- *<p>presence of {@link Frame} annotations in the class declareation
+ *<p>presence of {@link Frame} annotation in the class declaration
  *
- *<p>{@link Frame} annotations describe the default frame path to required 
+ *<p>{@link Frame} annotations describe the default frame path to desired
  *<p>UI. It is actual for browser and hybrid mobile apps.
  */
 public class InteractiveInterceptor extends ModelObjectInterceptor {
@@ -44,7 +44,8 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 				List<Class<?>> paramClasses = Arrays.asList(method
 						.getParameterTypes());
 
-				// if .getPart(SomeClass), //SomeClass can be annotated by
+				// if .getPart(SomeClass), 
+				//SomeClass can be annotated by
 				// @Frame
 				// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
 				if (!paramClasses.contains(HowToGetByFrames.class)) {

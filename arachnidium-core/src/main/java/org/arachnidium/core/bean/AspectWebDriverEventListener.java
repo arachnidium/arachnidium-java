@@ -87,7 +87,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	private final List<IWebDriverEventListener> additionalListeners = new ArrayList<IWebDriverEventListener>() {
 		private static final long serialVersionUID = 1L;
 		{
-			// it is filled using SPI
+			// it is filled by SPI
 			Iterator<?> providers = ServiceLoader.load(
 					IWebDriverEventListener.class).iterator();
 			while (providers.hasNext())

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Just a simple tool to 
- * perform waiting for something using {@link ExpectedCondition}
+ * perform waiting for something by {@link ExpectedCondition}
  */
 public class Awaiting {
     private final WebDriver driver;

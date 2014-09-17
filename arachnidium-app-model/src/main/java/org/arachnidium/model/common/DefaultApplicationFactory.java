@@ -32,7 +32,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using default
+	 * Common method that creates an instance of any application by default
 	 * configuration
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
@@ -44,7 +44,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using defined
+	 * Common method that creates an instance of any application by defined
 	 * configuration
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
@@ -56,7 +56,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of any application by required
 	 * {@link RemoteWebDriver} class. This class is contained by {@link ESupportedDrivers} 
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
@@ -68,7 +68,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of any application by required
 	 * {@link RemoteWebDriver} class and its {@link Capabilities}.
 	 * The class of {@link RemoteWebDriver} subclass 
 	 * is contained by {@link ESupportedDrivers} 
@@ -83,7 +83,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of any application by required
 	 * {@link RemoteWebDriver} class and its {@link Capabilities} and URL of remote
 	 * host where it should be launched.
      * The class of {@link RemoteWebDriver} subclass 
@@ -100,7 +100,7 @@ public class DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of any application by required
 	 * {@link RemoteWebDriver} class and URL of remote
 	 * host where it should be launched.
      * The class of {@link RemoteWebDriver} subclass 

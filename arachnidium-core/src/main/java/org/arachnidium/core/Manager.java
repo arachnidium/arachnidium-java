@@ -147,22 +147,26 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 
 	/**
 	 * Returns window on mobile context 
-	 * by conditions. @see IHowToGetHandle
+	 * by conditions. 
 	 * 
-	 * @param howToGet Given strategy. @see IHowToGetHandle
+	 * @param howToGet Given strategy. 
 	 * @return Window or mobile context
+	 * 
+	 * @see IHowToGetHandle
 	 */
 	public abstract <T extends Handle> T getHandle(U howToGet);
 	
 	/**
 	 * Returns window on mobile context 
-	 * by conditions. @see IHowToGetHandle. 
+	 * by conditions. 
 	 * 
 	 * @param timeOut It is an explicitly given time (seconds) to wait for
 	 *            window/mobile context is present
 	 *            
-	 * @param howToGet Given strategy. @see IHowToGetHandle
+	 * @param howToGet Given strategy.
 	 * @return Window or mobile context
+	 * 
+	 * @see IHowToGetHandle. 
 	 */
 	public abstract <T extends Handle> T getHandle(long timeOut, U howToGet);
 
@@ -195,8 +199,10 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	 * @param timeOut It is an explicitly given time (seconds) to wait for
 	 *            window/mobile context is present
 	 *            
-	 * @param howToGet Given strategy. @see IHowToGetHandle
+	 * @param howToGet Given strategy. 
 	 * @return Window handle/context name
+	 * 
+	 * @see IHowToGetHandle
 	 */
 	abstract String getStringHandle(long timeOut, U howToGet);
 

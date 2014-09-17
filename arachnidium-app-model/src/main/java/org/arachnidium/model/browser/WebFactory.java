@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public final class WebFactory extends DefaultApplicationFactory {
 
 	/**
-	 * Common method that creates an instance of any application using defined
+	 * Common method that creates an instance of the application by defined
 	 * configuration. Performs navigation to the required URL 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
@@ -25,7 +25,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of the application by required
 	 * {@link RemoteWebDriver} class and its {@link Capabilities}.
 	 * The class of {@link RemoteWebDriver} subclass 
 	 * is contained by {@link ESupportedDrivers} 
@@ -43,7 +43,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of the application by required
 	 * {@link RemoteWebDriver} class and its {@link Capabilities} and URL of remote
 	 * host where it should be launched.
      * The class of {@link RemoteWebDriver} subclass 
@@ -61,7 +61,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of the application by required
 	 * {@link RemoteWebDriver} class. This class is contained by {@link ESupportedDrivers} 
 	 * 
 	 * Performs navigation to the required URL 
@@ -75,7 +75,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using required
+	 * Common method that creates an instance of the application by required
 	 * {@link RemoteWebDriver} class and URL of remote
 	 * host where it should be launched.
      * The class of {@link RemoteWebDriver} subclass 
@@ -93,7 +93,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application using default
+	 * Common method that creates an instance of the application by default
 	 * configuration
 	 * 
 	 * Performs navigation to the required URL 
@@ -106,7 +106,7 @@ public final class WebFactory extends DefaultApplicationFactory {
 	}
 
 	/**
-	 * Common method that creates an instance of any application with externally
+	 * Common method that creates an instance of the application by externally
 	 * instantiated {@link WebDriverEncapsulation}
 	 * 
 	 * Performs navigation to the required URL 

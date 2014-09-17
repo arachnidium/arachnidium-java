@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * Returns an {@link ExpectedCondition} 
- * using {@link IFluentHandleWaiting}
+ * by {@link IFluentHandleWaiting}
  */
 public interface IHowToGetHandle {
 	/**

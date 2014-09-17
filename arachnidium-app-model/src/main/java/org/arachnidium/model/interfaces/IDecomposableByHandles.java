@@ -22,8 +22,8 @@ import org.arachnidium.model.support.HowToGetByFrames;
 public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDecomposable {
 	
 	/**
-	 * This method should provide a model
-	 * of the receiving objects by given browser window
+	 * This method should provide the model
+	 * of the getting objects by given browser window
 	 * or mobile screen/context. It is for situations when 
 	 * the index of window/context is expected.  
 	 * 
@@ -39,8 +39,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			int handleIndex);
 	
 	/**
-	 * This method should provide a model
-	 * of the receiving objects by given browser window
+	 * This method should provide the model
+	 * of the getting objects by given browser window
 	 * or mobile screen/context. It is for situations when 
 	 * the index of window/context is expected.  
 	 * 
@@ -56,8 +56,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			int handleIndex, long timeOut);	
 
 	/**
-	 * This method should provide a model
-	 * of the receiving objects by given browser window
+	 * This method should provide the model
+	 * of the getting objects by given browser window
 	 * or mobile screen/context. It is for situations when 
 	 * the index of window/context is expected. 
 	 * 
@@ -77,8 +77,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			int handleIndex, HowToGetByFrames howToGetByFrames);
 	
 	/**
-	 * This method should provide a model
-	 * of the receiving objects by given browser window
+	 * This method should provide the model
+	 * of the getting objects by given browser window
 	 * or mobile screen/context. It is for situations when 
 	 * the index of window/context is expected. 
 	 * 
@@ -99,8 +99,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			int handleIndex, HowToGetByFrames howToGetByFrames, long timeOut);	
 	
 	/**
-	 * This method should provide a model 
-	 * of the receiving objects by given browser 
+	 * This method should provide the model 
+	 * of the getting objects by given browser 
 	 * window or mobile screen/context. 
 	 * It is for situations when some complex condition is known, 
 	 * e.g. URLs, title of the page, 
@@ -122,8 +122,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			U howToGetHandle);
 	
 	/**
-	 * This method should provide a model 
-	 * of the receiving objects by given browser 
+	 * This method should provide the model 
+	 * of the getting objects by given browser 
 	 * window or mobile screen/context. 
 	 * It is for situations when some complex condition is known, 
 	 * e.g. URLs, title of the page, 
@@ -147,8 +147,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			U howToGetHandle, long timeOut);
 	
 	/**
-	 * This method should provide a model 
-	 * of the receiving objects by given browser 
+	 * This method should provide the model 
+	 * of the getting objects by given browser 
 	 * window or mobile screen/context. 
 	 * It is for situations when some complex condition is known, 
 	 * e.g. URLs, title of the page, 
@@ -175,8 +175,8 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 			U howToGetHandle, HowToGetByFrames howToGetByFrames);
 	
 	/**
-	 * This method should provide a model 
-	 * of the receiving objects by given browser 
+	 * This method should provide the model 
+	 * of the getting objects by given browser 
 	 * window or mobile screen/context. 
 	 * It is for situations when some complex condition is known, 
 	 * e.g. URLs, title of the page, 

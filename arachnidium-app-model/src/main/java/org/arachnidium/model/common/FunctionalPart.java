@@ -12,7 +12,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.logging.Level;
 
+import org.arachnidium.core.BrowserWindow;
 import org.arachnidium.core.Handle;
+import org.arachnidium.core.HowToGetBrowserWindow;
+import org.arachnidium.core.HowToGetMobileScreen;
+import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.components.common.Ime;
 import org.arachnidium.core.components.common.Interaction;
 import org.arachnidium.core.components.common.TimeOut;
@@ -66,19 +70,22 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected final HowToGetByFrames pathStrategy;
 
 	/**
-	 *This constructor should present 
-	 *when it is possible that described UI or its part
-	 *we are going to got from another (more general).<br/>
-	 *<br/>
-	 *<br/>
-	 *Example:<br/>
-	 *<code>someUIDescriptionInstance.getPart(someUIDescription.class)</code>
+	 * This constructor should present 
+	 * when an instance of the class is going to
+	 * be got from another.<br/>
 	 * <br/>
-	 *This instantiation means that described UI or fragment is stationed
-     *on the same window/mobile context and inside the same frame (it is
-     *actual for browser and mobile hybrid apps) as the "parent"
+	 * This instantiation means that described specific UI or the fragment is 
+	 * on the same window/mobile context and inside the same frame (it is
+     * actual for browser and mobile hybrid apps) as the more generalized "parent".
 	 * 
-	 *@param parent is like a more general UI or part of client UI
+	 *@example
+	 *someUIDescriptionInstance.getPart(someUIDescription.class)<br/>
+	 *<br/>
+	 *<b>someUIDescription.class should have this constructor</b> 
+	 * 
+	 *@param parent is considered as a more general UI or the part of client UI
+	 *
+	 *@see IDecomposable#getPart(Class)
 	 */
 	@SuppressWarnings("unchecked")
 	protected FunctionalPart(FunctionalPart<?> parent) {
@@ -86,24 +93,29 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	/**
-	 *This constructor should present 
-	 *when it is possible that described UI or its part
-	 *we are going to got from another (more general).
-	 *Example:<br/>
-	 *<code>someUIDescriptionInstance.getPart(someUIDescription.class,
-	 *howToGetByFramesObject)</code><br/>
+	 * This constructor should present 
+	 * when an instance of the class is going to
+	 * be got from another.<br/>
 	 * <br/>
-	 * 
-     *The described piece of UI is stationed inside frame.
-	 *Path to the frame is specified by {@link HowToGetByFrames}
+	 * This instantiation means that described specific UI or the fragment is 
+	 * on the same window/mobile context and inside the same frame (it is
+     * actual for browser and mobile hybrid apps) as the more generalized "parent".
+	 * <br/>
+	 * <br/>
+     *The described piece of UI is inside frame (it is
+     * actual for browser and mobile hybrid apps).
+	 *Path to desired frame is specified by {@link HowToGetByFrames}
 	 *instance. <br/>
 	 *
-	 *This instantiation means that described UI or fragment is stationed
-     *on the same window/mobile context and inside the same frame (it is
-     *actual for browser and mobile hybrid apps) as the "parent".
+	 *@example
+	 *someUIDescriptionInstance.getPart(someUIDescription.class, howToGetByFrameInstance);<br/>
+	 *<br/>
+	 *<b>someUIDescription.class should have this constructor</b> 
 	 * 
-	 *@param parent is like a more general UI or part of client UI
+	 *@param parent is considered as a more general UI or the part of client UI
 	 *@param path is a path to frame which is specified by {@link HowToGetByFrames}
+	 *
+	 *@see IDecomposable#getPart(Class, HowToGetByFrames)
 	 *
 	 *@see HowToGetByFrames
 	 */	
@@ -114,27 +126,47 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *This constructor should present 
-	 *when it is possible that described UI or its part
-	 *we are going to got from the given browser window
-	 *or mobile context. It is expected that this is
+	 * This constructor should present 
+	 * when an instance of the class is going to
+	 * be got from the given {@link Handle} e.g. browser window
+	 * or mobile context. 
+	 *
+	 *It is expected that this is the
 	 *most frequently used case. 
 	 *
 	 *@param handle is the given browser window
 	 *or mobile context
+	 *
+	 *@example
+	 *applicationInstance.getPart(someUIDescription.class);<br/>
+	 *applicationInstance.getPart(someUIDescription.class, windowOrContextIndex);<br/>
+	 *applicationInstance.getPart(someUIDescription.class, howToGetBrowserWindowInstance);<br/>
+	 *and so on
+	 *<br/>
+	 *<b>someUIDescription.class should have this constructor</b> 
+	 *
+	 *@see Application
+	 *@see IHowToGetHandle
+	 *@see HowToGetBrowserWindow
+	 *@see HowToGetMobileScreen
+	 *@see Handle
+	 *@see BrowserWindow
+	 *@see MobileScreen
 	 */
 	protected FunctionalPart(S handle) {
 		this(handle, new HowToGetByFrames());
 	}
 
 	/**
-	 *This constructor should present 
-	 *when it is possible that described UI or its part
-	 *we are going to got from the given browser window
-	 *or mobile context. Also, this piece of UI
-	 *is stationed inside frame (it is actual for browser and mobile hybrid apps). 
-	 *Path to the frame is specified 
-	 *by {@link HowToGetByFrames} instance
+     * This constructor should present 
+	 * when an instance of the class is going to
+	 * be got from the given browser window
+	 * or mobile context.<br/> 
+	 *<br/> 
+     *The described piece of UI is inside frame (it is
+     * actual for browser and mobile hybrid apps).
+	 *Path to desired frame is specified by {@link HowToGetByFrames}
+	 *instance. <br/>
 	 *
 	 *@param handle is the given browser window
 	 *or mobile context
@@ -180,7 +212,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
      *child is more specific. 
      *
      *It means, that required UI or fragment of UI 
-     *is stationed on the same browser window/mobile screen as the
+     *is on the same browser window/mobile screen as the
      *current. Also "child" is inside the same frame as the
      *current (it is actual for browser and mobile hybrid apps). 
      *
@@ -200,14 +232,18 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
      *child is more specific. 
      *
      *It means, that required UI or fragment of UI 
-     *is stationed on the same browser window/mobile screen as the
+     *is on the same browser window/mobile screen as the
      *current. Also "child" is inside the same frame as the
-     *current. The child is in enclosed frame. 
+     *current (it is actual for browser and mobile hybrid apps). <br/>
+     *<br/>
+     *The child is in enclosed frame. 
      *Frames are actual for browser and mobile hybrid apps.
 	 *
 	 *@see org.arachnidium.model.abstractions.ModelObject#getPart(Class, HowToGetByFrames)
 	 *
 	 *@see IDecomposable#getPart(Class, HowToGetByFrames)
+	 *
+	 *@see HowToGetByFrames
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -225,11 +261,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with FINE {@link Level} and narrative
+	 *{@link Log} message with {@link Level#FINE} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
-	 *@param element to highlighted
-	 *@param highlight is a using color
+	 *@param element to be highlighted
+	 *@param highlight is an used color
 	 *@param comment is a narrative message text
 	 */
 	@InteractiveMethod
@@ -241,12 +277,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with FINE {@link Level} and narrative
+	 *{@link Log} message with {@link Level#FINE} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
 	 *{@link eLogColors#DEBUGCOLOR} is used.
 	 *
-	 *@param element to highlighted
+	 *@param element to be highlighted
 	 *@param comment is a narrative message text
 	 */	
 	@InteractiveMethod
@@ -257,11 +293,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with INFO {@link Level} and narrative
+	 *{@link Log} message with {@link Level#INFO} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
-	 *@param element to highlighted
-	 *@param highlight is a using color
+	 *@param element to be highlighted
+	 *@param highlight is an used color
 	 *@param comment is a narrative message text
 	 */	
 	@InteractiveMethod
@@ -273,12 +309,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with INFO {@link Level} and narrative
+	 *{@link Log} message with {@link Level#INFO} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
 	 *{@link eLogColors#CORRECTSTATECOLOR} is used.
 	 *
-	 *@param element to highlighted
+	 *@param element to be highlighted
 	 *@param comment is a narrative message text
 	 */		
 	@InteractiveMethod
@@ -289,11 +325,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with SEVERE {@link Level} and narrative
+	 *{@link Log} message with {@link Level#SEVERE} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
-	 *@param element to highlighted
-	 *@param highlight is a using color
+	 *@param element to be highlighted
+	 *@param highlight is an used color
 	 *@param comment is a narrative message text
 	 */		
 	@InteractiveMethod
@@ -305,12 +341,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with SEVERE {@link Level} and narrative
+	 *{@link Log} message with {@link Level#SEVERE} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
 	 *{@link eLogColors#SEVERESTATECOLOR} is used.
 	 *
-	 *@param element to highlighted
+	 *@param element to be highlighted
 	 *@param comment is a narrative message text
 	 */		
 	@InteractiveMethod
@@ -321,11 +357,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with WARN {@link Level} and narrative
+	 *{@link Log} message with {@link Level#WARNING} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
-	 *@param element to highlighted
-	 *@param highlight is a using color
+	 *@param element to be highlighted
+	 *@param highlight is an used color
 	 *@param comment is a narrative message text
 	 */		
 	@InteractiveMethod
@@ -337,12 +373,12 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *Highlights HTML element by given color, creates 
-	 *{@link Log} message with WARN {@link Level} and narrative
+	 *{@link Log} message with {@link Level#WARNING} and narrative
 	 *text, optionally takes a screen shot and attaches to {@link Log} 
 	 *
 	 *{@link eLogColors#WARNSTATECOLOR} is used.
 	 *
-	 *@param element to highlighted
+	 *@param element to be highlighted
 	 *@param comment is a narrative message text
 	 */		
 	@InteractiveMethod
@@ -390,7 +426,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	/**
 	 *Performs focus on the described UI.
 	 *
-	 *First of all it performs switch to the window/mobile 
+	 *First of all it performs the switching to the window/mobile 
 	 *context where UI is existing now.
 	 *If described UI is inside frame this method
 	 *performs switching from one frame to another
@@ -407,8 +443,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 
 	/**
-	 *takes screenshots and attache it to
-	 *log messages with FINE {@link Level}
+	 *takes screenshots and attaches it to
+	 *log messages. {@link Level#FINE}
 	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAFine(java.lang.String)
 	 */
@@ -419,7 +455,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *takes screenshots and attache it to
-	 *log messages with INFO {@link Level}
+	 *log messages. {@link Level#INFO}
 	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
@@ -430,7 +466,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *takes screenshots and attache it to
-	 *log messages with SEVERE {@link Level}
+	 *log messages. {@link Level#SEVERE}
 	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
@@ -441,7 +477,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 
 	/**
 	 *takes screenshots and attache it to
-	 *log messages with WARN {@link Level}
+	 *log messages. {@link Level#WARNING}
 	 *
 	 *@see org.arachnidium.core.interfaces.ITakesPictureOfItSelf#takeAPictureOfAnInfo(java.lang.String)
 	 */
@@ -451,8 +487,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	}
 	
 	/**
-	 *@return An instance of the Application 
-	 *this this UI description has been received from 
+	 *@return An instance of the current {@link Application} 
 	 */
 	public Application<? extends Handle, ? extends IHowToGetHandle> getApplication(){
 		return application;

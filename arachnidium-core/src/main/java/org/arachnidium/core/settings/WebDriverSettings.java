@@ -82,7 +82,9 @@ public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 	}
 
 	/**
-	 * @return Supported {@link WebDriver}. @see ESupportedDrivers
+	 * @return Supported {@link WebDriver}. 
+	 * 
+	 * @see ESupportedDrivers
 	 */
 	public ESupportedDrivers getSupoortedWebDriver() {
 		String name = getSetting(webDriverName);

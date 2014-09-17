@@ -9,7 +9,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 /**
  * The simple factory that makes usage of some CGLIB tools easily
  * 
- * Creates proxy objects using list of {@link MethodInterceptor} implementations
+ * Creates proxy objects by the list of {@link MethodInterceptor} implementations
  * and {@link Enhancer}
  *
  */

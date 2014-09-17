@@ -19,7 +19,7 @@ import org.arachnidium.core.WebDriverEncapsulation;
 
 /**
  * 
- * This the class for iiner usage
+ * This is utility class for inner usage
  *
  */
 abstract class ModelSupportUtil {

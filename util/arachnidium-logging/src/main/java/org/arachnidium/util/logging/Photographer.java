@@ -15,7 +15,7 @@ import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.Augmenter;
 
 /**
- * Takes screenshots using {@link WebDriver} instance
+ * Takes screenshots by {@link WebDriver} instance
  */
 public final class Photographer {
 	private static Photographer get() {

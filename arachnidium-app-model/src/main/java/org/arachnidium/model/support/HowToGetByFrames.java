@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
 
 /**
- * This manages switching between frames on a page or context of the hybrid mobile
+ * This manages switching between frames on a browser page or web view of a hybrid mobile
  * application
  * 
  * @see TargetLocator
