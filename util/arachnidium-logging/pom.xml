@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>util</artifactId>
-    <version>0.8.9.6</version>
+    <version>0.9.0.0-BETA</version>
   </parent>
   <groupId>org.arachnidium.util</groupId>
   <artifactId>arachnidium-logging</artifactId>
