@@ -101,6 +101,7 @@ public class GoogleDriveTest {
 			// is always inside frame
 			ShareDocumentSettings<?> shareSettings = document
 					.getPart(ShareDocumentSettings.class);
+			shareSettings.clickOnManagePermissions();
 			shareSettings.invite("arachnidiumtester@gmail.com");
 			shareSettings.clickCancel();
 			shareSettings.clickDone();
@@ -154,12 +155,14 @@ public class GoogleDriveTest {
 			// is always inside frame
 			ShareDocumentSettings<?> shareSettings = document
 					.getPart(ShareDocumentSettings.class);
+			shareSettings.clickOnManagePermissions();
 			shareSettings.invite("arachnidiumtester@gmail.com");
 			shareSettings.clickCancel();
 			shareSettings.clickDone();
 
 			document.clickShareButton();
 			shareSettings = googleDrive.getPart(ShareDocumentSettings.class, 1);
+			shareSettings.clickOnManagePermissions();
 			shareSettings.invite("arachnidiumtester@gmail.com");
 			shareSettings.clickCancel();
 			shareSettings.clickDone();
@@ -169,12 +172,14 @@ public class GoogleDriveTest {
 					2);
 			spreadSheet.clickShareButton();
 			shareSettings = spreadSheet.getPart(ShareDocumentSettings.class);
+			shareSettings.clickOnManagePermissions();
 			shareSettings.invite("arachnidiumtester@gmail.com");
 			shareSettings.clickCancel();
 			shareSettings.clickDone();
 
 			spreadSheet.clickShareButton();
 			shareSettings = googleDrive.getPart(ShareDocumentSettings.class, 2);
+			shareSettings.clickOnManagePermissions();
 			shareSettings.invite("arachnidiumtester@gmail.com");
 			shareSettings.clickCancel();
 			shareSettings.clickDone();

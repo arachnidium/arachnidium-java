@@ -21,6 +21,8 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	private Button done;	
 	@FindBy(xpath = ".//*[contains(@id,'cancel')]")
 	private Button cancel;
+	@FindBy(className = "simple-sharing-manage-permissions-link")
+	private Button managePermissions;
 	
 	protected ShareDocumentSettings(FunctionalPart<S> parent,
 			HowToGetByFrames path) {
@@ -55,5 +57,10 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@InteractiveMethod
 	public void clickCancel(){
 		cancel.click();
+	}
+	
+	@InteractiveMethod
+	public void clickOnManagePermissions(){
+		managePermissions.click();
 	}
 }

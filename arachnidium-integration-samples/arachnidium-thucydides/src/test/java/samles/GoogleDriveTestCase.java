@@ -30,6 +30,7 @@ public class GoogleDriveTestCase {
 	public void sampleTestOnTheGoogleDrive(){
 		steps.login(USER, PASSWORD);
 		steps.startShare();
+		steps.clickOnManagePermissions();
 		steps.setInviteEmail("arachnidiumtester@gmail.com");
 		steps.clickCancel();
 		steps.clickFinishShare();

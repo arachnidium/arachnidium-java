@@ -70,4 +70,12 @@ public class GoogleDriveSteps extends StepsWithApplication {
 		logOut.quit();
 		;
 	}
+	
+	@Step
+	public void clickOnManagePermissions(){
+		Document<?> document = app.getPart(Document.class);
+		ShareDocumentSettings<?> shareSettings = document
+				.getPart(ShareDocumentSettings.class);
+		shareSettings.clickOnManagePermissions();
+	}	
 }

@@ -18,6 +18,8 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	private WebElement done;	
 	@FindBy(xpath = ".//*[contains(@id,'cancel')]")
 	private WebElement cancel;
+	@FindBy(className = "simple-sharing-manage-permissions-link")
+	private WebElement managePermissions;
 	
 	protected ShareDocumentSettings(FunctionalPart<S> parent,
 			HowToGetByFrames path) {
@@ -49,4 +51,9 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	public void clickCancel(){
 		cancel.click();
 	}
+	
+	@InteractiveMethod
+	public void clickOnManagePermissions(){
+		managePermissions.click();
+	}	
 }
