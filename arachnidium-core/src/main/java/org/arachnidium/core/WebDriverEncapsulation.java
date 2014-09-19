@@ -5,7 +5,6 @@ import java.net.URL;
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
-import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.settings.CapabilitySettings;
 import org.arachnidium.core.settings.WebDriverSettings;
@@ -16,7 +15,6 @@ import org.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import org.arachnidium.util.logging.Log;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -42,7 +40,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private RemoteWebDriver enclosedDriver;
 
 	private Configuration configuration = Configuration.byDefault;
-	private TimeOut timeout;
 	final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
 			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
@@ -180,7 +177,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 				destroyableObjects, explicitlyInitiatedWebDriver);
 		Log.message("Getting started with already instantiated "
 				+ explicitlyInitiatedWebDriver.getClass());
-		timeout = getComponent(TimeOut.class);
 		resetAccordingTo(configuration);
 	}
 
@@ -215,7 +211,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
 					destroyableObjects, driverClass, paramClasses, values);
 			Log.message("Getting started with " + driverClass.getSimpleName());
-			timeout = getComponent(TimeOut.class);
 			resetAccordingTo(configuration);
 		} catch (Exception e) {
 			Log.error(
@@ -250,22 +245,15 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	}
 
 	/**
-	 * This methods returns timeouts
-	 * 
-	 * @return {@link TimeOut}
-	 * 
-	 * @see Timeouts
-	 */
-	public TimeOut getTimeOut() {
-		return timeout;
-	}
-
-	/**
 	 * @param required {@link WebdriverComponent} subclass
 	 * @return The instance of required {@link WebdriverComponent} subclass
 	 */
 	public <T extends WebdriverComponent> T getComponent(Class<T> required) {
-		return ComponentFactory.getComponent(required, enclosedDriver);
+		T result = ComponentFactory.getComponent(required, enclosedDriver);
+		if (IConfigurable.class.isAssignableFrom(required)){
+			((IConfigurable) result).resetAccordingTo(configuration);
+		}
+		return result;
 	}
 
 	/**
@@ -284,8 +272,12 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public <T extends WebdriverComponent> T getComponent(Class<T> required,
 			Class<?>[] params, Object[] values) {
-		return ComponentFactory.getComponent(required, enclosedDriver, params,
+		T result = ComponentFactory.getComponent(required, enclosedDriver, params,
 				values);
+		if (IConfigurable.class.isAssignableFrom(required)){
+			((IConfigurable) result).resetAccordingTo(configuration);
+		}
+		return result;		
 	}
 
 	/**
@@ -305,7 +297,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		configuration = config;
-		timeout.resetAccordingTo(config);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.arachnidium.core.BrowserWindow;
@@ -46,6 +47,24 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
 public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> implements ITakesPictureOfItSelf, ISwitchesToItself {
 
 	/**
+	 * This is used when general time out is not suitable
+	 * for method that performs interaction. Defined time
+	 * out will be applied before method is invoked.
+	 */
+	@Target(value = ElementType.METHOD)
+	@Retention(value = RetentionPolicy.RUNTIME)	
+	protected static @interface WithImplicitlyWait {
+		/**
+		 * @return customized value of timeout
+		 */
+		long timeOut();
+		/**
+		 * @return customized time unit
+		 */
+		TimeUnit timeUnit() default TimeUnit.SECONDS;
+	}
+
+	/**
 	 *This annotation is useful 
 	 *when there is need to interact with more
 	 *than one browser window/mobile context
@@ -68,6 +87,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final HowToGetByFrames pathStrategy;
+	final AppiumFieldDecorator defaultFieldDecorator;
 
 	/**
 	 * This constructor should present 
@@ -177,6 +197,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	*/
 	protected FunctionalPart(S handle, HowToGetByFrames path) {
 		super(handle);
+		defaultFieldDecorator = new AppiumFieldDecorator(getWrappedDriver());
 		this.pathStrategy = path;
 		interaction = getComponent(Interaction.class);
 		ime =         getComponent(Ime.class);
@@ -392,11 +413,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	 *using {@link PageFactory} and {@link AppiumFieldDecorator}
 	 */
 	protected void load() {
-		TimeOut timeOut = getWebDriverEncapsulation().getTimeOut();
-		PageFactory.initElements(new AppiumFieldDecorator(
-				getWrappedDriver(),
+		TimeOut timeOut = getComponent(TimeOut.class);
+		defaultFieldDecorator.resetImplicitlyWaitTimeOut(
 				timeOut.getImplicitlyWaitTimeOut(),
-				timeOut.getImplicitlyWaitTimeUnit()), this);
+				timeOut.getImplicitlyWaitTimeUnit());
+		PageFactory.initElements(defaultFieldDecorator, this);
 	}
 
 	/**
