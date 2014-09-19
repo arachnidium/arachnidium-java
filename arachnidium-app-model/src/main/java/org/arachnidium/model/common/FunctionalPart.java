@@ -49,7 +49,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	/**
 	 * This is used when general time out is not suitable
 	 * for method that performs interaction. Defined time
-	 * out will be applied before method is invoked.
+	 * out will be applied before method is invoked.<br\>
+	 * <br\>
+	 * This annotation is ignored when {@link InteractiveMethod} is
+	 * not present.
 	 */
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)	

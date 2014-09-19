@@ -9,7 +9,7 @@ import fake_pageobject.FakePageObject;
 
 public class ImlicitlyWaitTest {
 
-	private final static long ACCEPTABLE_DELTA_MILLS = 3500;
+	private final static long ACCEPTABLE_DELTA_MILLS = 1500;
 
 	private static void checkDifferent(long etalonTime,
 			TimeUnit etalonTimeUnit, long currentMillis) {

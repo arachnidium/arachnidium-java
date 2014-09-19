@@ -6,13 +6,13 @@
 		<selenium.version>2.43.1</selenium.version>
 		<ghostdriver.version>1.1.0</ghostdriver.version>
 		<appium.version>1.6.2</appium.version>
-		<actual.version>0.9.0.0-BETA</actual.version>
+		<actual.version>0.9.1.0-BETA</actual.version>
 	</properties>
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.9.0.0-BETA</version>
+	<version>0.9.1.0-BETA</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 	
@@ -106,6 +106,21 @@
 				<executions>
 					<execution>
 						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<additionalparam>-Xdoclint:none</additionalparam> 
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>

@@ -110,4 +110,13 @@
     </classes>
   </test> <!-- Test -->   
   
+  <test name="This is the test of implicitl waiting time out customization">
+    <classes>
+      <class name="implicitliwait_test.ImlicitlyWaitTest"/>
+      <methods>
+              <include name="imlicitlyWaitTest" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->   
+  
 </suite> <!-- Suite -->

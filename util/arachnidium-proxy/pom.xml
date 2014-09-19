@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.arachnidium</groupId>
     <artifactId>util</artifactId>
-    <version>0.9.0.0-BETA</version>
+    <version>0.9.1.0-BETA</version>
   </parent>
   <groupId>org.arachnidium.util</groupId>
   <artifactId>arachnidium-proxy</artifactId>
