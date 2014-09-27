@@ -1,5 +1,7 @@
 package org.arachnidium.core.bean;
 
+import io.appium.java_client.android.AndroidDriver;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -18,10 +20,12 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.internal.WrapsDriver;
 
 /**
- * @link{IContextListener} general implementor.
- * It listens to mobile context events
+ * @link{IContextListener general implementor. It listens to mobile context
+ *                        events
  */
 @Aspect
 public class AspectContextListener extends DefaultHandleListener implements
@@ -60,7 +64,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 
 	/**
 	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
-	 * beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 *      beforeIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@BeforeTarget(targetClass = IContext.class, targetMethod = "switchToMe")
@@ -71,7 +75,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 
 	/**
 	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
-	 * whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
+	 *      whenIsSwitchedOn(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
@@ -83,7 +87,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 
 	/**
 	 * @see org.arachnidium.core.eventlisteners.IHandletListener#
-	 * whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
+	 *      whenNewHandleIsAppeared(org.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
 	@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
@@ -91,7 +95,8 @@ public class AspectContextListener extends DefaultHandleListener implements
 		String message = "A new context " + handle.getHandle()
 				+ getActivityDescription(handle);
 		if (configurationWrapper.getWrappedConfiguration()
-				.getSection(ScreenShots.class).getToTakeScreenShotsOfNewHandles()) {
+				.getSection(ScreenShots.class)
+				.getToTakeScreenShotsOfNewHandles()) {
 			((ITakesPictureOfItSelf) handle).takeAPictureOfAnInfo(message);
 		} else {
 			Log.message(message);
@@ -100,16 +105,19 @@ public class AspectContextListener extends DefaultHandleListener implements
 	}
 
 	private String getActivityDescription(IHasHandle handle) {
-		if (!((IContext) handle).isSupportActivities()){
+		WebDriver wrappedDriver = ((WrapsDriver) handle).getWrappedDriver();
+		Class<? extends WebDriver> driverClass = wrappedDriver.getClass();
+		if (!AndroidDriver.class.isAssignableFrom(driverClass)) {
 			Log.message("Activities are not supported...");
 			return "";
 		}
-		return " Activity is " + ((IContext) handle).currentActivity();
+		return " Activity is "
+				+ ((AndroidDriver) wrappedDriver).currentActivity();
 	}
 
 	/**
 	 * @see org.arachnidium.core.bean.AbstractAspect#
-	 * doAround(org.aspectj.lang.ProceedingJoinPoint)
+	 *      doAround(org.aspectj.lang.ProceedingJoinPoint)
 	 */
 	@Override
 	@Around("execution(* org.arachnidium.core.interfaces.IHasHandle.*(..)) || "

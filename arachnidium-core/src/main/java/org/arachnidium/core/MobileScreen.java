@@ -1,10 +1,9 @@
 package org.arachnidium.core;
 
-import io.appium.java_client.AppiumDriver;
-
 import org.arachnidium.core.components.mobile.Rotator;
 import org.arachnidium.core.interfaces.IContext;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
 
 /**
  * It is the representation of a mobile screen/context.
@@ -48,26 +47,7 @@ public class MobileScreen extends Handle implements IContext {
 	}
 
 	@Override
-	public boolean isSupportActivities() {
-		return getManager().isSupportActivities();
-	}
-
-	/**
-	 * @return Android activity
-	 * 
-	 * It returns empty string with iOS
-	 * 
-	 * @see org.arachnidium.core.interfaces.IContext#currentActivity()
-	 */
-	@Override
-	public synchronized String currentActivity() {
-		if (!isSupportActivities()) {
-			
-			return "";
-		}
-		return ((AppiumDriver) getDriverEncapsulation().getWrappedDriver())
-				.currentActivity();
-	}
-	
-	
+	public WebDriver getWrappedDriver() {
+		return getDriverEncapsulation().getWrappedDriver();
+	}		
 }

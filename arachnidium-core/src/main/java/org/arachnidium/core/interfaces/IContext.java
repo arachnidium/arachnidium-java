@@ -1,6 +1,7 @@
 package org.arachnidium.core.interfaces;
 
 import org.openqa.selenium.Rotatable;
+import org.openqa.selenium.internal.WrapsDriver;
 
 /**
  * An implementor should describe behavior
@@ -9,7 +10,5 @@ import org.openqa.selenium.Rotatable;
  * Extends {@link IHasHandle}
  */
 public interface IContext extends Rotatable, ISwitchesToItself, IHasHandle,
-		ITakesPictureOfItSelf {
-	boolean isSupportActivities();
-	String currentActivity();
+		ITakesPictureOfItSelf, WrapsDriver {
 }

@@ -1,7 +1,6 @@
 package org.arachnidium.core;
 
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.android.AndroidDriver;
 
 import java.util.List;
 import java.util.Set;
@@ -11,7 +10,7 @@ import org.arachnidium.core.components.mobile.ContextTool;
 import org.arachnidium.core.fluenthandle.FluentScreenWaiting;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.WebDriver;
 
 public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 	private final ContextTool contextTool;
@@ -21,12 +20,10 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		super(initialDriverEncapsulation);
 		contextTool = getWebDriverEncapsulation().getComponent(
 				ContextTool.class);
-		String mobilePlatform = String
-				.valueOf(((RemoteWebDriver) getWebDriverEncapsulation()
-						.getWrappedDriver()).getCapabilities().getCapability(
-						MobileCapabilityType.PLATFORM_NAME));
-		isSupportActivities = mobilePlatform.trim().toUpperCase()
-				.equals(MobilePlatform.ANDROID.toUpperCase());
+		WebDriver wrappedDriver = getWebDriverEncapsulation()
+				.getWrappedDriver();
+		isSupportActivities = AndroidDriver.class
+				.isAssignableFrom(wrappedDriver.getClass());
 		handleWaiting = new FluentScreenWaiting();
 	}
 
@@ -85,7 +82,8 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 	/**
 	 * Actual strategy is {@link HowToGetMobileScreen}
 	 * 
-	 * @see org.arachnidium.core.Manager#getHandle(long, org.arachnidium.core.fluenthandle.IHowToGetHandle)
+	 * @see org.arachnidium.core.Manager#getHandle(long,
+	 *      org.arachnidium.core.fluenthandle.IHowToGetHandle)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -142,10 +140,4 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen> {
 		f.setExpected(contextIndex);
 		return getStringHandle(timeOut, f);
 	}
-
-	
-	boolean isSupportActivities() {
-		return isSupportActivities;
-	}
-
 }
