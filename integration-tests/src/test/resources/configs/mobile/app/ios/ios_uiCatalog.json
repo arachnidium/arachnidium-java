@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"IOS_APP"
 	      },
 		      "remoteAdress":{
 	          "type":"STRING",
@@ -16,10 +16,6 @@
 	          "type":"STRING",
 	          "value":"7.1"    
 	      },
-	      "platformName":{
-	          "type":"STRING",
-	          "value":"iOS"    
-	      }, 
 	      "deviceName":{
 	          "type":"STRING",
 	          "value":"iPhone Simulator"    

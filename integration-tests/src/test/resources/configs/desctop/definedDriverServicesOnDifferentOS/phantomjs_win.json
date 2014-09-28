@@ -6,26 +6,6 @@
 	          "value":"phantomjs"
 	      }
 	  },
-	  
-	  "DesiredCapabilities":
-	  {
-	      "browserName":{
-	          "type":"STRING",
-	          "value":"phantomjs"    
-	      },      
-	      "version": {
-	          "type":"STRING",
-	          "value":"" 
-	      },
-	      "platform": {
-	          "type":"STRING",
-	          "value":"ANY"          
-	      },
-	      "javascriptEnabled":{
-	          "type":"BOOL",
-	          "value":"true"           
-	      }
-	  },
 	  "webDriverTimeOuts":
 	  {
 	      "timeUnit":{

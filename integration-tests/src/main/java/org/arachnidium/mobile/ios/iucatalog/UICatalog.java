@@ -16,15 +16,11 @@ public class UICatalog extends iOSScreen {
 		super(context);
 		load();
 	}
-
-	public void shake() {
-		shaker.shake();		
-	}
 	
 	@InteractiveMethod
 	public void selectItem(String item){
 		TouchAction touchAction = new TouchAction((MobileDriver) getWrappedDriver());
-		touchAction.tap(namedTextFieldGetter.getNamedTextField(item));
+		touchAction.tap(getNamedTextField(item));
 		touchActionsPerformer.performTouchAction(touchAction);
 	}
 	

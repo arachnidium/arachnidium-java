@@ -42,11 +42,11 @@ public class ImlicitlyWaitTest {
 			checkDifferent(18500000, TimeUnit.MICROSECONDS,
 					fakePageObject.fakeInteractiveMethod1_1());
 			
-			//checkDifferent(18500000, TimeUnit.MICROSECONDS,
-			//		fakePageObject.fakeInteractiveMethod());			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());			
 
-			//checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
-			//		fakePageObject.fakeInteractiveMethod2());
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod2());
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod2_1());
@@ -54,8 +54,8 @@ public class ImlicitlyWaitTest {
 			checkDifferent(18500000, TimeUnit.MICROSECONDS,
 					fakePageObject.fakeInteractiveMethod1_1());
 			
-			//checkDifferent(18500000, TimeUnit.MICROSECONDS,
-			//		fakePageObject.fakeInteractiveMethod());				
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());				
 		} finally {
 			g.quit();
 		}

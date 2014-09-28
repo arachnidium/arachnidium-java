@@ -85,7 +85,7 @@ public class BBCMain extends AndroidScreen implements IBar{
 	@Override
 	@InteractiveMethod
 	public void play() {
-		tap.tap(1, play, 2);		
+		tap(1, play, 2);		
 	}
 
 	@Override
@@ -96,28 +96,15 @@ public class BBCMain extends AndroidScreen implements IBar{
 		touchAction.tap(edit);
 		touchActionsPerformer.performTouchAction(touchAction);
 	}
-
-	@InteractiveMethod
-	public void sendKeyEvent(int key) {
-		keyEventSender.sendKeyEvent(key);		
-	}
-
-	public String getAppStrings() {
-		return appStringGetter.getAppStrings();
-	}
-
-	public String getAppStrings(String language) {
-		return appStringGetter.getAppStrings(language);
-	}
 	
 	@InteractiveMethod
 	public void pinchArticle(){
-		pinch.pinch(currentArticle);
+		pinch(currentArticle);
 	}
 	
 	@InteractiveMethod
 	public void zoomArticle(){
-		zoomer.zoom(currentArticle);
+		zoom(currentArticle);
 	}
 
 }

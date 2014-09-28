@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"ANDROID_CHROME"
 	      },
 		      "remoteAdress":{
 	          "type":"STRING",
@@ -13,17 +13,9 @@
 	  
 	  "DesiredCapabilities":
 	  {
-	      "platformName":{
-	          "type":"STRING",
-	          "value":"Android"    
-	      }, 
 	      "deviceName":{
 	          "type":"STRING",
 	          "value":"Android Emulator"    
-	      },    
-	      "browserName":{
-	          "type":"STRING",
-	          "value":"Chrome"           
 	      }
 	  },
 	  "webDriverTimeOuts":

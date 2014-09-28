@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"Android_app"
 	      },
 		      "remoteAdress":{
 	          "type":"STRING",
@@ -11,19 +11,11 @@
       	  }
 	  },	  
 	  "DesiredCapabilities":
-	  {	      
-	      "platformName":{
-	          "type":"STRING",
-	          "value":"Android"    
-	      },	      
+	  {	            
 	      "deviceName":{
 	          "type":"STRING",
 	          "value":"Android Emulator"    
 	      },
-	      "automationName":{
-	          "type":"STRING",
-	          "value":"Appium"    
-	      }  
 	      "app":{
 	          "type":"STRING",
 	          "value":"src/test/resources/bbc.mobile.news.ww.apk"    

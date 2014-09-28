@@ -1,19 +1,19 @@
 package org.arachnidium.model.mobile.android;
 
+import io.appium.java_client.android.AndroidDeviceActionShortcuts;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.HasAppStrings;
+
 import org.arachnidium.core.MobileScreen;
-import org.arachnidium.core.components.mobile.AppStringGetter;
-import org.arachnidium.core.components.mobile.KeyEventSender;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.Screen;
 import org.arachnidium.model.support.HowToGetByFrames;
 
 /**
  * The same as {@link Screen} with some capabilities specifically for Android
+ * It works only with {@link AndroidDriver}
  */
-public abstract class AndroidScreen extends Screen {
-
-	protected final KeyEventSender keyEventSender;
-	protected final AppStringGetter appStringGetter;
+public abstract class AndroidScreen extends Screen implements HasAppStrings, AndroidDeviceActionShortcuts, IHasActivity{
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
@@ -21,7 +21,7 @@ public abstract class AndroidScreen extends Screen {
 	 * @see Screen#Screen(FunctionalPart)
 	 */
 	protected AndroidScreen(FunctionalPart<MobileScreen> parent) {
-		this(parent, new HowToGetByFrames());
+		super(parent);
 	}
 
 	/**
@@ -31,8 +31,6 @@ public abstract class AndroidScreen extends Screen {
 	 */
 	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
 		super(parent, path);
-		keyEventSender = getComponent(KeyEventSender.class);
-		appStringGetter = getComponent(AppStringGetter.class);
 	}
 
 	/**
@@ -41,7 +39,7 @@ public abstract class AndroidScreen extends Screen {
 	 * @see Screen#Screen(MobileScreen)
 	 */
 	protected AndroidScreen(MobileScreen context) {
-		this(context, new HowToGetByFrames());
+		super(context);
 	}
 
 	/**
@@ -51,12 +49,30 @@ public abstract class AndroidScreen extends Screen {
 	 */	
 	protected AndroidScreen(MobileScreen context, HowToGetByFrames path) {
 		super(context, path);
-		keyEventSender = getComponent(KeyEventSender.class);
-		appStringGetter = getComponent(AppStringGetter.class);
 	}
 	
+	@InteractiveMethod
+	@Override
 	public String currentActivity(){
-		return ((MobileScreen) handle).currentActivity();
+		return ((AndroidDriver) getWrappedDriver()).currentActivity();
+	}
+
+	@InteractiveMethod
+	@Override
+	public String getAppStrings() {
+		return ((AndroidDriver) getWrappedDriver()).getAppStrings();
+	}
+
+	@InteractiveMethod
+	@Override
+	public String getAppStrings(String language) {
+		return ((AndroidDriver) getWrappedDriver()).getAppStrings(language);
+	}
+
+	@InteractiveMethod
+	@Override
+	public void sendKeyEvent(int key, Integer metastate) {
+		((AndroidDriver) getWrappedDriver()).sendKeyEvent(key, metastate);		
 	}
 
 }

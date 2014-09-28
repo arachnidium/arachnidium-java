@@ -11,7 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * This class little bit extends {@link DesiredCapabilities}
  * It is for internal usage
  */
-class ExtendedDesiredCapabilities extends DesiredCapabilities {
+public class ExtendedDesiredCapabilities extends DesiredCapabilities {
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -35,7 +35,7 @@ class ExtendedDesiredCapabilities extends DesiredCapabilities {
 	 * @see CapabilityType
 	 * @see MobileCapabilityType
 	 */
-	static DesiredCapabilities androidChrome(){
+	public static DesiredCapabilities androidChrome(){
 		DesiredCapabilities dc = new DesiredCapabilities();
 		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
 		dc.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROME);
@@ -64,7 +64,7 @@ class ExtendedDesiredCapabilities extends DesiredCapabilities {
 	 * @see CapabilityType
 	 * @see MobileCapabilityType
 	 */	
-	static DesiredCapabilities iosSafari(){
+	public static DesiredCapabilities iosSafari(){
 		DesiredCapabilities dc = new DesiredCapabilities();
 		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
 		dc.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.SAFARI);

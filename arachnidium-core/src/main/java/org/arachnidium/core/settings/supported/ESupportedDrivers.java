@@ -2,7 +2,6 @@ package org.arachnidium.core.settings.supported;
 
 import java.net.URL;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -34,7 +33,8 @@ import org.openqa.selenium.server.SeleniumServer;
  * - {@link SafariDriver}<br/>
  * - {@link PhantomJSDriver}<br/>
  * - {@link RemoteWebDriver}<br/>
- * - {@link AppiumDriver}<br/>
+ * - {@link AndroidDriver}<br/>
+ * - {@link IOSDriver}<br/>
  * <br/>
  * Additional info:<br/>
  * - default {@link Capabilities}<br/>
@@ -172,7 +172,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Default {@link Capabilities}</b>: empty. They should be defined explicitly. Here is an example: <br/>	    
 	 * &nbsp;&nbsp;"deviceName":{<br/>	
-	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"Android Emulator"<br/>	    
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"desired device name e.g. Android Emulator, NEXUS and so on"<br/>	    
 	 * &nbsp;&nbsp;},<br/> 
 	 * &nbsp;&nbsp;"app":{<br/>	
 	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"absolute path to desired *.apk file"<br/>	    
@@ -196,7 +196,7 @@ public enum ESupportedDrivers {
 	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"7.1"<br/>    
 	 * &nbsp;&nbsp;},<br/>
 	 * &nbsp;&nbsp;"deviceName":{<br/>
-	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"iPhone Simulator"<br/>    
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"desired device name e.g. iPhone Simulator"<br/>    
 	 * &nbsp;&nbsp;},<br/> 
 	 * &nbsp;&nbsp;"app":{<br/>
 	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"absolute path to desired *.app"<br/>    
@@ -223,7 +223,7 @@ public enum ESupportedDrivers {
 				+ original + " is not supported");
 	}
 
-	private Capabilities capabilities;
+	private DesiredCapabilities capabilities;
 	private Class<? extends WebDriver> driverClazz;
 	private EServices service;
 	final ILocalServerLauncher serverLauncher;
@@ -231,7 +231,7 @@ public enum ESupportedDrivers {
 
 	private final boolean requiresRemoteURL;
 
-	private ESupportedDrivers(Capabilities capabilities,
+	private ESupportedDrivers(DesiredCapabilities capabilities,
 			Class<? extends WebDriver> driverClazz, EServices sevice,
 			ILocalServerLauncher serverLauncher, boolean startsRemotely,
 			boolean requiresRemoteURL) {
@@ -247,7 +247,7 @@ public enum ESupportedDrivers {
 	 * @return {@link Capabilities} Default capabilities of given
 	 *         {@link WebDriver} implementor
 	 */
-	public Capabilities getDefaultCapabilities() {
+	public DesiredCapabilities getDefaultCapabilities() {
 		return capabilities;
 	}
 

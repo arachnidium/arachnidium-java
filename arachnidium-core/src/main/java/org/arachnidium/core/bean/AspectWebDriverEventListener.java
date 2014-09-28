@@ -2,6 +2,10 @@ package org.arachnidium.core.bean;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -81,7 +85,12 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			+ "execution(* org.openqa.selenium.ContextAware.*(..)) || "
 			+ "execution(* org.openqa.selenium.Alert.*(..)) || "
 			+ "execution(* io.appium.java_client.MobileElement.*(..)) || "
-			+ "execution(* io.appium.java_client.AppiumDriver.*(..)) ";
+			+ "execution(* io.appium.java_client.AppiumDriver.*(..)) || "
+			+ "execution(* io.appium.java_client.android.AndroidDriver.*(..)) || "
+			+ "execution(* io.appium.java_client.ios.IOSDriver.*(..)) || "
+		    + "execution(* io.appium.java_client.android.AndroidElement.*(..)) || "
+			+ "execution(* io.appium.java_client.ios.IOSElement.*(..))"
+			;
 	private final IDestroyable destroyable;
 
 	private final List<IWebDriverEventListener> additionalListeners = new ArrayList<IWebDriverEventListener>() {
@@ -451,16 +460,16 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeFindBy(java.lang.String,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByIosUIAutomation")
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByIosUIAutomation")
+	@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
+	@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
+	@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
+	@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
 	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
 	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByIosUIAutomation")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByIosUIAutomation")
+	@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
+	@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
+	@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
+	@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
 	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
 	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
 	@Override
@@ -479,16 +488,16 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.arachnidium.core.eventlisteners.IWebDriverEventListener#afterFindBy(java.lang.String,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByIosUIAutomation")
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByIosUIAutomation")
+	@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
+	@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
+	@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
+	@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
 	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
 	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByIosUIAutomation")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByIosUIAutomation")
+	@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
+	@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
+	@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
+	@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
 	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
 	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
 	@Override

@@ -1,9 +1,10 @@
 package mobile.android;
 
+import io.appium.java_client.android.AndroidKeyCode;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import io.appium.java_client.AndroidKeyCode;
 import junit.framework.Assert;
 
 import org.arachnidium.core.HowToGetMobileScreen;

@@ -52,7 +52,7 @@ import org.springframework.context.annotation.Configuration;
  * Also, it can be useful when it needs to bind some decomposition parts to concrete URLs/Android
  * activities, page titles/context names etc.  
  */
-public class Application<S extends Handle, U extends IHowToGetHandle> extends ModelObject<S> implements IDecomposableByHandles<U> {
+public abstract class Application<S extends Handle, U extends IHowToGetHandle> extends ModelObject<S> implements IDecomposableByHandles<U> {
 
 	/**
 	 *@see Manager

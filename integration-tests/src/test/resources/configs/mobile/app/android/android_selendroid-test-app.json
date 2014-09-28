@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"ANDROID_APP"
 	      },
 		      "remoteAdress":{
 	          "type":"STRING",
@@ -12,10 +12,6 @@
 	  },	  
 	  "DesiredCapabilities":
 	  {	      
-	      "platformName":{
-	          "type":"STRING",
-	          "value":"Android"    
-	      },
 	      "automationName":{
 	          "type":"STRING",
 	          "value":"Selendroid"    

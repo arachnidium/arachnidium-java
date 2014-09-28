@@ -3,7 +3,8 @@ package org.arachnidium.core.settings;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
@@ -36,23 +37,31 @@ import org.openqa.selenium.safari.SafariDriver;
  *       - {@link SafariDriver} - SAFARI/safari<br/>
  *       - {@link PhantomJSDriver} - PHANTOMJS/phantomjs<br/>
  *       - {@link RemoteWebDriver} - REMOTE/remote<br/>
- *       - {@link AppiumDriver} - MOBILE/mobile<br/>        
+ *       - {@link AndroidDriver} - ANDROID_CHROME/android_chrome or ANDROID_APP/android_app<br/>  
+ *       - {@link IOSDriver} - IOS_SAFARI/ios_safari or IOS_APP/ios_app<br/>      
  * &nbsp;&nbsp;"remoteAdress":{<br/>
  * &nbsp;&nbsp;&nbsp;&nbsp;"type":"STRING",<br/>
  * &nbsp;&nbsp;&nbsp;&nbsp;"value":"URL of the remote server like http://127.0.0.1:4444/wd/hub"<br/>
- * &nbsp;&nbsp;}<code>//this parameter is applied to {@link RemoteWebDriver} and {@link AppiumDriver}</code><br/>
+ * &nbsp;&nbsp;}<code>//this parameter is applied to {@link RemoteWebDriver}, {@link AndroidDriver} 
+ * and {@link IOSDriver}</code><br/>
  * &nbsp;&nbsp;<code>//by other is ignored</code><br/>
  * }<br/>
  * ...<br/>
  * </p>
  * 
  *@see Configuration
+ *@see ESupportedDrivers
  */
 public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 
 	private final String remoteAddress = "remoteAdress";
 	private final String webDriverName = "driverName";
 	private final String webDriverGroup = "webdriver";
+	
+	/**
+	 * {@link FirefoxDriver} is used as default value
+	 */
+	private final ESupportedDrivers DEFAULT_SUPPORTED_DRIVER = ESupportedDrivers.FIREFOX;
 
 	public WebDriverSettings(Configuration configuration) {
 		super(configuration);
@@ -91,7 +100,7 @@ public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 		if (name != null)
 			return ESupportedDrivers.parse(name);
 		else
-			return null;
+			return DEFAULT_SUPPORTED_DRIVER;
 	}
 
 }

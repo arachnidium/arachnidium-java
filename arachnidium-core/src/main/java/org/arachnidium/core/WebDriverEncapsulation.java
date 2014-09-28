@@ -35,8 +35,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		supporteddriver.setSystemProperty(config, capabilities);
 	}
 
-	// get tests started with FireFoxDriver by default.
-	private static ESupportedDrivers defaultSupportedDriver = ESupportedDrivers.FIREFOX;
 	private RemoteWebDriver enclosedDriver;
 
 	private Configuration configuration = Configuration.byDefault;
@@ -54,16 +52,24 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		this.configuration = configuration;
 		ESupportedDrivers supportedDriver = this.configuration.getSection(
 				WebDriverSettings.class).getSupoortedWebDriver();
-		if (supportedDriver == null)
-			supportedDriver = defaultSupportedDriver;
 
 		Capabilities capabilities = this.configuration
 				.getSection(CapabilitySettings.class);
-		if (capabilities == null)
+		boolean definedCapabilitiesAreEmpty = false;
+		if (capabilities == null){
 			capabilities = supportedDriver.getDefaultCapabilities();
+			definedCapabilitiesAreEmpty = true;
+		}
 
-		if (capabilities.asMap().size() == 0)
+		if (capabilities.asMap().size() == 0){
 			capabilities = supportedDriver.getDefaultCapabilities();
+			definedCapabilitiesAreEmpty = true;
+		}
+		
+		if (!definedCapabilitiesAreEmpty) {
+			capabilities = supportedDriver.getDefaultCapabilities().merge(
+					capabilities);
+		}
 
 		URL remoteAdress = this.configuration.getSection(
 				WebDriverSettings.class).getRemoteAddress();

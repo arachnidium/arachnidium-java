@@ -6,26 +6,6 @@
 	          "value":"firefox"
 	      }
 	  },
-	  
-	  "DesiredCapabilities":
-	  {
-	      "browserName":{
-	          "type":"STRING",
-	          "value":"firefox"    
-	      },      
-	      "version": {
-	          "type":"STRING",
-	          "value":"" 
-	      },
-	      "platform": {
-	          "type":"STRING",
-	          "value":"ANY"          
-	      },
-	      "javascriptEnabled":{
-	          "type":"BOOL",
-	          "value":"true"           
-	      }
-	  },
 	  "webDriverTimeOuts":
 	  {
 	      "timeUnit":{
