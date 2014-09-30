@@ -2,11 +2,11 @@ package org.arachnidium.mobile.ios.iucatalog;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.model.mobile.NativeContent;
 import org.arachnidium.core.MobileScreen;
 
 
-public class AlertView extends Screen {
+public class AlertView extends NativeContent {
 	@FindBy(name = "Simple")
 	private WebElement simpleAlert;
 	

@@ -11,7 +11,7 @@ import org.arachnidium.core.HowToGetMobileScreen;
 import org.arachnidium.mobile.android.bbc.BBCMain;
 import org.arachnidium.mobile.android.bbc.TopicList;
 import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
-import org.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
+//import org.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
 import org.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
 import org.arachnidium.mobile.android.selendroid.testapp.Webview;
 import org.arachnidium.model.mobile.MobileApplication;
@@ -20,7 +20,10 @@ import org.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
 
 public class AndroidTestExamples {
-	
+
+  /**
+   * Test is run on Android 4.4	
+   */
   @Test
   public void androidNativeAppTest() {
 		Configuration config = Configuration
@@ -36,7 +39,6 @@ public class AndroidTestExamples {
 					bbcMain.getArticleTitle(0));
 			bbcMain.selectArticle(1);
 			Assert.assertEquals(true, bbcMain.isArticleHere());
-			bbcMain.pinchArticle();
 			bbcMain.zoomArticle();
 			
 			bbcMain.refresh();
@@ -82,43 +84,35 @@ public class AndroidTestExamples {
 			registerForm.inputName("Mr Sergey Tikhomirov");
 			registerForm.clickVerifyUser();
 			registerForm.clickRegisterUser();
-			
-			//hybrid part
-			homeScreenActivity.startWebviewClick();
-			Webview webview = selendroidTestApp.getPart(Webview.class, 1);			
-			webview.setName("Sergey");
-			webview.selectCar("mercedes");
-			webview.sendMeYourName();
-			homeScreenActivity.goBackClick();
-			
+				
 			
 			homeScreenActivity.startWebviewClick();
 			HowToGetMobileScreen h = new HowToGetMobileScreen();
-			h.setExpected("WEBVIEW_0");
-			webview = selendroidTestApp.getPart(Webview.class, h);			
-			webview.setName("Sergey");
-			webview.selectCar("mercedes");
-			webview.sendMeYourName();			
-			homeScreenActivity.goBackClick();
-			
 			List<String> activities = new ArrayList<String>();
 			activities.add("WebViewActivity");			
 			h.setExpected(activities);
 			h.setExpected(1);
 			
-			homeScreenActivity.startWebviewClick();
-			webview = selendroidTestApp.getPart(Webview.class, h);			
+			Webview webview = selendroidTestApp.getPart(Webview.class, h);	
+			webview.refresh();
 			webview.setName("Sergey");
 			webview.selectCar("mercedes");
-			webview.sendMeYourName();			
+			webview.sendMeYourName();	
+			webview.getCurrentUrl();
+			webview.refresh();
+			webview.to("https://www.google.com");
+			webview.back();
+			
 			homeScreenActivity.goBackClick();
 			
 			homeScreenActivity.startWebviewClick();
 			homeScreenActivity.clickOnSpinner();
 			homeScreenActivity.selectSpinnerItem("iframes");
 			
-			ImplicitlyDefinedWebViewFrame implicitlyDefinedWebView = selendroidTestApp.getPart(ImplicitlyDefinedWebViewFrame.class);
-			implicitlyDefinedWebView.clickOnFoo();
+			//ImplicitlyDefinedWebViewFrame implicitlyDefinedWebView = 
+			//		selendroidTestApp.getPart(ImplicitlyDefinedWebViewFrame.class, h);
+			//implicitlyDefinedWebView.getCurrentUrl();
+			//implicitlyDefinedWebView.clickOnFoo();
 			selendroidTestApp.getManager();
 		} finally {
 			selendroidTestApp.quit();

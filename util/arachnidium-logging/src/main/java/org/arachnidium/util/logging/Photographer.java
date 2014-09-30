@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.remote.Augmenter;
 
 /**
  * Takes screenshots by {@link WebDriver} instance
@@ -130,16 +128,8 @@ public final class Photographer {
 
 	private BufferedImage getImageFromDriver(WebDriver driver)
 			throws IOException {
-		byte[] bytes = null;
-		try {
-			bytes = ((TakesScreenshot) driver)
+		byte[] bytes = ((TakesScreenshot) driver)
 					.getScreenshotAs(OutputType.BYTES);
-		} catch (ClassCastException e) {
-			WebDriver augmentedDriver = new Augmenter()
-			.augment(((WrapsDriver) driver).getWrappedDriver());
-			bytes = ((TakesScreenshot) augmentedDriver)
-					.getScreenshotAs(OutputType.BYTES);
-		}
 		BufferedImage buffer = getBufferedImage(bytes);
 		return buffer;
 	}

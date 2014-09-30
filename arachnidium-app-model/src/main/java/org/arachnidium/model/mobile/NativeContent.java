@@ -9,15 +9,16 @@ import io.appium.java_client.TouchShortcuts;
 import org.arachnidium.core.MobileScreen;
 import org.arachnidium.core.components.mobile.TouchActionsPerformer;
 import org.arachnidium.model.common.FunctionalPart;
-import org.arachnidium.model.support.HowToGetByFrames;
+import org.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 
 /**
- * Can be used to describe a single mobile app screen or its fragment
+ * Can be used to describe a single mobile app native screen or its fragment
  */
-public abstract class Screen extends FunctionalPart<MobileScreen> implements Rotatable, 
+@IfMobileContext(regExp = "NATIVE_APP")
+public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
 DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 
 	protected final TouchActionsPerformer touchActionsPerformer;
@@ -25,32 +26,16 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
 	 */	
-	protected Screen(FunctionalPart<MobileScreen> parent) {
+	protected NativeContent(NativeContent parent) {
 		super(parent);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)
-	 */
-	protected Screen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
-		super(parent, path);
 		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
 	}
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle)
 	 */
-	protected Screen(MobileScreen context) {
+	protected NativeContent(MobileScreen context) {
 		super(context);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle, HowToGetByFrames)
-	 */
-	protected Screen(MobileScreen context, HowToGetByFrames path) {
-		super(context, path);
 		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
 	}
 

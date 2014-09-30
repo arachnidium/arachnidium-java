@@ -14,7 +14,7 @@ import arachnidium.thucydides.steps.AndroidBBCSteps;
 /**
  * 
  * Prerequisites: Appium server should be launched.
- * Android emulator should be prepared 
+ * Android emulator should be prepared. Required API Level is 19 (4.4)  
  *
  */
 @RunWith(ThucydidesRunner.class)

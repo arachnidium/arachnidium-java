@@ -25,11 +25,11 @@ import org.openqa.selenium.support.FindBy;
 public class BBCMain extends FunctionalPart<Handle>{
 	
 	@FindBy(className = "someClass1")
-	@AndroidFindBy(id = "bbc.mobile.news.ww:id/articleWrapper")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/articleWrapper\")")
 	private List<RemoteWebElement> articles;
 	
 	@FindBy(className = "someClass2")
-	@AndroidFindBy(id = "bbc.mobile.news.ww:id/articleWebView")
+	@AndroidFindBy(id = "bbc.mobile.news.ww:id/workspace")
 	private RemoteWebElement currentArticle;
 	
 	@FindBy(className = "someClass3")
@@ -37,11 +37,11 @@ public class BBCMain extends FunctionalPart<Handle>{
 	private RemoteWebElement share;
 	
 	@FindBy(className = "someClass4")
-	@AndroidFindBy(id = "bbc.mobile.news.ww:id/optMenuWatchListenAction")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuWatchListenAction\")")
 	private RemoteWebElement play;
 	
 	@FindBy(className = "someClass5")
-	@AndroidFindBy(id = "bbc.mobile.news.ww:id/optMenuEditAction")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuEditAction\")")
 	private RemoteWebElement edit;
 	
 	@FindBy(className = "someClass6")

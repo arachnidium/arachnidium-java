@@ -12,14 +12,10 @@
 	  },	  
 	  "DesiredCapabilities":
 	  {	      
-	      "automationName":{
-	          "type":"STRING",
-	          "value":"Selendroid"    
+	      "autoWebview":{
+	          "type":"BOOL",
+	          "value":"true"   
 	      },
-	      "selendroidPort":{
-	          "type":"STRING",
-	          "value":"5000"
-	      }, 
 	      "deviceName":{
 	          "type":"STRING",
 	          "value":"Android Emulator"    
@@ -52,11 +48,11 @@
 	  {
 	      "toTakeScreenShotsOnElementHighLighting":{
 	          "type":"BOOL",
-	          "value":"true"           
+	          "value":"false"           
 	      }, 
 	      "toTakeScreenShotsOfNewHandles":{
 	          "type":"BOOL",
-	          "value":"true"           
+	          "value":"false"          
 	      }   	            
 	  }
   }

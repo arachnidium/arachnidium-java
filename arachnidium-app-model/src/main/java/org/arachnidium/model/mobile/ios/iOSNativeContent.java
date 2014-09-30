@@ -7,7 +7,7 @@ import io.appium.java_client.ios.IOSDriver;
 import org.arachnidium.core.MobileScreen;
 import org.arachnidium.model.common.FunctionalPart;
 import org.arachnidium.model.mobile.MobileApplication;
-import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.model.mobile.NativeContent;
 import org.arachnidium.model.support.HowToGetByFrames;
 import org.openqa.selenium.WebElement;
 
@@ -15,42 +15,24 @@ import org.openqa.selenium.WebElement;
  * It is the same as {@link MobileApplication} with some capabilities of
  * iOS. It works only with {@link IOSDriver}
  */
-public abstract class iOSScreen extends Screen implements IOSDeviceActionShortcuts, 
+public abstract class iOSNativeContent extends NativeContent implements IOSDeviceActionShortcuts, 
    GetsNamedTextField{
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
 	 * 
-	 * @see Screen#Screen(FunctionalPart)
+	 * @see NativeContent#Screen(FunctionalPart)
 	 */
-	protected iOSScreen(FunctionalPart<MobileScreen> parent) {
+	protected iOSNativeContent(NativeContent parent) {
 		super(parent);
 	}
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)
 	 * 
-	 * @see Screen#Screen(FunctionalPart, HowToGetByFrames)
+	 * @see NativeContent#Screen(FunctionalPart, HowToGetByFrames)
 	 */	
-	protected iOSScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
-		super(parent, path);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)
-	 * 
-	 * @see Screen#Screen(FunctionalPart, HowToGetByFrames)
-	 */	
-	protected iOSScreen(MobileScreen context) {
+	protected iOSNativeContent(MobileScreen context) {
 		super(context);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle, HowToGetByFrames))
-	 * 
-	 * @see Screen#Screen(MobileScreen, HowToGetByFrames)
-	 */		
-	protected iOSScreen(MobileScreen context, HowToGetByFrames path) {
-		super(context, path);
 	}
 
 	@Override

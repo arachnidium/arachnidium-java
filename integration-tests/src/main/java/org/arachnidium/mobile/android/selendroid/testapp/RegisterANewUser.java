@@ -1,25 +1,27 @@
 package org.arachnidium.mobile.android.selendroid.testapp;
 
+import io.appium.java_client.MobileElement;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.model.mobile.NativeContent;
 import org.arachnidium.core.MobileScreen;
 
 
-public class RegisterANewUser extends Screen {
-    @FindBy(id="inputUsername")
-	private WebElement inputUsername;
-    @FindBy(id="inputEmail")
-    private WebElement inputEmail;
-    @FindBy(id="inputPassword")
-    private WebElement inputPassword;
-    @FindBy(id="inputName")
-    private WebElement inputName;
+public class RegisterANewUser extends NativeContent {
+    @FindBy(id="io.selendroid.testapp:id/inputUsername")
+	private MobileElement inputUsername;
+    @FindBy(id="io.selendroid.testapp:id/inputEmail")
+    private MobileElement inputEmail;
+    @FindBy(id="io.selendroid.testapp:id/inputPassword")
+    private MobileElement inputPassword;
+    @FindBy(id="io.selendroid.testapp:id/inputName")
+    private MobileElement inputName;
     @FindBy(id = "input_preferedProgrammingLanguage")
     private WebElement input_preferedProgrammingLanguage;
-    @FindBy(id = "btnRegisterUser")
+    @FindBy(id = "io.selendroid.testapp:id/btnRegisterUser")
     private WebElement btnRegisterUser;
-    @FindBy(id = "buttonRegisterUser")
+    @FindBy(id = "io.selendroid.testapp:id/buttonRegisterUser")
     private WebElement buttonRegisterUser;
     
 	protected RegisterANewUser(MobileScreen context) {

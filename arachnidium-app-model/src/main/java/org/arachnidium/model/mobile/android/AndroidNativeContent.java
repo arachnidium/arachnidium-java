@@ -6,51 +6,32 @@ import io.appium.java_client.android.HasAppStrings;
 
 import org.arachnidium.core.MobileScreen;
 import org.arachnidium.model.common.FunctionalPart;
-import org.arachnidium.model.mobile.Screen;
-import org.arachnidium.model.support.HowToGetByFrames;
+import org.arachnidium.model.mobile.NativeContent;
 
 /**
- * The same as {@link Screen} with some capabilities specifically for Android
+ * The same as {@link NativeContent} with some capabilities specifically for Android
  * It works only with {@link AndroidDriver}
  */
-public abstract class AndroidScreen extends Screen implements HasAppStrings, AndroidDeviceActionShortcuts, IHasActivity{
+public abstract class AndroidNativeContent extends NativeContent implements HasAppStrings, AndroidDeviceActionShortcuts, IHasActivity{
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
 	 * 
-	 * @see Screen#Screen(FunctionalPart)
+	 * @see NativeContent#Screen(FunctionalPart)
 	 */
-	protected AndroidScreen(FunctionalPart<MobileScreen> parent) {
+	protected AndroidNativeContent(NativeContent parent) {
 		super(parent);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)
-	 * 
-	 * @see Screen#Screen(FunctionalPart, HowToGetByFrames)
-	 */
-	protected AndroidScreen(FunctionalPart<MobileScreen> parent, HowToGetByFrames path) {
-		super(parent, path);
 	}
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle)
 	 * 
-	 * @see Screen#Screen(MobileScreen)
+	 * @see NativeContent#Screen(MobileScreen)
 	 */
-	protected AndroidScreen(MobileScreen context) {
+	protected AndroidNativeContent(MobileScreen context) {
 		super(context);
 	}
 
-	/**
-	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle, HowToGetByFrames))
-	 * 
-	 * @see Screen#Screen(MobileScreen, HowToGetByFrames)
-	 */	
-	protected AndroidScreen(MobileScreen context, HowToGetByFrames path) {
-		super(context, path);
-	}
-	
 	@InteractiveMethod
 	@Override
 	public String currentActivity(){
