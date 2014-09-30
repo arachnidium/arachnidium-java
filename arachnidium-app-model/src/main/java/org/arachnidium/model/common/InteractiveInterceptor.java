@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.model.abstractions.ModelObjectInterceptor;
 import org.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import org.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
@@ -43,10 +42,10 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 		super();
 	}
 
-	private static void resetTimeOut(TimeOut timeOut, FunctionalPart<?> funcPart,
+	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {
-		timeOut.implicitlyWait(timeOutValue, timeUnit);
-		funcPart.defaultFieldDecorator.resetImplicitlyWaitTimeOut(timeOutValue,
+		funcPart.getTimeOut().implicitlyWait(timeOutValue, timeUnit);
+		funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOutValue,
 				timeUnit);
 	}
 
@@ -55,21 +54,22 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 			Object[] args, MethodProxy methodProxy) throws Throwable {
 
 		FunctionalPart<?> funcPart = (FunctionalPart<?>) object;
+		long timeOut = funcPart.getTimeOut().getImplicitlyWaitTimeOut();
+		TimeUnit timeUnit = funcPart.getTimeOut().getImplicitlyWaitTimeUnit();
+		funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOut,
+				timeUnit);
 		
 		boolean timeOutIsChanged = false;		
 		if (method.isAnnotationPresent(InteractiveMethod.class)) {
 			funcPart.switchToMe();
-			//implicitly wait time out is set automatically
-			TimeOut timeOut = funcPart.getWebDriverEncapsulation()
-					.getComponent(TimeOut.class);
-
+			
 			// if there is customized time out
 			if (method.isAnnotationPresent(WithImplicitlyWait.class)) {
 				WithImplicitlyWait withImplicitlyWait = method
 						.getAnnotation(WithImplicitlyWait.class);
 				long customTimeOut = withImplicitlyWait.timeOut();
 				TimeUnit customTimeUnit = withImplicitlyWait.timeUnit();
-				resetTimeOut(timeOut, funcPart, customTimeOut, customTimeUnit);
+				resetTimeOut(funcPart, customTimeOut, customTimeUnit);
 				timeOutIsChanged = true;
 			}
 		}
@@ -102,8 +102,7 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 			throw e;
 		} finally {
 			if (timeOutIsChanged)
-				//implicitly wait time out is set automatically
-				funcPart.getWebDriverEncapsulation().getComponent(TimeOut.class);
+				resetTimeOut(funcPart, timeOut, timeUnit);
 		}
 	}
 }

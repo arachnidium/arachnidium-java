@@ -1,24 +1,30 @@
 package org.arachnidium.model.common;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 
 import org.arachnidium.core.Handle;
 import org.arachnidium.core.Manager;
 import org.arachnidium.core.WebDriverEncapsulation;
+import org.arachnidium.core.settings.WebDriverSettings;
 import org.arachnidium.core.settings.supported.ESupportedDrivers;
 import org.arachnidium.model.interfaces.IDecomposable;
 import org.arachnidium.util.configuration.Configuration;
 import org.arachnidium.util.proxy.EnhancedProxyFactory;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * Utility class that contains methods which create {@link Application}
  * instances
  */
-public class DefaultApplicationFactory {
+public abstract class DefaultApplicationFactory {
+	private final List<ESupportedDrivers> availableSupportedWebDriverDesignations = new ArrayList<>();
+	private final List<Class<? extends WebDriver>> supportedWebDriverClasses = new ArrayList<>();
 
 	/**
 	 * Creation of any decomposable part of application
@@ -37,7 +43,11 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			MethodInterceptor mi) {
+			MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(
+				Configuration.byDefault.
+				getSection(WebDriverSettings.class).getSupoortedWebDriver());
 		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { Configuration.class },
 				new Object[] { Configuration.byDefault }, mi);
@@ -49,7 +59,10 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			Configuration config, MethodInterceptor mi) {
+			Configuration config, MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(
+				config.getSection(WebDriverSettings.class).getSupoortedWebDriver());
 		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { Configuration.class },
 				new Object[] { config }, mi);
@@ -61,7 +74,9 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			ESupportedDrivers supportedDriver, MethodInterceptor mi) {
+			ESupportedDrivers supportedDriver, MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(supportedDriver);
 		return getApplication(handleManagerClass, appClass,
 				new Class<?>[] { ESupportedDrivers.class },
 				new Object[] { supportedDriver }, mi);
@@ -76,7 +91,9 @@ public class DefaultApplicationFactory {
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, Capabilities capabilities,
-			MethodInterceptor mi) {
+			MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(supportedDriver);
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class }, new Object[] {
 				supportedDriver, capabilities }, mi);
@@ -92,7 +109,9 @@ public class DefaultApplicationFactory {
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, Capabilities capabilities,
-			URL remoteAddress, MethodInterceptor mi) {
+			URL remoteAddress, MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(supportedDriver);
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, Capabilities.class, URL.class },
 				new Object[] { supportedDriver, capabilities, remoteAddress },
@@ -109,7 +128,9 @@ public class DefaultApplicationFactory {
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
 			ESupportedDrivers supportedDriver, URL remoteAddress,
-			MethodInterceptor mi) {
+			MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(supportedDriver);
 		return getApplication(handleManagerClass, appClass, new Class<?>[] {
 				ESupportedDrivers.class, URL.class }, new Object[] {
 				supportedDriver, remoteAddress }, mi);
@@ -121,7 +142,9 @@ public class DefaultApplicationFactory {
 	 */
 	protected static <T extends Application<?, ?>> T getApplication(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			WebDriverEncapsulation wdEncapsulation, MethodInterceptor mi) {
+			WebDriverEncapsulation wdEncapsulation, MethodInterceptor mi,
+			DefaultApplicationFactory objectsThatChecksWebDriver) {
+		objectsThatChecksWebDriver.checkGivenDriver(wdEncapsulation);
 		Handle h = ModelSupportUtil.getTheFirstHandle(handleManagerClass, wdEncapsulation);
 		return EnhancedProxyFactory.getProxy(appClass,
 				ModelSupportUtil.getParameterClasses(new Object[] { h }, appClass),
@@ -148,5 +171,65 @@ public class DefaultApplicationFactory {
 		}
 	
 	}
-
+	
+	/**
+	 * Object contains a list of available supported {@link WebDriver}
+	 * designations and checks given parameters 
+	 * 
+	 * @param availableSupportedDrivers is a list of available supported {@link WebDriver}
+	 * designations
+	 */
+	protected DefaultApplicationFactory(
+			List<ESupportedDrivers> availableSupportedDrivers) {
+		this.availableSupportedWebDriverDesignations
+				.addAll(availableSupportedDrivers);
+		for (ESupportedDrivers designation : this.availableSupportedWebDriverDesignations) {
+			supportedWebDriverClasses.add(designation.getUsingWebDriverClass());
+		}
+	}
+	
+	/**
+	 * This method checks compliance of the given {@link WebDriver} designation
+	 * to to the list of available
+	 * 
+	 * @param givenWebDriverDesignation
+	 * @throws IllegalArgumentException if the given designation doesn't match to available
+	 */
+	protected final void checkGivenDriver(ESupportedDrivers givenWebDriverDesignation)
+			throws IllegalArgumentException {
+		if (!availableSupportedWebDriverDesignations.contains(givenWebDriverDesignation)) {
+			throw new IllegalArgumentException(
+					givenWebDriverDesignation.toString()
+							+ " is not supported! "
+							+ availableSupportedWebDriverDesignations.toString()
+							+ " are supported!");
+		}
+	}
+	
+	/**
+	 * This method checks compliance of the given instance of {@link WebDriver} 
+	 * to to the list of available classes
+	 * 
+	 * @param givenWebDriverDesignation
+	 * @throws IllegalArgumentException if the given instance of {@link WebDriver} doesn't match to available
+	 * classes
+	 */
+	protected final void checkGivenDriver(WebDriverEncapsulation webDriverEncapsulation)
+			throws IllegalArgumentException {
+		WebDriver wrapped = webDriverEncapsulation.getWrappedDriver();
+		for (Class<? extends WebDriver> supported: supportedWebDriverClasses){
+			if (!supported.isAssignableFrom(wrapped.getClass())){
+				continue;
+			}
+			return;
+		}
+		
+		throw new IllegalArgumentException(
+					wrapped.getClass().getSuperclass()
+							+ " is not supported! "
+							+ availableSupportedWebDriverDesignations.toString()
+							+ " are supported!");
+		
+	}
+	
 }

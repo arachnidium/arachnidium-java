@@ -10,21 +10,21 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.arachnidium.model.mobile.android.AndroidScreen;
+import org.arachnidium.model.mobile.android.AndroidNativeContent;
 import org.arachnidium.core.MobileScreen;
 
 
-public class BBCMain extends AndroidScreen implements IBar{
+public class BBCMain extends AndroidNativeContent implements IBar{
 	
-	@FindBy(id = "bbc.mobile.news.ww:id/articleWrapper")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/articleWrapper\")")
 	private List<WebElement> articles;
-	@FindBy(id = "bbc.mobile.news.ww:id/articleWebView")
+	@FindBy(id = "bbc.mobile.news.ww:id/workspace")
 	private WebElement currentArticle;			
-	@FindBy(id = "bbc.mobile.news.ww:id/optMenuShareAction")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuShareAction\")")
 	private WebElement share;
-	@FindBy(id = "bbc.mobile.news.ww:id/optMenuWatchListenAction")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuWatchListenAction\")")
 	private WebElement play;
-	@FindBy(id = "bbc.mobile.news.ww:id/optMenuEditAction")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuEditAction\")")
 	private WebElement edit;
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
 	private WebElement refresh;
@@ -85,7 +85,7 @@ public class BBCMain extends AndroidScreen implements IBar{
 	@Override
 	@InteractiveMethod
 	public void play() {
-		tap.tap(1, play, 2);		
+		tap(1, play, 2);		
 	}
 
 	@Override
@@ -96,28 +96,10 @@ public class BBCMain extends AndroidScreen implements IBar{
 		touchAction.tap(edit);
 		touchActionsPerformer.performTouchAction(touchAction);
 	}
-
-	@InteractiveMethod
-	public void sendKeyEvent(int key) {
-		keyEventSender.sendKeyEvent(key);		
-	}
-
-	public String getAppStrings() {
-		return appStringGetter.getAppStrings();
-	}
-
-	public String getAppStrings(String language) {
-		return appStringGetter.getAppStrings(language);
-	}
-	
-	@InteractiveMethod
-	public void pinchArticle(){
-		pinch.pinch(currentArticle);
-	}
 	
 	@InteractiveMethod
 	public void zoomArticle(){
-		zoomer.zoom(currentArticle);
+		zoom(currentArticle);
 	}
 
 }

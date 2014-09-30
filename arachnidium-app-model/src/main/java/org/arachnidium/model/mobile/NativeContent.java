@@ -1,0 +1,123 @@
+package org.arachnidium.model.mobile;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.DeviceActionShortcuts;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.ScrollsTo;
+import io.appium.java_client.TouchShortcuts;
+
+import org.arachnidium.core.MobileScreen;
+import org.arachnidium.core.components.mobile.TouchActionsPerformer;
+import org.arachnidium.model.common.FunctionalPart;
+import org.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
+import org.openqa.selenium.Rotatable;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebElement;
+
+/**
+ * Can be used to describe a single mobile app native screen or its fragment
+ */
+@IfMobileContext(regExp = "NATIVE_APP")
+public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
+DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
+
+	protected final TouchActionsPerformer touchActionsPerformer;
+	
+	/**
+	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
+	 */	
+	protected NativeContent(NativeContent parent) {
+		super(parent);
+		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+	}
+
+	/**
+	 * @see FunctionalPart#FunctionalPart(org.arachnidium.core.Handle)
+	 */
+	protected NativeContent(MobileScreen context) {
+		super(context);
+		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+	}
+
+	/**
+	 * @see org.openqa.selenium.Rotatable#getOrientation()
+	 */
+	@Override
+	public ScreenOrientation getOrientation() {
+		return ((MobileScreen) handle).getOrientation();
+	}
+
+	/**
+	 * @see org.openqa.selenium.Rotatable#rotate(org.openqa.selenium.ScreenOrientation)
+	 */
+	@Override
+	public void rotate(ScreenOrientation orientation) {
+		((MobileScreen) handle).rotate(orientation);
+	}
+
+	@InteractiveMethod
+	@Override
+	public void hideKeyboard() {
+		((AppiumDriver) getWrappedDriver()).hideKeyboard();		
+	}
+
+	@Override
+	@InteractiveMethod
+	public void sendKeyEvent(int key) {
+		((AppiumDriver) getWrappedDriver()).sendKeyEvent(key);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void zoom(int x, int y) {
+		((AppiumDriver) getWrappedDriver()).zoom(x, y);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void zoom(WebElement el) {
+		((AppiumDriver) getWrappedDriver()).zoom(el);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void tap(int fingers, int x, int y, int duration) {
+		((AppiumDriver) getWrappedDriver()).tap(fingers, x, y, duration);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void tap(int fingers, WebElement element, int duration) {
+		((AppiumDriver) getWrappedDriver()).tap(fingers, element, duration);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void swipe(int startx, int starty, int endx, int endy, int duration) {
+		((AppiumDriver) getWrappedDriver()).swipe(startx, starty, endx, endy, duration);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void pinch(int x, int y) {
+		((AppiumDriver) getWrappedDriver()).pinch(x, y);		
+	}
+
+	@InteractiveMethod
+	@Override
+	public void pinch(WebElement el) {
+		((AppiumDriver) getWrappedDriver()).pinch(el);		
+	}
+	
+	@Override
+	@InteractiveMethod
+	public MobileElement scrollTo(String text) {
+		return ((AppiumDriver) getWrappedDriver()).scrollTo(text);
+	}
+
+	@Override
+	@InteractiveMethod
+	public MobileElement scrollToExact(String text) {
+		return ((AppiumDriver) getWrappedDriver()).scrollToExact(text);
+	}	
+}

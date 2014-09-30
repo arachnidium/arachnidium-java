@@ -1,6 +1,10 @@
 package org.arachnidium.core.settings.supported;
 
-import io.appium.java_client.AppiumDriver;
+import java.net.URL;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
 
 import org.arachnidium.core.services.EServices;
 import org.arachnidium.core.services.RemoteSeleniumServerLauncher;
@@ -9,70 +13,143 @@ import org.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.server.SeleniumServer;
 
 /**
- * There is information about supported {@link WebDriver} implementors
- * <br/>
+ * There is information about supported {@link WebDriver} implementors <br/>
  * - {@link FirefoxDriver}<br/>
  * - {@link ChromeDriver}<br/>
  * - {@link InternetExplorerDriver}<br/>
  * - {@link SafariDriver}<br/>
  * - {@link PhantomJSDriver}<br/>
  * - {@link RemoteWebDriver}<br/>
- * - {@link AppiumDriver}<br/> 
+ * - {@link AndroidDriver}<br/>
+ * - {@link IOSDriver}<br/>
  * <br/>
  * Additional info:<br/>
  * - default {@link Capabilities}<br/>
  * - information about {@link DriverService}<br/>
  * - can {@link WebDriver} be started remotely?<br/>
- * - is  {@link WebDriver} require URL of remotely or locally started<br/>
- * server. ({@link SeleniumServer} or Appium Node.js server (see http://appium.io/slate/en/master/?ruby#appium-design)<br/> 
+ * - is {@link WebDriver} require URL of remotely or locally started<br/>
+ * server. ({@link SeleniumServer} or Appium Node.js server (see
+ * http://appium.io/slate/en/master/?ruby#appium-design)<br/>
  */
 public enum ESupportedDrivers {
 	/**
-	 * {@link FirefoxDriver}
+	 * <b>Required {@link WebDriver} implementor</b>: {@link FirefoxDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: {@link DesiredCapabilities#firefox()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: locally
 	 */
-	FIREFOX(
-			DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
-			false, false), 
+	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
+			false, false),
 	/**
-	 * {@link ChromeDriver}		
+	 * <b>Required {@link WebDriver} implementor</b>: {@link ChromeDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: {@link DesiredCapabilities#chrome()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: {@link ChromeDriverService}<br/>
+	 * <br/>
+	 * <b>Starts</b>: locally
 	 */
-	CHROME(
-			DesiredCapabilities.chrome(),
-			ChromeDriver.class, EServices.CHROMESERVICE, null, false, false), 
+	CHROME(DesiredCapabilities.chrome(), ChromeDriver.class,
+			EServices.CHROMESERVICE, null, false, false),
 	/**
-	 * {@link InternetExplorerDriver}		
+	 * <b>Required {@link WebDriver} implementor</b>: {@link InternetExplorerDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>:
+	 * {@link DesiredCapabilities#internetExplorer()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: {@link InternetExplorerDriverService}<br/>
+	 * <br/>
+	 * <b>Starts</b>: locally<br/>
+	 * <br/>
+	 * <b>Additionally:</b> Windows only<br/>
 	 */
-	INTERNETEXPLORER(
-			DesiredCapabilities.internetExplorer(),
+	INTERNETEXPLORER(DesiredCapabilities.internetExplorer(),
 			InternetExplorerDriver.class, EServices.IEXPLORERSERVICE, null,
 			false, false),
 	/**
-	 * {@link SafariDriver}		
+	 * <b>Required {@link WebDriver} implementor</b>: {@link SafariDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: {@link DesiredCapabilities#safari()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: locally
 	 */
-	SAFARI(
-			DesiredCapabilities.safari(),
-			SafariDriver.class, null, null, false, false), 
+	SAFARI(DesiredCapabilities.safari(), SafariDriver.class, null, null, false,
+			false),
 	/**
-	 * {@link PhantomJSDriver}		
+	* <b>Required {@link WebDriver} implementor</b>: {@link PhantomJSDriver} <br/>
+	* <br/>
+	* <b>Default {@link Capabilities}</b>: {@link DesiredCapabilities#phantomjs()}<br/>
+	* <br/>
+	* <b>{@link DriverService}</b>: {@link PhantomJSDriverService}<br/>
+	* <br/>
+	* <b>Starts</b>: locally
 	 */
-	PHANTOMJS(
-			DesiredCapabilities.phantomjs(), 
-	        PhantomJSDriver.class,
-			EServices.PHANTOMJSSERVICE, null, false, false), 
+	PHANTOMJS(DesiredCapabilities.phantomjs(), PhantomJSDriver.class,
+			EServices.PHANTOMJSSERVICE, null, false, false),
 	/**
-	 * {@link RemoteWebDriver}		
+	 * <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver}<br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: {@link ExtendedDesiredCapabilities#androidChrome()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	 * http://appium.io/getting-started.html
 	 */
-	REMOTE(
-			DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
+	ANDROID_CHROME(ExtendedDesiredCapabilities.androidChrome(),
+			AndroidDriver.class, null, null, true, true),
+	/**
+	 * <b>Required {@link WebDriver} implementor</b>: {@link IOSDriver}<br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: {@link ExtendedDesiredCapabilities#iosSafari()}<br/>
+	 * <br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	 * http://appium.io/getting-started.html
+	 */
+	IOS_SAFARI(ExtendedDesiredCapabilities.iosSafari(), IOSDriver.class, null,
+			null, true, true),
+	
+	 /**
+	* <b>Required {@link WebDriver} implementor</b>: {@link RemoteWebDriver} <br/>
+	* <br/>
+	* <b>Default {@link Capabilities}</b>:
+	* {@link DesiredCapabilities#firefox()()}<br/>
+	* <br/>
+	* <b>Starts</b>: locally and remotely. When it is started locally {@link SeleniumServer} is started it the same time.
+	* If it needs to be launched remotely it requires {@link URL} of the host where Appium node server (if {@link ExtendedDesiredCapabilities#androidChrome()} or 
+	* {@link ExtendedDesiredCapabilities#iosSafari()} are used) or 
+	* {@link SeleniumServer} are started, e.g. http://127.0.0.1:4723/wd/hub (local host). 
+	* Information about Appium node server please find here:<br/>
+	* http://appium.io/getting-started.html<br/>
+	* Information about {@link SeleniumServer}: https://code.google.com/p/selenium/wiki/Grid2<br/> 
+	* <br/>
+	* <b>{@link DriverService}</b>: optionally. If it is run locally with {@link DesiredCapabilities#chrome()}, {@link DesiredCapabilities#internetExplorer()}
+	* or {@link DesiredCapabilities#phantomjs()} then 
+	* {@link ChromeDriverService}, {@link InternetExplorerDriverService} or {@link PhantomJSDriverService} should be set up respectively<br/>
+	*/
+	REMOTE(DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
 			new RemoteSeleniumServerLauncher(), true, false) {
 		@Override
 		public void setSystemProperty(Configuration configInstance,
@@ -91,10 +168,49 @@ public enum ESupportedDrivers {
 		}
 	},
 	/**
-	 * {@link AppiumDriver}
+	 * <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: empty. They should be defined explicitly. Here is an example: <br/>	    
+	 * &nbsp;&nbsp;"deviceName":{<br/>	
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"desired device name e.g. Android Emulator, NEXUS and so on"<br/>	    
+	 * &nbsp;&nbsp;},<br/> 
+	 * &nbsp;&nbsp;"app":{<br/>	
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"absolute path to desired *.apk file"<br/>	    
+	 * &nbsp;&nbsp;}<br/>	       
+	 * <br/>
+	 * It is enough for the successful starting. Also see {@link MobileCapabilityType}<br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	 * http://appium.io/getting-started.html
 	 */
-	MOBILE(new DesiredCapabilities(), AppiumDriver.class, null, null, true,
-			true);
+	ANDROID_APP(new DesiredCapabilities(), AndroidDriver.class, null,
+			null, true, true),
+			
+	/**
+	 * <b>Required {@link WebDriver} implementor</b>: {@link IOSDriver} <br/>
+	 * <br/>
+	 * <b>Default {@link Capabilities}</b>: empty. They should be defined explicitly. Here is an example: <br/>	    
+	 * &nbsp;&nbsp;"platformVersion":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"7.1"<br/>    
+	 * &nbsp;&nbsp;},<br/>
+	 * &nbsp;&nbsp;"deviceName":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"desired device name e.g. iPhone Simulator"<br/>    
+	 * &nbsp;&nbsp;},<br/> 
+	 * &nbsp;&nbsp;"app":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"value":"absolute path to desired *.app"<br/>    
+	 * &nbsp;&nbsp;}<br/>      
+     * <br/>
+	 * It is enough for the successful starting. Also see {@link MobileCapabilityType}<br/>
+	 * <b>{@link DriverService}</b>: none<br/>
+	 * <br/>
+	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	 * http://appium.io/getting-started.html	
+	 */
+	IOS_APP(new DesiredCapabilities(), IOSDriver.class, null,
+			null, true, true);
 
 	public static ESupportedDrivers parse(String original) {
 		String parcingStr = original.toUpperCase().trim();
@@ -107,7 +223,7 @@ public enum ESupportedDrivers {
 				+ original + " is not supported");
 	}
 
-	private Capabilities capabilities;
+	private DesiredCapabilities capabilities;
 	private Class<? extends WebDriver> driverClazz;
 	private EServices service;
 	final ILocalServerLauncher serverLauncher;
@@ -115,7 +231,7 @@ public enum ESupportedDrivers {
 
 	private final boolean requiresRemoteURL;
 
-	private ESupportedDrivers(Capabilities capabilities,
+	private ESupportedDrivers(DesiredCapabilities capabilities,
 			Class<? extends WebDriver> driverClazz, EServices sevice,
 			ILocalServerLauncher serverLauncher, boolean startsRemotely,
 			boolean requiresRemoteURL) {
@@ -128,9 +244,10 @@ public enum ESupportedDrivers {
 	}
 
 	/**
-	 * @return {@link Capabilities} Default capabilities of given {@link WebDriver} implementor
+	 * @return {@link Capabilities} Default capabilities of given
+	 *         {@link WebDriver} implementor
 	 */
-	public Capabilities getDefaultCapabilities() {
+	public DesiredCapabilities getDefaultCapabilities() {
 		return capabilities;
 	}
 
@@ -142,8 +259,8 @@ public enum ESupportedDrivers {
 	}
 
 	/**
-	 * Starts remote server locally
-	 * It is possible to launch {@link SeleniumServer} locally for now
+	 * Starts remote server locally It is possible to launch
+	 * {@link SeleniumServer} locally for now
 	 */
 	public synchronized void launchRemoteServerLocallyIfWasDefined() {
 		if (serverLauncher == null)
@@ -158,8 +275,7 @@ public enum ESupportedDrivers {
 	}
 
 	/**
-	 * @return flag of necessity of URL 
-	 * (remote server)
+	 * @return flag of necessity of URL (remote server)
 	 */
 	public boolean requiresRemoteURL() {
 		return requiresRemoteURL;
@@ -167,9 +283,9 @@ public enum ESupportedDrivers {
 
 	/**
 	 * 
-	 * @param configInstance. An instance of {@link Configuration}
-	 * where path to chromedriver*, IEDriverServer.exe or phantomjs* are 
-	 * defined
+	 * @param configInstance
+	 *            . An instance of {@link Configuration} where path to
+	 *            chromedriver*, IEDriverServer.exe or phantomjs* are defined
 	 */
 	private void setSystemProperty(Configuration configInstance) {
 		if (service != null)
@@ -186,9 +302,8 @@ public enum ESupportedDrivers {
 	}
 
 	/**
-	 * @return flag of of possibility
-	 * to start {@link WebDriver} implementor
-	 * remotely
+	 * @return flag of of possibility to start {@link WebDriver} implementor
+	 *         remotely
 	 */
 	public boolean startsRemotely() {
 		return startsRemotely;

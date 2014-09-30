@@ -90,7 +90,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected final Interaction interaction;
 	protected final Ime ime;
 	protected final HowToGetByFrames pathStrategy;
-	final AppiumFieldDecorator defaultFieldDecorator;
+	private final AppiumFieldDecorator defaultFieldDecorator;
+	private final TimeOut timeOut;
 
 	/**
 	 * This constructor should present 
@@ -200,7 +201,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	*/
 	protected FunctionalPart(S handle, HowToGetByFrames path) {
 		super(handle);
-		defaultFieldDecorator = new AppiumFieldDecorator(getWrappedDriver());
+		timeOut = getWebDriverEncapsulation().getTimeOut();
+		defaultFieldDecorator = new AppiumFieldDecorator(getWrappedDriver(), 
+				timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit());
 		this.pathStrategy = path;
 		interaction = getComponent(Interaction.class);
 		ime =         getComponent(Ime.class);
@@ -416,10 +419,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	 *using {@link PageFactory} and {@link AppiumFieldDecorator}
 	 */
 	protected void load() {
-		TimeOut timeOut = getComponent(TimeOut.class);
-		defaultFieldDecorator.resetImplicitlyWaitTimeOut(
-				timeOut.getImplicitlyWaitTimeOut(),
-				timeOut.getImplicitlyWaitTimeUnit());
 		PageFactory.initElements(defaultFieldDecorator, this);
 	}
 
@@ -515,5 +514,20 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	 */
 	public Application<? extends Handle, ? extends IHowToGetHandle> getApplication(){
 		return application;
+	}
+	
+	TimeOut getTimeOut() {
+		if (timeOut == null) {
+			return getWebDriverEncapsulation().getTimeOut();
+		}
+		return timeOut;
+	}
+
+	AppiumFieldDecorator getDefaultFieldDecorator() {
+		if (defaultFieldDecorator == null) {
+			return new AppiumFieldDecorator(getWebDriverEncapsulation()
+					.getWrappedDriver());
+		}
+		return defaultFieldDecorator;
 	}
 }

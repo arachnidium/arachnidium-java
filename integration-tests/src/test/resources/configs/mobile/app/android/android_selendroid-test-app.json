@@ -3,7 +3,7 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"mobile"
+	          "value":"ANDROID_APP"
 	      },
 		      "remoteAdress":{
 	          "type":"STRING",
@@ -12,18 +12,10 @@
 	  },	  
 	  "DesiredCapabilities":
 	  {	      
-	      "platformName":{
-	          "type":"STRING",
-	          "value":"Android"    
+	      "autoWebview":{
+	          "type":"BOOL",
+	          "value":"true"   
 	      },
-	      "automationName":{
-	          "type":"STRING",
-	          "value":"Selendroid"    
-	      },
-	      "selendroidPort":{
-	          "type":"STRING",
-	          "value":"5000"
-	      }, 
 	      "deviceName":{
 	          "type":"STRING",
 	          "value":"Android Emulator"    
@@ -56,11 +48,11 @@
 	  {
 	      "toTakeScreenShotsOnElementHighLighting":{
 	          "type":"BOOL",
-	          "value":"true"           
+	          "value":"false"           
 	      }, 
 	      "toTakeScreenShotsOfNewHandles":{
 	          "type":"BOOL",
-	          "value":"true"           
+	          "value":"false"          
 	      }   	            
 	  }
   }

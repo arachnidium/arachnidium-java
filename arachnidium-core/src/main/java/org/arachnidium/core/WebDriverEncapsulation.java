@@ -5,6 +5,7 @@ import java.net.URL;
 import org.arachnidium.core.bean.MainBeanConfiguration;
 import org.arachnidium.core.components.ComponentFactory;
 import org.arachnidium.core.components.WebdriverComponent;
+import org.arachnidium.core.components.common.TimeOut;
 import org.arachnidium.core.interfaces.IDestroyable;
 import org.arachnidium.core.settings.CapabilitySettings;
 import org.arachnidium.core.settings.WebDriverSettings;
@@ -35,15 +36,14 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		supporteddriver.setSystemProperty(config, capabilities);
 	}
 
-	// get tests started with FireFoxDriver by default.
-	private static ESupportedDrivers defaultSupportedDriver = ESupportedDrivers.FIREFOX;
 	private RemoteWebDriver enclosedDriver;
 
 	private Configuration configuration = Configuration.byDefault;
 	final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
 			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
-
+	private TimeOut timeOut;
+	
 	/**
 	 * Creates and wraps an instance of {@link RemoteWebDriver} by the given
 	 * {@link Configuration}
@@ -54,16 +54,24 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		this.configuration = configuration;
 		ESupportedDrivers supportedDriver = this.configuration.getSection(
 				WebDriverSettings.class).getSupoortedWebDriver();
-		if (supportedDriver == null)
-			supportedDriver = defaultSupportedDriver;
 
 		Capabilities capabilities = this.configuration
 				.getSection(CapabilitySettings.class);
-		if (capabilities == null)
+		boolean definedCapabilitiesAreEmpty = false;
+		if (capabilities == null){
 			capabilities = supportedDriver.getDefaultCapabilities();
+			definedCapabilitiesAreEmpty = true;
+		}
 
-		if (capabilities.asMap().size() == 0)
+		if (capabilities.asMap().size() == 0){
 			capabilities = supportedDriver.getDefaultCapabilities();
+			definedCapabilitiesAreEmpty = true;
+		}
+		
+		if (!definedCapabilitiesAreEmpty) {
+			capabilities = supportedDriver.getDefaultCapabilities().merge(
+					capabilities);
+		}
 
 		URL remoteAdress = this.configuration.getSection(
 				WebDriverSettings.class).getRemoteAddress();
@@ -177,6 +185,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 				destroyableObjects, explicitlyInitiatedWebDriver);
 		Log.message("Getting started with already instantiated "
 				+ explicitlyInitiatedWebDriver.getClass());
+		timeOut = getComponent(TimeOut.class);
 		resetAccordingTo(configuration);
 	}
 
@@ -211,6 +220,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
 					destroyableObjects, driverClass, paramClasses, values);
 			Log.message("Getting started with " + driverClass.getSimpleName());
+			timeOut = getComponent(TimeOut.class);
 			resetAccordingTo(configuration);
 		} catch (Exception e) {
 			Log.error(
@@ -249,11 +259,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 * @return The instance of required {@link WebdriverComponent} subclass
 	 */
 	public <T extends WebdriverComponent> T getComponent(Class<T> required) {
-		T result = ComponentFactory.getComponent(required, enclosedDriver);
-		if (IConfigurable.class.isAssignableFrom(required)){
-			((IConfigurable) result).resetAccordingTo(configuration);
-		}
-		return result;
+		return ComponentFactory.getComponent(required, enclosedDriver);
 	}
 
 	/**
@@ -272,12 +278,8 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public <T extends WebdriverComponent> T getComponent(Class<T> required,
 			Class<?>[] params, Object[] values) {
-		T result = ComponentFactory.getComponent(required, enclosedDriver, params,
+		return ComponentFactory.getComponent(required, enclosedDriver, params,
 				values);
-		if (IConfigurable.class.isAssignableFrom(required)){
-			((IConfigurable) result).resetAccordingTo(configuration);
-		}
-		return result;		
 	}
 
 	/**
@@ -297,6 +299,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	@Override
 	public synchronized void resetAccordingTo(Configuration config) {
 		configuration = config;
+		timeOut.resetAccordingTo(configuration);
 	}
 
 	/**
@@ -307,5 +310,9 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	@Override
 	public Configuration getWrappedConfiguration() {
 		return configuration;
+	}
+	
+	public TimeOut getTimeOut(){
+		return timeOut;
 	}
 }

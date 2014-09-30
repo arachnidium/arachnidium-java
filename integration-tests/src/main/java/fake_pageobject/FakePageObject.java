@@ -57,5 +57,47 @@ public class FakePageObject<S extends Handle> extends FunctionalPart<S> {
 		getWrappedDriver().findElements(By.className(FAKE_CLASS)).size();
 		long benchMark = Calendar.getInstance().getTimeInMillis();
 		return benchMark - start;		
-	}		
+	}	
+	
+	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = TIME_OUT, timeUnit = TimeUnit.MILLISECONDS)
+	public long fakeInteractiveMethod3(){
+		return fakeInteractiveMethod();
+	}	
+	
+	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = TIME_OUT, timeUnit = TimeUnit.MILLISECONDS)
+	public long fakeInteractiveMethod3_1(){
+		return fakeInteractiveMethod1_1();		
+	}	
+	
+	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = TIME_OUT, timeUnit = TimeUnit.MILLISECONDS)
+	public long fakeInteractiveMethod4(){
+		fakeInteractiveMethod();
+		long start = Calendar.getInstance().getTimeInMillis();
+		fakeElements.size();
+		long benchMark = Calendar.getInstance().getTimeInMillis();
+		return benchMark - start;
+	}	
+	
+	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = TIME_OUT, timeUnit = TimeUnit.MILLISECONDS)
+	public long fakeInteractiveMethod4_1(){
+		fakeInteractiveMethod1_1();	
+		long start = Calendar.getInstance().getTimeInMillis();
+		getWrappedDriver().findElements(By.className(FAKE_CLASS)).size();
+		long benchMark = Calendar.getInstance().getTimeInMillis();
+		return benchMark - start;
+	}	
+	
+	@InteractiveMethod
+	public long fakeInteractiveMethod5(){
+		return fakeInteractiveMethod2();
+	}	
+	
+	@InteractiveMethod
+	public long fakeInteractiveMethod5_1(){
+		return fakeInteractiveMethod2_1();	
+	}			
 }

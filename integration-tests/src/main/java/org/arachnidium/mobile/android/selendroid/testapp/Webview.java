@@ -1,17 +1,17 @@
 package org.arachnidium.mobile.android.selendroid.testapp;
 
+import org.arachnidium.core.MobileScreen;
+import org.arachnidium.model.mobile.WebViewContent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.arachnidium.model.mobile.Screen;
-import org.arachnidium.core.MobileScreen;
 
 /**
  * 
  * This is HTML content
  *
  */
-public class Webview extends Screen {
+public class Webview extends WebViewContent {
 
 	@FindBy(id = "name_input")
 	private WebElement name;

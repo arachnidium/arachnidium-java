@@ -3,32 +3,35 @@ package org.arachnidium.mobile.android.selendroid.testapp;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.arachnidium.model.mobile.Screen;
+import org.arachnidium.model.mobile.NativeContent;
 import org.arachnidium.core.MobileScreen;
 
-public class HomeScreenActivity extends Screen {
-	@FindBy(id = "my_text_field")
-	private WebElement myTextField;	
-	@FindBy(id = "visibleButtonTest")
-	private WebElement visibleButtonTest;
-	@FindBy(id = "visibleTextView")
-	private WebElement visibleTextView;	
-	@FindBy(id = "showPopupWindowButton")
+public class HomeScreenActivity extends NativeContent {
+	@FindBy(id = "io.selendroid.testapp:id/my_text_field")
+	private MobileElement myTextField;	
+	@FindBy(id = "io.selendroid.testapp:id/visibleButtonTest")
+	private AndroidElement visibleButtonTest;
+	@FindBy(id = "io.selendroid.testapp:id/visibleTextView")
+	private RemoteWebElement visibleTextView;	
+	@AndroidFindBy(accessibility = "showPopupWindowButtonCD")
 	private WebElement showPopupWindowButton;
-	@FindBy(id = "waitingButtonTest")
+	@AndroidFindBy(accessibility = "waitingButtonTestCD")
 	private WebElement waitingButtonTest;
-	@FindBy(id = "buttonStartWebview")
+	@AndroidFindBy(accessibility = "buttonStartWebviewCD")
 	private WebElement buttonStartWebview;
-	@FindBy(id = "goBack")
-	private WebElement goBack;
-	@AndroidFindBy(id = "spinner_webdriver_test_data")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"io.selendroid.testapp:id/goBack\")")
+	private MobileElement goBack;
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"io.selendroid.testapp:id/spinner_webdriver_test_data\")")
 	private WebElement spinner;
-	@FindBy(id = "text1")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private List<WebElement> itemsForSelect;
 	
 	public HomeScreenActivity(MobileScreen context) {

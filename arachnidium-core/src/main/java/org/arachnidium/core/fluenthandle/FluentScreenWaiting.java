@@ -1,6 +1,6 @@
 package org.arachnidium.core.fluenthandle;
 
-import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 		ContextAware contextAware = ((ContextAware) from);
 		Set<String> handles = contextAware.getContextHandles();
 		for (String handle : handles) {
-			String currentActivity = ((AppiumDriver) contextAware.context(handle)).currentActivity();
+			String currentActivity = ((AndroidDriver) contextAware.context(handle)).currentActivity();
 
 			resultHandle = getContextWhichMatchesToActivities(handle, activitiesRegExps,
 					currentActivity);
@@ -98,7 +98,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 			return null;
 		}
 		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AppiumDriver) contextAware.context(resultHandle)).currentActivity();
+		String currentActivity = ((AndroidDriver) contextAware.context(resultHandle)).currentActivity();
 		
 		return getContextWhichMatchesToActivities(resultHandle, activitiesRegExps, currentActivity);
 	}	
@@ -112,7 +112,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 		}
 
 		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AppiumDriver) contextAware.context(resultHandle)).currentActivity();
+		String currentActivity = ((AndroidDriver) contextAware.context(resultHandle)).currentActivity();
 
 		return getContextWhichMatchesToActivities(resultHandle, activitiesRegExps,
 				currentActivity);
@@ -126,7 +126,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 		}
 
 		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AppiumDriver) contextAware.context(resultHandle)).currentActivity();
+		String currentActivity = ((AndroidDriver) contextAware.context(resultHandle)).currentActivity();
 
 		resultHandle = getContextWhichMatchesToContextExpression(contextRegExp,
 				resultHandle);

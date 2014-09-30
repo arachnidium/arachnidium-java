@@ -9,7 +9,7 @@ import fake_pageobject.FakePageObject;
 
 public class ImlicitlyWaitTest {
 
-	private final static long ACCEPTABLE_DELTA_MILLS = 1500;
+	private final static long ACCEPTABLE_DELTA_MILLS = 1000;
 
 	private static void checkDifferent(long etalonTime,
 			TimeUnit etalonTimeUnit, long currentMillis) {
@@ -20,7 +20,7 @@ public class ImlicitlyWaitTest {
 				(Math.abs(currentMillis - etalonMillis) < ACCEPTABLE_DELTA_MILLS));
 	}
 
-	@Test
+	@Test(description = "This test checks the ability to optionally change timeout")
 	public void imlicitlyWaitTest() {
 		Configuration configuration = Configuration
 				.get("src/test/resources/configs/desctop/firefox.json");
@@ -42,11 +42,11 @@ public class ImlicitlyWaitTest {
 			checkDifferent(18500000, TimeUnit.MICROSECONDS,
 					fakePageObject.fakeInteractiveMethod1_1());
 			
-			//checkDifferent(18500000, TimeUnit.MICROSECONDS,
-			//		fakePageObject.fakeInteractiveMethod());			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());			
 
-			//checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
-			//		fakePageObject.fakeInteractiveMethod2());
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod2());
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod2_1());
@@ -54,8 +54,43 @@ public class ImlicitlyWaitTest {
 			checkDifferent(18500000, TimeUnit.MICROSECONDS,
 					fakePageObject.fakeInteractiveMethod1_1());
 			
-			//checkDifferent(18500000, TimeUnit.MICROSECONDS,
-			//		fakePageObject.fakeInteractiveMethod());				
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());
+			
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod3());
+
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod3_1());	
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod1_1());
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());	
+			
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod4());
+
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod4_1());	
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod1_1());
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());	
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod5());
+
+			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod5_1());	
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod1_1());
+			
+			checkDifferent(18500000, TimeUnit.MICROSECONDS,
+					fakePageObject.fakeInteractiveMethod());				
 		} finally {
 			g.quit();
 		}
