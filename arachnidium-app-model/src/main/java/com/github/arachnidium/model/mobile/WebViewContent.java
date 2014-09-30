@@ -9,21 +9,36 @@ import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 
+/**
+ *Can be used to describe a single mobile app web view or its fragment
+ */
 @IfMobileContext(regExp = "WEBVIEW")
 public abstract class WebViewContent extends FunctionalPart<MobileScreen> implements Navigation{
 
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
+	 */
 	protected WebViewContent(WebViewContent parent) {
 		super(parent);
 	}
 	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)}
+	 */
 	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames) {
 		super(parent, howToGetByFrames);
 	}	
 	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
+	 */	
 	protected WebViewContent(MobileScreen context){
 		super(context);
 	}
 	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames))
+	 */
 	protected WebViewContent(MobileScreen context, HowToGetByFrames howToGetByFrames){
 		super(context, howToGetByFrames);
 	}
