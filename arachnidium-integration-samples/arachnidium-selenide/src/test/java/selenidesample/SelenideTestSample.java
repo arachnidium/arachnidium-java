@@ -1,14 +1,14 @@
 package selenidesample;
 
-import org.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import arachnidium.selenide.google.Google;
-import arachnidium.selenide.google.LinksAreFound;
-import arachnidium.selenide.google.SearchBar;
-import arachnidium.selenide.google.WikiPage;
+import com.github.arachnidium.selenide.google.Google;
+import com.github.arachnidium.selenide.google.LinksAreFound;
+import com.github.arachnidium.selenide.google.SearchBar;
+import com.github.arachnidium.selenide.google.WikiPage;
 
 public class SelenideTestSample {
 

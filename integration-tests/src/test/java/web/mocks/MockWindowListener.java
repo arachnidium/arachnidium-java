@@ -1,10 +1,11 @@
 package web.mocks;
 
-import org.arachnidium.core.eventlisteners.IWindowListener;
-import org.arachnidium.core.interfaces.IExtendedWindow;
-import org.arachnidium.core.interfaces.IHasHandle;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+
+import com.github.arachnidium.core.eventlisteners.IWindowListener;
+import com.github.arachnidium.core.interfaces.IExtendedWindow;
+import com.github.arachnidium.core.interfaces.IHasHandle;
 
 public class MockWindowListener implements IWindowListener {
 	public static MockWindowListener listener;

@@ -1,11 +1,14 @@
 package implicitliwait_test;
 
 import java.util.concurrent.TimeUnit;
+
 import junit.framework.Assert;
-import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.web.google.Google;
+
+import com.github.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
-import fake_pageobject.FakePageObject;
+
+import com.github.arachnidium.fake_pageobject.FakePageObject;
+import com.github.arachnidium.web.google.Google;
 
 public class ImlicitlyWaitTest {
 

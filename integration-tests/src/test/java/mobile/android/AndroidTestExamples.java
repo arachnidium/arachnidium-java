@@ -7,17 +7,18 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.arachnidium.core.HowToGetMobileScreen;
-import org.arachnidium.mobile.android.bbc.BBCMain;
-import org.arachnidium.mobile.android.bbc.TopicList;
-import org.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
-//import org.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
-import org.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
-import org.arachnidium.mobile.android.selendroid.testapp.Webview;
-import org.arachnidium.model.mobile.MobileApplication;
-import org.arachnidium.model.mobile.MobileFactory;
-import org.arachnidium.util.configuration.Configuration;
+//import com.github.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.core.HowToGetMobileScreen;
+import com.github.arachnidium.mobile.android.bbc.BBCMain;
+import com.github.arachnidium.mobile.android.bbc.TopicList;
+import com.github.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
+import com.github.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
+import com.github.arachnidium.mobile.android.selendroid.testapp.Webview;
+import com.github.arachnidium.model.mobile.MobileApplication;
+import com.github.arachnidium.model.mobile.MobileFactory;
 
 public class AndroidTestExamples {
 

@@ -1,12 +1,13 @@
 package mobile.ios;
 
-import org.arachnidium.mobile.ios.iucatalog.ActionSheets;
-import org.arachnidium.mobile.ios.iucatalog.AlertView;
-import org.arachnidium.mobile.ios.iucatalog.UICatalog;
-import org.arachnidium.model.mobile.MobileApplication;
-import org.arachnidium.model.mobile.MobileFactory;
-import org.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.mobile.ios.iucatalog.ActionSheets;
+import com.github.arachnidium.mobile.ios.iucatalog.AlertView;
+import com.github.arachnidium.mobile.ios.iucatalog.UICatalog;
+import com.github.arachnidium.model.mobile.MobileApplication;
+import com.github.arachnidium.model.mobile.MobileFactory;
 
 public class IOSTestExample {
 	

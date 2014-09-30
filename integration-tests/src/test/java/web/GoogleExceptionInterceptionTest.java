@@ -2,12 +2,13 @@ package web;
 
 import junit.framework.Assert;
 
-import org.arachnidium.web.google.AnyPage;
-import org.arachnidium.web.google.Google;
-import org.arachnidium.web.google.LinksAreFoundExceptionThrowing;
-import org.arachnidium.web.google.SearchBarExceptionThrowing;
-import org.arachnidium.web.google.TestExceptionHandler;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.web.google.AnyPage;
+import com.github.arachnidium.web.google.Google;
+import com.github.arachnidium.web.google.LinksAreFoundExceptionThrowing;
+import com.github.arachnidium.web.google.SearchBarExceptionThrowing;
+import com.github.arachnidium.web.google.TestExceptionHandler;
 
 public class GoogleExceptionInterceptionTest {
 	

@@ -6,20 +6,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.arachnidium.model.browser.WebFactory;
-import org.arachnidium.model.common.Application;
-import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.web.googledrive.Document;
-import org.arachnidium.web.googledrive.DocumentList;
-import org.arachnidium.web.googledrive.LogOut;
-import org.arachnidium.web.googledrive.LoginToGoogleService;
-import org.arachnidium.web.googledrive.ShareDocumentSettings;
-import org.arachnidium.web.googledrive.SpreadSheet;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.model.browser.WebFactory;
+import com.github.arachnidium.model.common.Application;
+import com.github.arachnidium.web.googledrive.Document;
+import com.github.arachnidium.web.googledrive.DocumentList;
+import com.github.arachnidium.web.googledrive.LogOut;
+import com.github.arachnidium.web.googledrive.LoginToGoogleService;
+import com.github.arachnidium.web.googledrive.ShareDocumentSettings;
+import com.github.arachnidium.web.googledrive.SpreadSheet;
 
 public class GoogleDriveTest {
 	private final String DOC_LINK = "https://docs.google.com/document/d/1PNtBQwSHQyedeIZqV5VYakPWJtW5incbuiKekB33HyQ/edit";

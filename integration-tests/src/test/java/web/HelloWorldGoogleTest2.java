@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.arachnidium.core.HowToGetBrowserWindow;
-import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.web.google.AnyPage;
-import org.arachnidium.web.google.Google;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.web.google.AnyPage;
+import com.github.arachnidium.web.google.Google;
 
 public class HelloWorldGoogleTest2 {
 

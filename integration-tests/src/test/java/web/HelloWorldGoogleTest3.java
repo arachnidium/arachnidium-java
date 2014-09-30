@@ -10,12 +10,13 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.web.google.AnyPage;
-import org.arachnidium.web.google.Google;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
+
+import com.github.arachnidium.web.google.AnyPage;
+import com.github.arachnidium.web.google.Google;
 
 public class HelloWorldGoogleTest3 {
 	private final List<Configuration> configs = new ArrayList<Configuration>();

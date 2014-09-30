@@ -1,18 +1,18 @@
 package junitdemo;
 
-import org.arachnidium.model.browser.WebFactory;
-import org.arachnidium.model.common.Application;
-import org.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.model.browser.WebFactory;
+import com.github.arachnidium.model.common.Application;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import arachnidium.htmlelements.googledrive.Document;
-import arachnidium.htmlelements.googledrive.DocumentList;
-import arachnidium.htmlelements.googledrive.LogOut;
-import arachnidium.htmlelements.googledrive.LoginToGoogleService;
-import arachnidium.htmlelements.googledrive.ShareDocumentSettings;
-import arachnidium.htmlelements.googledrive.SpreadSheet;
+import com.github.arachnidium.htmlelements.googledrive.Document;
+import com.github.arachnidium.htmlelements.googledrive.DocumentList;
+import com.github.arachnidium.htmlelements.googledrive.LogOut;
+import com.github.arachnidium.htmlelements.googledrive.LoginToGoogleService;
+import com.github.arachnidium.htmlelements.googledrive.ShareDocumentSettings;
+import com.github.arachnidium.htmlelements.googledrive.SpreadSheet;
 
 /**
  * This is simplified copy of my integration test

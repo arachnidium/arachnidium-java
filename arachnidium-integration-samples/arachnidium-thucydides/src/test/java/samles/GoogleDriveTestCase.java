@@ -3,13 +3,13 @@ package samles;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.runners.ThucydidesRunner;
 
-import org.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import arachnidium.thucydides.steps.GoogleDriveSteps;
+import com.github.arachnidium.thucydides.steps.GoogleDriveSteps;
 
 @RunWith(ThucydidesRunner.class)
 public class GoogleDriveTestCase {

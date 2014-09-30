@@ -8,16 +8,17 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.arachnidium.core.WebDriverEncapsulation;
-import org.arachnidium.util.configuration.Configuration;
-import org.arachnidium.web.google.AnyPage;
-import org.arachnidium.web.google.Google;
+import com.github.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.github.arachnidium.core.WebDriverEncapsulation;
+import com.github.arachnidium.web.google.AnyPage;
+import com.github.arachnidium.web.google.Google;
 
 import web.mocks.MockWebDriverListener;
 import web.mocks.MockWindowListener;

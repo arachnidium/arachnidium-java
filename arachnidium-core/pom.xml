@@ -9,26 +9,26 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.arachnidium</groupId>
+		<groupId>com.github.arachnidium</groupId>
 		<artifactId>arachnidium</artifactId>
 		<version>0.9.5.0-BETA</version>
 	</parent>
 	<artifactId>arachnidium-core</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>org.arachnidium.util</groupId>
+			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-configuration</artifactId>
 			<version>${actual.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.arachnidium.util</groupId>
+			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-logging</artifactId>
 			<version>${actual.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.arachnidium.util</groupId>
+			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-proxy</artifactId>
 			<version>${actual.version}</version>
 			<scope>compile</scope>

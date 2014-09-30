@@ -1,10 +1,11 @@
 package web.mocks;
 
-import org.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import com.github.arachnidium.core.eventlisteners.IWebDriverEventListener;
 
 public class MockWebDriverListener implements IWebDriverEventListener {
     public static MockWebDriverListener listener;

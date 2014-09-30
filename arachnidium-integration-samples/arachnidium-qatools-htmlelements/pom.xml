@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.arachnidium</groupId>
+		<groupId>com.github.arachnidium</groupId>
 		<artifactId>arachnidium-integration-samples</artifactId>
 		<version>0.9.5.0-BETA</version>
 	</parent>
@@ -14,13 +14,13 @@
 			<version>1.12</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
+					<groupId>com.github.seleniumhq.selenium</groupId>
 					<artifactId>selenium-java</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.arachnidium</groupId>
+			<groupId>com.github.arachnidium</groupId>
 			<artifactId>arachnidium-app-model</artifactId>
 			<version>${actual.version}</version>
 		</dependency>
