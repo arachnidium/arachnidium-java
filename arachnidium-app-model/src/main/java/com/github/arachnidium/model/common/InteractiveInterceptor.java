@@ -55,17 +55,21 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 			Object[] args, MethodProxy methodProxy) throws Throwable {
 
 		FunctionalPart<?> funcPart = (FunctionalPart<?>) object;
-		long timeOut = funcPart.getTimeOut().getImplicitlyWaitTimeOut();
-		TimeUnit timeUnit = funcPart.getTimeOut().getImplicitlyWaitTimeUnit();
-		funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOut,
-				timeUnit);
+		long timeOut = 0;
+		TimeUnit timeUnit = null;
 		
 		boolean timeOutIsChanged = false;		
 		if (method.isAnnotationPresent(InteractiveMethod.class)) {
 			funcPart.switchToMe();
 			
+			timeOut = funcPart.getTimeOut().getImplicitlyWaitTimeOut();
+			timeUnit = funcPart.getTimeOut().getImplicitlyWaitTimeUnit();
+			
+			funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOut,
+					timeUnit);
+			
 			// if there is customized time out
-			if (method.isAnnotationPresent(WithImplicitlyWait.class)) {
+			if (method.isAnnotationPresent(WithImplicitlyWait.class)) {				
 				WithImplicitlyWait withImplicitlyWait = method
 						.getAnnotation(WithImplicitlyWait.class);
 				long customTimeOut = withImplicitlyWait.timeOut();
