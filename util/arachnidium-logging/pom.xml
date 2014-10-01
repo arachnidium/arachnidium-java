@@ -7,6 +7,7 @@
   </parent>
   <groupId>com.github.arachnidium.util</groupId>
   <artifactId>arachnidium-logging</artifactId>
+  <packaging>jar</packaging>  
   <dependencies>
   	<dependency>
   		<groupId>com.github.arachnidium.util</groupId>

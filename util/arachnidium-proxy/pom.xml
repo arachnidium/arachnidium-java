@@ -7,4 +7,5 @@
   </parent>
   <groupId>com.github.arachnidium.util</groupId>
   <artifactId>arachnidium-proxy</artifactId>
+  <packaging>jar</packaging>
 </project>

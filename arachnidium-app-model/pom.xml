@@ -6,6 +6,7 @@
     <version>0.9.5.0-BETA</version>
   </parent>
   <artifactId>arachnidium-app-model</artifactId>
+  <packaging>jar</packaging>
   <dependencies>
   	<dependency>
   		<groupId>com.github.arachnidium</groupId>

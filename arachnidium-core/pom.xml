@@ -14,6 +14,7 @@
 		<version>0.9.5.0-BETA</version>
 	</parent>
 	<artifactId>arachnidium-core</artifactId>
+	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.arachnidium.util</groupId>
