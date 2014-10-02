@@ -9,11 +9,13 @@ import java.util.ServiceLoader;
 
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 
 import com.github.arachnidium.core.eventlisteners.IWindowListener;
 import com.github.arachnidium.core.interfaces.IExtendedWindow;
@@ -138,7 +140,12 @@ class AspectWindowListener extends DefaultHandleListener implements
 	}
 
 	private void postWindowUrl(IExtendedWindow window) {
-		Log.message("URL is " + window.getCurrentUrl());
+		try {
+			Log.message("URL is " + window.getCurrentUrl());
+		} catch (TimeoutException e) {
+			Log.debug("Couldn't get the current URL. " + e.getClass() + " :"
+					+ e.getMessage() + " was caught");
+		}
 	}
 
     /**
