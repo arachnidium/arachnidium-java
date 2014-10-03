@@ -136,6 +136,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
+					<destDir>apidocs</destDir>
 				</configuration>
 				<executions>
 					<execution>
