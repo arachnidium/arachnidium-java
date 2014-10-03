@@ -6,7 +6,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrows
 import com.github.arachnidium.core.BrowserWindow;
 
 @IfBrowserURL(regExp = "https://ru.wikipedia.org/wiki")
-@IfBrowserURL(regExp = "^*[wikipedia//org//wiki]")
+@IfBrowserURL(regExp = "wikipedia.org")
 @IfBrowserPageTitle(regExp = "^*[?[Hello]\\?[world]]")
 public class WikiPage extends BrowserPage {
 

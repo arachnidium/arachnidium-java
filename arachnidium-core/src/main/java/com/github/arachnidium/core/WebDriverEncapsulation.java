@@ -6,10 +6,12 @@ import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -70,8 +72,9 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		}
 		
 		if (!definedCapabilitiesAreEmpty) {
-			capabilities = supportedDriver.getDefaultCapabilities().merge(
-					capabilities);
+			DesiredCapabilities dc = new DesiredCapabilities();
+			capabilities = dc.merge(capabilities).merge(
+					supportedDriver.getDefaultCapabilities());
 		}
 
 		URL remoteAdress = this.configuration.getSection(
