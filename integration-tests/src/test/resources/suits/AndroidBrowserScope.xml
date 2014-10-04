@@ -32,7 +32,7 @@
     </classes>
   </test> 
   
-  <test name="This is just a test of basic functionality. It performs search and closes google as visible browser window">
+  <test name="This is just a test of basic functionality. It closes google as visible browser window">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
     <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
     <classes>

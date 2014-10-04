@@ -73,8 +73,8 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		
 		if (!definedCapabilitiesAreEmpty) {
 			DesiredCapabilities dc = new DesiredCapabilities();
-			capabilities = dc.merge(capabilities).merge(
-					supportedDriver.getDefaultCapabilities());
+			capabilities = dc.merge(supportedDriver.getDefaultCapabilities()).merge(
+					capabilities);
 		}
 
 		URL remoteAdress = this.configuration.getSection(

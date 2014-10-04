@@ -115,8 +115,6 @@ public class HelloWorldGoogleTest {
 
 	private void test2(Google google) {
 		try {
-			google.performSearch("Hello world Wikipedia");
-			Assert.assertNotSame(0, google.getLinkCount());
 			google.close();
 		} finally {
 			google.quit();
@@ -169,7 +167,7 @@ public class HelloWorldGoogleTest {
 		test(Google.getNew(encapsulation), false);
 	}
 
-	@Test(description = "This is just a test of basic functionality. It performs search and closes google as visible browser window")
+	@Test(description = "This is just a test of basic functionality. It closes google as visible browser window")
 	@Parameters(value={"path","configList"})
 	public void typeHelloWorldAndOpenTheFirstLink4(
 			@Optional("src/test/resources/configs/desctop/") String path,
