@@ -6,13 +6,13 @@
 		<selenium.version>2.43.1</selenium.version>
 		<ghostdriver.version>1.1.0</ghostdriver.version>
 		<appium.version>2.0.0</appium.version>
-		<actual.version>0.9.5.0-BETA</actual.version>
+		<actual.version>0.9.5.0-BETA-SNAPSHOT</actual.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.9.5.0-BETA</version>
+	<version>0.9.5.0-BETA-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 
