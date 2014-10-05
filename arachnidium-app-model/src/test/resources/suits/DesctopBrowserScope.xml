@@ -53,7 +53,7 @@
   
    <test name="Extertal webdriver quit test">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <parameter name="configList" value="chrome_remote.firefox_remote.json,internetexplorer_remote.json,phantomjs_remote.json,safari.json"/>
+    <parameter name="configList" value="chrome_remote.json,firefox_remote.json,internetexplorer_remote.json,phantomjs_remote.json,safari.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
