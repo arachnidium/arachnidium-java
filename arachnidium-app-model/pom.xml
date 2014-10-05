@@ -31,7 +31,7 @@
 				<inherited>true</inherited>
 				<configuration>
 					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/suits/DesctopBrowserScope.xml</suiteXmlFile>
+					    <suiteXmlFile>src/test/resources/suits/DesctopBrowserScope.xml</suiteXmlFile>
 						<suiteXmlFile>src/test/resources/suits/AndroidBrowserScope.xml</suiteXmlFile>
 						<suiteXmlFile>src/test/resources/suits/iOSBrowserScope.xml</suiteXmlFile>
 					</suiteXmlFiles>
