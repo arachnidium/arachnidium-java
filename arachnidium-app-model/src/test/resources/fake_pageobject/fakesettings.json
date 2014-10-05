@@ -1,0 +1,13 @@
+{ 
+	  "webDriverTimeOuts":
+	  {
+	      "timeUnit":{
+	          "type":"STRING",
+	          "value":"MICROSECONDS"           
+	      },
+	      "implicitlyWait":{
+	          "type":"LONG",
+	          "value":"18500000"     
+	      }     
+	  }
+  }

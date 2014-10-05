@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="iOS browser test scope" parallel="false">
+
+  <!---
+  Prerequsites for iOS:
+	 *Appium settings: - IP Address = 0.0.0.0
+	 * 				   - Port = 4723
+	 * 				   - iOS - 	is switched on
+	 * 				   - Force Device = yes - iPhone Retina (4-inch) or iPad (4-inch)
+	 * 				   - Use mobile Safari = yes
+	 * Environment:
+	 * 				   - Virtual machine that is made by VMWare.Net bridge
+	 * 				   - Mac OS 10.9.
+	 * 				   - xCode 5.0.2 or newer is installed
+	 * 				   - iPhone Simulator for iOS 7.0 is there
+	 * Test is launched and is run on Mac OS virtual machine (local starting).   
+  -->
+  
+  <test name="This is just a test of basic functionality with specified configurations">
+    <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
+    <parameter name="toClick" value="true"/>
+    <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+              <include name="typeHelloWorldAndOpenTheFirstLink2" />
+      </methods>
+    </classes>
+  </test> 
+  
+  <test name="This is just a test of basic functionality. It performs search and closes google as visible browser window">
+    <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
+    <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink4" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->  
+  
+  <test name="This is just a test of basic functionality. It gets a new object by its partial title and url">
+    <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
+    <parameter name="toClick" value="true"/>
+    <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
+    <parameter name="howToGetANewWindow" value="BYPARTIALURL"/>
+    <parameter name="timeOut" value="30"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest2"/>
+      <methods>
+              <include name="typeHelloWorldAndOpenTheFirstLink" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="Extertal webdriver quit test">
+    <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
+    <parameter name="toClick" value="true"/>
+    <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
+    <classes>
+      <class name="web.HelloWorldGoogleTest"/>
+      <methods>
+      	<include name="typeHelloWorldAndOpenTheFirstLink6" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->   
+  
+</suite> <!-- Suite -->

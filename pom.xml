@@ -175,6 +175,5 @@
 		<module>util</module>
 		<module>arachnidium-core</module>
 		<module>arachnidium-app-model</module>
-		<module>integration-tests</module>
 	</modules>
 </project>
