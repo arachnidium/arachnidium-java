@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<properties>
 		<spring.version>4.0.6.RELEASE</spring.version>
@@ -11,7 +10,7 @@
 	<parent>
 		<groupId>com.github.arachnidium</groupId>
 		<artifactId>arachnidium</artifactId>
-		<version>0.9.5.0-BETA-SNAPSHOT</version>
+		<version>0.9.5.0-BETA</version>
 	</parent>
 	<artifactId>arachnidium-core</artifactId>
 	<packaging>jar</packaging>
@@ -19,19 +18,19 @@
 		<dependency>
 			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-configuration</artifactId>
-			<version>0.9.5.0-BETA-SNAPSHOT</version>
+			<version>0.9.5.0-BETA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-logging</artifactId>
-			<version>0.9.5.0-BETA-SNAPSHOT</version>
+			<version>0.9.5.0-BETA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.arachnidium.util</groupId>
 			<artifactId>arachnidium-proxy</artifactId>
-			<version>0.9.5.0-BETA-SNAPSHOT</version>
+			<version>0.9.5.0-BETA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
