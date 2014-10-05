@@ -14,7 +14,7 @@
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.8.8</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>com.github.arachnidium</groupId>
@@ -37,23 +37,4 @@
 			<version>0.9.5.0-BETA-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12</version>
-				<inherited>true</inherited>
-				<configuration>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/suits/DesctopBrowserScope.xml</suiteXmlFile>
-						<suiteXmlFile>src/test/resources/suits/AndroidBrowserScope.xml</suiteXmlFile>
-						<suiteXmlFile>src/test/resources/suits/iOSBrowserScope.xml</suiteXmlFile>
-					</suiteXmlFiles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
