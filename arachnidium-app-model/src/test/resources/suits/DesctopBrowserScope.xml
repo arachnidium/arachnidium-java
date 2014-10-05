@@ -12,7 +12,7 @@
   
   <test name="This is just a test of basic functionality with specified configurations">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,internetexplorer_remote.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <parameter name="configList" value="chrome_remote.json,firefox_remote.json,internetexplorer_remote.json,phantomjs.json,safari.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
@@ -33,7 +33,7 @@
   
   <test name="This is just a test of basic functionality. It closes google as visible browser window">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <parameter name="configList" value="chrome.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs.json,safari_remote.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
@@ -53,7 +53,7 @@
   
    <test name="Extertal webdriver quit test">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <parameter name="configList" value="chrome_remote.firefox_remote.json,internetexplorer_remote.json,phantomjs_remote.json,safari.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
@@ -64,7 +64,7 @@
   
   <test name="This is just a test of basic functionality. It gets a new object by its partial title and url">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <parameter name="configList" value="chrome_remote.json,chrome.json,firefox_remote.json,firefox.json,internetexplorer.json,phantomjs_remote.json,phantomjs.json,safari_remote.json,safari.json"/>
+    <parameter name="configList" value="chrome.json,firefox.json,internetexplorer.json,phantomjs.json,safari_remote.json"/>
     <parameter name="howToGetANewWindow" value="BYPARTIALTITLE,BYPARTIALURL,FULL"/>
     <classes>
       <class name="web.HelloWorldGoogleTest2"/>
