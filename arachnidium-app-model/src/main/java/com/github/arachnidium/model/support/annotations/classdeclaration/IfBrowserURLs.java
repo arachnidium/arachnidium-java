@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
-@interface IfBrowserURLs {
+public @interface IfBrowserURLs {
 	IfBrowserURL[] value();
 }

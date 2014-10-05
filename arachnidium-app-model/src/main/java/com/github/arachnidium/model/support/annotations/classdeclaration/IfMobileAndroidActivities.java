@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  */
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
-@interface IfMobileAndroidActivities {
+public @interface IfMobileAndroidActivities {
 	IfMobileAndroidActivity[] value();
 }

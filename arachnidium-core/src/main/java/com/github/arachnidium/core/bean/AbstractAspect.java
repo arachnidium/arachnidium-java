@@ -57,7 +57,7 @@ public abstract class AbstractAspect {
 
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
-	private @interface BeforeTargets {
+	protected @interface BeforeTargets {
 		BeforeTarget[] value();
 	}
 
@@ -76,7 +76,7 @@ public abstract class AbstractAspect {
 
 	@Target(value = ElementType.METHOD)
 	@Retention(value = RetentionPolicy.RUNTIME)
-	private @interface AfterTargets {
+	protected @interface AfterTargets {
 		AfterTarget[] value();
 	}
 
