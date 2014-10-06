@@ -18,7 +18,6 @@
   
   <test name="This is just a test of basic functionality with specified configurations">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
-    <parameter name="toClick" value="true"/>
     <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
@@ -55,7 +54,6 @@
   
   <test name="Extertal webdriver quit test">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
-    <parameter name="toClick" value="true"/>
     <parameter name="configList" value="iOS_emulator_safari.json,iOS_emulator_safari_remoteWebDriver.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>

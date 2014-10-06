@@ -17,7 +17,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.core.WebDriverEncapsulation;
-import com.github.arachnidium.web.google.AnyPage;
 import com.github.arachnidium.web.google.Google;
 
 import web.mocks.MockWebDriverListener;
@@ -85,29 +84,14 @@ public class HelloWorldGoogleTest {
 		return new ArrayList<String>();
 	}
 	
-	private void workWithGoogle(Google google, boolean toClickOnALinkWhichWasFound) throws Exception{
+	private void workWithGoogle(Google google) throws Exception{
 		google.performSearch("Hello world Wikipedia");
-		Assert.assertNotSame(0, google.getLinkCount());
-		if (!toClickOnALinkWhichWasFound){
-			google.openLinkByIndex(1);
-		}
-		else{
-			google.clickOnLinkByIndex(1);
-		}
-		AnyPage anyPage = google.getPart(AnyPage.class, 1);
-		anyPage.close();
-		if (!toClickOnALinkWhichWasFound){
-			google.openLinkByIndex(1);
-		}
-		else{
-			google.clickOnLinkByIndex(1);
-		}
-		anyPage = google.getPart(AnyPage.class, 1);		
+		Assert.assertNotSame(0, google.getLinkCount());	
 	}
 	
-	private void test(Google google, boolean toClickOnALinkWhichWasFound) throws Exception {
+	private void test(Google google) throws Exception {
 		try {
-			workWithGoogle(google, toClickOnALinkWhichWasFound);
+			workWithGoogle(google);
 		} finally {
 			google.quit();
 		}
@@ -121,24 +105,15 @@ public class HelloWorldGoogleTest {
 		}
 	}
 	
-	private void test3(Google google, boolean toClickOnALinkWhichWasFound) throws Exception {
-		try {
-			workWithGoogle(google, toClickOnALinkWhichWasFound);
-		} finally {
-			google.getWrappedDriver().quit();;
-		}
-	}	
-	
 	@Test(description = "This is just a test of basic functionality without any configuration")
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
-		test(Google.getNew(), false);
+		test(Google.getNew());
 	}
 
 	@Test(description = "This is just a test of basic functionality with specified configurations")
-	@Parameters(value={"path", "toClick","configList"})
+	@Parameters(value={"path", "configList"})
 	public void typeHelloWorldAndOpenTheFirstLink2(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("false") String toClick,
 			@Optional("chrome.json,chrome_remote.json,firefox.json") String configList)
 			throws Exception {
 		
@@ -151,7 +126,7 @@ public class HelloWorldGoogleTest {
 			}
 			Configuration configuration = Configuration
 					.get(path + config);
-			test(Google.getNew(configuration), new Boolean(toClick));		
+			test(Google.getNew(configuration));		
 		}
 	}
 
@@ -164,7 +139,7 @@ public class HelloWorldGoogleTest {
 				.get(path + "firefox.json");
 		WebDriverEncapsulation encapsulation = new WebDriverEncapsulation(
 				new FirefoxDriver(), configuration);
-		test(Google.getNew(encapsulation), false);
+		test(Google.getNew(encapsulation));
 	}
 
 	@Test(description = "This is just a test of basic functionality. It closes google as visible browser window")
@@ -193,7 +168,7 @@ public class HelloWorldGoogleTest {
 		MockWebDriverListener.wasInvoked = false;
 		MockWindowListener.wasInvoked = false;
 		try {
-			test(Google.getNew(),false);
+			test(Google.getNew());
 		} catch (Exception e) {
 		}
 		Assert.assertEquals(true, MockWebDriverListener.wasInvoked);
@@ -201,10 +176,10 @@ public class HelloWorldGoogleTest {
 	}
 	
 	@Test(description = "Extertal webdriver quit test")
-	@Parameters(value={"path", "toClick","configList"})
+	@Parameters(value={"path", "configList"})
 	public void typeHelloWorldAndOpenTheFirstLink6(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("false") String toClick, @Optional("chrome.json,firefox.json") String configList)
+			@Optional("chrome.json,firefox.json") String configList)
 			throws Exception {
 
 		List<String> configs = getConfigsByCurrentPlatform();
@@ -215,7 +190,9 @@ public class HelloWorldGoogleTest {
 				continue;
 			}
 			Configuration configuration = Configuration.get(path + config);
-			test3(Google.getNew(configuration), new Boolean(toClick));
+			Google google = Google.getNew(configuration);
+			workWithGoogle(Google.getNew(configuration));
+			google.getWrappedDriver().quit();
 		}
 	}
 }
