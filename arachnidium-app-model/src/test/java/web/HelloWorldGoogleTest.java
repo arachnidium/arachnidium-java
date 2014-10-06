@@ -191,7 +191,7 @@ public class HelloWorldGoogleTest {
 			}
 			Configuration configuration = Configuration.get(path + config);
 			Google google = Google.getNew(configuration);
-			workWithGoogle(Google.getNew(configuration));
+			workWithGoogle(google);
 			google.getWrappedDriver().quit();
 		}
 	}
