@@ -49,7 +49,7 @@
 	  {
 	      "handleWaitingTimeOut":{
 	          "type":"LONG",
-	          "value":"35"     
+	          "value":"50"     
 	      }
 	  }
   }
