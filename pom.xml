@@ -46,7 +46,7 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/arachnidium/arachnidium-java</url>
+		<url>scm:git:git@github.com:/arachnidium/arachnidium-java.git</url>
 		<connection>scm:git:git@github.com:arachnidium/arachnidium-java.git</connection>
 		<developerConnection>scm:git:git@github.com:arachnidium/arachnidium-java.git</developerConnection>
 	</scm>
