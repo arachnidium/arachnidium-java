@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.arachnidium</groupId>
     <artifactId>util</artifactId>
-    <version>0.9.5.0-BETA-SNAPSHOT</version>
+    <version>0.9.6.0-BETA</version>
   </parent>
   <groupId>com.github.arachnidium.util</groupId>
   <artifactId>arachnidium-logging</artifactId>
@@ -12,7 +12,7 @@
   	<dependency>
   		<groupId>com.github.arachnidium.util</groupId>
   		<artifactId>arachnidium-configuration</artifactId>
-  		<version>0.9.5.0-BETA-SNAPSHOT</version>
+  		<version>0.9.6.0-BETA</version>
   		<scope>compile</scope>
   	</dependency>
   </dependencies>
