@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.arachnidium</groupId>
     <artifactId>arachnidium</artifactId>
-    <version>0.9.5.0-BETA-SNAPSHOT</version>
+    <version>0.9.6.0-BETA</version>
   </parent>
   <artifactId>util</artifactId>
   <packaging>pom</packaging>
