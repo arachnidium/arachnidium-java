@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.9.5.0-BETA-SNAPSHOT</version>
+	<version>0.9.6.0-BETA</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 
@@ -139,7 +138,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
-					<destDir></destDir>
+					<destDir />
 				</configuration>
 				<executions>
 					<execution>
