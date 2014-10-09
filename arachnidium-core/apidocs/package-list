@@ -1,0 +1,13 @@
+com.github.arachnidium.core
+com.github.arachnidium.core.bean
+com.github.arachnidium.core.components
+com.github.arachnidium.core.components.common
+com.github.arachnidium.core.components.mobile
+com.github.arachnidium.core.eventlisteners
+com.github.arachnidium.core.fluenthandle
+com.github.arachnidium.core.highlighting
+com.github.arachnidium.core.interfaces
+com.github.arachnidium.core.services
+com.github.arachnidium.core.services.interfaces
+com.github.arachnidium.core.settings
+com.github.arachnidium.core.settings.supported

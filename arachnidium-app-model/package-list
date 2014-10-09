@@ -1,9 +1,0 @@
-com.github.arachnidium.model.abstractions
-com.github.arachnidium.model.browser
-com.github.arachnidium.model.common
-com.github.arachnidium.model.interfaces
-com.github.arachnidium.model.mobile
-com.github.arachnidium.model.mobile.android
-com.github.arachnidium.model.mobile.ios
-com.github.arachnidium.model.support
-com.github.arachnidium.model.support.annotations.classdeclaration
