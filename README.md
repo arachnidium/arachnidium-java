@@ -35,3 +35,7 @@ Main features:
 [Exception handling feature](https://github.com/arachnidium/arachnidium-java/wiki/Exception-handling-feature)
 
 [Get involved](https://github.com/arachnidium/arachnidium-java/wiki/Get-involved)
+
+[Downloads](http://search.maven.org/#search%7Cga%7C1%7Carachnidium)
+
+
