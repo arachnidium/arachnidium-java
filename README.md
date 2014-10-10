@@ -40,10 +40,15 @@ Main features:
 
 
 Modules:
+
 [arachnidium-app-model](http://arachnidium.github.io/arachnidium-java/arachnidium-app-model/apidocs/)
+
 [arachnidium-core](http://arachnidium.github.io/arachnidium-java/arachnidium-core/apidocs/)
+
 [arachnidium-configuration](http://arachnidium.github.io/arachnidium-java/util/arachnidium-configuration/apidocs/)
+
 [arachnidium-logging](http://arachnidium.github.io/arachnidium-java/util/arachnidium-logging/apidocs/)
+
 [arachnidium-proxy](http://arachnidium.github.io/arachnidium-java/util/arachnidium-proxy/apidocs/)
 
 
