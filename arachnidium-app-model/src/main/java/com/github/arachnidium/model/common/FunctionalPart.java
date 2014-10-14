@@ -15,6 +15,7 @@ import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.eLogColors;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -27,8 +28,11 @@ import com.github.arachnidium.core.HowToGetBrowserWindow;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.common.Ime;
-import com.github.arachnidium.core.components.common.Interaction;
+import com.github.arachnidium.core.components.common.InputDevices;
+import com.github.arachnidium.core.components.common.ScriptExecutor;
 import com.github.arachnidium.core.components.common.TimeOut;
+import com.github.arachnidium.core.components.mobile.Rotator;
+import com.github.arachnidium.core.components.mobile.Touch;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.highlighting.IWebElementHighlighter;
 import com.github.arachnidium.core.highlighting.WebElementHighLighter;
@@ -88,11 +92,14 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	protected FunctionalPart<?> parent; // parent test object
 	// parent application
 	protected Application<?,?> application;
-	protected final Interaction interaction;
+	protected final InputDevices inputDevices;
 	protected final Ime ime;
+	protected final Touch touch;
+	protected final Rotator rotator;
 	protected final HowToGetByFrames pathStrategy;
 	private final AppiumFieldDecorator defaultFieldDecorator;
 	private final TimeOut timeOut;
+	protected final ScriptExecutor scriptExecutor; //executes given javaScript
 
 	/**
 	 * This constructor should present 
@@ -206,8 +213,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 		defaultFieldDecorator = new AppiumFieldDecorator(getWrappedDriver(), 
 				timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit());
 		this.pathStrategy = path;
-		interaction = getComponent(Interaction.class);
-		ime =         getComponent(Ime.class);
+		inputDevices =   getComponent(InputDevices.class);
+		ime =            getComponent(Ime.class);
+		touch =          getComponent(Touch.class);
+		rotator =        getComponent(Rotator.class);
+		scriptExecutor = getComponent(ScriptExecutor.class);
 	}
 
 	/**

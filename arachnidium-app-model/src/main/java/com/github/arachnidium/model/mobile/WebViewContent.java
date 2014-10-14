@@ -13,7 +13,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
  *Can be used to describe a single mobile app web view or its fragment
  */
 @IfMobileContext(regExp = "WEBVIEW")
-public abstract class WebViewContent extends FunctionalPart<MobileScreen> implements Navigation{
+public abstract class WebViewContent extends MobileContent implements Navigation{
 
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
