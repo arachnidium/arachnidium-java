@@ -7,8 +7,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-//import com.github.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
-import com.github.arachnidium.util.configuration.Configuration;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.interactions.internal.Coordinates;
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.core.HowToGetMobileScreen;
@@ -19,6 +19,8 @@ import com.github.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser
 import com.github.arachnidium.mobile.android.selendroid.testapp.Webview;
 import com.github.arachnidium.model.mobile.MobileApplication;
 import com.github.arachnidium.model.mobile.MobileFactory;
+//import com.github.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
+import com.github.arachnidium.util.configuration.Configuration;
 
 public class AndroidTestExamples {
 
@@ -123,16 +125,45 @@ public class AndroidTestExamples {
 	}
 
 	@Test
-	public void touchTest() {
+	public void androidTouchTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app.json");
 		MobileApplication selendroidTestApp = MobileFactory.getApplication(
 				MobileApplication.class, config);
 		try {
 			HomeScreenActivity homeScreenActivity = selendroidTestApp
-					.getPart(HomeScreenActivity.class);
-
-			homeScreenActivity.downToVisibleText();
+					.getPart(HomeScreenActivity.class);			
+			homeScreenActivity.startWebviewClick();
+			Webview webview = selendroidTestApp.getPart(Webview.class);
+			webview.to("https://www.google.com");			
+			webview.move(100, 200);
+			webview.up(100, 200);
+			webview.down(100, 200);
+			//webview.flick(10, 20);
+			Coordinates c = new Coordinates() {
+				
+				@Override
+				public Point onScreen() {
+					return new Point(10, 20);
+				}
+				
+				@Override
+				public Point onPage() {
+					return new Point(10, 20);
+				}
+				
+				@Override
+				public Point inViewPort() {
+					return new Point(10, 20);
+				}
+				
+				@Override
+				public Object getAuxiliary() {
+					return new Point(10, 20);
+				}
+			};
+			webview.singleTap(c);
+			webview.longPress(c);
 		} finally {
 			selendroidTestApp.quit();
 		}
