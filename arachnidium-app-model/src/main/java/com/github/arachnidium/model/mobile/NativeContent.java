@@ -6,8 +6,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.TouchShortcuts;
 
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.MobileScreen;
@@ -19,8 +17,8 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
  * Can be used to describe a single mobile app native screen or its fragment
  */
 @IfMobileContext(regExp = "NATIVE_APP")
-public abstract class NativeContent extends FunctionalPart<MobileScreen> implements 
-DeviceActionShortcuts, TouchShortcuts, ScrollsTo, Rotatable {
+public abstract class NativeContent extends MobileContent implements 
+DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 
 	protected final TouchActionsPerformer touchActionsPerformer;
 	
@@ -104,15 +102,5 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, Rotatable {
 	@InteractiveMethod
 	public MobileElement scrollToExact(String text) {
 		return ((AppiumDriver) getWrappedDriver()).scrollToExact(text);
-	}
-
-	@Override
-	public ScreenOrientation getOrientation() {
-		return rotator.getOrientation();
-	}
-
-	@Override
-	public void rotate(ScreenOrientation orientation) {
-		rotator.rotate(orientation);		
 	}	
 }

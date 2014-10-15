@@ -95,4 +95,9 @@ public class HomeScreenActivity extends NativeContent {
 		}
 		throw new NoSuchElementException("There is no item " + item);
 	}
+	
+	@InteractiveMethod
+	public void downToVisibleText(){
+		down(visibleButtonTest.getLocation().x + 10, visibleButtonTest.getLocation().y);
+	}
 }
