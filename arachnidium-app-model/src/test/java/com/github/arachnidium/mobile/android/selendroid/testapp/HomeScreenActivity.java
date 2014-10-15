@@ -85,7 +85,6 @@ public class HomeScreenActivity extends NativeContent {
 		spinner.click();
 	}
 	
-	@InteractiveMethod
 	public void selectSpinnerItem(String item){
 		for (WebElement element: itemsForSelect){
 			if (element.getText().equals(item)){
@@ -94,10 +93,5 @@ public class HomeScreenActivity extends NativeContent {
 			}
 		}
 		throw new NoSuchElementException("There is no item " + item);
-	}
-	
-	@InteractiveMethod
-	public void downToVisibleText(){
-		down(visibleButtonTest.getLocation().x + 10, visibleButtonTest.getLocation().y);
 	}
 }

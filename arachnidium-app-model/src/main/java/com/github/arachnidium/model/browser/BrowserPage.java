@@ -8,9 +8,6 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Window;
-import org.openqa.selenium.interactions.Keyboard;
-import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import com.github.arachnidium.core.BrowserWindow;
@@ -24,7 +21,7 @@ import com.github.arachnidium.model.support.HowToGetByFrames;
  * @see FunctionalPart
  */
 public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implements Navigation,
-		Window, Keyboard, Mouse {
+		Window {
 
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
@@ -157,68 +154,6 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 	@Override
 	public void to(URL url) {
 		((BrowserWindow) handle).to(url);
-	}
-
-	@Override
-	@InteractiveMethod
-	public void click(Coordinates where) {
-		inputDevices.getMouse().click(where);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void doubleClick(Coordinates where) {
-		inputDevices.getMouse().doubleClick(where);
-		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void mouseDown(Coordinates where) {
-		inputDevices.getMouse().mouseDown(where);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void mouseUp(Coordinates where) {
-		inputDevices.getMouse().mouseUp(where);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void mouseMove(Coordinates where) {
-		inputDevices.getMouse().mouseMove(where);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void mouseMove(Coordinates where, long xOffset, long yOffset) {
-		inputDevices.getMouse().mouseMove(where, xOffset, yOffset);
-		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void contextClick(Coordinates where) {
-		inputDevices.getMouse().contextClick(where);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void sendKeys(CharSequence... keysToSend) {
-		inputDevices.getKeyboard().sendKeys(keysToSend);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void pressKey(CharSequence keyToPress) {
-		inputDevices.getKeyboard().pressKey(keyToPress);		
-	}
-
-	@Override
-	@InteractiveMethod
-	public void releaseKey(CharSequence keyToRelease) {
-		inputDevices.getKeyboard().releaseKey(keyToRelease);		
 	}
 
 }

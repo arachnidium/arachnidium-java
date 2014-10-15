@@ -16,6 +16,7 @@ import com.github.arachnidium.core.WebDriverEncapsulation;
 import com.github.arachnidium.core.components.WebdriverComponent;
 import com.github.arachnidium.core.components.common.Awaiting;
 import com.github.arachnidium.core.components.common.DriverLogs;
+import com.github.arachnidium.core.components.common.ScriptExecutor;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
@@ -48,6 +49,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	private final WebDriverEncapsulation driverEncapsulation;
 
 	protected final Awaiting awaiting; //performs waiting
+	protected final ScriptExecutor scriptExecutor; //executes given javaScript
 	protected final DriverLogs logs; //is for getting WebDriver logs
 	
 	//this is for interception and automatically handling exceptions
@@ -89,6 +91,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		this.handle = handle;
 		driverEncapsulation = handle.getDriverEncapsulation();
 		awaiting = new Awaiting(getWrappedDriver());
+		scriptExecutor = driverEncapsulation.getComponent(ScriptExecutor.class);
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
 	}
 

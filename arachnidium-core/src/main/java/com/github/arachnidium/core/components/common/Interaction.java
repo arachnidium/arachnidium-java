@@ -9,10 +9,10 @@ import com.github.arachnidium.core.components.WebdriverComponent;
 /**
  * Implements {@link HasInputDevices} and {@link HasTouchScreen }
  */
-public abstract class InputDevices extends WebdriverComponent
-		implements HasInputDevices {
+public abstract class Interaction extends WebdriverComponent
+		implements HasInputDevices, HasTouchScreen {
 
-	public InputDevices(WebDriver driver) {
+	public Interaction(WebDriver driver) {
 		super(driver);
 		delegate = this.driver;
 	}

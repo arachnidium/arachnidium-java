@@ -22,11 +22,11 @@ import com.github.arachnidium.model.mobile.MobileFactory;
 
 public class AndroidTestExamples {
 
-	/**
-	 * Test is run on Android 4.4
-	 */
-	@Test
-	public void androidNativeAppTest() {
+  /**
+   * Test is run on Android 4.4	
+   */
+  @Test
+  public void androidNativeAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_bbc.json");
 		MobileApplication bbc = MobileFactory.getApplication(
@@ -41,7 +41,7 @@ public class AndroidTestExamples {
 			bbcMain.selectArticle(1);
 			Assert.assertEquals(true, bbcMain.isArticleHere());
 			bbcMain.zoomArticle();
-
+			
 			bbcMain.refresh();
 			bbcMain.edit();
 
@@ -54,85 +54,67 @@ public class AndroidTestExamples {
 			topicList.setTopicChecked("LATIN AMERICA", false);
 			topicList.setTopicChecked("UK", false);
 			topicList.ok();
-
+			
 			bbcMain.sendKeyEvent(AndroidKeyCode.ENTER);
 			bbcMain.play();
 		} finally {
 			bbc.quit();
-		}
-	}
-
-	@Test
-	public void androidHybridAppTest() {
+		}	  
+  }
+  
+  @Test
+  public void androidHybridAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app.json");
 		MobileApplication selendroidTestApp = MobileFactory.getApplication(
-				MobileApplication.class, config);
+				MobileApplication.class, config);		
 		try {
-			HomeScreenActivity homeScreenActivity = selendroidTestApp
-					.getPart(HomeScreenActivity.class);
-
+			HomeScreenActivity homeScreenActivity = selendroidTestApp.getPart(HomeScreenActivity.class);
+		
 			homeScreenActivity.fillMyTextField("Test text. Hello world!");
 			homeScreenActivity.clickOnVisibleButtonTest();
 			homeScreenActivity.waitForVisibleTextIsVisible(10);
-			Assert.assertEquals("Text is sometimes displayed",
+			Assert.assertEquals("Text is sometimes displayed", 
 					homeScreenActivity.getVisibleTextView());
 			homeScreenActivity.waitingButtonTestClick();
-
-			RegisterANewUser registerForm = selendroidTestApp
-					.getPart(RegisterANewUser.class);
+			
+			RegisterANewUser registerForm = selendroidTestApp.getPart(RegisterANewUser.class);
 			registerForm.inputUsername("MrSergeyTikhomirov");
 			registerForm.inputEmail("tichomirovsergey@gmail.com");
 			registerForm.inputPassword("test666");
 			registerForm.inputName("Mr Sergey Tikhomirov");
 			registerForm.clickVerifyUser();
 			registerForm.clickRegisterUser();
-
+				
+			
 			homeScreenActivity.startWebviewClick();
 			HowToGetMobileScreen h = new HowToGetMobileScreen();
 			List<String> activities = new ArrayList<String>();
-			activities.add("WebViewActivity");
+			activities.add("WebViewActivity");			
 			h.setExpected(activities);
 			h.setExpected(1);
-
-			Webview webview = selendroidTestApp.getPart(Webview.class, h);
+			
+			Webview webview = selendroidTestApp.getPart(Webview.class, h);	
 			webview.refresh();
 			webview.setName("Sergey");
 			webview.selectCar("mercedes");
-			webview.sendMeYourName();
+			webview.sendMeYourName();	
 			webview.getCurrentUrl();
 			webview.refresh();
 			webview.to("https://www.google.com");
 			webview.back();
-
+			
 			homeScreenActivity.goBackClick();
-
+			
 			homeScreenActivity.startWebviewClick();
 			homeScreenActivity.clickOnSpinner();
 			homeScreenActivity.selectSpinnerItem("iframes");
-
-			// ImplicitlyDefinedWebViewFrame implicitlyDefinedWebView =
-			// selendroidTestApp.getPart(ImplicitlyDefinedWebViewFrame.class,
-			// h);
-			// implicitlyDefinedWebView.getCurrentUrl();
-			// implicitlyDefinedWebView.clickOnFoo();
+			
+			//ImplicitlyDefinedWebViewFrame implicitlyDefinedWebView = 
+			//		selendroidTestApp.getPart(ImplicitlyDefinedWebViewFrame.class, h);
+			//implicitlyDefinedWebView.getCurrentUrl();
+			//implicitlyDefinedWebView.clickOnFoo();
 			selendroidTestApp.getManager();
-		} finally {
-			selendroidTestApp.quit();
-		}
-	}
-
-	@Test
-	public void touchTest() {
-		Configuration config = Configuration
-				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app.json");
-		MobileApplication selendroidTestApp = MobileFactory.getApplication(
-				MobileApplication.class, config);
-		try {
-			HomeScreenActivity homeScreenActivity = selendroidTestApp
-					.getPart(HomeScreenActivity.class);
-
-			homeScreenActivity.downToVisibleText();
 		} finally {
 			selendroidTestApp.quit();
 		}
