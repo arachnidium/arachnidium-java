@@ -5,6 +5,7 @@ import java.net.URL;
 import org.openqa.selenium.WebDriver.Navigation;
 
 import com.github.arachnidium.core.MobileScreen;
+import com.github.arachnidium.core.components.mobile.PageTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
@@ -15,11 +16,12 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
 @IfMobileContext(regExp = "WEBVIEW")
 public abstract class WebViewContent extends FunctionalPart<MobileScreen> implements Navigation{
 
+	protected final PageTouchActions touchActions;
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
 	 */
 	protected WebViewContent(WebViewContent parent) {
-		super(parent);
+		this(parent, new HowToGetByFrames());
 	}
 	
 	/**
@@ -27,13 +29,14 @@ public abstract class WebViewContent extends FunctionalPart<MobileScreen> implem
 	 */
 	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames) {
 		super(parent, howToGetByFrames);
+		touchActions =   getComponent(PageTouchActions.class);
 	}	
 	
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 */	
 	protected WebViewContent(MobileScreen context){
-		super(context);
+		this(context, new HowToGetByFrames());
 	}
 	
 	/**
@@ -41,6 +44,7 @@ public abstract class WebViewContent extends FunctionalPart<MobileScreen> implem
 	 */
 	protected WebViewContent(MobileScreen context, HowToGetByFrames howToGetByFrames){
 		super(context, howToGetByFrames);
+		touchActions =   getComponent(PageTouchActions.class);
 	}
 
 	@InteractiveMethod

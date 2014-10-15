@@ -12,6 +12,8 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.UnclosedWindowException;
+import com.github.arachnidium.core.components.common.InputDevices;
+import com.github.arachnidium.core.components.mobile.PageTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 
@@ -23,11 +25,14 @@ import com.github.arachnidium.model.support.HowToGetByFrames;
 public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implements Navigation,
 		Window {
 
+	protected final InputDevices inputDevices;
+	protected final PageTouchActions touchActions;
+
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
 	 */
 	protected BrowserPage(BrowserPage parent) {
-		super(parent, new HowToGetByFrames());
+		this(parent, new HowToGetByFrames());
 	}
 
 	/**
@@ -35,6 +40,8 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 	 */
 	protected BrowserPage(BrowserPage parent, HowToGetByFrames path) {
 		super(parent, path);
+		inputDevices =   getComponent(InputDevices.class);
+		touchActions =   getComponent(PageTouchActions.class);
 	}
 
 	/**
@@ -49,6 +56,8 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 	 */
 	protected BrowserPage(BrowserWindow window, HowToGetByFrames path) {
 		super(window, path);
+		inputDevices =   getComponent(InputDevices.class);
+		touchActions =   getComponent(PageTouchActions.class);
 	}
 
 	/**

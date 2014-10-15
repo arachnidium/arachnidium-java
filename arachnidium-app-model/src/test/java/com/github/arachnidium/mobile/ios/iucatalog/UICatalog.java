@@ -22,7 +22,7 @@ public class UICatalog extends iOSNativeContent {
 	public void selectItem(String item){
 		TouchAction touchAction = new TouchAction((MobileDriver) getWrappedDriver());
 		touchAction.tap(getNamedTextField(item));
-		touchActionsPerformer.performTouchAction(touchAction);
+		touchActions.performTouchAction(touchAction);
 	}
 	
 	@InteractiveMethod

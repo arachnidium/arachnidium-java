@@ -11,7 +11,7 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.MobileScreen;
-import com.github.arachnidium.core.components.mobile.TouchActionsPerformer;
+import com.github.arachnidium.core.components.mobile.NativeTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 
@@ -22,14 +22,14 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
 public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
 DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 
-	protected final TouchActionsPerformer touchActionsPerformer;
+	protected final NativeTouchActions touchActions;
 	
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
 	 */	
 	protected NativeContent(NativeContent parent) {
 		super(parent);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+		touchActions = getComponent(NativeTouchActions.class);
 	}
 
 	/**
@@ -37,7 +37,7 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 	 */
 	protected NativeContent(MobileScreen context) {
 		super(context);
-		touchActionsPerformer = getComponent(TouchActionsPerformer.class);
+		touchActions = getComponent(NativeTouchActions.class);
 	}
 
 	/**

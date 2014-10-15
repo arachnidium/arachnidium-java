@@ -12,9 +12,9 @@ import com.github.arachnidium.core.components.WebdriverComponent;
  * Performs {@link TouchAction} and {@link MultiTouchAction}
  *
  */
-public abstract class TouchActionsPerformer extends WebdriverComponent
+public abstract class NativeTouchActions extends WebdriverComponent
 		implements PerformsTouchActions {
-	public TouchActionsPerformer(WebDriver driver) {
+	public NativeTouchActions(WebDriver driver) {
 		super(driver);
 		delegate = this.driver;
 	}

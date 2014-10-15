@@ -119,4 +119,25 @@ public class AndroidTestExamples {
 			selendroidTestApp.quit();
 		}
 	}
+  
+  @Test
+  public void androidHybridTouchTest() {
+		Configuration config = Configuration
+				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app2.json");
+		MobileApplication selendroidTestApp = MobileFactory.getApplication(
+				MobileApplication.class, config);		
+		try {
+			Webview webview = selendroidTestApp.getPart(Webview.class);
+		    webview.downToName();
+		    //webview.flickName(); //Doesn't work
+		    webview.moveToName();
+		    //webview.longPressName(); //Doesn't work
+		    //webview.doubleTapOnName();
+		    webview.singleTapOnName();
+		    webview.upToName();
+		    //webview.scrollToName();			
+		} finally {
+			selendroidTestApp.quit();
+		}
+	}  
 }

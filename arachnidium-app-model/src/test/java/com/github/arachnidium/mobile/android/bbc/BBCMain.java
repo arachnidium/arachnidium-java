@@ -95,7 +95,7 @@ public class BBCMain extends AndroidNativeContent implements IBar{
 		TouchAction touchAction = new TouchAction(
 				(MobileDriver) getWrappedDriver());
 		touchAction.tap(edit);
-		touchActionsPerformer.performTouchAction(touchAction);
+		touchActions.performTouchAction(touchAction);
 	}
 	
 	@InteractiveMethod
