@@ -600,7 +600,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 			;
 		}
 		if (t != null) {
-			throw t;
+			throw getRootCause(t);
 		}
 		launchMethod(point, this, WhenLaunch.AFTER);
 

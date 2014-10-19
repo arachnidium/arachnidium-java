@@ -130,7 +130,7 @@ public class AspectContextListener extends DefaultHandleListener implements
 		try {
 			result = point.proceed();
 		} catch (Exception e) {
-			throw e;
+			throw getRootCause(e);
 		}
 		launchMethod(point, this, WhenLaunch.AFTER);
 		return result;
