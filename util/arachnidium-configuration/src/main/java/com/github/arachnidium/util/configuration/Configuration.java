@@ -243,4 +243,14 @@ public class Configuration {
 					e);
 		}
 	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		Set<String> keys = mappedSettings.keySet();
+		for (String key: keys){
+			result = result + key + ": " + mappedSettings.get(key).toString() + " ; ";
+		}
+		return result;
+	}
 }
