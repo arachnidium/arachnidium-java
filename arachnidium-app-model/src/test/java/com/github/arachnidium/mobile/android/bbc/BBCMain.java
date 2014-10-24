@@ -3,6 +3,7 @@ package com.github.arachnidium.mobile.android.bbc;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AndroidFindBys;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,9 +18,12 @@ import com.github.arachnidium.model.mobile.android.AndroidNativeContent;
 
 public class BBCMain extends AndroidNativeContent implements IBar{
 	
-	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/articleWrapper\")")
+	@AndroidFindBys({@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/articleGallery\")"),
+		@AndroidFindBy(className = "android.widget.RelativeLayout")})
 	private List<WebElement> articles;
-	@FindBy(id = "bbc.mobile.news.ww:id/workspace")
+	@FindBy(id = "android:id/home")	
+	private WebElement home;	
+	@FindBy(id = "bbc.mobile.news.ww:id/workspace")	
 	private WebElement currentArticle;			
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuShareAction\")")
 	private WebElement share;
@@ -101,6 +105,11 @@ public class BBCMain extends AndroidNativeContent implements IBar{
 	@InteractiveMethod
 	public void zoomArticle(){
 		zoom(currentArticle);
+	}
+	
+	@InteractiveMethod
+	public void goHome(){
+		home.click();
 	}
 
 }

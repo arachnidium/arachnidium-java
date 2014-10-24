@@ -41,7 +41,7 @@ public class AndroidTestExamples {
 			bbcMain.selectArticle(1);
 			Assert.assertEquals(true, bbcMain.isArticleHere());
 			bbcMain.zoomArticle();
-			
+			bbcMain.goHome();
 			bbcMain.refresh();
 			bbcMain.edit();
 
