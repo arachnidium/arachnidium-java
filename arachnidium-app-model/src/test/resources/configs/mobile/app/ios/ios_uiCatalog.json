@@ -14,11 +14,11 @@
 	  {	      
 	      "platformVersion":{
 	          "type":"STRING",
-	          "value":"7.1"    
+	          "value":"8.1"
 	      },
 	      "deviceName":{
 	          "type":"STRING",
-	          "value":"iPhone Simulator"    
+	          "value":"iPad Simulator"    
 	      }, 
 	      "app":{
 	          "type":"STRING",
