@@ -15,15 +15,15 @@
 	  {
 	      "platformVersion":{
 	          "type":"STRING",
-	          "value":"7.1"    
+	          "value":"8.1"
+	      },
+	      "deviceName":{
+	          "type":"STRING",
+	          "value":"iPad Simulator"    
 	      },
 	      "platformName":{
 	          "type":"STRING",
 	          "value":"iOS"    
-	      }, 
-	      "deviceName":{
-	          "type":"STRING",
-	          "value":"iPhone Simulator"    
 	      },   
 	      "browserName":{
 	          "type":"STRING",
