@@ -1,13 +1,16 @@
 package mobile.ios;
 
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.mobile.ios.iucatalog.ActionSheets;
 import com.github.arachnidium.mobile.ios.iucatalog.AlertView;
+import com.github.arachnidium.mobile.ios.iucatalog.AppleCom;
 import com.github.arachnidium.mobile.ios.iucatalog.UICatalog;
 import com.github.arachnidium.model.mobile.MobileApplication;
 import com.github.arachnidium.model.mobile.MobileFactory;
+import com.github.arachnidium.model.mobile.WebViewContent;
 
 public class IOSTestExample {
 
@@ -38,6 +41,21 @@ public class IOSTestExample {
 			alertView.invokeSimpleAlert();
 			uiCatalog.getManager().getAlert().dismiss();
 			uicatalog.backToMe();
+			
+			uicatalog.selectItem("Web View");
+			
+			WebViewContent webView = uiCatalog.getPart(WebViewContent.class);
+			webView.getCurrentUrl();
+			webView.refresh();
+			webView.to("https://www.google.com");
+			webView.back();
+			
+			AppleCom appleCom = webView.getPart(AppleCom.class);
+			appleCom.selectLink("Store");
+			appleCom.selectShop("Shop iPhone");
+			uicatalog.backToMe();
+			uicatalog
+			.selectItem("Action Sheets");
 		} finally {
 			uiCatalog.quit();
 		}

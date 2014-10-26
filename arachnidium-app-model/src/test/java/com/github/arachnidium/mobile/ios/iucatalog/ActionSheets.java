@@ -1,6 +1,11 @@
 package com.github.arachnidium.mobile.ios.iucatalog;
 
-import org.openqa.selenium.By;
+import java.util.List;
+
+import io.appium.java_client.ios.IOSElement;
+import io.appium.java_client.pagefactory.iOSFindBy;
+
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -11,7 +16,9 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(name = "Okay / Cancel")
 	private WebElement ok_cancel;
 	@FindBy(name = "Other")
-	private WebElement other;
+	private IOSElement other;
+	@iOSFindBy(xpath = "//UIACollectionCell[1]/UIAButton")
+	private List<IOSElement> buttons;
 	
 	public ActionSheets(T handle) {
 		super(handle);
@@ -30,11 +37,13 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	
 	@InteractiveMethod
 	public void clickOnSplashButton(String name){
-		getWrappedDriver().findElement(By.name(name)).click();
-		//getWrappedDriver().
-		//      findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAPopover[1]/UIAActionSheet[1]/"
-		//      		+ "UIACollectionView[1]/UIACollectionCell[1]/UIAButton[1]")).click();
-		      //findElement(By.name(name)).click();
+		for (IOSElement button: buttons){
+			if (button.getText().equals(name)){
+				button.click();
+				return;
+			}
+		}
+		throw new NoSuchElementException("There is no button named " + name);
 	}
 
 }
