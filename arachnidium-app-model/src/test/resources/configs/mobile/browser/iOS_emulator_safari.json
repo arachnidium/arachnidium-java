@@ -19,7 +19,7 @@
 	      },
 	      "deviceName":{
 	          "type":"STRING",
-	          "value":"iPhone Simulator"    
+	          "value":"iPad Simulator"    
 	      },
 	  },
 	  "webDriverTimeOuts":
@@ -47,12 +47,5 @@
 	          "type":"LONG",
 	          "value":"35"     
 	      }
-	  },
-          "windowIsClosedTimeOut":
-	  {
-	      "windowIsClosedTimeOut":{
-	          "type":"LONG",
-	          "value":"5"
-	      }
-	  }  
+	  }
   }
