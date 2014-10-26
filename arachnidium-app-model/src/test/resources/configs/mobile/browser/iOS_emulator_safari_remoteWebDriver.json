@@ -19,7 +19,7 @@
 	      },
 	      "deviceName":{
 	          "type":"STRING",
-	          "value":"iPad Simulator"    
+	          "value":"iPhone Simulator"    
 	      },
 	      "platformName":{
 	          "type":"STRING",
@@ -55,5 +55,12 @@
 	          "type":"LONG",
 	          "value":"35"     
 	      }
-	  }
+	  },
+          "windowIsClosedTimeOut":
+	  {
+	      "windowIsClosedTimeOut":{
+	          "type":"LONG",
+	          "value":"5"
+	      }
+	  }  
   }
