@@ -47,8 +47,6 @@ public class IOSTestExample {
 			WebViewContent webView = uiCatalog.getPart(WebViewContent.class);
 			webView.getCurrentUrl();
 			webView.refresh();
-			webView.to("https://www.google.com");
-			webView.back();
 			
 			AppleCom appleCom = webView.getPart(AppleCom.class);
 			appleCom.selectLink("Store");

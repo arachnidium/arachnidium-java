@@ -17,7 +17,7 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	private WebElement ok_cancel;
 	@FindBy(name = "Other")
 	private IOSElement other;
-	@iOSFindBy(xpath = "//UIACollectionCell[1]/UIAButton")
+	@iOSFindBy(xpath = "//UIACollectionCell/UIAButton")
 	private List<IOSElement> buttons;
 	
 	public ActionSheets(T handle) {

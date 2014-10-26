@@ -20,8 +20,8 @@ public class AppleCom extends FunctionalPart<Handle> {
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
 	
-	protected AppleCom(Handle handle) {
-		super(handle);
+	protected AppleCom(FunctionalPart<?> parent) {
+		super(parent);
 		load();
 	}
 	
