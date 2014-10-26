@@ -31,6 +31,10 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	@InteractiveMethod
 	public void clickOnSplashButton(String name){
 		getWrappedDriver().findElement(By.name(name)).click();
+		//getWrappedDriver().
+		//      findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAPopover[1]/UIAActionSheet[1]/"
+		//      		+ "UIACollectionView[1]/UIACollectionCell[1]/UIAButton[1]")).click();
+		      //findElement(By.name(name)).click();
 	}
 
 }
