@@ -20,20 +20,21 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 
 	@InteractiveMethod
 	public void openLinkByIndex(int index) {
-		String reference = result.findElements(By.xpath(".//*[@class='r']/a")).
-				get(index - 1).getAttribute("href");
+		String reference = result.findElements(By.className("r")).get(index-1).
+				findElement(By.tagName("a")).getAttribute("href");
 		scriptExecutor.executeScript("window.open('" + reference + "');");
 	}
 
 	@InteractiveMethod
 	public int getLinkCount() {
-		return result.findElements(By.xpath(".//*[@class='r']/a")).size();
+		return result.findElements(By.className("r")).size();
 	}
 
 	@InteractiveMethod
 	public void clickOnLinkByIndex(int index) {
 		Actions clickAction = new Actions(getWrappedDriver());
-		clickAction.click(result.findElements(By.xpath(".//*[@class='r']/a")).get(index - 1));
+		clickAction.click(result.findElements(By.className("r")).
+				get(index-1).findElement(By.tagName("a")));
 		clickAction.perform();
 	}
 
