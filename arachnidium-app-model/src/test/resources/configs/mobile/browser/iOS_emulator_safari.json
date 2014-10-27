@@ -21,6 +21,14 @@
 	          "type":"STRING",
 	          "value":"iPhone Simulator"    
 	      },
+              "safariAllowPopups":{
+	          "type":"BOOL",
+                  "value":"true"           
+	      },
+              "safariOpenLinksInBackground":{
+	          "type":"BOOL",
+                  "value":"false"           
+	      }		
 	  },
 	  "webDriverTimeOuts":
 	  {

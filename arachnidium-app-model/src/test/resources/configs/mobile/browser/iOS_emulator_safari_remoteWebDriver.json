@@ -28,8 +28,17 @@
 	      "browserName":{
 	          "type":"STRING",
 	          "value":"safari"           
-	      }
-	  },
+	      },
+              "safariAllowPopups":{
+	          "type":"BOOL",
+                  "value":"true"           
+	      },
+              ,
+              "safariOpenLinksInBackground":{
+	          "type":"BOOL",
+                  "value":"false"           
+	      }	  
+          },
 	  "webDriverTimeOuts":
 	  {
 	      "timeUnit":{
