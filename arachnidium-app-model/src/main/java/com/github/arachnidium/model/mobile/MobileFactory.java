@@ -73,8 +73,8 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	 * 
 	 */
 	public static <T extends Application<?, ?>> T getApplication(
-			ESupportedDrivers supportedDriver,
-			Class<T> appClass, Capabilities capabilities, URL remoteAddress) {
+			Class<T> appClass, ESupportedDrivers supportedDriver,
+			Capabilities capabilities, URL remoteAddress) {
 		return getApplication(ScreenManager.class, appClass,
 				supportedDriver, capabilities, remoteAddress,
 				new MobileApplicationInterceptor(), 
