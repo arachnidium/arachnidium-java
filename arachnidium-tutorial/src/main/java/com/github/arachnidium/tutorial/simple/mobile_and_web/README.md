@@ -1,4 +1,4 @@
-Here samples of page objects which describe interaction with web page and native Android client.
+Here are samples of page objects which describe interaction with web page and native Android client.
 
 Applications: 
 
