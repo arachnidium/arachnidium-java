@@ -1,4 +1,4 @@
-Here samples of page objects which describe interaction with native Android client.
+Here are samples of page objects which describe interaction with native Android client.
 
 Application: [VK](https://play.google.com/store/apps/details?id=com.vkontakte.android).
 

@@ -1,4 +1,4 @@
-Here samples of page objects which describe interaction with browser.
+Here are samples of page objects which describe interaction with browser.
 
 Application: [VK](http://vk.com).
 
