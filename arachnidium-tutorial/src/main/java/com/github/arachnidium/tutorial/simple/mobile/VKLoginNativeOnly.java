@@ -5,8 +5,25 @@ import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
+import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.NativeContent;
 
+/**
+* {@link NativeContent} is a {@link FunctionalPart} subclass which
+* is adapted to describe interaction only with native app content.
+* It is useful when only interaction with native app content has to be checked.
+* Actions like rotation, touching and scrolling implemented here. 
+* <br/><br/>
+* <code>
+* package com.github.arachnidium.model.mobile;
+* <br/><br/>
+* ...
+* <br/>
+* public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
+* DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
+* ...
+* </code>
+*/
 public class VKLoginNativeOnly extends NativeContent {
 
 	@FindBy(id = "com.vkontakte.android:id/auth_login")
