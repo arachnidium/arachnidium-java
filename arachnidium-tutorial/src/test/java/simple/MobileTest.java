@@ -17,23 +17,57 @@ import com.github.arachnidium.model.mobile.MobileFactory;
 import com.github.arachnidium.model.mobile.android.AndroidApp;
 import com.github.arachnidium.tutorial.simple.mobile.UserScreen;
 import com.github.arachnidium.tutorial.simple.mobile.VKLogin;
-//import com.github.arachnidium.model.mobile.MobileApplication;
 import com.github.arachnidium.tutorial.simple.mobile.Videos;
-//import com.github.arachnidium.model.browser.BrowserApplication;
-//import com.github.arachnidium.core.Handle;
-//import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 
+
+//This is the test of a native Android application example.
+//Here we use VK (https://play.google.com/store/apps/details?id=com.vkontakte.android) as an application under test.
+//This test performs:
+//- login to the social network
+//- selection of the Video section
+//- the searching for video which name contains "Selenium"  
+//- the selection of the first video which is found
 public class MobileTest {
 	
 	private Application<?, ?> vk;
+	//There are another possible declaration variant:
+	//
 	//private Application<Handle, IHowToGetHandle> vk;
-	//private MobileApplication vk;
+	//
+	//private MobileApplication vk; - if we are going to perform tests
+	//only against mobile client
+	//
+	//private AndroidApp vk; - if we are going to perform tests
+	//only against Adroid mobile client
+	//
+	//private IOSApp vk; - if we are going to perform tests
+	//only against iOS mobile client
 
 	/**
 	 * We launch VK and run test against Android 4.4.4
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
+		//com.github.arachnidium.model.mobile.MobileFactory is a factory
+		//which instantiates:
+		
+		//- com.github.arachnidium.model.common.Application - it the default representation  
+		//of the launched client (browser as well as mobile).
+				
+		//- com.github.arachnidium.model.mobile.MobileApplication - it the default representation  
+		//of the launched mobile client. Actually it is com.github.arachnidium.model.common.Application
+		//subclass which is already adapted to mobile apps. 
+		//
+		//com.github.arachnidium.model.mobile
+		//...
+		//public abstract class MobileApplication extends Application<MobileScreen, HowToGetMobileScreen> implements 
+		//DeviceActionShortcuts, LocationContext {
+				
+		//- customized subclasses of com.github.arachnidium.model.common.Application and 
+		//com.github.arachnidium.model.mobile.MobileApplication
+		//(!!!)
+		//except com.github.arachnidium.model.browser.BrowserApplication and its subclasses		
 		vk = MobileFactory.getApplication(
 				//Application.class, 
 				//MobileApplication.class
@@ -43,33 +77,47 @@ public class MobileTest {
 					{
 						setCapability(MobileCapabilityType.APP, new File(
 								"src/test/resources/com.vkontakte.android.apk")
-								.getAbsolutePath());
+								.getAbsolutePath()); //here is the path to *.apk, *.zip, *.app files
 						setCapability(MobileCapabilityType.APP_PACKAGE,
-								"com.vkontakte.android");
+								"com.vkontakte.android"); //Desired Android app package
 						setCapability(MobileCapabilityType.APP_ACTIVITY,
-								"LoginActivity");
+								"LoginActivity"); //Desired Android app activity
 						setCapability(MobileCapabilityType.DEVICE_NAME,
 								"Android Emulator");
 					}
-				}, new URL("http://127.0.0.1:4723/wd/hub"));
+				}, new URL("http://127.0.0.1:4723/wd/hub"));//URL of the remote host where Appium NodeJS server is launched  
+		
+		//Here we perform log in
 		VKLogin<?> vkLogin = vk.getPart(VKLogin.class);
-		vkLogin.setLogin("ArachnidiumTester@gmail.com");
-		vkLogin.setPassword("ArachnidTester123");
-		vkLogin.enter();
+		//By default we consider that all elements are located
+		//at the first context (NATIVE_APP). More advanced example
+		//when there are more than one context (NATIVE_APP and WEBVIEWs (some could have content inside iframes))
+		//will be described in another chapters
+		vkLogin.setLogin("ArachnidiumTester@gmail.com"); //set eMail or phone number
+		vkLogin.setPassword("ArachnidTester123");//set passoword
+		vkLogin.enter();//enter
+		/**
+		 * When here is Android we have to launch activity 'MainActivity' forcefully
+		 * is it a bug of VK? 
+		 */
 		Thread.sleep(3000);
 		((AndroidApp) vk).startActivity("com.vkontakte.android", "MainActivity");
 	}
 
 	@Test
 	public void test() throws Exception{		
-		UserScreen<?> userPage = vk.getPart(UserScreen.class);
-		userPage.goHome();
-		userPage.selectVideos();
-		Videos<?> videos = userPage.getPart(Videos.class);
-		videos.clickSearchButton();
-		videos.enterSearchString("Selenium");
-		Assert.assertNotEquals(0, videos.getVideosCount());
-		videos.playVideo(0);
+		UserScreen<?> userScreen = vk.getPart(UserScreen.class);
+		userScreen.goHome();
+		userScreen.selectVideos();
+		
+		
+		Videos<?> videos = userScreen.getPart(Videos.class); //Here we take that Videos is the 
+		//child widget which appears when we select "Video"		
+		
+		videos.clickSearchButton(); //click on search button
+		videos.enterSearchString("Selenium");//search for a video
+		Assert.assertNotEquals(0, videos.getVideosCount()); //check that video is found
+		videos.playVideo(0);//select the first video
 	}
 	
 	@After

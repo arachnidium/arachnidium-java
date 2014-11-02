@@ -29,6 +29,25 @@ import com.github.arachnidium.tutorial.simple.mobile_and_web.User;
 import com.github.arachnidium.tutorial.simple.mobile_and_web.VKLogin;
 import com.github.arachnidium.tutorial.simple.mobile_and_web.Videos;
 
+
+//This is the test of a browser and a native Android application example.
+//Here we use VK as an application under test.
+
+//Browser: http://vk.com/
+//Android: https://play.google.com/store/apps/details?id=com.vkontakte.android
+
+//This test performs:
+//- login to the social network
+//- selection of the Video section
+//- the searching for video which name contains "Selenium"  
+//- the selection of the first video which is found
+/**
+ * Before please look at 
+ * @see
+ * {@link WebTest}
+ * {@link MobileTest}
+ *
+ */
 @RunWith(Parameterized.class)
 public class MobileAndWebTest {
 
@@ -36,11 +55,11 @@ public class MobileAndWebTest {
 	public static Collection<Object[]> data() throws Exception {
 		
         return Arrays.asList(new Object[][] {
-                 { WebFactory.class, 
+                 { WebFactory.class, //parameters for the browser starting
                 	 new Object[]{new Class<?>[]{Class.class, ESupportedDrivers.class, String.class}, 
                 		 new Object[]{Application.class, ESupportedDrivers.FIREFOX, "http://vk.com/login.php"}} },
                  
-                 {MobileFactory.class, 
+                 {MobileFactory.class, //parameters for the Android app starting
                    	 new Object[]{
                 	 new Class<?>[]{Class.class, ESupportedDrivers.class, Capabilities.class, URL.class}, 
                    		 new Object[]{AndroidApp.class, ESupportedDrivers.ANDROID_APP, 
@@ -60,6 +79,10 @@ public class MobileAndWebTest {
 	        					}
         				  }, new URL("http://127.0.0.1:4723/wd/hub")}} }
            });
+        //What are think about this? In another chapters will be described how to reduce hardcode
+        //and make the starting more smart.
+        
+        //I can imagine what could be JUnit plugin.
     }
 
 	private static final String GET_APPLICATION_METHOD = "getApplication";
