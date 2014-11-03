@@ -21,16 +21,6 @@
     </classes>
   </test>  
   
-  <test name="This is just a test of basic functionality with a webdriver instance that was created externally">
-    <parameter name="path" value="src/test/resources/configs/desctop/"/>
-    <classes>
-      <class name="web.HelloWorldGoogleTest"/>
-      <methods>
-      	<include name="typeHelloWorldAndOpenTheFirstLink3" />
-      </methods>
-    </classes>
-  </test> <!-- Test -->
-  
   <test name="This is just a test of basic functionality. It closes google as visible browser window">
     <parameter name="path" value="src/test/resources/configs/desctop/"/>
     <parameter name="configList" value="chrome.json,firefox.json,internetexplorer_remote.json,internetexplorer.json,phantomjs.json,safari_remote.json"/>

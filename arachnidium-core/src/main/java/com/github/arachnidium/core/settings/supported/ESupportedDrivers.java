@@ -37,6 +37,8 @@ import com.github.arachnidium.util.configuration.Configuration;
  * - {@link AndroidDriver}<br/>
  * - {@link IOSDriver}<br/>
  * <br/>
+ * - is browser only<br/>
+ * - is for mobile applications only<br/>
  * Additional info:<br/>
  * - default {@link Capabilities}<br/>
  * - information about {@link DriverService}<br/>
@@ -54,8 +56,9 @@ public enum ESupportedDrivers {
 	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
 	 * <b>Starts</b>: locally
+	 * browser only
 	 */
-	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, null, null,
+	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, true, false, null, null,
 			false, false),
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link ChromeDriver} <br/>
@@ -65,8 +68,9 @@ public enum ESupportedDrivers {
 	 * <b>{@link DriverService}</b>: {@link ChromeDriverService}<br/>
 	 * <br/>
 	 * <b>Starts</b>: locally
+	 * browser only
 	 */
-	CHROME(DesiredCapabilities.chrome(), ChromeDriver.class,
+	CHROME(DesiredCapabilities.chrome(), ChromeDriver.class, true, false,
 			EServices.CHROMESERVICE, null, false, false),
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link InternetExplorerDriver} <br/>
@@ -77,11 +81,13 @@ public enum ESupportedDrivers {
 	 * <b>{@link DriverService}</b>: {@link InternetExplorerDriverService}<br/>
 	 * <br/>
 	 * <b>Starts</b>: locally<br/>
+	 * browser only
 	 * <br/>
 	 * <b>Additionally:</b> Windows only<br/>
 	 */
 	INTERNETEXPLORER(DesiredCapabilities.internetExplorer(),
-			InternetExplorerDriver.class, EServices.IEXPLORERSERVICE, null,
+			InternetExplorerDriver.class, true, false,  
+			EServices.IEXPLORERSERVICE, null,
 			false, false),
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link SafariDriver} <br/>
@@ -91,8 +97,11 @@ public enum ESupportedDrivers {
 	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
 	 * <b>Starts</b>: locally
+	 * browser only
 	 */
-	SAFARI(DesiredCapabilities.safari(), SafariDriver.class, null, null, false,
+	SAFARI(DesiredCapabilities.safari(), SafariDriver.class,
+			true, false, 
+			null, null, false,
 			false),
 	/**
 	* <b>Required {@link WebDriver} implementor</b>: {@link PhantomJSDriver} <br/>
@@ -102,8 +111,10 @@ public enum ESupportedDrivers {
 	* <b>{@link DriverService}</b>: {@link PhantomJSDriverService}<br/>
 	* <br/>
 	* <b>Starts</b>: locally
+	* browser only
 	 */
 	PHANTOMJS(DesiredCapabilities.phantomjs(), PhantomJSDriver.class,
+			true, false, 
 			EServices.PHANTOMJSSERVICE, null, false, false),
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver}<br/>
@@ -115,9 +126,10 @@ public enum ESupportedDrivers {
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
 	 * http://appium.io/getting-started.html
+	 * browser only
 	 */
-	ANDROID_CHROME(ExtendedDesiredCapabilities.androidChrome(),
-			AndroidDriver.class, null, null, true, true),
+	ANDROID_CHROME(ExtendedDesiredCapabilities.androidChrome(), 
+			AndroidDriver.class, true, false, null, null, true, true),
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link IOSDriver}<br/>
 	 * <br/>
@@ -128,8 +140,9 @@ public enum ESupportedDrivers {
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
 	 * http://appium.io/getting-started.html
+	 * browser only
 	 */
-	IOS_SAFARI(ExtendedDesiredCapabilities.iosSafari(), IOSDriver.class, null,
+	IOS_SAFARI(ExtendedDesiredCapabilities.iosSafari(), IOSDriver.class, true, false, null,
 			null, true, true),
 	
 	 /**
@@ -139,6 +152,7 @@ public enum ESupportedDrivers {
 	* {@link DesiredCapabilities#firefox()()}<br/>
 	* <br/>
 	* <b>Starts</b>: locally and remotely. When it is started locally {@link SeleniumServer} is started it the same time.
+	* browser only
 	* If it needs to be launched remotely it requires {@link URL} of the host where Appium node server (if {@link ExtendedDesiredCapabilities#androidChrome()} or 
 	* {@link ExtendedDesiredCapabilities#iosSafari()} are used) or 
 	* {@link SeleniumServer} are started, e.g. http://127.0.0.1:4723/wd/hub (local host). 
@@ -150,7 +164,7 @@ public enum ESupportedDrivers {
 	* or {@link DesiredCapabilities#phantomjs()} then 
 	* {@link ChromeDriverService}, {@link InternetExplorerDriverService} or {@link PhantomJSDriverService} should be set up respectively<br/>
 	*/
-	REMOTE(DesiredCapabilities.firefox(), RemoteWebDriver.class, null,
+	REMOTE(DesiredCapabilities.firefox(), RemoteWebDriver.class, true, false, null,
 			new RemoteSeleniumServerLauncher(), true, false) {
 		@Override
 		public void setSystemProperty(Configuration configInstance,
@@ -185,8 +199,9 @@ public enum ESupportedDrivers {
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
 	 * http://appium.io/getting-started.html
+	 * mobile apps only
 	 */
-	ANDROID_APP(new DesiredCapabilities(), AndroidDriver.class, null,
+	ANDROID_APP(new DesiredCapabilities(), AndroidDriver.class, false, true, null,
 			null, true, true),
 			
 	/**
@@ -208,9 +223,10 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
-	 * http://appium.io/getting-started.html	
+	 * http://appium.io/getting-started.html
+	 * mobile apps only	
 	 */
-	IOS_APP(new DesiredCapabilities(), IOSDriver.class, null,
+	IOS_APP(new DesiredCapabilities(), IOSDriver.class, false, true, null,
 			null, true, true);
 
 	public static ESupportedDrivers parse(String original) {
@@ -231,9 +247,13 @@ public enum ESupportedDrivers {
 	private final boolean startsRemotely;
 
 	private final boolean requiresRemoteURL;
+	private final boolean isForBrowser;
+	private final boolean isForMobileApp;
 
 	private ESupportedDrivers(DesiredCapabilities capabilities,
-			Class<? extends WebDriver> driverClazz, EServices sevice,
+			Class<? extends WebDriver> driverClazz, 
+			boolean isForBrowser, boolean isForMobileApp,
+			EServices sevice,
 			ILocalServerLauncher serverLauncher, boolean startsRemotely,
 			boolean requiresRemoteURL) {
 		this.capabilities = capabilities;
@@ -242,6 +262,8 @@ public enum ESupportedDrivers {
 		this.serverLauncher = serverLauncher;
 		this.startsRemotely = startsRemotely;
 		this.requiresRemoteURL = requiresRemoteURL;
+		this.isForBrowser = isForBrowser;
+		this.isForMobileApp = isForMobileApp;
 	}
 
 	/**
@@ -308,5 +330,13 @@ public enum ESupportedDrivers {
 	 */
 	public boolean startsRemotely() {
 		return startsRemotely;
+	}
+	
+	public boolean isForBrowser(){
+		return isForBrowser;
+	}
+	
+	public boolean isForMobileApp(){
+		return isForMobileApp;
 	}
 }

@@ -3,7 +3,6 @@ package com.github.arachnidium.model.mobile;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.net.URL;
-import java.util.ArrayList;
 
 import com.github.arachnidium.util.configuration.Configuration;
 
@@ -24,9 +23,13 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.model.common.DefaultApplicationFactory;
 
-
 public final class MobileFactory extends DefaultApplicationFactory {
-	private static MobileFactory MOBILE_FACTORY_OBJECT = new MobileFactory();
+	private static WebDriverDesignationChecker objectWhichChecksWebDriver  = givenWebDriverDesignation -> {
+			if (!givenWebDriverDesignation.isForMobileApp()){
+				throw new IllegalArgumentException(givenWebDriverDesignation.toString() + " is not for mobile "
+						+ "app launching!");
+			}
+		};
 	
 	/**
 	 * Common method that creates an instance of a mobile application using
@@ -77,8 +80,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 			Capabilities capabilities, URL remoteAddress) {
 		return getApplication(ScreenManager.class, appClass,
 				supportedDriver, capabilities, remoteAddress,
-				new MobileApplicationInterceptor(), 
-				MOBILE_FACTORY_OBJECT);
+				new MobileApplicationInterceptor(), objectWhichChecksWebDriver);
 	}
 
 	/**
@@ -110,19 +112,7 @@ public final class MobileFactory extends DefaultApplicationFactory {
 	public static <T extends Application<?, ?>> T getApplication(
 			Class<T> appClass, Configuration configuration) {
 		T result = getApplication(ScreenManager.class, appClass,
-				configuration, new MobileApplicationInterceptor(), 
-				MOBILE_FACTORY_OBJECT);
+				configuration, new MobileApplicationInterceptor(), objectWhichChecksWebDriver);
 		return result;
 	}
-
-	private MobileFactory() {
-		super(new ArrayList<ESupportedDrivers>(){
-			private static final long serialVersionUID = 1L;
-			{
-				add(ESupportedDrivers.ANDROID_APP);
-				add(ESupportedDrivers.IOS_APP);
-			}
-		});
-	}
-
 }

@@ -8,19 +8,17 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import com.github.arachnidium.util.configuration.Configuration;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.github.arachnidium.core.WebDriverEncapsulation;
-import com.github.arachnidium.web.google.Google;
-
 import web.mocks.MockWebDriverListener;
 import web.mocks.MockWindowListener;
+
+import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.web.google.Google;
 
 public class HelloWorldGoogleTest {
 	
@@ -128,18 +126,6 @@ public class HelloWorldGoogleTest {
 					.get(path + config);
 			test(Google.getNew(configuration));		
 		}
-	}
-
-	@Test(description = "This is just a test of basic functionality with a webdriver instance that was created externally")
-	@Parameters(value={"path"})
-	public void typeHelloWorldAndOpenTheFirstLink3(
-			@Optional("src/test/resources/configs/desctop/") String path) 
-					throws Exception{
-		Configuration configuration = Configuration
-				.get(path + "firefox.json");
-		WebDriverEncapsulation encapsulation = new WebDriverEncapsulation(
-				new FirefoxDriver(), configuration);
-		test(Google.getNew(encapsulation));
 	}
 
 	@Test(description = "This is just a test of basic functionality. It closes google as visible browser window")
