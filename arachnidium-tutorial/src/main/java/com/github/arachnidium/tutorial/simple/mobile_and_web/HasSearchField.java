@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.tutorial.simple.mobile.Videos;
 
 //
 // Object oriented programming is appreciated. So we can to define

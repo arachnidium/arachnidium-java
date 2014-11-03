@@ -5,8 +5,6 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.tutorial.simple.mobile.UserScreen;
-import com.github.arachnidium.tutorial.simple.mobile.Videos;
 
 //
  // Object oriented programming is appreciated. So we can to define
@@ -49,7 +47,7 @@ public abstract class HasSearchField<S extends Handle> extends FunctionalPart<S>
 	
 	 /**@see 
 	 *{@link Videos}
-	 *{@link UserScreen}
+	 *{@link UserPage}
 	 */	
 	protected HasSearchField(FunctionalPart<?> parent) {
 		super(parent);
