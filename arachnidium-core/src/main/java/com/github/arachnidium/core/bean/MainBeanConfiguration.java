@@ -90,30 +90,6 @@ public class MainBeanConfiguration {
 	}
 	
 	/**
-	 * It makes instantiated {@link WebDriver} listenable
-	 * 
-	 * @param context nstantiated {@link AbstractApplicationContext} 
-	 * which is used by {@link AspectWebDriverEventListener}
-	 * 
-	 * @param configurationWrapper something that wraps {@link Configuration}
-	 * {@link AspectWebDriverEventListener} needs it
-	 * @param destroyable Something that implements {@link IDestroyable}
-	 * @param driver An instance of {@link WebDriver}
-	 * 
-	 * @return A listenable {@link WebDriver} instance
-	 * 
-	 * @see Bean
-	 */
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	@Bean(name = WEBDRIVER_BEAN)
-	public WebDriver getWebdriver(AbstractApplicationContext context, 
-			IConfigurationWrapper configurationWrapper,
-			IDestroyable destroyable,
-			WebDriver driver) {
-		return populate(context, configurationWrapper, destroyable, driver);
-	}
-	
-	/**
 	 * Makes an instance of {@link IExtendedWindow} listenable
 	 * @param window An original instance of {@link IExtendedWindow}
 	 * @return The listenable instance of {@link IExtendedWindow}

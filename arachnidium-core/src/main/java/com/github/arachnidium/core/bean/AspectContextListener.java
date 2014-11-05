@@ -29,7 +29,7 @@ import com.github.arachnidium.core.settings.ScreenShots;
  *                        events
  */
 @Aspect
-public class AspectContextListener extends DefaultHandleListener implements
+class AspectContextListener extends DefaultHandleListener implements
 		IContextListener {
 
 	private final List<IContextListener> contextEventListeners = new ArrayList<IContextListener>() {

@@ -179,37 +179,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 				remoteAddress);
 	}
 
-	/**
-	 * Wraps an instance of required {@link RemoteWebDriver} subclass which is
-	 * already instantiated
-	 * 
-	 * @param explicitlyInitiatedWebDriver
-	 *            it is already instantiated {@link RemoteWebDriver}
-	 */
-	public WebDriverEncapsulation(RemoteWebDriver explicitlyInitiatedWebDriver) {
-		this(explicitlyInitiatedWebDriver, Configuration.byDefault);
-	}
-
-	/**
-	 * Wraps an instance of required {@link RemoteWebDriver} subclass which is
-	 * already instantiated and applies given {@link Configuration}
-	 * 
-	 * @param explicitlyInitiatedWebDriver
-	 *            it is already instantiated {@link RemoteWebDriver}
-	 * @param {@link Configuration}
-	 */
-	public WebDriverEncapsulation(RemoteWebDriver explicitlyInitiatedWebDriver,
-			Configuration configuration) {
-		this.configuration = configuration;
-		enclosedDriver = (RemoteWebDriver) context.getBean(
-				MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
-				destroyableObjects, explicitlyInitiatedWebDriver);
-		Log.message("Getting started with already instantiated "
-				+ explicitlyInitiatedWebDriver.getClass());
-		timeOut = getComponent(TimeOut.class);
-		resetAccordingTo(configuration);
-	}
-
 	// other methods:
 	private void constructorBody(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
