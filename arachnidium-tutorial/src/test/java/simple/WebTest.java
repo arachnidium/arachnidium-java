@@ -54,10 +54,13 @@ public class WebTest {
 		//except com.github.arachnidium.model.mobile.MobileApplication and its subclasses
 		
 		
-		vk = WebFactory.getApplication(Application.class,
-				ESupportedDrivers.FIREFOX, "http://vk.com/login.php");
-		//vk = WebFactory.getApplication(BrowserApplication.class,
-		//		ESupportedDrivers.FIREFOX, "http://vk.com/login.php");
+		vk = new WebFactory(
+				ESupportedDrivers.FIREFOX).
+				launch(Application.class, "http://vk.com/login.php");
+		
+		//vk = new WebFactory(
+		//		ESupportedDrivers.FIREFOX).
+		//		launch(BrowserApplication.class, "http://vk.com/login.php");
 		
 		//Here we perform log in
 		VKLogin<?> vkLogin = vk.getPart(VKLogin.class);

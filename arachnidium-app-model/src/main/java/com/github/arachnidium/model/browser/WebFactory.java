@@ -1,236 +1,111 @@
 package com.github.arachnidium.model.browser;
 
-import io.appium.java_client.remote.MobileCapabilityType;
-
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.arachnidium.core.WindowManager;
-import com.github.arachnidium.core.settings.AlertIsPresentTimeOut;
-import com.github.arachnidium.core.settings.CapabilitySettings;
-import com.github.arachnidium.core.settings.ChromeDriverServerBin;
-import com.github.arachnidium.core.settings.HandleWaitingTimeOut;
-import com.github.arachnidium.core.settings.IEDriverServerBin;
-import com.github.arachnidium.core.settings.PhantomJSDriverBin;
-import com.github.arachnidium.core.settings.ScreenShots;
-import com.github.arachnidium.core.settings.WebDriverSettings;
-import com.github.arachnidium.core.settings.WebDriverTimeOuts;
-import com.github.arachnidium.core.settings.WindowIsClosedTimeOut;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
+import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
 import com.github.arachnidium.model.common.Application;
-import com.github.arachnidium.model.common.DefaultApplicationFactory;
+import com.github.arachnidium.model.common.ApplicationFactory;
 import com.github.arachnidium.util.configuration.Configuration;
 
-public final class WebFactory extends DefaultApplicationFactory {
+public final class WebFactory extends ApplicationFactory {
 	private static WebDriverDesignationChecker objectWhichChecksWebDriver = givenWebDriverDesignation -> {
 			if (!givenWebDriverDesignation.isForBrowser()){
 				throw new IllegalArgumentException(givenWebDriverDesignation.toString() + 
 						" is not for browser launching!");
 			}
 		};
+	@SuppressWarnings("unchecked")
+	private static Map<String, Object> setInitURLToCapabilityMap(Capabilities capabilities, String initURL){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.putAll((Map<String, Object>) capabilities.asMap());
+		map.put(ExtendedCapabilityType.BROWSER_INITIAL_URL, initURL);
+		return map;
+	}
+
+
+	
 	/**
-	 * Common method that creates an instance of the application by defined
-	 * {@link Configuration}. Performs navigation to the required URL 
-	 * 
-	 * <br/><br/>
-	 * Supported {@link WebDriver} designations:<br/>
-	 * - {@link ESupportedDrivers#FIREFOX}<br/>
-	 * - {@link ESupportedDrivers#CHROME}<br/>
-	 * - {@link ESupportedDrivers#INTERNETEXPLORER}<br/>
-	 * - {@link ESupportedDrivers#PHANTOMJS}<br/>
-	 * - {@link ESupportedDrivers#SAFARI}<br/>
-	 * - {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link ESupportedDrivers#ANDROID_CHROME}<br/>
-	 * - {@link ESupportedDrivers#IOS_SAFARI}<br/>
-	 * All these should be defined in {@link WebDriverSettings}
-	 * <br/><br/>
-	 * Presence of {@link Capabilities} is optional, except {@link ESupportedDrivers#REMOTE},
-	 * {@link ESupportedDrivers#ANDROID_CHROME} and {@link ESupportedDrivers#IOS_SAFARI}.
-	 * Following capabilities are required in this case:<br/>
-	 * - {@link CapabilityType#BROWSER_NAME} is actual for {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link MobileCapabilityType#DEVICE_NAME} - if {@link ESupportedDrivers#ANDROID_CHROME}, 
-	 * - {@link ESupportedDrivers#IOS_SAFARI} and {@link ESupportedDrivers#REMOTE} launched on
-	 * mobile device<br/>
-	 * - {@link MobileCapabilityType#PLATFORM_VERSION} this parameter is actual for {@link ESupportedDrivers#IOS_SAFARI}
-	 * and {@link ESupportedDrivers#REMOTE} launched on IPhone/IPad (simulator/device)<br/> 
-	 * 
-	 * All these should be defined in {@link CapabilitySettings}
-	 * 
-	 * @see 
-	 * {@link Configuration}<br/>
-	 * {@link WebDriverTimeOuts}<br/>
-	 * {@link HandleWaitingTimeOut}<br/>
-	 * {@link AlertIsPresentTimeOut}<br/>
-	 * {@link WindowIsClosedTimeOut}<br/>
-	 * {@link ChromeDriverServerBin}<br/>
-	 * {@link IEDriverServerBin}<br/>
-	 * {@link PhantomJSDriverBin}<br/>
-	 * {@link ScreenShots}<br/>
+	 * If factory instantiated this way 
+	 * browser will be started using {@link Configuration#byDefault}
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, Configuration config, String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass, config,
-						new BrowserApplicationInterceptor(), objectWhichChecksWebDriver), 
-						urlToBeLoaded);
+	public WebFactory(){
+		super();
 	}
 
 	/**
-	 * Common method that creates an instance of the application by required
-	 * {@link RemoteWebDriver} class and its {@link Capabilities}.
-	 * The class of {@link RemoteWebDriver} subclass 
-	 * is contained by {@link ESupportedDrivers} 
-	 * 
-     * <br/><br/>
-	 * Supported {@link WebDriver} designations:<br/>
-	 * - {@link ESupportedDrivers#FIREFOX}<br/>
-	 * - {@link ESupportedDrivers#CHROME}<br/>
-	 * - {@link ESupportedDrivers#INTERNETEXPLORER}<br/>
-	 * - {@link ESupportedDrivers#PHANTOMJS}<br/>
-	 * - {@link ESupportedDrivers#SAFARI}<br/>
-	 * - {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link ESupportedDrivers#ANDROID_CHROME}<br/>
-	 * - {@link ESupportedDrivers#IOS_SAFARI}<br/>
-	 * 
-	 * Performs navigation to the required URL 
-	 * 
-	 * 
+	 * If factory instantiated this way 
+	 * browser will be started using the given {@link Configuration}
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			Capabilities capabilities, String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass, supportedDriver,
-						capabilities, new BrowserApplicationInterceptor(), objectWhichChecksWebDriver),
-				urlToBeLoaded);
+	public WebFactory(Configuration configuration){
+		super(configuration);
 	}
+
 
 
 	/**
-	 * Common method that creates an instance of the application by required
-	 * {@link RemoteWebDriver} class and its {@link Capabilities} and URL of remote
-	 * host where it should be launched.
-     * The class of {@link RemoteWebDriver} subclass 
-	 * is contained by {@link ESupportedDrivers} 
-	 * 
-	 * Performs navigation to the required URL<br/><br/> 
-	 * 
-	 * Supported {@link WebDriver} designations:<br/>
-	 * - {@link ESupportedDrivers#FIREFOX}<br/>
-	 * - {@link ESupportedDrivers#CHROME}<br/>
-	 * - {@link ESupportedDrivers#INTERNETEXPLORER}<br/>
-	 * - {@link ESupportedDrivers#PHANTOMJS}<br/>
-	 * - {@link ESupportedDrivers#SAFARI}<br/>
-	 * - {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link ESupportedDrivers#ANDROID_CHROME}<br/>
-	 * - {@link ESupportedDrivers#IOS_SAFARI}<br/>
+	 * If factory instantiated this way 
+	 * browser will be started using desired
+	 * {@link WebDriver} description
+	 * and its default {@link Capabilities} 
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			Capabilities capabilities, URL remoteAddress, String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass, supportedDriver,
-						capabilities, remoteAddress,
-						new BrowserApplicationInterceptor(), objectWhichChecksWebDriver), urlToBeLoaded);
+	public WebFactory(ESupportedDrivers supportedDriver){
+		super(supportedDriver);
 	}
+
+
 
 	/**
-	 * Common method that creates an instance of the application by required
-	 * {@link RemoteWebDriver} class. This class is contained by {@link ESupportedDrivers} 
-	 * 
-	 * Performs navigation to the required URL<br/><br/> 
-	 * 
-	 * Supported {@link WebDriver} designations:<br/>
-	 * - {@link ESupportedDrivers#FIREFOX}<br/>
-	 * - {@link ESupportedDrivers#CHROME}<br/>
-	 * - {@link ESupportedDrivers#INTERNETEXPLORER}<br/>
-	 * - {@link ESupportedDrivers#PHANTOMJS}<br/>
-	 * - {@link ESupportedDrivers#SAFARI}<br/>
-	 * - {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link ESupportedDrivers#ANDROID_CHROME}<br/>
-	 * - {@link ESupportedDrivers#IOS_SAFARI}<br/>
+	 * If factory instantiated this way 
+	 * browser will be started using desired
+	 * {@link WebDriver} description
+	 * and given {@link Capabilities} 
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass, supportedDriver,
-						new BrowserApplicationInterceptor(), objectWhichChecksWebDriver), urlToBeLoaded);
+	public WebFactory(ESupportedDrivers supportedDriver, 
+			Capabilities capabilities){
+		super(supportedDriver, capabilities);
 	}
+
+
 
 	/**
-	 * Common method that creates an instance of the application by required
-	 * {@link RemoteWebDriver} class and URL of remote
-	 * host where it should be launched.
-     * The class of {@link RemoteWebDriver} subclass 
-	 * is contained by {@link ESupportedDrivers} 
-	 * 
-	 * Performs navigation to the required URL 
+	 * If factory instantiated this way 
+	 * browser will be started using desired
+	 * {@link WebDriver} description, given {@link Capabilities} 
+	 * and URL to the desired remote host
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, ESupportedDrivers supportedDriver,
-			URL remoteAddress, String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass, supportedDriver,
-						remoteAddress, new BrowserApplicationInterceptor(), objectWhichChecksWebDriver),
-				urlToBeLoaded);
+	public WebFactory(ESupportedDrivers supportedDriver, 
+			Capabilities capabilities, URL remoteUrl){
+		super(supportedDriver, capabilities, remoteUrl);
 	}
 
+
+
+	@Override
+	public <T extends Application<?, ?>> T launch(Class<T> appClass) {
+		return launch(WindowManager.class, appClass, new BrowserApplicationInterceptor(), 
+				objectWhichChecksWebDriver);
+	}
+	
 	/**
-	 * Common method that creates an instance of the application by default
-	 * configuration - {@link Configuration#byDefault}
+	 * The launching of the browser app using URL which has to be loaded
 	 * 
-	 * Performs navigation to the required URL<br/><br/> 
-	 * 
-     * Supported {@link WebDriver} designations:<br/>
-	 * - {@link ESupportedDrivers#FIREFOX}<br/>
-	 * - {@link ESupportedDrivers#CHROME}<br/>
-	 * - {@link ESupportedDrivers#INTERNETEXPLORER}<br/>
-	 * - {@link ESupportedDrivers#PHANTOMJS}<br/>
-	 * - {@link ESupportedDrivers#SAFARI}<br/>
-	 * - {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link ESupportedDrivers#ANDROID_CHROME}<br/>
-	 * - {@link ESupportedDrivers#IOS_SAFARI}<br/>
-	 * All these should be defined in {@link WebDriverSettings}
-	 * <br/><br/>
-	 * Presence of {@link Capabilities} is optional, except {@link ESupportedDrivers#REMOTE},
-	 * {@link ESupportedDrivers#ANDROID_CHROME} and {@link ESupportedDrivers#IOS_SAFARI}.
-	 * Following capabilities are required in this case:<br/>
-	 * - {@link CapabilityType#BROWSER_NAME} is actual for {@link ESupportedDrivers#REMOTE}<br/>
-	 * - {@link MobileCapabilityType#DEVICE_NAME} - if {@link ESupportedDrivers#ANDROID_CHROME}, 
-	 * - {@link ESupportedDrivers#IOS_SAFARI} and {@link ESupportedDrivers#REMOTE} launched on
-	 * mobile device<br/>
-	 * - {@link MobileCapabilityType#PLATFORM_VERSION} this parameter is actual for {@link ESupportedDrivers#IOS_SAFARI}
-	 * and {@link ESupportedDrivers#REMOTE} launched on IPhone/IPad (simulator/device)<br/> 
-	 * 
-	 * All these should be defined in {@link CapabilitySettings}
-	 * 
-	 * @see 
-	 * {@link Configuration}<br/>
-	 * {@link WebDriverTimeOuts}<br/>
-	 * {@link HandleWaitingTimeOut}<br/>
-	 * {@link AlertIsPresentTimeOut}<br/>
-	 * {@link WindowIsClosedTimeOut}<br/>
-	 * {@link ChromeDriverServerBin}<br/>
-	 * {@link IEDriverServerBin}<br/>
-	 * {@link PhantomJSDriverBin}<br/>
-	 * {@link ScreenShots}<br/>
+	 * @param appClass is the desired app representation
+	 * @param desiredUrl is the URL which has to be loaded
+	 * @return an instance of the given appClass
 	 */
-	public static <T extends Application<?, ?>> T getApplication(
-			Class<T> appClass, String urlToBeLoaded) {
-		return load(
-				getApplication(WindowManager.class, appClass,
-						new BrowserApplicationInterceptor(), objectWhichChecksWebDriver), urlToBeLoaded);
+	public <T extends Application<?, ?>> T launch(Class<T> appClass, String desiredUrl) {
+		capabilities = new DesiredCapabilities(setInitURLToCapabilityMap(capabilities, desiredUrl));
+		return launch(WindowManager.class, appClass, new BrowserApplicationInterceptor(), 
+				objectWhichChecksWebDriver);
 	}
-
-	private static <T extends Application<?, ?>> T load(T instance,
-			String urlToBeLoaded) {
-		instance.getWebDriverEncapsulation().getWrappedDriver().navigate()
-				.to(urlToBeLoaded);
-		return instance;
-	}
+	
+	
 }

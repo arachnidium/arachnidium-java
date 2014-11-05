@@ -10,7 +10,9 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.openqa.selenium.Platform;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
@@ -34,7 +36,7 @@ public class HelloWorldGoogleTest3 {
 	@Test(description = "A test with defined paths to WD service binary files. This files are defined for each operating system")
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
 		for (Configuration config: configs){
-			Google google = Google.getNew(config);
+			Google google = new WebFactory(config).launch(Google.class, "http://www.google.com/");
 			test(google);
 		}
 	}

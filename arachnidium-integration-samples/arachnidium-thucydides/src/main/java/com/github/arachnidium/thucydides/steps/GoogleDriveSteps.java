@@ -18,8 +18,7 @@ public class GoogleDriveSteps extends StepsWithApplication {
 	@Override
 	@Step
 	public void insatantiateApp(Configuration configuration) {
-		setInstantiatedApplication(WebFactory.getApplication(Application.class,
-				configuration, DOC_LINK));
+		setInstantiatedApplication(new WebFactory(configuration).launch(Application.class, DOC_LINK));
 	}
 
 	@Step

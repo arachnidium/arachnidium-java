@@ -18,8 +18,8 @@ public class IOSTestExample {
 	public void iOSUICatalogTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/ios/ios_uiCatalog.json");
-		MobileApplication uiCatalog = MobileFactory.getApplication(
-				MobileApplication.class, config);
+		MobileApplication uiCatalog = new MobileFactory(config).launch(
+				MobileApplication.class);
 		try {
 			UICatalog uicatalog = uiCatalog.getPart(UICatalog.class);
 			uicatalog.backToMe();

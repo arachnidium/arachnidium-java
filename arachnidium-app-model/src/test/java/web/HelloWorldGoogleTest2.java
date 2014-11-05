@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.openqa.selenium.Platform;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
@@ -97,7 +99,7 @@ public class HelloWorldGoogleTest2 {
 				continue;
 			}
 			Configuration configuration = Configuration.get(path + config);
-			Google google = Google.getNew(configuration);
+			Google google =new WebFactory(configuration).launch(Google.class, "http://www.google.com/");
 			try {
 				String[] howToVars = howToGetANewWindow.split(",");
 				google.performSearch("Hello world Wikipedia");

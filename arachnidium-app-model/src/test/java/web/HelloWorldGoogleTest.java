@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import web.mocks.MockWebDriverListener;
 import web.mocks.MockWindowListener;
 
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.web.google.Google;
 
@@ -105,7 +106,7 @@ public class HelloWorldGoogleTest {
 	
 	@Test(description = "This is just a test of basic functionality without any configuration")
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
-		test(Google.getNew());
+		test(new WebFactory().launch(Google.class, "http://www.google.com/"));
 	}
 
 	@Test(description = "This is just a test of basic functionality with specified configurations")
@@ -124,7 +125,7 @@ public class HelloWorldGoogleTest {
 			}
 			Configuration configuration = Configuration
 					.get(path + config);
-			test(Google.getNew(configuration));		
+			test(new WebFactory(configuration).launch(Google.class, "http://www.google.com/"));		
 		}
 	}
 
@@ -143,7 +144,7 @@ public class HelloWorldGoogleTest {
 			}
 			Configuration configuration = Configuration
 					.get(path + config);
-			test2(Google.getNew(configuration));
+			test2(new WebFactory(configuration).launch(Google.class, "http://www.google.com/"));
 		}
 	}
 
@@ -154,7 +155,7 @@ public class HelloWorldGoogleTest {
 		MockWebDriverListener.wasInvoked = false;
 		MockWindowListener.wasInvoked = false;
 		try {
-			test(Google.getNew());
+			test(new WebFactory().launch(Google.class, "http://www.google.com/"));
 		} catch (Exception e) {
 		}
 		Assert.assertEquals(true, MockWebDriverListener.wasInvoked);
@@ -176,7 +177,7 @@ public class HelloWorldGoogleTest {
 				continue;
 			}
 			Configuration configuration = Configuration.get(path + config);
-			Google google = Google.getNew(configuration);
+			Google google = new WebFactory(configuration).launch(Google.class, "http://www.google.com/");
 			workWithGoogle(google);
 			google.getWrappedDriver().quit();
 		}

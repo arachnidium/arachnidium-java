@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.testng.annotations.Test;
 
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.web.google.AnyPage;
 import com.github.arachnidium.web.google.Google;
 import com.github.arachnidium.web.google.LinksAreFoundExceptionThrowing;
@@ -65,6 +66,6 @@ public class GoogleExceptionInterceptionTest {
 
 	@Test(description = "This test checks exception interception and handling")
 	public void exceptionInterceptionTest() throws Exception{
-		test(Google.getNew(), false);
+		test(new WebFactory().launch(Google.class, "http://www.google.com/"), false);
 	}
 }

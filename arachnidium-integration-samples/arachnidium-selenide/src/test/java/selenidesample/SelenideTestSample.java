@@ -1,10 +1,12 @@
 package selenidesample;
 
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.selenide.google.Google;
 import com.github.arachnidium.selenide.google.LinksAreFound;
 import com.github.arachnidium.selenide.google.SearchBar;
@@ -22,7 +24,7 @@ public class SelenideTestSample {
 		String[] configNames = configList.split(",");
 		for (String config : configNames) {
 			Configuration configuration = Configuration.get(path + config);
-			Google google = Google.getNew(configuration);
+			Google google = new WebFactory(configuration).launch(Google.class, "http://www.google.com/");
 			try {
 				google.getPart(SearchBar.class).performSearch("Hello world Wikipedia");
 				google.getPart(LinksAreFound.class).openLinkByIndex(1);

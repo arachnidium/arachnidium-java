@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -54,7 +57,9 @@ implements HasCapabilities, Capabilities {
 	// specified settings for capabilities
 	private final String capabilityGroup = "DesiredCapabilities";
 	private final DesiredCapabilities builtCapabilities = new DesiredCapabilities();
-	private final String appCapability = "app";
+	private final String appCapability = ExtendedCapabilityType.APP;
+	private final String proxyCapability = ExtendedCapabilityType.PROXY;
+	private final String initialURL = ExtendedCapabilityType.BROWSER_INITIAL_URL;
 
 	public CapabilitySettings(Configuration configuration) {
 		super(configuration);
@@ -158,6 +163,20 @@ implements HasCapabilities, Capabilities {
 			builtCapabilities.setCapability(appCapability,
 					app.getAbsolutePath());
 		}
+		//sets proxy
+		Proxy proxy = Proxy.extractFrom(builtCapabilities);
+		if (proxy!=null){
+			builtCapabilities.setCapability(proxyCapability, proxy);
+		}
+		
+		//sets initial URL if browser
+		String startUrl = (String) builtCapabilities.getCapability(initialURL);
+		if (startUrl == null){
+			startUrl = getSettingValue(capabilityGroup, initialURL);
+		}
+		if (startUrl!=null){
+			builtCapabilities.setCapability(initialURL, startUrl);
+		}		
 		// if other actions need to be implemented code will be below
 	}
 }

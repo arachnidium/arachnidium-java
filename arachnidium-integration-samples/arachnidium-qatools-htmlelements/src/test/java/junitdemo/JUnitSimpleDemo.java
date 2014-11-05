@@ -42,8 +42,7 @@ public class JUnitSimpleDemo {
 
 	@Test
 	public void test1() throws Exception {
-		googleDrive = WebFactory.getApplication(Application.class, configuration,
-				DOC_LINK);
+		googleDrive = new WebFactory(configuration).launch(Application.class, DOC_LINK);
 		
 		LoginToGoogleService<?> loginToGoogleService = googleDrive
 				.getPart(LoginToGoogleService.class);
@@ -70,7 +69,7 @@ public class JUnitSimpleDemo {
 	
 	@Test
 	public void test2 () throws Exception {
-		googleDrive = WebFactory.getApplication(Application.class, configuration,
+		googleDrive = new WebFactory(configuration).launch(Application.class,
 				GOOGLE_DRIVE);
 		LoginToGoogleService<?> loginToGoogleService = googleDrive
 				.getPart(LoginToGoogleService.class);

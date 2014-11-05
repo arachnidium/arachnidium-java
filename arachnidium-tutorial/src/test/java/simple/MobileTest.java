@@ -68,10 +68,8 @@ public class MobileTest {
 		//com.github.arachnidium.model.mobile.MobileApplication
 		//(!!!)
 		//except com.github.arachnidium.model.browser.BrowserApplication and its subclasses		
-		vk = MobileFactory.getApplication(
-				//Application.class, 
-				//MobileApplication.class
-				AndroidApp.class, ESupportedDrivers.ANDROID_APP,
+		vk = new MobileFactory(
+				ESupportedDrivers.ANDROID_APP,
 				new DesiredCapabilities() {
 					private static final long serialVersionUID = 1L;
 					{
@@ -85,7 +83,10 @@ public class MobileTest {
 						setCapability(MobileCapabilityType.DEVICE_NAME,
 								"Android Emulator");
 					}
-				}, new URL("http://127.0.0.1:4723/wd/hub"));//URL of the remote host where Appium NodeJS server is launched  
+				}, new URL("http://127.0.0.1:4723/wd/hub")). //URL of the remote host where Appium NodeJS server is launched
+				launch(//Application.class, 
+						//MobileApplication.class
+						AndroidApp.class);  
 		
 		//Here we perform log in
 		VKLogin<?> vkLogin = vk.getPart(VKLogin.class);

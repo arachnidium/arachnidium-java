@@ -17,8 +17,7 @@ public class AndroidBBCSteps extends StepsWithApplication {
 	@Override
 	@Step
 	public void insatantiateApp(Configuration configuration) {
-		setInstantiatedApplication(MobileFactory.getApplication(
-				Application.class, configuration));
+		setInstantiatedApplication(new MobileFactory(configuration).launch(Application.class));
 	}
 	
 	@Step

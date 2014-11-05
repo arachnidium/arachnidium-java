@@ -252,7 +252,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
 		Object[] values = new Object[] { this };
-		return DefaultApplicationFactory.get(partClass, values);
+		return DecompositionUtil.get(partClass, values);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S> im
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy) {
 		Object[] values = new Object[] { this, pathStrategy };
-		return DefaultApplicationFactory.get(partClass, values);
+		return DecompositionUtil.get(partClass, values);
 	}
 
 	private IWebElementHighlighter getHighlighter(){

@@ -1,15 +1,12 @@
 package com.github.arachnidium.web.google;
 
 import org.openqa.selenium.internal.WrapsDriver;
-import com.github.arachnidium.util.configuration.Configuration;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserApplication;
-import com.github.arachnidium.model.browser.WebFactory;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
 	
-	private final static String url = "http://www.google.com/";
 	private SearchBar<?> searchBar;
 	private LinksAreFound<?> linksAreFound;
 	
@@ -19,16 +16,6 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 		linksAreFound = getPart(LinksAreFound.class); 
 	}
 	
-	public static Google getNew()
-	{
-		return WebFactory.getApplication(Google.class, url);
-	}
-	
-	public static Google getNew(Configuration config)
-	{
-		return WebFactory.getApplication(Google.class, config, url);
-	}
-
 	public void performSearch(String searchString) {
 		searchBar.performSearch(searchString);		
 	}

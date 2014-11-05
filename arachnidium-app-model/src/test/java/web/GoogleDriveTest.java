@@ -23,7 +23,6 @@ import com.github.arachnidium.web.googledrive.ShareDocumentSettings;
 import com.github.arachnidium.web.googledrive.SpreadSheet;
 
 public class GoogleDriveTest {
-	private final String DOC_LINK = "https://docs.google.com/document/d/1PNtBQwSHQyedeIZqV5VYakPWJtW5incbuiKekB33HyQ/edit";
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
 	private final String USER = "ArachnidiumTester";
 	private final String PASSWORD = "ArachnidTester123";
@@ -49,10 +48,12 @@ public class GoogleDriveTest {
 			private static final long serialVersionUID = -1718278594717074313L;
 			{
 				add("chrome_remote.json");
+				add("chrome_withDesiredUrl.json");
 				add("chrome.json");
 
 				add("firefox_remote.json");
 				add("firefox.json");
+				add("firefox_withDesiredUrl.json");
 
 				//add("internetexplorer_remote.json");
 				//add("internetexplorer.json");
@@ -69,10 +70,12 @@ public class GoogleDriveTest {
 			private static final long serialVersionUID = -1718278594717074313L;
 			{
 				add("chrome_remote.json");
+				add("chrome_withDesiredUrl.json");
 				add("chrome.json");
 
 				add("firefox_remote.json");
 				add("firefox.json");
+				add("firefox_withDesiredUrl.json");
 
 				// add("safari_remote.json");
 				// add("safari.json");
@@ -119,7 +122,7 @@ public class GoogleDriveTest {
 	@Parameters(value = { "path", "configList" })
 	public void test1(
 			@Optional("src/test/resources/configs/desctop/") String path,
-			@Optional("chrome.json,firefox.json") String configList)
+			@Optional("chrome_withDesiredUrl.json,firefox_withDesiredUrl.json") String configList)
 			throws Exception {
 
 		List<String> configs = getConfigsByCurrentPlatform();
@@ -130,8 +133,7 @@ public class GoogleDriveTest {
 				continue;
 			}
 			Configuration configuration = Configuration.get(path + config);
-			test1(WebFactory.getApplication(Application.class, configuration,
-					DOC_LINK));
+			test1(new WebFactory(configuration).launch(Application.class));
 		}
 	}
 
@@ -209,8 +211,7 @@ public class GoogleDriveTest {
 				continue;
 			}
 			Configuration configuration = Configuration.get(path + config);
-			test2(WebFactory.getApplication(Application.class, configuration,
-					GOOGLE_DRIVE));
+			test2(new WebFactory(configuration).launch(Application.class, GOOGLE_DRIVE));
 		}
 	}
 }

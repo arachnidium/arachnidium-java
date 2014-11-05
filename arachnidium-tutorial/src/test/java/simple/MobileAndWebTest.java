@@ -3,7 +3,6 @@ package simple;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,13 +15,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
+import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
-import com.github.arachnidium.model.common.DefaultApplicationFactory;
+import com.github.arachnidium.model.common.ApplicationFactory;
 import com.github.arachnidium.model.mobile.MobileFactory;
 import com.github.arachnidium.model.mobile.android.AndroidApp;
 import com.github.arachnidium.tutorial.simple.mobile_and_web.User;
@@ -54,30 +53,45 @@ public class MobileAndWebTest {
 	@Parameters
 	public static Collection<Object[]> data() throws Exception {
 		
-        return Arrays.asList(new Object[][] {
-                 { WebFactory.class, //parameters for the browser starting
-                	 new Object[]{new Class<?>[]{Class.class, ESupportedDrivers.class, String.class}, 
-                		 new Object[]{Application.class, ESupportedDrivers.FIREFOX, "http://vk.com/login.php"}} },
+		new MobileFactory(ESupportedDrivers.ANDROID_APP, 
+				new DesiredCapabilities() {
+				private static final long serialVersionUID = 1L;
+			{
+				setCapability(MobileCapabilityType.APP, new File(
+						"src/test/resources/com.vkontakte.android.apk")
+						.getAbsolutePath());
+				setCapability(MobileCapabilityType.APP_PACKAGE,
+						"com.vkontakte.android");
+				setCapability(MobileCapabilityType.APP_ACTIVITY,
+						"LoginActivity");
+				setCapability(MobileCapabilityType.DEVICE_NAME,
+						"Android Emulator");
+			}
+	  }, new URL("http://127.0.0.1:4723/wd/hub"));
+		
+        return Arrays.asList(new Object[][] {{
+        		new WebFactory(ESupportedDrivers.FIREFOX, new DesiredCapabilities(){
+        			private static final long serialVersionUID = 1L;
+        			{
+        				setCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL, "http://vk.com/login.php");
+        			}
+        		}), Application.class },
                  
-                 {MobileFactory.class, //parameters for the Android app starting
-                   	 new Object[]{
-                	 new Class<?>[]{Class.class, ESupportedDrivers.class, Capabilities.class, URL.class}, 
-                   		 new Object[]{AndroidApp.class, ESupportedDrivers.ANDROID_APP, 
-                			 
-                		 new DesiredCapabilities() {
-	         					private static final long serialVersionUID = 1L;
-	        					{
-	        						setCapability(MobileCapabilityType.APP, new File(
-	        								"src/test/resources/com.vkontakte.android.apk")
-	        								.getAbsolutePath());
-	        						setCapability(MobileCapabilityType.APP_PACKAGE,
-	        								"com.vkontakte.android");
-	        						setCapability(MobileCapabilityType.APP_ACTIVITY,
-	        								"LoginActivity");
-	        						setCapability(MobileCapabilityType.DEVICE_NAME,
-	        								"Android Emulator");
-	        					}
-        				  }, new URL("http://127.0.0.1:4723/wd/hub")}} }
+                {new MobileFactory(ESupportedDrivers.ANDROID_APP, 
+         				new DesiredCapabilities() {
+	     			private static final long serialVersionUID = 1L;
+	     			{
+	     				setCapability(MobileCapabilityType.APP, new File(
+	     						"src/test/resources/com.vkontakte.android.apk")
+	     						.getAbsolutePath());
+	     				setCapability(MobileCapabilityType.APP_PACKAGE,
+	     						"com.vkontakte.android");
+	     				setCapability(MobileCapabilityType.APP_ACTIVITY,
+	     						"LoginActivity");
+	     				setCapability(MobileCapabilityType.DEVICE_NAME,
+	     						"Android Emulator");
+	     			}
+     	        }, new URL("http://127.0.0.1:4723/wd/hub")), AndroidApp.class}
            });
         //What are think about this? In another chapters will be described how to reduce hardcode
         //and make the starting more smart.
@@ -85,11 +99,10 @@ public class MobileAndWebTest {
         //I can imagine what could be JUnit plugin.
     }
 
-	private static final String GET_APPLICATION_METHOD = "getApplication";
 	@Parameter(0)
-	public Class<? extends DefaultApplicationFactory> desiredFactory;
+	public ApplicationFactory desiredFactory;
 	@Parameter(1)
-	public Object[] parameterAndValues;
+	public Class<? extends Application<?, ?>> appClass;
 
 	private Application<?, ?> vk;
 	
@@ -107,8 +120,7 @@ public class MobileAndWebTest {
 	 */	
 	@Before
 	public void setUp() throws Exception {
-		Method getApplication = desiredFactory.getMethod(GET_APPLICATION_METHOD, (Class<?>[]) parameterAndValues[0]);
-		vk = (Application<?, ?>) getApplication.invoke(desiredFactory, (Object[]) parameterAndValues[1]);
+		vk = desiredFactory.launch(appClass);
 		loginPrerequisite();
 		/**
 		 * When here is Android we have to launch activity 'MainActivity' forcefully

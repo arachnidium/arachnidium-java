@@ -29,8 +29,7 @@ public class AndroidTestExamples {
   public void androidNativeAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_bbc.json");
-		MobileApplication bbc = MobileFactory.getApplication(
-				MobileApplication.class, config);
+		MobileApplication bbc = new MobileFactory(config).launch(MobileApplication.class);
 		try {
 			BBCMain bbcMain = bbc.getPart(BBCMain.class);
 			Assert.assertNotSame("", bbcMain.getAppStrings());
@@ -66,8 +65,7 @@ public class AndroidTestExamples {
   public void androidHybridAppTest() {
 		Configuration config = Configuration
 				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app.json");
-		MobileApplication selendroidTestApp = MobileFactory.getApplication(
-				MobileApplication.class, config);		
+		MobileApplication selendroidTestApp = new MobileFactory(config).launch(MobileApplication.class);
 		try {
 			HomeScreenActivity homeScreenActivity = selendroidTestApp.getPart(HomeScreenActivity.class);
 		
@@ -115,27 +113,6 @@ public class AndroidTestExamples {
 			//implicitlyDefinedWebView.getCurrentUrl();
 			//implicitlyDefinedWebView.clickOnFoo();
 			selendroidTestApp.getManager();
-		} finally {
-			selendroidTestApp.quit();
-		}
-	}
-  
-  @Test
-  public void androidHybridTouchTest() {
-		Configuration config = Configuration
-				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app2.json");
-		MobileApplication selendroidTestApp = MobileFactory.getApplication(
-				MobileApplication.class, config);		
-		try {
-			Webview webview = selendroidTestApp.getPart(Webview.class);
-		    webview.downToName();
-		    //webview.flickName(); //Doesn't work
-		    webview.moveToName();
-		    //webview.longPressName(); //Doesn't work
-		    //webview.doubleTapOnName();
-		    webview.singleTapOnName();
-		    webview.upToName();
-		    //webview.scrollToName();			
 		} finally {
 			selendroidTestApp.quit();
 		}

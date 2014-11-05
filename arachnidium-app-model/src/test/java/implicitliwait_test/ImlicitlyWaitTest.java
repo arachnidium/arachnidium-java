@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 import junit.framework.Assert;
 
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.fake_pageobject.FakePageObject;
+import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.web.google.Google;
 
 public class ImlicitlyWaitTest {
@@ -27,7 +29,7 @@ public class ImlicitlyWaitTest {
 	public void imlicitlyWaitTest() {
 		Configuration configuration = Configuration
 				.get("src/test/resources/configs/desctop/firefox.json");
-		Google g = Google.getNew(configuration);
+		Google g = new WebFactory(configuration).launch(Google.class, "http://www.google.com/");
 		try {
 			FakePageObject<?> fakePageObject = g.getPart(FakePageObject.class);
 

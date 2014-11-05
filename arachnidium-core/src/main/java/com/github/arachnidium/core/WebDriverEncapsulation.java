@@ -19,16 +19,10 @@ package com.github.arachnidium.core;
 
 import java.net.URL;
 
-import com.github.arachnidium.util.configuration.Configuration;
-import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
-import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
-import com.github.arachnidium.util.logging.Log;
-
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -38,9 +32,12 @@ import com.github.arachnidium.core.components.ComponentFactory;
 import com.github.arachnidium.core.components.WebdriverComponent;
 import com.github.arachnidium.core.components.common.TimeOut;
 import com.github.arachnidium.core.interfaces.IDestroyable;
-import com.github.arachnidium.core.settings.CapabilitySettings;
-import com.github.arachnidium.core.settings.WebDriverSettings;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
+import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
+import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
+import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
+import com.github.arachnidium.util.logging.Log;
 
 /**
  * This class creates an instance of required {@link WebDriver} implementor,
@@ -64,64 +61,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	private TimeOut timeOut;
 	
-	/**
-	 * Creates and wraps an instance of {@link RemoteWebDriver} by the given
-	 * {@link Configuration}
-	 * 
-	 * @param {@link Configuration}
-	 */
-	public WebDriverEncapsulation(Configuration configuration) {
-		this.configuration = configuration;
-		ESupportedDrivers supportedDriver = this.configuration.getSection(
-				WebDriverSettings.class).getSupoortedWebDriver();
-
-		Capabilities capabilities = this.configuration
-				.getSection(CapabilitySettings.class);
-		boolean definedCapabilitiesAreEmpty = false;
-		if (capabilities == null){
-			capabilities = supportedDriver.getDefaultCapabilities();
-			definedCapabilitiesAreEmpty = true;
-		}
-
-		if (capabilities.asMap().size() == 0){
-			capabilities = supportedDriver.getDefaultCapabilities();
-			definedCapabilitiesAreEmpty = true;
-		}
-		
-		if (!definedCapabilitiesAreEmpty) {
-			DesiredCapabilities dc = new DesiredCapabilities();
-			capabilities = dc.merge(supportedDriver.getDefaultCapabilities()).merge(
-					capabilities);
-		}
-
-		URL remoteAdress = this.configuration.getSection(
-				WebDriverSettings.class).getRemoteAddress();
-		if (remoteAdress == null) {// local starting
-			prelaunch(supportedDriver, this.configuration, capabilities);
-			constructorBody(supportedDriver, capabilities, (URL) null);
-			return;
-		}
-
-		try {
-			constructorBody(supportedDriver, capabilities, remoteAdress);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
-	}
-
-	/**
-	 * Creates and wraps an instance of required {@link RemoteWebDriver}
-	 * subclass
-	 * 
-	 * @param supporteddriver
-	 *            Is the one element from {@link ESupportedDrivers} enumeration
-	 *            which contains the class of required {@link RemoteWebDriver}
-	 *            subclass
-	 */
-	public WebDriverEncapsulation(ESupportedDrivers supporteddriver) {
-		this(supporteddriver, supporteddriver.getDefaultCapabilities());
-	}
-
 	/**
 	 * Creates and wraps an instance of required {@link RemoteWebDriver}
 	 * subclass with given {@link Capabilities}
@@ -158,25 +97,29 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
-		constructorBody(supporteddriver, capabilities, remoteAddress);
-	}
-
-	/**
-	 * Creates and wraps an instance of required {@link RemoteWebDriver}
-	 * subclass. It should be launched on the remote host.
-	 * 
-	 * @param supporteddriver
-	 *            Is the one element from {@link ESupportedDrivers} enumeration
-	 *            which contains the class of required {@link RemoteWebDriver}
-	 *            subclass
-	 * 
-	 * @param remoteAddress
-	 *            is the URL of the required remote host
-	 */
-	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
-			URL remoteAddress) {
-		this(supporteddriver, supporteddriver.getDefaultCapabilities(),
-				remoteAddress);
+		if (supporteddriver.startsRemotely() & remoteAddress != null)
+			createWebDriver(supporteddriver.getUsingWebDriverClass(),
+					new Class[] { URL.class, Capabilities.class },
+					new Object[] { remoteAddress, capabilities });
+		else {
+			if (remoteAddress == null & supporteddriver.requiresRemoteURL())
+				throw new RuntimeException(
+						"Defined driver '"
+								+ supporteddriver.toString()
+								+ "' requires remote address (URL)! Please, define it in settings.json "
+								+ "or use suitable constructor");
+			if (remoteAddress != null)
+				Log.message("Remote address " + String.valueOf(remoteAddress)
+						+ " has been ignored");
+			createWebDriver(supporteddriver.getUsingWebDriverClass(),
+					new Class[] { Capabilities.class },
+					new Object[] { capabilities });
+		}
+		String initURL = (String) capabilities.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
+		if (initURL!=null
+				&& supporteddriver.isForBrowser()){
+			enclosedDriver.get(initURL);
+		}
 	}
 
 	// other methods:
@@ -199,6 +142,11 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			createWebDriver(supporteddriver.getUsingWebDriverClass(),
 					new Class[] { Capabilities.class },
 					new Object[] { capabilities });
+		}
+		String initURL = (String) capabilities.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
+		if (initURL!=null
+				&& supporteddriver.isForBrowser()){
+			enclosedDriver.get(initURL);
 		}
 	}
 

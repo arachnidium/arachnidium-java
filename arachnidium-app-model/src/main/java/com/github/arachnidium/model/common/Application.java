@@ -81,7 +81,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle> e
 
 	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] values) {
-		T part = DefaultApplicationFactory.get(partClass, values);
+		T part = DecompositionUtil.get(partClass, values);
 		// get(partClass, params, values);
 		((FunctionalPart<?>) part).application = this;
 		addChild((ModelObject<?>) part);
