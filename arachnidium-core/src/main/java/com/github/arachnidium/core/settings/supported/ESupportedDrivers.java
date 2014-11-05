@@ -55,7 +55,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
-	 * <b>Starts</b>: locally
+	 * <b>Starts</b>: locally<br/>
 	 * browser only
 	 */
 	FIREFOX(DesiredCapabilities.firefox(), FirefoxDriver.class, true, false, null, null,
@@ -67,7 +67,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>{@link DriverService}</b>: {@link ChromeDriverService}<br/>
 	 * <br/>
-	 * <b>Starts</b>: locally
+	 * <b>Starts</b>: locally<br/>
 	 * browser only
 	 */
 	CHROME(DesiredCapabilities.chrome(), ChromeDriver.class, true, false,
@@ -81,7 +81,7 @@ public enum ESupportedDrivers {
 	 * <b>{@link DriverService}</b>: {@link InternetExplorerDriverService}<br/>
 	 * <br/>
 	 * <b>Starts</b>: locally<br/>
-	 * browser only
+	 * browser only<br/>
 	 * <br/>
 	 * <b>Additionally:</b> Windows only<br/>
 	 */
@@ -96,7 +96,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
-	 * <b>Starts</b>: locally
+	 * <b>Starts</b>: locally<br/>
 	 * browser only
 	 */
 	SAFARI(DesiredCapabilities.safari(), SafariDriver.class,
@@ -110,7 +110,7 @@ public enum ESupportedDrivers {
 	* <br/>
 	* <b>{@link DriverService}</b>: {@link PhantomJSDriverService}<br/>
 	* <br/>
-	* <b>Starts</b>: locally
+	* <b>Starts</b>: locally<br/>
 	* browser only
 	 */
 	PHANTOMJS(DesiredCapabilities.phantomjs(), PhantomJSDriver.class,
@@ -125,7 +125,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
-	 * http://appium.io/getting-started.html
+	 * http://appium.io/getting-started.html<br/>
 	 * browser only
 	 */
 	ANDROID_CHROME(ExtendedDesiredCapabilities.androidChrome(), 
@@ -139,7 +139,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
-	 * http://appium.io/getting-started.html
+	 * http://appium.io/getting-started.html<br/>
 	 * browser only
 	 */
 	IOS_SAFARI(ExtendedDesiredCapabilities.iosSafari(), IOSDriver.class, true, false, null,
@@ -151,8 +151,8 @@ public enum ESupportedDrivers {
 	* <b>Default {@link Capabilities}</b>:
 	* {@link DesiredCapabilities#firefox()()}<br/>
 	* <br/>
-	* <b>Starts</b>: locally and remotely. When it is started locally {@link SeleniumServer} is started it the same time.
-	* browser only
+	* <b>Starts</b>: locally and remotely. When it is started locally {@link SeleniumServer} is started it the same time.<br/>
+	* browser only<br/>
 	* If it needs to be launched remotely it requires {@link URL} of the host where Appium node server (if {@link ExtendedDesiredCapabilities#androidChrome()} or 
 	* {@link ExtendedDesiredCapabilities#iosSafari()} are used) or 
 	* {@link SeleniumServer} are started, e.g. http://127.0.0.1:4723/wd/hub (local host). 
@@ -198,7 +198,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
-	 * http://appium.io/getting-started.html
+	 * http://appium.io/getting-started.html<br/>
 	 * mobile apps only
 	 */
 	ANDROID_APP(new DesiredCapabilities(), AndroidDriver.class, false, true, null,
@@ -223,7 +223,7 @@ public enum ESupportedDrivers {
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
-	 * http://appium.io/getting-started.html
+	 * http://appium.io/getting-started.html<br/>
 	 * mobile apps only	
 	 */
 	IOS_APP(new DesiredCapabilities(), IOSDriver.class, false, true, null,
