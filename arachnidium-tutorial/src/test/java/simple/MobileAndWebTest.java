@@ -53,22 +53,6 @@ public class MobileAndWebTest {
 	@Parameters
 	public static Collection<Object[]> data() throws Exception {
 		
-		new MobileFactory(ESupportedDrivers.ANDROID_APP, 
-				new DesiredCapabilities() {
-				private static final long serialVersionUID = 1L;
-			{
-				setCapability(MobileCapabilityType.APP, new File(
-						"src/test/resources/com.vkontakte.android.apk")
-						.getAbsolutePath());
-				setCapability(MobileCapabilityType.APP_PACKAGE,
-						"com.vkontakte.android");
-				setCapability(MobileCapabilityType.APP_ACTIVITY,
-						"LoginActivity");
-				setCapability(MobileCapabilityType.DEVICE_NAME,
-						"Android Emulator");
-			}
-	  }, new URL("http://127.0.0.1:4723/wd/hub"));
-		
         return Arrays.asList(new Object[][] {{
         		new WebFactory(ESupportedDrivers.FIREFOX, new DesiredCapabilities(){
         			private static final long serialVersionUID = 1L;
