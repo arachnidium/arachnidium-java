@@ -25,6 +25,10 @@
           "type":"STRING",
           "value":"ANY"          
       },
+      "initialUrl":{
+	      "type":"STRING",
+	      "value":"https://www.google.com"    
+	  },
       "javascriptEnabled":{
           "type":"BOOL",
           "value":"true"           
