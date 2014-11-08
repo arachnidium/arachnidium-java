@@ -46,6 +46,9 @@ public class HelloWorldGoogleTest {
 				
 				add("android_emulator_chrome.json");
 				add("android_emulator_chrome_remoteWebDriver.json");
+				
+				add("android_emulator_browser.json");
+				add("android_emulator_browser_remoteWebDriver.json");
 			}
 			
 		});
