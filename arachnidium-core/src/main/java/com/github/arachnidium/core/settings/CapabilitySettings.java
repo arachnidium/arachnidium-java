@@ -1,14 +1,10 @@
 package com.github.arachnidium.core.settings;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
-import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
-import com.github.arachnidium.util.configuration.Configuration;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.HasCapabilities;
@@ -16,6 +12,10 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
+import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
+import com.github.arachnidium.util.configuration.Configuration;
 
 /**
  * There are specified {@link WebDriver} {@link Capabilities}
@@ -59,7 +59,6 @@ implements HasCapabilities, Capabilities {
 	private final DesiredCapabilities builtCapabilities = new DesiredCapabilities();
 	private final String appCapability = ExtendedCapabilityType.APP;
 	private final String proxyCapability = ExtendedCapabilityType.PROXY;
-	private final String initialURL = ExtendedCapabilityType.BROWSER_INITIAL_URL;
 
 	public CapabilitySettings(Configuration configuration) {
 		super(configuration);
@@ -75,17 +74,23 @@ implements HasCapabilities, Capabilities {
 	}
 
 	private void buildCapabilities() {
-		HashMap<String, Object> capabilities = getGroup(capabilityGroup);
-		if (capabilities == null)
-			return;
-
-		List<String> capabilityStrings = new ArrayList<String>(
-				capabilities.keySet());
-		capabilityStrings.forEach((capabilityStr) -> {
-			if (capabilities.get(capabilityStr) != null)
-				builtCapabilities.setCapability(capabilityStr,
-						capabilities.get(capabilityStr));
+		List<Field> capabilities = Arrays.asList(ExtendedCapabilityType.class.getFields());
+		ExtendedCapabilityType ecp = new ExtendedCapabilityType() {
+		};
+		
+		capabilities.forEach((capability) -> {
+			String capName = null;
+			try {
+				capName = capability.get(ecp).toString();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			Object value = getSettingValue(capabilityGroup, capName);
+			if (value != null){
+				builtCapabilities.setCapability(capName, value);
+			}
 		});
+
 		transformCapabilities();
 	}
 
@@ -168,15 +173,6 @@ implements HasCapabilities, Capabilities {
 		if (proxy!=null){
 			builtCapabilities.setCapability(proxyCapability, proxy);
 		}
-		
-		//sets initial URL if browser
-		String startUrl = (String) builtCapabilities.getCapability(initialURL);
-		if (startUrl == null){
-			startUrl = getSettingValue(capabilityGroup, initialURL);
-		}
-		if (startUrl!=null){
-			builtCapabilities.setCapability(initialURL, startUrl);
-		}		
 		// if other actions need to be implemented code will be below
 	}
 }
