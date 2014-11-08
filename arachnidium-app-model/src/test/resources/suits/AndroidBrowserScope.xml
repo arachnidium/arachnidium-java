@@ -22,7 +22,7 @@
   
   <test name="This is just a test of basic functionality with specified configurations">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
-    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
+    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json,android_emulator_browser_remoteWebDriver.json,android_emulator_browser.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
@@ -33,7 +33,7 @@
   
   <test name="This is just a test of basic functionality. It closes google as visible browser window">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
-    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
+    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json,android_emulator_browser_remoteWebDriver.json,android_emulator_browser.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>
@@ -45,7 +45,7 @@
   <test name="This is just a test of basic functionality. It gets a new object by its partial title and url">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
     <parameter name="toClick" value="true"/>
-    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
+    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json,android_emulator_browser_remoteWebDriver.json,android_emulator_browser.json"/>
     <parameter name="howToGetANewWindow" value="BYPARTIALURL"/>
     <parameter name="timeOut" value="60"/>
     <classes>
@@ -58,7 +58,7 @@
   
   <test name="Extertal webdriver quit test">
     <parameter name="path" value="src/test/resources/configs/mobile/browser/"/>
-    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json"/>
+    <parameter name="configList" value="android_emulator_chrome.json,android_emulator_chrome_remoteWebDriver.json,android_emulator_browser_remoteWebDriver.json,android_emulator_browser.json"/>
     <classes>
       <class name="web.HelloWorldGoogleTest"/>
       <methods>

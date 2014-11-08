@@ -4,6 +4,14 @@
 	      "initialUrl":{
 	          "type":"STRING",
 	          "value":"http://www.google.com"    
+	      },
+	      "platform": {
+	          "type":"STRING",
+	          "value":"ANY"          
+	      },
+	      "javascriptEnabled":{
+	          "type":"BOOL",
+	          "value":"true"           
 	      }
 	  },
 	  "Log":

@@ -33,12 +33,11 @@
 	          "type":"BOOL",
                   "value":"true"           
 	      },
-              ,
-              "safariOpenLinksInBackground":{
+          "safariOpenLinksInBackground":{
 	          "type":"BOOL",
                   "value":"false"           
 	      }	  
-          },
+      },
 	  "webDriverTimeOuts":
 	  {
 	      "timeUnit":{

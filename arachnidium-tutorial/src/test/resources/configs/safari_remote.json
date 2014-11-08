@@ -12,18 +12,6 @@
 	      "browserName":{
 	          "type":"STRING",
 	          "value":"safari"    
-	      },      
-	      "version": {
-	          "type":"STRING",
-	          "value":"" 
-	      },
-	      "platform": {
-	          "type":"STRING",
-	          "value":"ANY"          
-	      },
-	      "javascriptEnabled":{
-	          "type":"BOOL",
-	          "value":"true"           
 	      }
 	  },
 	  "webDriverTimeOuts":

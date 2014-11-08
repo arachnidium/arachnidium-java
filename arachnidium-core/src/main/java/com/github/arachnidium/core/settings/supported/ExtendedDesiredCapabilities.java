@@ -43,6 +43,66 @@ public class ExtendedDesiredCapabilities extends DesiredCapabilities {
 		return dc;
 	}
 	
+	
+	/**
+	 * @return a {@link DesiredCapabilities} instance which contains:
+	 * <br/>
+	 * {<br/>
+	 *&nbsp;&nbsp;"platformName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Android"<br/>    
+	 *&nbsp;&nbsp;}, <br/>    
+	 *&nbsp;&nbsp;"browserName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Browser" <br/>           
+	 *&nbsp;&nbsp;} <br/>
+	 *&nbsp;&nbsp;"javascriptEnabled":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"true" <br/>     
+	 *&nbsp;&nbsp;}<br/>
+	 *}<br/>
+	 *<br/> 
+	 * This is not full capability set. Other required capabilities should be set 
+	 * properly. E.g. "deviceName" and so on.
+	 * 
+	 * @see CapabilityType
+	 * @see MobileCapabilityType
+	 */
+	public static DesiredCapabilities androidBrowser(){
+		DesiredCapabilities dc = new DesiredCapabilities();
+		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+		dc.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+		dc.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+		return dc;
+	}	
+	
+	
+	/**
+	 * @return a {@link DesiredCapabilities} instance which contains:
+	 * <br/>
+	 * {<br/>
+	 *&nbsp;&nbsp;"platformName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Android"<br/>    
+	 *&nbsp;&nbsp;}, <br/>    
+	 *&nbsp;&nbsp;"browserName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Chromium"<br/>           
+	 *&nbsp;&nbsp;} <br/>
+	 *&nbsp;&nbsp;"javascriptEnabled":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"true" <br/>     
+	 *&nbsp;&nbsp;}<br/>
+	 *}<br/>
+	 *<br/> 
+	 * This is not full capability set. Other required capabilities should be set 
+	 * properly. E.g. "deviceName" and so on.
+	 * 
+	 * @see CapabilityType
+	 * @see MobileCapabilityType
+	 */
+	public static DesiredCapabilities androidChromium(){
+		DesiredCapabilities dc = new DesiredCapabilities();
+		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+		dc.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROMIUM);
+		dc.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+		return dc;
+	}		
+	
 	/**
 	 * @return a {@link DesiredCapabilities} instance which contains:
 	 * <br/>

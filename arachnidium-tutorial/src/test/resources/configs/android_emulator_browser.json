@@ -3,15 +3,19 @@
 	  {
 	      "driverName":{
 	          "type":"STRING",
-	          "value":"remote"
-	      }
+	          "value":"ANDROID_BROWSER"
+	      },
+		      "remoteAdress":{
+	          "type":"STRING",
+	          "value":"http://127.0.0.1:4723/wd/hub"
+      	  }
 	  },
 	  
 	  "DesiredCapabilities":
 	  {
-	      "browserName":{
+	      "deviceName":{
 	          "type":"STRING",
-	          "value":"chrome"    
+	          "value":"Android Emulator"    
 	      }
 	  },
 	  "webDriverTimeOuts":
@@ -26,11 +30,18 @@
 	      },
 	      "pageLoadTimeout":{
 	          "type":"LONG",
-	          "value":"20"     
+	          "value":"25"     
 	      }, 
 	      "setScriptTimeout":{
 	          "type":"LONG",
 	          "value":"10"     
 	      }       
+	  },
+	  "handleWaitingTimeOut":
+	  {
+	      "handleWaitingTimeOut":{
+	          "type":"LONG",
+	          "value":"35"     
+	      }
 	  }
   }

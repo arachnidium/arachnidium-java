@@ -25,8 +25,11 @@ public class ParameterizedJUnit {
 		
 	@Parameters
 	public static Collection<Object[]> data() throws Exception {
-		return Arrays.asList(new Object[][] {{"android_emulator_chrome_remoteWebDriver.json", Google.class},
-				{"android_emulator_chrome.json", Google.class},
+		return Arrays.asList(new Object[][] {
+				{"android_emulator_chrome_remoteWebDriver.json", Google.class},
+				{"android_emulator_chrome.json", Google.class},				
+				{"android_emulator_browser_remoteWebDriver.json", Google.class},
+				{"android_emulator_browser.json", Google.class},
 				{"chrome_remote.json", Google.class},
 				{"chrome.json", Google.class},
 				{"firefox_remote.json", Google.class},
@@ -36,7 +39,8 @@ public class ParameterizedJUnit {
 				{"phantomjs_remote.json", Google.class},
 				{"phantomjs.json", Google.class},
 				{"safari_remote.json", Google.class},
-				{"safari.json", Google.class}});
+				{"safari.json", Google.class}
+				});
 	}
 	
 	private static String PATH_TO_CONFIG = "src/test/resources/configs/";

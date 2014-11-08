@@ -129,7 +129,35 @@ public enum ESupportedDrivers {
 	 * browser only
 	 */
 	ANDROID_CHROME(ExtendedDesiredCapabilities.androidChrome(), 
-			AndroidDriver.class, true, false, null, null, true, true),
+			AndroidDriver.class, true, false, null, null, true, true),	
+	/**
+	* <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver}<br/>
+	* <br/>
+	* <b>Default {@link Capabilities}</b>: {@link ExtendedDesiredCapabilities#androidBrowser()}<br/>
+	* <br/>
+	* <b>{@link DriverService}</b>: none<br/>
+	* <br/>
+	* <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	* http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	* http://appium.io/getting-started.html<br/>
+	* browser only
+	*/
+	ANDROID_BROWSER(ExtendedDesiredCapabilities.androidBrowser(), 
+					AndroidDriver.class, true, false, null, null, true, true),		
+	/**
+	* <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver}<br/>
+	* <br/>
+	* <b>Default {@link Capabilities}</b>: {@link ExtendedDesiredCapabilities#androidChromium()}<br/>
+	* <br/>
+	* <b>{@link DriverService}</b>: none<br/>
+	* <br/>
+	* <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	* http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	* http://appium.io/getting-started.html<br/>
+	* browser only
+	*/
+	ANDROID_CHROMIUM(ExtendedDesiredCapabilities.androidChromium(), 
+					AndroidDriver.class, true, false, null, null, true, true),						
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link IOSDriver}<br/>
 	 * <br/>

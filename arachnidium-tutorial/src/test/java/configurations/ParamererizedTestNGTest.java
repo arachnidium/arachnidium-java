@@ -21,6 +21,8 @@ public class ParamererizedTestNGTest {
   @Parameters(value={"configurations"})
   public void test(@Optional("android_emulator_chrome_remoteWebDriver.json,"+
 		  					 "android_emulator_chrome.json,"+
+		  					 "android_emulator_browser_remoteWebDriver.json," +
+		  					 "android_emulator_browser.json," +
 		  					 "chrome_remote.json,"+
 		  					 "chrome.json,"+
 		  					 "firefox_remote.json,"+
