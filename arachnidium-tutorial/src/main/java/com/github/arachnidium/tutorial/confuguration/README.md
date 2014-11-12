@@ -13,7 +13,7 @@ what to do when HTML element is highlighted. When "true" then a screenshot is ta
 
 - "alertIsPresentTimeOut" is the default timeout of the implicitly waiting for alert if it has to be caught by script.
 
-- "windowIsClosedTimeOut" is the default timeout of the implicitly waiting for a browser window is closed. It is the browser only setting. It is ignored when mobile you work with mobile app.
+- "windowIsClosedTimeOut" is the default timeout of the implicitly waiting for a browser window is closed. It is the browser only setting. It is ignored when you work with mobile app.
 
 This list is just example. These settings can be customized. Something can be removed and something can be added. Also you can add your own parameters that you can make up.
 
