@@ -1,0 +1,3 @@
+Here are samples of customized settings. It is supposed that these JSON files are used to achieve test parameterization.
+Some parameter sets complement default parameters defined in [settings.json](https://github.com/arachnidium/arachnidium-java/blob/master/arachnidium-tutorial/src/main/java/com/github/arachnidium/tutorial/confuguration/settings.json).
+Some parameter sets override default parameters defined in [settings.json](https://github.com/arachnidium/arachnidium-java/blob/master/arachnidium-tutorial/src/main/java/com/github/arachnidium/tutorial/confuguration/settings.json).  
