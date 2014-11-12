@@ -1,4 +1,4 @@
-Here is sample general parameters defined in **settings.json**:
+Here is the sample of general parameters defined in **settings.json**:
 
 - "DesiredCapabilities". Here capabilities which should be used at all cases;
 
