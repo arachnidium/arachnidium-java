@@ -3,7 +3,6 @@ package com.github.arachnidium.model.mobile.android;
 import io.appium.java_client.NetworkConnectionSetting;
 import io.appium.java_client.android.AndroidDeviceActionShortcuts;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.HasAppStrings;
 import io.appium.java_client.android.HasNetworkConnection;
 import io.appium.java_client.android.StartsActivity;
 
@@ -17,7 +16,7 @@ import com.github.arachnidium.model.mobile.MobileApplication;
  * @see MobileApplication
  */
 public abstract class AndroidApp extends MobileApplication implements
-		AndroidDeviceActionShortcuts, HasAppStrings, HasNetworkConnection,
+		AndroidDeviceActionShortcuts, HasNetworkConnection,
 		StartsActivity, IHasActivity {
 
 	protected AndroidApp(MobileScreen context) {
@@ -27,16 +26,6 @@ public abstract class AndroidApp extends MobileApplication implements
 	@Override
 	public void sendKeyEvent(int key, Integer metastate) {
 		((AndroidDriver) getWrappedDriver()).sendKeyEvent(key, metastate);
-	}
-
-	@Override
-	public String getAppStrings() {
-		return ((AndroidDriver) getWrappedDriver()).getAppStrings();
-	}
-
-	@Override
-	public String getAppStrings(String language) {
-		return ((AndroidDriver) getWrappedDriver()).getAppStrings(language);
 	}
 
 	@Override

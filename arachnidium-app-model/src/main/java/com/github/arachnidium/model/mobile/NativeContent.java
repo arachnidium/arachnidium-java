@@ -2,9 +2,11 @@ package com.github.arachnidium.model.mobile;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.DeviceActionShortcuts;
+import io.appium.java_client.HasAppStrings;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.TouchShortcuts;
+import io.appium.java_client.android.AndroidDriver;
 
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
@@ -20,7 +22,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
  */
 @IfMobileContext(regExp = "NATIVE_APP")
 public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
-DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
+DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 
 	protected final NativeTouchActions touchActions;
 	
@@ -120,5 +122,19 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo {
 	@InteractiveMethod
 	public MobileElement scrollToExact(String text) {
 		return ((AppiumDriver) getWrappedDriver()).scrollToExact(text);
+	}
+
+	@InteractiveMethod
+	@Override
+	public String getAppStrings() {
+		return ((AndroidDriver) getWrappedDriver()).getAppStrings();
+	}
+
+	@InteractiveMethod
+	@Override
+	public String getAppStrings(String language) {
+		return ((AndroidDriver) getWrappedDriver()).getAppStrings(language);
 	}	
+	
+	
 }
