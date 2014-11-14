@@ -60,5 +60,9 @@ public abstract class AndroidApp extends MobileApplication implements
 	public String currentActivity() {
 		return ((AndroidDriver) getWrappedDriver()).currentActivity();
 	}
+	
+	public void toggleLocationServices() {
+		((AndroidDriver) getWrappedDriver()).toggleLocationServices();
+	}
 
 }
