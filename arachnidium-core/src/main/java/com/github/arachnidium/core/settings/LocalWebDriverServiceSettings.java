@@ -19,7 +19,7 @@ import org.openqa.selenium.remote.service.DriverService;
  * @see PhantomJSDriverService
  * 
  */
-abstract class LocalWebDriverServiceSettings extends AbstractConfigurationAccessHelper
+public abstract class LocalWebDriverServiceSettings extends AbstractConfigurationAccessHelper
 implements IHasPathToFile {
 
 	protected LocalWebDriverServiceSettings(Configuration configuration,

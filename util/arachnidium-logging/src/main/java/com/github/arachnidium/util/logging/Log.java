@@ -366,7 +366,7 @@ public class Log {
 				attached);
 	}
 
-	private final static int levelUp = 2;
+	private final static int levelUp = 3;
 
 	private final static Level info = Level.INFO;
 
