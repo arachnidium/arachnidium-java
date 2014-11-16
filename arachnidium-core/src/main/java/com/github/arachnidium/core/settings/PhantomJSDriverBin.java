@@ -1,6 +1,8 @@
 package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 
 /**
@@ -27,11 +29,11 @@ import org.openqa.selenium.phantomjs.PhantomJSDriverService;
  * @see LocalWebDriverServiceSettings
  * @see Configuration
  */
+@Group(settingGroup = "PhantomJSDriver")
 public class PhantomJSDriverBin extends LocalWebDriverServiceSettings {
-	private static final String phantomJSDriverGroup = "PhantomJSDriver";
 
-	public PhantomJSDriverBin(Configuration configuration) {
-		super(configuration, phantomJSDriverGroup);
+	protected PhantomJSDriverBin(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 }

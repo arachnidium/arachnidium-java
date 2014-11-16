@@ -1,6 +1,8 @@
 package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.chrome.ChromeDriverService;
 
 /**
@@ -29,11 +31,10 @@ import org.openqa.selenium.chrome.ChromeDriverService;
  * @see ChromeDriverService
  * @see Configuration
  */
+@Group(settingGroup = "ChromeDriver")
 public class ChromeDriverServerBin extends LocalWebDriverServiceSettings {
-	private static final String chromeDriverGroup = "ChromeDriver";
-
-	public ChromeDriverServerBin(Configuration configuration) {
-		super(configuration, chromeDriverGroup);
+	protected ChromeDriverServerBin(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 }

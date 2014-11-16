@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
 
 /**
  * Stores minimal {@link Level} of messages that are shown by console
@@ -26,34 +27,22 @@ import com.github.arachnidium.util.configuration.Configuration;
   @see Configuration
  *@see Level
  */
+@Group(settingGroup = "Log")
 class LoggingHelper extends AbstractConfigurationAccessHelper {
 
-	private final String levelSetting = "Level";
-	// Logging group
-	private final String loggingGroup = "Log";
-
-	public LoggingHelper(Configuration configuration) {
-		super(configuration);
+	protected LoggingHelper(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 	/**
 	 * @return Specified log {@link Level}
 	 */
+	@Setting(setting = "Level")
 	public Level getLevel() {
-		String levelName = getSetting(levelSetting);
+		String levelName = getSetting();
 		if (levelName != null)
 			return Level.parse(levelName.toUpperCase());
 		else
 			return null;
 	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.
-	 * AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(loggingGroup, name);
-	}
-
 }

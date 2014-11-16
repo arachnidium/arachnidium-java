@@ -16,6 +16,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
 
 /**
  * There are specified {@link WebDriver} {@link Capabilities}
@@ -51,17 +52,15 @@ import com.github.arachnidium.util.configuration.Configuration;
  * @see Platform 
  * @see Capabilities
  */
+@Group(settingGroup = "DesiredCapabilities")
 public class CapabilitySettings extends AbstractConfigurationAccessHelper
 implements HasCapabilities, Capabilities {
-
-	// specified settings for capabilities
-	private final String capabilityGroup = "DesiredCapabilities";
 	private final DesiredCapabilities builtCapabilities = new DesiredCapabilities();
 	private final String appCapability = ExtendedCapabilityType.APP;
 	private final String proxyCapability = ExtendedCapabilityType.PROXY;
 
-	public CapabilitySettings(Configuration configuration) {
-		super(configuration);
+	protected CapabilitySettings(Configuration configuration, String group) {
+		super(configuration, group);
 		buildCapabilities();
 	}
 
@@ -85,7 +84,7 @@ implements HasCapabilities, Capabilities {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			Object value = getSettingValue(capabilityGroup, capName);
+			Object value = getSettingValue(capName);
 			if (value != null){
 				builtCapabilities.setCapability(capName, value);
 			}
@@ -124,14 +123,6 @@ implements HasCapabilities, Capabilities {
 	@Override
 	public Platform getPlatform() {
 		return builtCapabilities.getPlatform();
-	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(capabilityGroup, name);
 	}
 
 	/**

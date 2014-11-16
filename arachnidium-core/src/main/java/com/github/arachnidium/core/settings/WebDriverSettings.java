@@ -8,6 +8,8 @@ import io.appium.java_client.ios.IOSDriver;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -53,26 +55,23 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
  *@see Configuration
  *@see ESupportedDrivers
  */
+@Group(settingGroup = "webdriver")
 public class WebDriverSettings extends AbstractConfigurationAccessHelper {
-
-	private final String remoteAddress = "remoteAdress";
-	private final String webDriverName = "driverName";
-	private final String webDriverGroup = "webdriver";
-	
 	/**
 	 * {@link FirefoxDriver} is used as default value
 	 */
 	private final ESupportedDrivers DEFAULT_SUPPORTED_DRIVER = ESupportedDrivers.FIREFOX;
 
-	public WebDriverSettings(Configuration configuration) {
-		super(configuration);
+	protected WebDriverSettings(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 	/**
 	 * @return URL of the remote {@link WebDriver} server
 	 */
+	@Setting(setting = "remoteAdress")
 	public URL getRemoteAddress() {
-		String remoteURLValue = getSetting(remoteAddress);
+		String remoteURLValue = getSetting();
 		if (remoteURLValue == null){
 			return null; 
 		}
@@ -84,20 +83,13 @@ public class WebDriverSettings extends AbstractConfigurationAccessHelper {
 	}
 
 	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(webDriverGroup, name);
-	}
-
-	/**
 	 * @return Supported {@link WebDriver}. 
 	 * 
 	 * @see ESupportedDrivers
 	 */
+	@Setting(setting = "driverName")
 	public ESupportedDrivers getSupoortedWebDriver() {
-		String name = getSetting(webDriverName);
+		String name = getSetting();
 		if (name != null)
 			return ESupportedDrivers.parse(name);
 		else

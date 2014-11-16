@@ -2,6 +2,8 @@ package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.Alert;
 
 /**
@@ -22,27 +24,19 @@ import org.openqa.selenium.Alert;
  * @see Configuration
  * @see Alert
  */
+@Group(settingGroup = "alertIsPresentTimeOut")
 public class AlertIsPresentTimeOut extends AbstractConfigurationAccessHelper {
-	private final String alertIsPresentTimeOutGroup = "alertIsPresentTimeOut";
-	private final String alertIsPresentTimeOutSetting = "alertIsPresentTimeOut";
 
-	public AlertIsPresentTimeOut(Configuration configuration) {
-		super(configuration);
+	protected AlertIsPresentTimeOut(Configuration configuration, String group) {
+		super(configuration, group);
 	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(alertIsPresentTimeOutGroup, name);
-	}
-
+	
 	/**
 	 * @return {@link Long} value of alert implicitly waiting time out
 	 */
+	@Setting(setting = "alertIsPresentTimeOut")
 	public Long getAlertIsPresentTimeOut() {
-		return getSetting(alertIsPresentTimeOutSetting);
+		return getSetting();
 	}
 
 }

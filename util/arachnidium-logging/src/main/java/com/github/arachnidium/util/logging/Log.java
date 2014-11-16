@@ -190,7 +190,7 @@ public class Log {
 	// new log record is formed here
 	private static LogRecWithAttach getRecordForLog(eAvailableLevels level,
 			String msg) {
-		StackTraceElement stack[] = new Throwable().getStackTrace();
+		StackTraceElement stack[] = Thread.currentThread().getStackTrace();
 		StackTraceElement element = stack[levelUp];
 		LogRecWithAttach rec = new LogRecWithAttach(level.getLevel(), msg);
 		rec.setSourceClassName(element.getClassName());

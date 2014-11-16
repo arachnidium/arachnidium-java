@@ -2,6 +2,8 @@ package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver.Window;
 
@@ -25,28 +27,20 @@ import org.openqa.selenium.WebDriver.Window;
  *
  *@see Configuration
  */
+@Group(settingGroup = "handleWaitingTimeOut")
 public class HandleWaitingTimeOut extends AbstractConfigurationAccessHelper {
-	private final String handleWaitingTimeOutGroup = "handleWaitingTimeOut";	
-	private final String handleWaitingTimeOutSetting = "handleWaitingTimeOut";
 	
-	public HandleWaitingTimeOut(Configuration configuration) {
-		super(configuration);
-	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(handleWaitingTimeOutGroup, name);
+	protected HandleWaitingTimeOut(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 	
 	/**
 	 * @return {@link Long} value of {@link Window} or 
 	 * context ({@link ContextAware}) implicitly waiting time out
 	 */
+	@Setting(setting = "handleWaitingTimeOut")
 	public Long getHandleWaitingTimeOut(){
-		return getSetting(handleWaitingTimeOutSetting);
+		return getSetting();
 	}
 
 }

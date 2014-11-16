@@ -23,8 +23,6 @@ package com.github.arachnidium.util.configuration;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -151,35 +149,41 @@ public class Configuration {
 	 * <p>Configuration.getSettingGroup(String)</p>
 	 * 
 	 * It returns some "helper" instead of HashMap. 
-	 * This helper makes access to required section
-	 * or set of setting sections easier. Class of the required helper
+	 * This helper makes access to required section 
+	 * easier. Class of the required helper
 	 * overrides {@AbstractConfigurationAccessHelper} and 
 	 * should have a constructor like this: new
-	 *         Helper({@link{Configuration} configuration)
+	 *         Helper({@link{Configuration} configuration, {@link String} desiredSettingGroup).
+	 * Also, required class should be annotated by {@link Group} annotation. {@link IllegalArgumentException} 
+	 * is thrown otherwise.      
 	 *               
      * @param requiredClass that extends {@link AbstractConfigurationAccessHelper} 
 	 * @return instance of class specified by <code>requiredClass</code> parameter
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends AbstractConfigurationAccessHelper> T getSection(
-			Class<T> requiredClass) {
+			Class<T> requiredClass) throws IllegalArgumentException {
 		T helper = (T) initedHelpers.get(requiredClass);
 		if (helper != null)
 			return helper;
+		
+		Callback interceptor = new HelperInterceptor();
 
-		try {
-			Constructor<?> requiredConstructor = requiredClass
-					.getConstructor(Configuration.class);
-			requiredConstructor.setAccessible(true);
-			helper = (T) requiredConstructor.newInstance(this);
-		} catch (NoSuchMethodException | SecurityException
-				| InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
-			throw new RuntimeException(e);
+		Enhancer enhancer = new Enhancer();
+		enhancer.setCallback(interceptor);
+		enhancer.setSuperclass(requiredClass);
+
+		T result = null;
+		if (requiredClass.isAnnotationPresent(Group.class)){
+			result = (T) enhancer.create(new Class[] {Configuration.class ,String.class},
+					new Object[] { this, requiredClass.getAnnotation(Group.class).settingGroup()});
 		}
-
-		initedHelpers.put(requiredClass, helper);
-		return helper;
+		else {
+			throw new IllegalArgumentException("Required class " + requiredClass.getClass().getName() + " should be annotated by "
+					+ " @Group annotation!");
+		}
+		initedHelpers.put(requiredClass, result);
+		return result;		
 	}
 
 	/**

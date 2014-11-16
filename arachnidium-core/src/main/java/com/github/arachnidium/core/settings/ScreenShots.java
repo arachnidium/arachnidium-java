@@ -2,6 +2,8 @@ package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver.Window;
 
@@ -31,24 +33,13 @@ import org.openqa.selenium.WebDriver.Window;
  *
  *@see Configuration
  */
+@Group(settingGroup = "screenShots")
 public class ScreenShots extends AbstractConfigurationAccessHelper {
-
-	private final String toTakeScreenShotsOfNewHandles = "toTakeScreenShotsOfNewHandles";
-	private final String toTakeScreenShotsOnElementHighLighting = "toTakeScreenShotsOnElementHighLighting";
 	// screenshot group
-	private final String screenShotssGroup = "screenShots";
 	private final Boolean DEFAULT_VALUE = false;
 
-	public ScreenShots(Configuration configuration) {
-		super(configuration);
-	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(screenShotssGroup, name);
+	protected ScreenShots(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 	private Boolean returnExplicitOrDefaultValue(Boolean value) {
@@ -61,15 +52,17 @@ public class ScreenShots extends AbstractConfigurationAccessHelper {
 	/**
 	 * @return {@link Boolean} value of the flag "toTakeScreenShotsOfNewHandles"
 	 */
+	@Setting(setting = "toTakeScreenShotsOfNewHandles")
 	public Boolean getToTakeScreenShotsOfNewHandles() {
-		return returnExplicitOrDefaultValue(getSetting(toTakeScreenShotsOfNewHandles));
+		return returnExplicitOrDefaultValue(getSetting());
 	}
 
 	/**
 	 * @return {@link Boolean} value of the flag "toTakeScreenShotsOnElementHighLighting"
 	 */
+	@Setting(setting = "toTakeScreenShotsOnElementHighLighting")
 	public Boolean getToTakeScreenShotsOnElementHighLighting() {
-		return returnExplicitOrDefaultValue(getSetting(toTakeScreenShotsOnElementHighLighting));
+		return returnExplicitOrDefaultValue(getSetting());
 	}
 
 }

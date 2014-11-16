@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
+
 import org.openqa.selenium.WebDriver.Timeouts;
 
 /** 
@@ -39,52 +41,43 @@ import org.openqa.selenium.WebDriver.Timeouts;
  * @see Timeouts
  * @see TimeUnit
  */
+@Group(settingGroup = "webDriverTimeOuts")
 public class WebDriverTimeOuts extends AbstractConfigurationAccessHelper {
 
-	private final String implicitlyWaitTimeOutSetting = "implicitlyWait";
-	private final String pageLoadTimeoutSetting = "pageLoadTimeout";
-	private final String scriptTimeOutSetting = "setScriptTimeout";
-	private final String webDriverTimeOutsGroup = "webDriverTimeOuts";
-	public final String timeUnitSetting = "timeUnit";
-
-	public WebDriverTimeOuts(Configuration configuration) {
-		super(configuration);
+	protected WebDriverTimeOuts(Configuration configuration, String group) {
+		super(configuration, group);
 	}
 
 	/**
 	 * @return {@link Long} value of implicitly wait timeOut
 	 */
+	@Setting(setting = "implicitlyWait")
 	public Long getImplicitlyWaitTimeOut() {
-		return getSetting(implicitlyWaitTimeOutSetting);
+		return getSetting();
 	}
 
 	/**
 	 * @return {@link Long} value of page load wait timeOut
 	 */
+	@Setting(setting = "pageLoadTimeout")
 	public Long getLoadTimeout() {
-		return getSetting(pageLoadTimeoutSetting);
+		return getSetting();
 	}
 
 	/**
 	 * @return {@link Long} value of javaScript execution timeOut
 	 */
+	@Setting(setting = "setScriptTimeout")
 	public Long getScriptTimeOut() {
-		return getSetting(scriptTimeOutSetting);
-	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(webDriverTimeOutsGroup, name);
+		return getSetting();
 	}
 
 	/**
 	 * @return Specified {@link TimeUnit}
 	 */
+	@Setting(setting = "timeUnit")
 	public TimeUnit getTimeUnit() {
-		String timeUnitStr = getSetting(timeUnitSetting);
+		String timeUnitStr = getSetting();
 		if (timeUnitStr != null)
 			return TimeUnit.valueOf(timeUnitStr.toUpperCase());
 		else

@@ -2,6 +2,7 @@ package com.github.arachnidium.core.settings;
 
 import com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper;
 import com.github.arachnidium.util.configuration.Configuration;
+import com.github.arachnidium.util.configuration.Group;
 
 /**
  * Stores time out of closing the window implicitly waiting<br/>
@@ -22,28 +23,18 @@ import com.github.arachnidium.util.configuration.Configuration;
  * 
  * @see Configuration
  */
+@Group(settingGroup = "windowIsClosedTimeOut")
 public class WindowIsClosedTimeOut extends AbstractConfigurationAccessHelper {
-	private final String windowIsClosedTimeOutGroup = "windowIsClosedTimeOut";	
-	private final String windowIsClosedTimeOutSetting = "windowIsClosedTimeOut";
-	
-	public WindowIsClosedTimeOut(Configuration configuration) {
-		super(configuration);
-	}
-
-	/**
-	 * @see com.github.arachnidium.util.configuration.AbstractConfigurationAccessHelper#getSetting(java.lang.String)
-	 */
-	@Override
-	public <T extends Object> T getSetting(String name) {
-		return getSettingValue(windowIsClosedTimeOutGroup, name);
-	}
-	
+	protected WindowIsClosedTimeOut(Configuration configuration, String group) {
+		super(configuration, group);
+	}	
 	
 	/**
 	 * @return {@link Long} value of closing the window implicitly waiting time out
 	 */	
+	@Setting(setting = "windowIsClosedTimeOut")
 	public Long getWindowIsClosedTimeOutTimeOut(){
-		return getSetting(windowIsClosedTimeOutSetting);
+		return getSetting();
 	}
 
 }
