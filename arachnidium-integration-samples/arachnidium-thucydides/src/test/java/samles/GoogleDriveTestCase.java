@@ -4,6 +4,7 @@ import net.thucydides.core.annotations.Steps;
 import net.thucydides.junit.runners.ThucydidesRunner;
 
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,10 +14,13 @@ import com.github.arachnidium.thucydides.steps.GoogleDriveSteps;
 
 @RunWith(ThucydidesRunner.class)
 public class GoogleDriveTestCase {
-	private static String PASSWORD = "ArachnidTester123";
 	private static String RESOURCE_PATH = "src/test/resources/";
 	private static final String SETTIGS_OF_CHROME = "chrome.json";
-	private static String USER = "ArachnidiumTester";
+	//please don't use this account. There is nothing interesting for you. 
+    private final String USER = "ArachnidiumTester"; //I have created it only for demonstration of 
+    //framework capabilities
+	private final String PASSWORD = "ArachnidTester_456"; 
+
 	
 	@Steps
 	GoogleDriveSteps steps;

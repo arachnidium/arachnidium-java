@@ -24,8 +24,10 @@ import com.github.arachnidium.web.googledrive.SpreadSheet;
 
 public class GoogleDriveTest {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
-	private final String USER = "ArachnidiumTester";
-	private final String PASSWORD = "ArachnidTester123";
+	//please don't use this account. There is nothing interesting for you. 
+	private final String USER = "ArachnidiumTester"; //I have created it only for this test.
+	private final String PASSWORD = "ArachnidTester_456"; //It is temporary. Later
+	//I will made a simple site which will be used by the similar test 
 
 	// settings according to current OS
 	private final HashMap<Platform, List<String>> settings = new HashMap<Platform, List<String>>();

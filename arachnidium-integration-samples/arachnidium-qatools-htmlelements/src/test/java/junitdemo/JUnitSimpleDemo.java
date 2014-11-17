@@ -3,6 +3,7 @@ package junitdemo;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,8 +28,11 @@ public class JUnitSimpleDemo {
 	private static String RESOURCE_PATH = "src/test/resources/";
 	private static String DOC_LINK = "https://docs.google.com/document/d/1PNtBQwSHQyedeIZqV5VYakPWJtW5incbuiKekB33HyQ/edit";
 	private static String GOOGLE_DRIVE = "https://drive.google.com";
-	private static String PASSWORD = "ArachnidTester123";
-	private static String USER = "ArachnidiumTester";
+	//please don't use this account. There is nothing interesting for you. 
+    private final String USER = "ArachnidiumTester"; //I have created it only for demonstration of 
+    //framework capabilities
+	private final String PASSWORD = "ArachnidTester_456"; 
+
 	
 	@Before
 	public void setUp() throws Exception {
