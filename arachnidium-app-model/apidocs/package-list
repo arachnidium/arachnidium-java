@@ -7,3 +7,4 @@ com.github.arachnidium.model.mobile.android
 com.github.arachnidium.model.mobile.ios
 com.github.arachnidium.model.support
 com.github.arachnidium.model.support.annotations.classdeclaration
+com.github.arachnidium.model.support.annotations.classdeclaration.rootelements
