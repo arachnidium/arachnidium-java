@@ -21,5 +21,5 @@ import org.openqa.selenium.support.FindBy;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Repeatable(PossibleRootElements.class)
 public @interface RootElement {
-	FindBy[] elements();
+	FindBy[] chain();
 }
