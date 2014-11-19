@@ -88,18 +88,16 @@ public class InteractiveInterceptor extends ModelObjectInterceptor {
 				// SomeClass can be annotated by
 				// @Frame
 				// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
-				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					HowToGetByFrames howTo = ifClassIsAnnotatedByFrames((Class<?>) args[0]);
-					// the first parameter is a class which instance we want
-
-					if (howTo != null) {
-						args = ArrayUtils.add(args, howTo);
-						method = ModelSupportUtil.getSuitableMethod(
+				HowToGetByFrames howTo = ModelSupportUtil.getHowToGetByFramesStrategy(paramClasses, (Class<?>) args[0]);
+				// the first parameter is a class which instance we want
+				if (howTo != null) {
+					args = ArrayUtils.add(args, howTo);
+					method = ModelSupportUtil.getSuitableMethod(
 								funcPart.getClass(), GET_PART, args);
-						methodProxy = ModelSupportUtil.getMethodProxy(
+					methodProxy = ModelSupportUtil.getMethodProxy(
 								funcPart.getClass(), method);
-					}
 				}
+
 			}
 
 			return super.intercept(funcPart, method, args, methodProxy);

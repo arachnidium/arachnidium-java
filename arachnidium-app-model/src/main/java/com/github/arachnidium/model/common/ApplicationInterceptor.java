@@ -18,7 +18,6 @@ import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IDecomposableByHandles;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
 import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
@@ -71,96 +70,6 @@ HandleUniqueIdentifiers extends Annotation,
 AdditionalStringIdentifier extends Annotation, 
 HowTo extends IHowToGetHandle>
 		extends ModelObjectInterceptor {
-
-	/**
-	 * This methods transforms
-	 * values of annotations that marks
-	 * the given class to strategies 
-	 * {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
-	 * 
-	 *@param indexAnnotation is the class of annotation which 
-	 * is expected marks the given class
-	 *possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
-	 * 
-	 *@param handleUniqueIdentifiers is the class of annotation which 
-	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
-	 * 
-	 *@param additionalStringIdentifieris the class of annotation which 
-	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
-	 * 
-	 *@param annotated is a given class that can be marked by annotations above
-	 * 
-	 *@param howToClass is the class of strategy that combines values of 
-	 * annotations above. Available classes are {@link HowToGetBrowserWindow} 
-	 * and {@link HowToGetMobileScreen}
-	 * 
-	 * @return the instance of a strategy class defined by 
-	 *@param howToClass
-	 * 
-	 * @throws ReflectiveOperationException
-	 */
-	private HowTo getHowToGetHandleStrategy(
-			Class<IndexAnnotation> indexAnnotation,
-			Class<HandleUniqueIdentifiers> handleUniqueIdentifiers,
-			Class<AdditionalStringIdentifier> additionalStringIdentifier,
-			Class<?> annotated, Class<HowTo> howToClass)
-			throws ReflectiveOperationException {
-		IndexAnnotation[] indexAnnotations = ClassDeclarationReader
-				.getAnnotations(indexAnnotation, annotated);
-		Integer index = null;
-		if (indexAnnotations.length > 0) {
-			index = ClassDeclarationReader.getIndex(indexAnnotations[0]);
-		}
-
-		HandleUniqueIdentifiers[] handleUniqueIdentifiers2 = ClassDeclarationReader
-				.getAnnotations(handleUniqueIdentifiers, annotated);
-		List<String> identifiers = ClassDeclarationReader
-				.getRegExpressions(handleUniqueIdentifiers2);
-		if (identifiers.size() == 0) {
-			identifiers = null;
-		}
-
-		String additionalStringIdentifier2 = null;
-		AdditionalStringIdentifier[] additionalStringIdentifiers = ClassDeclarationReader
-				.getAnnotations(additionalStringIdentifier, annotated);
-		if (additionalStringIdentifiers.length > 0) {
-			additionalStringIdentifier2 = ClassDeclarationReader
-					.getRegExpressions(additionalStringIdentifiers).get(0);
-		}
-
-		if (index == null && identifiers == null
-				&& additionalStringIdentifier2 == null) {
-			return null;
-		}
-
-		try {
-			HowTo result = howToClass.newInstance();
-			if (index != null) {
-				result.setExpected(index);
-			}
-			if (identifiers != null) {
-				result.setExpected(identifiers);
-			}
-			if (additionalStringIdentifier2 != null) {
-				result.setExpected(additionalStringIdentifier2);
-			}
-			return result;
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw e;
-		}
-	}
-
-	private Long getTimeOut(Class<?> annotated) {
-		TimeOut[] timeOuts = ClassDeclarationReader.getAnnotations(
-				TimeOut.class, annotated);
-		if (timeOuts.length == 0) {
-			return null;
-		}
-		return ClassDeclarationReader.getTimeOut(timeOuts[0]);
-	}
-
 	/**
 	 *Invokes methods and performs
 	 *the substitution of methods specified 
@@ -202,7 +111,7 @@ HowTo extends IHowToGetHandle>
 
 				HowTo how = null;
 				if (!paramClasses.contains(IHowToGetHandle.class)){
-					how = getHowToGetHandleStrategy(indexAnnotationClass,
+					how = ModelSupportUtil.getHowToGetHandleStrategy(indexAnnotationClass,
 						huiA, asiA, (Class<?>) args[0], howTo);
 						// the first parameter is a class which instance we
 						// want
@@ -224,11 +133,10 @@ HowTo extends IHowToGetHandle>
 					how.setExpected(index.intValue());
 				}
 
-				HowToGetByFrames howToGetByFrames = null;
-				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					howToGetByFrames = ifClassIsAnnotatedByFrames((Class<?>) args[0]);
-					// the first parameter is a class which instance we want
-				}
+				// the first parameter is a class which instance we want
+				HowToGetByFrames howToGetByFrames = ModelSupportUtil
+						.getHowToGetByFramesStrategy(paramClasses,
+								(Class<?>) args[0]);
 
 				Long timeOutLong = null;
 				paramIndex = ModelSupportUtil.getParameterIndex(
@@ -236,7 +144,7 @@ HowTo extends IHowToGetHandle>
 				if (paramIndex >= 0) {
 					timeOutLong = (Long) args[paramIndex];
 				} else {
-					timeOutLong = getTimeOut((Class<?>) args[0]);
+					timeOutLong = ModelSupportUtil.getTimeOut((Class<?>) args[0]);
 					// the first parameter is a class which instance we want
 				}
 

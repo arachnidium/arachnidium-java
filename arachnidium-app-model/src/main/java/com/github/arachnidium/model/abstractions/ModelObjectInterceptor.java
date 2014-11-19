@@ -1,16 +1,10 @@
 package com.github.arachnidium.model.abstractions;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-
-
-import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
 
 /**
@@ -27,35 +21,7 @@ import com.github.arachnidium.util.proxy.DefaultInterceptor;
 public abstract class ModelObjectInterceptor	extends DefaultInterceptor {
 
 	protected static final String GET_PART = "getPart";
-	
-	/**
-	 * Creates an instance of {@link HowToGetByFrames} class if
-	 * the given class is annotated by {@link Frame}.
-	 * 
-	 * @param annotated It is a class which is supposed to be annotated by {@link Frame}
-	 * 
-	 * @return A {@link HowToGetByFrames} strategy instance if the 
-	 * given class is annotated by {@link Frame} <br/>
-	 * <br/>
-	 * <code>null</code> if the 
-	 * given class isn't annotated by {@link Frame}
-	 */
-	protected HowToGetByFrames ifClassIsAnnotatedByFrames(
-			Class<?> annotated) {
-		List<Object> framePath = ClassDeclarationReader
-				.getFramePath(ClassDeclarationReader.getAnnotations(
-						Frame.class, annotated));
-		if (framePath.size() == 0) {
-			return null;
-		}
-	
-		HowToGetByFrames howTo = new HowToGetByFrames();
-		framePath.forEach((chainElement) -> {
-			howTo.addNextFrame(chainElement);
-		});
-		return howTo;
-	}	
-	
+		
 	/**
 	 * @see com.github.arachnidium.util.proxy.DefaultInterceptor#intercept(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[],
