@@ -2,8 +2,6 @@ package com.github.arachnidium.model.common;
 
 import java.net.URL;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -68,10 +66,7 @@ public abstract class ApplicationFactory {
 	 * and its default {@link Capabilities} 
 	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver){
-		this.supportedDriver = supportedDriver;
-		config = null;
-		capabilities = supportedDriver.getDefaultCapabilities();
-		remoteUrl = null;
+		this(supportedDriver, null, null);
 	}
 	
 	/**
@@ -82,10 +77,7 @@ public abstract class ApplicationFactory {
 	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver, 
 			Capabilities capabilities){
-		this.supportedDriver = supportedDriver;
-		config = null;
-		this.capabilities = capabilities;
-		remoteUrl = null;
+		this(supportedDriver, capabilities, null);
 	}	
 	
 	/**
@@ -125,7 +117,7 @@ public abstract class ApplicationFactory {
 
 	protected <T extends Application<?, ?>> T launch(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			MethodInterceptor mi,
+			ApplicationInterceptor<?, ?, ?, ?, ?> mi, Class<? extends InteractiveInterceptor<?>> interactiveInterceptor,
 			WebDriverDesignationChecker objectWhichChecksWebDriver) {
 		Handle h = null;
 		try {
@@ -134,9 +126,11 @@ public abstract class ApplicationFactory {
 			if (config != null){
 				h.getDriverEncapsulation().resetAccordingTo(config);
 			}
-			return EnhancedProxyFactory.getProxy(appClass,
+			T result = EnhancedProxyFactory.getProxy(appClass,
 					ModelSupportUtil.getParameterClasses(new Object[] { h }, appClass),
 					new Object[] { h }, mi);
+			result.usedInteractiveInterceptor = interactiveInterceptor;
+			return result;
 		} catch (Exception e) {
 			if (h != null) {
 				h.getDriverEncapsulation().destroy();

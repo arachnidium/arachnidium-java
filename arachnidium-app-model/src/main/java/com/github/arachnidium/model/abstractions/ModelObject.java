@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
 
@@ -166,6 +167,19 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	@Override
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy);
+	
+	/**
+	 * @see IDecomposable#getPart(Class, By)
+	 */
+	@Override
+	public abstract <T extends IDecomposable> T getPart(Class<T> partClass, By by);
+
+	/**
+	 * @see IDecomposable#getPart(Class, HowToGetByFrames, By)
+	 */
+	@Override
+	public  abstract <T extends IDecomposable> T getPart(Class<T> partClass,
+			HowToGetByFrames pathStrategy, By by);	
 
 	/**
 	 * @see org.openqa.selenium.internal.WrapsDriver#getWrappedDriver()

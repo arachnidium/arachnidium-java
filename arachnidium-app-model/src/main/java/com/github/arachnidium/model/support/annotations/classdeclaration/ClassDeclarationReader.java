@@ -10,11 +10,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.How;
 
+import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
+
 /**
  * Reads annotations which mark classes.
  * It is the inner utility class.
  */
-public abstract class ClassDeclarationReader {
+public class ClassDeclarationReader implements IDefaultAnnotationReader{
 
 	private static final String REG_EXP_METHOD = "regExp";
 	private static final String INDEX_METHOD = "index";
@@ -55,7 +57,7 @@ public abstract class ClassDeclarationReader {
 	 * Returns "index()" value
 	 * @param a An instance of Annotation which has "index()" method 
 	 */	
-	public  static Integer getIndex(Annotation a){
+	public Integer getIndex(Annotation a){
 		return getValue(a, INDEX_METHOD);
 	}	
 	
@@ -63,7 +65,7 @@ public abstract class ClassDeclarationReader {
 	 * Returns "regExp()" value
 	 * @param a An instance of Annotation{@A1}. A1 has "regExp()" method 
 	 */		
-	public static List<String> getRegExpressions(Annotation[] a){
+	public List<String> getRegExpressions(Annotation[] a){
 		List<String> result = new ArrayList<String>();
 		for (Annotation annotation: a){
 			result.add(getRegExpression(annotation));
@@ -97,7 +99,7 @@ public abstract class ClassDeclarationReader {
 	/**
 	 * Reads {@link Frames} annotation
 	 */
-	public static List<Object> getFramePath(Frame[] frames){
+	public List<Object> getFramePath(Frame[] frames){
 		List<Object> result = new ArrayList<Object>();
 		String info = STRING_PATH_METHOD + ", " + FRAME_INDEX_METHOD + ", {" +
 		HOW_TO_GET_FRAME_ELEMENT + " & " + HOW_TO_GET_LOCATOR_VALUE + "}";
@@ -136,30 +138,12 @@ public abstract class ClassDeclarationReader {
 		}
 		return result;
 	}
-	
-	/**
-	 * Attempts to return
-	 * annotations which mark class or superclass of the given class 
-	 */
-	public static <T extends Annotation> T[] getAnnotations(Class<T> requiredAnnotation, Class<?> target){
-		T[] result = target.getAnnotationsByType(requiredAnnotation);
-		Class<?> superC = target.getSuperclass();
-		while (result.length == 0 && superC != null){
-			result = superC.getAnnotationsByType(requiredAnnotation);
-			superC = superC.getSuperclass();
-		}
-		return result;
-	}
-
-	private ClassDeclarationReader() {
-		super();
-	}
 
 	/**
 	 * Returns "timeOut()" value
 	 * @param a An instance of Annotation which has "timeOut()" method 
 	 */	
-	public static long getTimeOut(Annotation a){
+	public long getTimeOut(Annotation a){
 		return getValue(a, TIME_OUT);
 	}
 	

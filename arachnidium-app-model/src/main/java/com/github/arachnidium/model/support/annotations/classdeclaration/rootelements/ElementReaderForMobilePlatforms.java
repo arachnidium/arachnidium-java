@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
-public class ElementReaderForMobilePlatforms implements RootElementReader {
+public class ElementReaderForMobilePlatforms implements IRootElementReader {
 	private static final String UI_AUTOMATOR = "uiAutomator";
 	private static final String ACCESSIBILITY = "accessibility";
 	private static final String CLASSNAME = "className";
@@ -95,10 +95,10 @@ public class ElementReaderForMobilePlatforms implements RootElementReader {
 		List<By> result = new ArrayList<>();
 		Annotation[] possibleRoots = null;		
 		if (AndroidDriver.class.isAssignableFrom(driver.getClass())){
-			possibleRoots = readableClass.getAnnotationsByType(RootAndroidElement.class);
+			possibleRoots = getAnnotations(RootAndroidElement.class, readableClass);
 		}
 		if (IOSDriver.class.isAssignableFrom(driver.getClass())){
-			possibleRoots = readableClass.getAnnotationsByType(RootIOSElement.class);
+			possibleRoots = getAnnotations(RootIOSElement.class, readableClass);
 		}
 		if (possibleRoots == null){
 			return null;
@@ -112,8 +112,10 @@ public class ElementReaderForMobilePlatforms implements RootElementReader {
 			result.add(getPossibleChain(chain, driver));
 		}	
 		
+		//this is an attempt to get By strategy
+		//by present @FindBy annotations
 		if (result.size() == 0)
-			return null;
+			return new CommonRootElementReader().readClassAndGetBy(readableClass, driver);
 		return new ByAll(result.toArray(new By[]{}));
 	}
 

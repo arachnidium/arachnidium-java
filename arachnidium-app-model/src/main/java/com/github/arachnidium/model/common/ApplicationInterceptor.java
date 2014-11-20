@@ -10,6 +10,8 @@ import java.util.List;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.HowToGetBrowserWindow;
 import com.github.arachnidium.core.HowToGetMobileScreen;
@@ -18,7 +20,6 @@ import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IDecomposableByHandles;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
 import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
@@ -27,6 +28,10 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.IRootElementReader;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootAndroidElement;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootIOSElement;
 
 /**
  *This an iterceptor of {@link Application} methods.
@@ -65,102 +70,17 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut
  *Possible classes are {@link HowToGetBrowserWindow} and {@link HowToGetMobileScreen}
  *By instances of this classes parameters (see above) will be combined
  *
+ *@param RootElementReader. Here the algorithm of the getting {@link By} strategy
+ *when class is marked by {@link RootElement}, {@link RootAndroidElement} and 
+ *{@link RootIOSElement}. These annotations are used when where are constant root
+ *{@link WebElement}'s.
+ *
  */
 public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, 
 HandleUniqueIdentifiers extends Annotation, 
 AdditionalStringIdentifier extends Annotation, 
-HowTo extends IHowToGetHandle>
+HowTo extends IHowToGetHandle, RootElementReader extends IRootElementReader>
 		extends ModelObjectInterceptor {
-
-	/**
-	 * This methods transforms
-	 * values of annotations that marks
-	 * the given class to strategies 
-	 * {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
-	 * 
-	 *@param indexAnnotation is the class of annotation which 
-	 * is expected marks the given class
-	 *possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
-	 * 
-	 *@param handleUniqueIdentifiers is the class of annotation which 
-	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
-	 * 
-	 *@param additionalStringIdentifieris the class of annotation which 
-	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
-	 * 
-	 *@param annotated is a given class that can be marked by annotations above
-	 * 
-	 *@param howToClass is the class of strategy that combines values of 
-	 * annotations above. Available classes are {@link HowToGetBrowserWindow} 
-	 * and {@link HowToGetMobileScreen}
-	 * 
-	 * @return the instance of a strategy class defined by 
-	 *@param howToClass
-	 * 
-	 * @throws ReflectiveOperationException
-	 */
-	private HowTo getHowToGetHandleStrategy(
-			Class<IndexAnnotation> indexAnnotation,
-			Class<HandleUniqueIdentifiers> handleUniqueIdentifiers,
-			Class<AdditionalStringIdentifier> additionalStringIdentifier,
-			Class<?> annotated, Class<HowTo> howToClass)
-			throws ReflectiveOperationException {
-		IndexAnnotation[] indexAnnotations = ClassDeclarationReader
-				.getAnnotations(indexAnnotation, annotated);
-		Integer index = null;
-		if (indexAnnotations.length > 0) {
-			index = ClassDeclarationReader.getIndex(indexAnnotations[0]);
-		}
-
-		HandleUniqueIdentifiers[] handleUniqueIdentifiers2 = ClassDeclarationReader
-				.getAnnotations(handleUniqueIdentifiers, annotated);
-		List<String> identifiers = ClassDeclarationReader
-				.getRegExpressions(handleUniqueIdentifiers2);
-		if (identifiers.size() == 0) {
-			identifiers = null;
-		}
-
-		String additionalStringIdentifier2 = null;
-		AdditionalStringIdentifier[] additionalStringIdentifiers = ClassDeclarationReader
-				.getAnnotations(additionalStringIdentifier, annotated);
-		if (additionalStringIdentifiers.length > 0) {
-			additionalStringIdentifier2 = ClassDeclarationReader
-					.getRegExpressions(additionalStringIdentifiers).get(0);
-		}
-
-		if (index == null && identifiers == null
-				&& additionalStringIdentifier2 == null) {
-			return null;
-		}
-
-		try {
-			HowTo result = howToClass.newInstance();
-			if (index != null) {
-				result.setExpected(index);
-			}
-			if (identifiers != null) {
-				result.setExpected(identifiers);
-			}
-			if (additionalStringIdentifier2 != null) {
-				result.setExpected(additionalStringIdentifier2);
-			}
-			return result;
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw e;
-		}
-	}
-
-	private Long getTimeOut(Class<?> annotated) {
-		TimeOut[] timeOuts = ClassDeclarationReader.getAnnotations(
-				TimeOut.class, annotated);
-		if (timeOuts.length == 0) {
-			return null;
-		}
-		return ClassDeclarationReader.getTimeOut(timeOuts[0]);
-	}
-
 	/**
 	 *Invokes methods and performs
 	 *the substitution of methods specified 
@@ -194,54 +114,50 @@ HowTo extends IHowToGetHandle>
 					.forName(pType.getActualTypeArguments()[2].getTypeName());
 			Class<HowTo> howTo = (Class<HowTo>) Class.forName(pType
 					.getActualTypeArguments()[3].getTypeName());
+			Class<RootElementReader> rootReader = (Class<RootElementReader>) Class.forName(pType
+					.getActualTypeArguments()[4].getTypeName());
+			
+			// the first parameter is a class which instance we
+			Class<?> desiredClass = (Class<?>) args[0];// want
 
 			// There is nothing to do if all parameters apparently defined
 			if (!paramClasses.contains(IHowToGetHandle.class)
 					|| !paramClasses.contains(HowToGetByFrames.class)
-					|| !paramClasses.contains(long.class)) {
+					|| !paramClasses.contains(long.class)|| !paramClasses.contains(By.class)) {
 
-				HowTo how = null;
-				if (!paramClasses.contains(IHowToGetHandle.class)){
-					how = getHowToGetHandleStrategy(indexAnnotationClass,
-						huiA, asiA, (Class<?>) args[0], howTo);
-						// the first parameter is a class which instance we
-						// want
-				}
-				else{
-					how = (HowTo) args[ModelSupportUtil.getParameterIndex(
-							method.getParameters(), howTo)];
-				}
+				HowTo how = ModelSupportUtil.getDefinedParameter(method, howTo, args);
+				if (how == null)
+					how = ModelSupportUtil.getHowToGetHandleStrategy(indexAnnotationClass,
+							huiA, asiA, desiredClass, howTo);
 
-				int paramIndex = ModelSupportUtil.getParameterIndex(
-						method.getParameters(), int.class);
-				Integer index = null;
-				if (paramIndex >= 0) {
-					index = (Integer) args[paramIndex];
-				}
-
+				Integer index = ModelSupportUtil.getDefinedParameter(method, int.class, args);
 				// if index of a window/screen was defined
 				if (how != null && index != null) {
 					how.setExpected(index.intValue());
 				}
 
-				HowToGetByFrames howToGetByFrames = null;
-				if (!paramClasses.contains(HowToGetByFrames.class)) {
-					howToGetByFrames = ifClassIsAnnotatedByFrames((Class<?>) args[0]);
-					// the first parameter is a class which instance we want
+				// frame strategy
+				HowToGetByFrames howToGetByFrames = ModelSupportUtil
+						.getDefinedParameter(method, HowToGetByFrames.class,
+								args);
+				if (howToGetByFrames == null)
+					howToGetByFrames = ModelSupportUtil
+							.getHowToGetByFramesStrategy(desiredClass);
+				
+				//By strategy of the getting root element
+				By rootBy = ModelSupportUtil.getDefinedParameter(method, By.class, args);
+				if (rootBy==null){
+					IRootElementReader rootElementReader = rootReader.newInstance();
+					rootBy = rootElementReader.readClassAndGetBy(desiredClass, 
+							((Application<?, ?>) application).getWrappedDriver());
 				}
 
-				Long timeOutLong = null;
-				paramIndex = ModelSupportUtil.getParameterIndex(
-						method.getParameters(), long.class);
-				if (paramIndex >= 0) {
-					timeOutLong = (Long) args[paramIndex];
-				} else {
-					timeOutLong = getTimeOut((Class<?>) args[0]);
-					// the first parameter is a class which instance we want
-				}
+				Long timeOutLong = ModelSupportUtil.getDefinedParameter(method, long.class, args);
+				if (timeOutLong == null)
+					timeOutLong = ModelSupportUtil.getTimeOut(desiredClass);
 
 				// attempt to substitute methods is described below
-				Object[] newArgs = new Object[] { args[0] };
+				Object[] newArgs = new Object[] { desiredClass };
 				if (how != null) {
 					newArgs = ArrayUtils.add(newArgs, how);
 				} else if (index != null) {
@@ -252,6 +168,10 @@ HowTo extends IHowToGetHandle>
 					newArgs = ArrayUtils.add(newArgs, howToGetByFrames);
 				}
 
+				if (rootBy != null) {
+					newArgs = ArrayUtils.add(newArgs, rootBy);
+				}
+				
 				if (timeOutLong != null) {
 					newArgs = ArrayUtils.add(newArgs, timeOutLong.longValue());
 				}

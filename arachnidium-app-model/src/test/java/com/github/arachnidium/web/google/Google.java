@@ -6,26 +6,21 @@ import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserApplication;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
-	
-	private SearchBar<?> searchBar;
-	private LinksAreFound<?> linksAreFound;
-	
+		
 	protected Google(BrowserWindow browserWindow){
-		super(browserWindow);
-		searchBar     = getPart(SearchBar.class);    
-		linksAreFound = getPart(LinksAreFound.class); 
+		super(browserWindow);  
 	}
 	
 	public void performSearch(String searchString) {
-		searchBar.performSearch(searchString);		
+		getPart(SearchBar.class).performSearch(searchString);		
 	}
 
 	public void openLinkByIndex(int index) {
-		linksAreFound.openLinkByIndex(index);		
+		getPart(LinksAreFound.class).openLinkByIndex(index);		
 	}
 
 	public int getLinkCount() {
-		return linksAreFound.getLinkCount();
+		return getPart(LinksAreFound.class).getLinkCount();
 	}
 	
 	//closes google main page
@@ -38,6 +33,6 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 
 	@Override
 	public void clickOnLinkByIndex(int index) {
-		linksAreFound.clickOnLinkByIndex(index);		
+		getPart(LinksAreFound.class).clickOnLinkByIndex(index);		
 	}
 }
