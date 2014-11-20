@@ -5,6 +5,7 @@ import com.github.arachnidium.model.common.ApplicationInterceptor;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroidActivity;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.ElementReaderForMobilePlatforms;
 
 /**
  * see {@link ApplicationInterceptor}
@@ -13,6 +14,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
 class MobileApplicationInterceptor extends ApplicationInterceptor<IfMobileDefaultContextIndex, 
     IfMobileAndroidActivity, 
 	IfMobileContext, 
-	HowToGetMobileScreen> {
+	HowToGetMobileScreen,
+	ElementReaderForMobilePlatforms> {
 
 }

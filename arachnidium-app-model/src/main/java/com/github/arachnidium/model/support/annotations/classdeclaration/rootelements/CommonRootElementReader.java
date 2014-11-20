@@ -11,7 +11,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
-public class CommonRootElementReader implements RootElementReader {
+public class CommonRootElementReader implements IRootElementReader {
 
 	private static By getBy(FindBy findBy) {
 		if (!"".equals(findBy.className()))
@@ -93,7 +93,7 @@ public class CommonRootElementReader implements RootElementReader {
 	@Override
 	public By readClassAndGetBy(Class<?> readableClass, WebDriver driver) {
 		List<By> result = new ArrayList<>();		
-		RootElement[] rootElements = readableClass.getAnnotationsByType(RootElement.class);
+		RootElement[] rootElements = getAnnotations(RootElement.class, readableClass);
 		
 		for (RootElement rootElement: rootElements) {
 			result.add(getPossibleChain(rootElement));

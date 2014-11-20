@@ -37,6 +37,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut
  *
  */
 abstract class ModelSupportUtil {
+	private static ClassDeclarationReader classDeclarationReader = new ClassDeclarationReader();
 
 	private static final HashMap<Class<?>, Class<?>> FOR_USED_SIMPLE_TYPES = new HashMap<Class<?>, Class<?>>() {
 		private static final long serialVersionUID = 1L;
@@ -174,7 +175,7 @@ abstract class ModelSupportUtil {
 				new Signature(m.getName(), returned, argTypes));		
 	}
 	
-	static int getParameterIndex(Parameter[] parameters, Class<?> requredClass){
+	private static int getParameterIndex(Parameter[] parameters, Class<?> requredClass){
 		for (int i = 0; i < parameters.length; i ++){
 			if (parameters[i].getType().isAssignableFrom(requredClass)){
 				return i;
@@ -197,15 +198,11 @@ abstract class ModelSupportUtil {
 	 * <code>null</code> if the 
 	 * given class isn't annotated by {@link Frame}
 	 */	
-	static HowToGetByFrames getHowToGetByFramesStrategy(List<Class<?>> params, Class<?> targetClass){
-		if (!params.contains(HowToGetByFrames.class)) {
-			List<Object> framePath = ClassDeclarationReader
-					.getFramePath(ClassDeclarationReader.getAnnotations(
-							Frame.class, targetClass));
-			if (framePath.size() == 0) {
-				return null;
-			}
-		
+	static HowToGetByFrames getHowToGetByFramesStrategy(Class<?> targetClass){
+		List<Object> framePath = classDeclarationReader
+				.getFramePath(classDeclarationReader.getAnnotations(
+						Frame.class, targetClass));
+		if (framePath.size() != 0) {	
 			HowToGetByFrames howTo = new HowToGetByFrames();
 			framePath.forEach((chainElement) -> {
 				howTo.addNextFrame(chainElement);
@@ -250,26 +247,26 @@ abstract class ModelSupportUtil {
 			Class<? extends Annotation> additionalStringIdentifier,
 			Class<?> annotated, Class<T> howToClass)
 			throws ReflectiveOperationException {
-		Annotation[] indexAnnotations = ClassDeclarationReader
+		Annotation[] indexAnnotations = classDeclarationReader
 				.getAnnotations(indexAnnotation, annotated);
 		Integer index = null;
 		if (indexAnnotations.length > 0) {
-			index = ClassDeclarationReader.getIndex(indexAnnotations[0]);
+			index = classDeclarationReader.getIndex(indexAnnotations[0]);
 		}
 
-		Annotation[] handleUniqueIdentifiers2 = ClassDeclarationReader
+		Annotation[] handleUniqueIdentifiers2 = classDeclarationReader
 				.getAnnotations(handleUniqueIdentifiers, annotated);
-		List<String> identifiers = ClassDeclarationReader
+		List<String> identifiers = classDeclarationReader
 				.getRegExpressions(handleUniqueIdentifiers2);
 		if (identifiers.size() == 0) {
 			identifiers = null;
 		}
 
 		String additionalStringIdentifier2 = null;
-		Annotation[] additionalStringIdentifiers = ClassDeclarationReader
+		Annotation[] additionalStringIdentifiers = classDeclarationReader
 				.getAnnotations(additionalStringIdentifier, annotated);
 		if (additionalStringIdentifiers.length > 0) {
-			additionalStringIdentifier2 = ClassDeclarationReader
+			additionalStringIdentifier2 = classDeclarationReader
 					.getRegExpressions(additionalStringIdentifiers).get(0);
 		}
 
@@ -303,11 +300,21 @@ abstract class ModelSupportUtil {
 	 * @return {@link Long} value if annotation is present. <code>null</code> otherwise
 	 */
 	static Long getTimeOut(Class<?> annotated) {
-		TimeOut[] timeOuts = ClassDeclarationReader.getAnnotations(
+		TimeOut[] timeOuts = classDeclarationReader.getAnnotations(
 				TimeOut.class, annotated);
 		if (timeOuts.length == 0) {
 			return null;
 		}
-		return ClassDeclarationReader.getTimeOut(timeOuts[0]);
+		return classDeclarationReader.getTimeOut(timeOuts[0]);
+	}
+	
+	@SuppressWarnings("unchecked")
+	static <T> T getDefinedParameter(Method method, Class<?> desiredClass, Object[] args){
+		int paramIndex = getParameterIndex(
+				method.getParameters(), desiredClass);
+		if (paramIndex >= 0){
+			return (T) args[paramIndex];
+		}
+		return null;
 	}
 }

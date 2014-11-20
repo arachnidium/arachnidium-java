@@ -2,15 +2,19 @@ package com.github.arachnidium.model.common;
 
 import java.util.concurrent.TimeUnit;
 
+import net.sf.cglib.proxy.MethodInterceptor;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
+import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 import com.google.common.base.Function;
 
 /**
@@ -20,18 +24,18 @@ import com.google.common.base.Function;
 class RootElement implements WrapsElement {
 	static final String ROOT_ELEMENT_FIELD_NAME = "rootElement";
 
-	final SearchContext context;
 	final By by;
 	long timeValue;
 	TimeUnit timeUnit;
+	final FunctionalPart<?> functionalPart;
 
 	/**
 	 * The wrapped root element will be found by given parameters
 	 */
 	// Function
-	RootElement(SearchContext searchContext, By by, long timeValue,
+	RootElement(FunctionalPart<?> functionalPart, By by, long timeValue,
 			TimeUnit timeUnit) {
-		this.context = searchContext;
+		this.functionalPart = functionalPart;
 		this.by = by;
 		setTimeValue(timeValue);
 		setTimeUnit(timeUnit);
@@ -45,22 +49,48 @@ class RootElement implements WrapsElement {
 		this.timeUnit = timeUnit;
 	}
 
-	@Override
-	public WebElement getWrappedElement() {
-		Function<By, WebElement> waitingAlgorithm = input -> {
+	// this method returns the function which performs the waiting for the root
+	// element
+	private Function<By, WebElement> getWaitForTheRootElementFunction() {
+		WebDriver driver = functionalPart.getWrappedDriver();
+		return input -> {
 			try {
-				return context.findElement(by);
+				return driver.findElement(by);
 			} catch (StaleElementReferenceException | NoSuchElementException ignored) {
 				return null;
 			}
 		};
-		try {
-			FluentWait<By> wait = new FluentWait<By>(by);
-			wait.withTimeout(timeValue, timeUnit);
-			return wait.until(waitingAlgorithm);
-		} catch (TimeoutException e) {
-			throw new NoSuchElementException(
-					"Cann't locate the root element by " + by.toString());
-		}
+	}
+
+	private MethodInterceptor getRotElementMethodInterceptor() {
+		WebDriver driver = functionalPart.getWrappedDriver();
+		functionalPart.switchToMe();
+		return (obj, method, args, proxy) -> {
+			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+			WebElement root = null;
+			try {
+				FluentWait<By> wait = new FluentWait<By>(by);
+				wait.withTimeout(timeValue, timeUnit);
+				root = wait.until(getWaitForTheRootElementFunction());
+			} catch (TimeoutException e) {
+				throw new NoSuchElementException(
+						"Cann't locate the root element by " + by.toString(), e);
+			} finally {
+				driver.manage().timeouts().implicitlyWait(timeValue, timeUnit);
+			}
+
+			return method.invoke(root, args);
+		};
+	}
+
+	@Override
+	public WebElement getWrappedElement() {
+		return EnhancedProxyFactory.getProxy(RemoteWebElement.class,
+				new Class[] {}, new Object[] {},
+				getRotElementMethodInterceptor());
+	}
+
+	By getTheGivenByStrategy() {
+		return by;
 	}
 }

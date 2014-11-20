@@ -1,5 +1,8 @@
 package com.github.arachnidium.model.interfaces;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import com.github.arachnidium.model.support.HowToGetByFrames;
 
 /**
@@ -40,4 +43,34 @@ public interface IDecomposable {
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames pathStrategy);
+	
+	/**
+	 * This method should provide the getting of more specific 
+	 * part from another which is more generalized. <br/><br/>
+	 * The root element is defined {@link By} locator strategy
+	 * 
+	 * @param partClass is required class that implements {@link IDecomposable}
+	 * @param by Is a locator strategy which is used to get the root {@link WebElement}
+	 * @return The instance of required class specified by @param partClass 
+	 */
+	public <T extends IDecomposable> T getPart(Class<T> partClass, By by);
+	
+	
+	/**
+	 * This method should provide the getting of more specific 
+	 * part from another which is more generalized. 
+	 * 
+	 * As it is all about UI of browser and mobile applications, 
+	 * the usage of frames is possible (browser applications, hybrid mobile clients).
+	 * So this fact is considered by method.<br/><br/>
+	 * The root element is defined {@link By} locator strategy
+	 * 
+	 * @param partClass is required class that implements {@link IDecomposable}
+	 * @param pathStrategy is a path to frame which is specified by {@link HowToGetByFrames} 
+	 * @param by Is a locator strategy which is used to get the root {@link WebElement}
+	 * 
+	 * @return The instance of required class specified by @param partClass 
+	 */	
+	public <T extends IDecomposable> T getPart(Class<T> partClass,
+			HowToGetByFrames pathStrategy, By by);	
 }
