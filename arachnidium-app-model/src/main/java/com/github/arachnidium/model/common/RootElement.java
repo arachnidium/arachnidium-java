@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -22,8 +22,7 @@ import com.google.common.base.Function;
  * root element in the chain of further searches.
  */
 class RootElement implements WrapsElement {
-	static final String ROOT_ELEMENT_FIELD_NAME = "rootElement";
-
+	private final long POLLING_EVERY = 100; //MILLISECONDS
 	final By by;
 	long timeValue;
 	TimeUnit timeUnit;
@@ -52,10 +51,9 @@ class RootElement implements WrapsElement {
 	// this method returns the function which performs the waiting for the root
 	// element
 	private Function<By, WebElement> getWaitForTheRootElementFunction() {
-		WebDriver driver = functionalPart.getWrappedDriver();
 		return input -> {
 			try {
-				return driver.findElement(by);
+				return functionalPart.getWrappedDriver().findElement(by);
 			} catch (StaleElementReferenceException | NoSuchElementException ignored) {
 				return null;
 			}
@@ -63,20 +61,20 @@ class RootElement implements WrapsElement {
 	}
 
 	private MethodInterceptor getRotElementMethodInterceptor() {
-		WebDriver driver = functionalPart.getWrappedDriver();
-		functionalPart.switchToMe();
 		return (obj, method, args, proxy) -> {
-			driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+			Timeouts t = functionalPart.getWrappedDriver().manage().timeouts();
+			t.implicitlyWait(0, TimeUnit.SECONDS);
 			WebElement root = null;
 			try {
 				FluentWait<By> wait = new FluentWait<By>(by);
 				wait.withTimeout(timeValue, timeUnit);
+				wait.pollingEvery(POLLING_EVERY, TimeUnit.MILLISECONDS);
 				root = wait.until(getWaitForTheRootElementFunction());
 			} catch (TimeoutException e) {
 				throw new NoSuchElementException(
 						"Cann't locate the root element by " + by.toString(), e);
 			} finally {
-				driver.manage().timeouts().implicitlyWait(timeValue, timeUnit);
+				t.implicitlyWait(timeValue, timeUnit);
 			}
 
 			return method.invoke(root, args);
@@ -85,6 +83,7 @@ class RootElement implements WrapsElement {
 
 	@Override
 	public WebElement getWrappedElement() {
+		functionalPart.switchToMe();
 		return EnhancedProxyFactory.getProxy(RemoteWebElement.class,
 				new Class[] {}, new Object[] {},
 				getRotElementMethodInterceptor());

@@ -169,10 +169,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	private static By getChainedBy(FunctionalPart<?> parent,
 			HowToGetByFrames path, By by) {
-		if (by == null) {
-			return null;
-		}
-		// root element chain is broken when we swithc
+		// root element chain is broken when we switch
 		// driver to another frame
 		if (path.getFramePath().size() > 0) {
 			return by;
@@ -193,6 +190,15 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 				break;
 			previuosChain.addFirst(parent.rootElement.getTheGivenByStrategy());
 			previousParent = previousParent.parent;
+		}
+		
+		if (previuosChain.size() == 0){
+			return by;
+		}
+		
+		if (by != null){ //we add the defined by 
+			//to the end of the chain
+			previuosChain.addLast(by);
 		}
 		return new ByChained(previuosChain.toArray(new By[] {}));
 	}
