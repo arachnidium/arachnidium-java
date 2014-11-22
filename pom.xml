@@ -1,10 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.1.1.RELEASE</spring.version>
+		<aspectJ.version>1.8.2</aspectJ.version>
 		<selenium.version>2.43.1</selenium.version>
-		<ghostdriver.version>1.1.0</ghostdriver.version>
-		<appium.version>2.1.0</appium.version>
+		<cglib.version>3.1</cglib.version>
+		<org.ow2.asm.version>5.0.2</org.ow2.asm.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -62,58 +63,32 @@
 	</distributionManagement>	
 
 	<dependencies>
+	    <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<scope>compile</scope>
+		</dependency>		
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium.version}</version>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectJ.version}</version>
+			<scope>compile</scope>
+		</dependency>
+				<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>${cglib.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-			<version>${selenium.version}</version>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>${org.ow2.asm.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
-			<artifactId>phantomjsdriver</artifactId>
-			<version>${ghostdriver.version}</version>
-
-			<exclusions>
-				<exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-java</artifactId>
-				</exclusion>
-
-				<exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-server</artifactId>
-				</exclusion>
-
-				<exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-remote-driver</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>io.appium</groupId>
-			<artifactId>java-client</artifactId>
-			<version>${appium.version}</version>
-
-			<exclusions>
-				<exclusion>
-					<groupId>org.seleniumhq.selenium</groupId>
-					<artifactId>selenium-java</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-codec</artifactId>
-					<groupId>commons-codec</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-commons</artifactId>
+			<version>${org.ow2.asm.version}</version>
 		</dependency>
 	</dependencies>
 

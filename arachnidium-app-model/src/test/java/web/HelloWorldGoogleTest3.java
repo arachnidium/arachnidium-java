@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.util.configuration.Configuration;
 
+import org.junit.Assert;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;

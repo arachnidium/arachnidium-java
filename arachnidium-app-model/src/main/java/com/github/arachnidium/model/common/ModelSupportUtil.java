@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.cglib.asm.Type;
 import net.sf.cglib.core.Signature;
 import net.sf.cglib.proxy.MethodProxy;
+import org.objectweb.asm.Type;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.core.HowToGetBrowserWindow;
@@ -171,8 +171,8 @@ abstract class ModelSupportUtil {
 	static MethodProxy getMethodProxy(Class<?> clazz, Method m){
 		Type returned = Type.getReturnType(m);
 		Type[] argTypes = Type.getArgumentTypes(m);
-		return MethodProxy.find(clazz,
-				new Signature(m.getName(), returned, argTypes));		
+		Signature s = new Signature(m.getName(), returned, argTypes);
+		return MethodProxy.find(clazz, s);		
 	}
 	
 	private static int getParameterIndex(Parameter[] parameters, Class<?> requredClass){

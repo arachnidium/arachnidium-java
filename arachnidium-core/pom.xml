@@ -1,10 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-	<properties>
-		<spring.version>4.1.1.RELEASE</spring.version>
-		<aspectJ.version>1.8.2</aspectJ.version>
-	</properties>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -12,6 +7,13 @@
 		<artifactId>arachnidium</artifactId>
 		<version>1.0.0.0-SNAPSHOT</version>
 	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<ghostdriver.version>1.1.0</ghostdriver.version>
+		<appium.version>2.1.0</appium.version>
+	</properties>
+
 	<artifactId>arachnidium-core</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
@@ -34,36 +36,62 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-			<scope>compile</scope>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>cglib-nodep</artifactId>
+					<groupId>cglib</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-			<scope>compile</scope>
-		</dependency>		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
-			<scope>compile</scope>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.detro.ghostdriver</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+			<version>${ghostdriver.version}</version>
 
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>${aspectJ.version}</version>
-			<scope>compile</scope>
-		</dependency>
+			<exclusions>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
 
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-server</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-remote-driver</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>${aspectJ.version}</version>
-			<scope>compile</scope>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>${appium.version}</version>
+
+			<exclusions>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-codec</artifactId>
+					<groupId>commons-codec</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>

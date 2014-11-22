@@ -5,10 +5,11 @@ import io.appium.java_client.android.AndroidKeyCode;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
 
 //import com.github.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
 import com.github.arachnidium.util.configuration.Configuration;
+
+import org.junit.Assert;
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.core.HowToGetMobileScreen;

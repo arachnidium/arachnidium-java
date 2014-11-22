@@ -1,7 +1,6 @@
 package web;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.testng.annotations.Test;
 
 import com.github.arachnidium.model.browser.WebFactory;
