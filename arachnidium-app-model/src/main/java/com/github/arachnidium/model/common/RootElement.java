@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Timeouts;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsElement;
@@ -62,7 +63,13 @@ class RootElement implements WrapsElement {
 
 	private MethodInterceptor getRotElementMethodInterceptor() {
 		return (obj, method, args, proxy) -> {
-			Timeouts t = functionalPart.getWrappedDriver().manage().timeouts();
+			WebDriver driver = functionalPart.getWrappedDriver();
+			
+			if (method.getReturnType().equals(WebDriver.class)){
+				return driver;
+			}
+			
+			Timeouts t = driver.manage().timeouts();
 			t.implicitlyWait(0, TimeUnit.SECONDS);
 			WebElement root = null;
 			try {

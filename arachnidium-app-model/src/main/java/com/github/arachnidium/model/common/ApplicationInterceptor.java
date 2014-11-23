@@ -79,8 +79,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.rootele
 public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, 
 HandleUniqueIdentifiers extends Annotation, 
 AdditionalStringIdentifier extends Annotation, 
-HowTo extends IHowToGetHandle, RootElementReader extends IRootElementReader>
-		extends ModelObjectInterceptor {
+HowTo extends IHowToGetHandle> extends ModelObjectInterceptor {
 	/**
 	 *Invokes methods and performs
 	 *the substitution of methods specified 
@@ -114,47 +113,49 @@ HowTo extends IHowToGetHandle, RootElementReader extends IRootElementReader>
 					.forName(pType.getActualTypeArguments()[2].getTypeName());
 			Class<HowTo> howTo = (Class<HowTo>) Class.forName(pType
 					.getActualTypeArguments()[3].getTypeName());
-			Class<RootElementReader> rootReader = (Class<RootElementReader>) Class.forName(pType
-					.getActualTypeArguments()[4].getTypeName());
 			
 			// the first parameter is a class which instance we
 			Class<?> desiredClass = (Class<?>) args[0];// want
+			Application<?, ?> app = (Application<?, ?>) application;
 
 			// There is nothing to do if all parameters apparently defined
 			if (!paramClasses.contains(IHowToGetHandle.class)
 					|| !paramClasses.contains(HowToGetByFrames.class)
 					|| !paramClasses.contains(long.class)|| !paramClasses.contains(By.class)) {
 
-				HowTo how = ModelSupportUtil.getDefinedParameter(method, howTo, args);
+				HowTo how = MethodReadingUtil.getDefinedParameter(method, howTo, args);
 				if (how == null)
-					how = ModelSupportUtil.getHowToGetHandleStrategy(indexAnnotationClass,
+					how = AnnotationReadingUtil.getHowToGetHandleStrategy(indexAnnotationClass,
 							huiA, asiA, desiredClass, howTo);
 
-				Integer index = ModelSupportUtil.getDefinedParameter(method, int.class, args);
+				Integer index = MethodReadingUtil.getDefinedParameter(method, int.class, args);
 				// if index of a window/screen was defined
 				if (how != null && index != null) {
 					how.setExpected(index.intValue());
 				}
 
 				// frame strategy
-				HowToGetByFrames howToGetByFrames = ModelSupportUtil
+				HowToGetByFrames howToGetByFrames = MethodReadingUtil
 						.getDefinedParameter(method, HowToGetByFrames.class,
 								args);
 				if (howToGetByFrames == null)
-					howToGetByFrames = ModelSupportUtil
+					howToGetByFrames = AnnotationReadingUtil
 							.getHowToGetByFramesStrategy(desiredClass);
 				
-				//By strategy of the getting root element
-				By rootBy = ModelSupportUtil.getDefinedParameter(method, By.class, args);
-				if (rootBy==null){
-					IRootElementReader rootElementReader = rootReader.newInstance();
-					rootBy = rootElementReader.readClassAndGetBy(desiredClass, 
-							((Application<?, ?>) application).getWrappedDriver());
+				// By strategy of the getting root element
+				By rootBy = MethodReadingUtil.getDefinedParameter(method,
+						By.class, args);
+				if (rootBy == null) {
+					IRootElementReader rootElementReader = AnnotationReadingUtil
+							.getRootElementReader(app
+									.getWebDriverEncapsulation());
+					rootBy = rootElementReader.readClassAndGetBy(desiredClass,
+							app.getWrappedDriver());
 				}
 
-				Long timeOutLong = ModelSupportUtil.getDefinedParameter(method, long.class, args);
+				Long timeOutLong = MethodReadingUtil.getDefinedParameter(method, long.class, args);
 				if (timeOutLong == null)
-					timeOutLong = ModelSupportUtil.getTimeOut(desiredClass);
+					timeOutLong = AnnotationReadingUtil.getTimeOut(desiredClass);
 
 				// attempt to substitute methods is described below
 				Object[] newArgs = new Object[] { desiredClass };
@@ -177,9 +178,9 @@ HowTo extends IHowToGetHandle, RootElementReader extends IRootElementReader>
 				}
 
 				args = newArgs;
-				method = ModelSupportUtil.getSuitableMethod(
+				method = MethodReadingUtil.getSuitableMethod(
 						application.getClass(), GET_PART, args);
-				methodProxy = ModelSupportUtil.getMethodProxy(
+				methodProxy = MethodReadingUtil.getMethodProxy(
 						application.getClass(), method);
 
 			}

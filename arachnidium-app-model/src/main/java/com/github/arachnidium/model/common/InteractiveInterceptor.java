@@ -1,8 +1,6 @@
 package com.github.arachnidium.model.common;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.cglib.proxy.MethodProxy;
@@ -32,7 +30,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.rootele
  * 
  * UI. It is actual for browser and hybrid mobile apps.
  */
-public abstract class InteractiveInterceptor<RootElementReader extends IRootElementReader> extends ModelObjectInterceptor {
+public abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 	
 	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {
@@ -41,31 +39,28 @@ public abstract class InteractiveInterceptor<RootElementReader extends IRootElem
 				timeUnit);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Object[] getSubstitutedArgs(FunctionalPart<?> funcPart, Method method, Object[] args) throws Throwable{
-		Type generic = this.getClass().getGenericSuperclass();
-		ParameterizedType parameters = (ParameterizedType) generic;
-				
+	private Object[] getSubstitutedArgs(FunctionalPart<?> funcPart, Method method, Object[] args) throws Throwable{		
 		// the first parameter is a class which instance we
 		Class<?> desiredClass = (Class<?>) args[0];// want
 		// if .getPart(SomeClass),
 		// SomeClass can be annotated by
 		// @Frame
 		// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
-		HowToGetByFrames howTo = ModelSupportUtil
+		HowToGetByFrames howTo = MethodReadingUtil
 				.getDefinedParameter(method, HowToGetByFrames.class,
 						args);
 		if (howTo == null)
-			howTo = ModelSupportUtil
+			howTo = AnnotationReadingUtil
 					.getHowToGetByFramesStrategy(desiredClass);
 		
-		By rootBy = ModelSupportUtil.getDefinedParameter(method, By.class, args);
-		if (rootBy == null){
-			Class<RootElementReader> rootElementClass = (Class<RootElementReader>) Class
-					.forName(parameters.getActualTypeArguments()[0].getTypeName());
-			RootElementReader reader = rootElementClass.newInstance();
-			rootBy = reader.readClassAndGetBy(desiredClass, funcPart.getWrappedDriver());
-		}		
+		By rootBy = MethodReadingUtil.getDefinedParameter(method, By.class,
+				args);
+		if (rootBy == null) {
+			IRootElementReader reader = AnnotationReadingUtil
+					.getRootElementReader(funcPart.getWebDriverEncapsulation());
+			rootBy = reader.readClassAndGetBy(desiredClass,
+					funcPart.getWrappedDriver());
+		}	
 		
 		// the first parameter is a class which instance we want
 		Object[] newArgs = new Object[] { desiredClass };
@@ -112,9 +107,9 @@ public abstract class InteractiveInterceptor<RootElementReader extends IRootElem
 		try {
 			if (method.getName().equals(GET_PART)) {
 				args = getSubstitutedArgs(funcPart, method, args);
-				method = ModelSupportUtil.getSuitableMethod(
+				method = MethodReadingUtil.getSuitableMethod(
 						funcPart.getClass(), GET_PART, args);
-				methodProxy = ModelSupportUtil.getMethodProxy(
+				methodProxy = MethodReadingUtil.getMethodProxy(
 						funcPart.getClass(), method);
 			}
 			return super.intercept(funcPart, method, args, methodProxy);

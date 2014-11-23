@@ -5,7 +5,6 @@ import com.github.arachnidium.model.common.ApplicationInterceptor;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.CommonRootElementReader;
 
 /**
  * @see ApplicationInterceptor
@@ -13,6 +12,5 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.rootele
 class BrowserApplicationInterceptor extends ApplicationInterceptor<IfBrowserDefaultPageIndex, 
     IfBrowserURL, 
 	IfBrowserPageTitle, 
-	HowToGetBrowserWindow,
-	CommonRootElementReader> {
+	HowToGetBrowserWindow> {
 }

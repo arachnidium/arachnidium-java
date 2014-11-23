@@ -1,5 +1,6 @@
 package com.github.arachnidium.model.common;
 
+import java.lang.reflect.Constructor;
 import java.net.URL;
 
 import org.openqa.selenium.Capabilities;
@@ -8,6 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.core.Manager;
+import com.github.arachnidium.core.WebDriverEncapsulation;
 import com.github.arachnidium.core.settings.CapabilitySettings;
 import com.github.arachnidium.core.settings.WebDriverSettings;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
@@ -117,19 +119,19 @@ public abstract class ApplicationFactory {
 
 	protected <T extends Application<?, ?>> T launch(
 			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
-			ApplicationInterceptor<?, ?, ?, ?, ?> mi, Class<? extends InteractiveInterceptor<?>> interactiveInterceptor,
+			ApplicationInterceptor<?, ?, ?, ?> mi,
 			WebDriverDesignationChecker objectWhichChecksWebDriver) {
 		Handle h = null;
 		try {
-			h = ModelSupportUtil.getTheFirstHandle(handleManagerClass, getInitParamClasses(),
+			objectWhichChecksWebDriver.checkGivenDriver(supportedDriver);
+			h = getTheFirstHandle(handleManagerClass, getInitParamClasses(),
 					getInitParamValues());
 			if (config != null){
 				h.getDriverEncapsulation().resetAccordingTo(config);
 			}
 			T result = EnhancedProxyFactory.getProxy(appClass,
-					ModelSupportUtil.getParameterClasses(new Object[] { h }, appClass),
+					MethodReadingUtil.getParameterClasses(new Object[] { h }, appClass),
 					new Object[] { h }, mi);
-			result.usedInteractiveInterceptor = interactiveInterceptor;
 			return result;
 		} catch (Exception e) {
 			if (h != null) {
@@ -146,4 +148,24 @@ public abstract class ApplicationFactory {
 	 * @return an instance of the given appClass
 	 */
 	public abstract <T extends Application<?, ?>> T launch(Class<T> appClass);
+
+	static Handle getTheFirstHandle(
+			Class<? extends Manager<?>> handleManagerClass,
+			Class<?>[] wdEncapsulationParams, Object[] wdEncapsulationParamVals) {
+		try {
+			Constructor<?> wdeC = WebDriverEncapsulation.class
+					.getConstructor(wdEncapsulationParams);
+			WebDriverEncapsulation wdeInstance = (WebDriverEncapsulation) wdeC
+					.newInstance(wdEncapsulationParamVals);
+			
+			Constructor<?> c = handleManagerClass
+					.getConstructor(new Class<?>[] { WebDriverEncapsulation.class });
+			Manager<?> m = (Manager<?>) c
+					.newInstance(new Object[] { wdeInstance });
+	
+			return m.getHandle(0);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
