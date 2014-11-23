@@ -97,8 +97,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected final ScriptExecutor scriptExecutor; // executes given javaScript
 
 	final RootElement rootElement;
-	Class<? extends InteractiveInterceptor<?>> usedInteractiveInterceptor;
-
 	/**
 	 * This constructor should present when an instance of the class is going to
 	 * be got from another.<br/>
@@ -402,9 +400,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] parameters) {
-		T result = DecompositionUtil.get(partClass, usedInteractiveInterceptor,
+		T result = DecompositionUtil.get(partClass,
 				parameters);
-		((FunctionalPart<?>) result).usedInteractiveInterceptor = usedInteractiveInterceptor;
 		return result;
 	}
 

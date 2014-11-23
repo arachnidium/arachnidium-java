@@ -60,6 +60,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	private TimeOut timeOut;
+	private final ESupportedDrivers instantiatedESupportedDriver;
 	
 	/**
 	 * Creates and wraps an instance of required {@link RemoteWebDriver}
@@ -77,6 +78,7 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			Capabilities capabilities) {
 		prelaunch(supporteddriver, this.configuration, capabilities);
 		constructorBody(supporteddriver, capabilities, (URL) null);
+		this.instantiatedESupportedDriver = supporteddriver;
 	}
 
 	/**
@@ -97,29 +99,8 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
-		if (supporteddriver.startsRemotely() & remoteAddress != null)
-			createWebDriver(supporteddriver.getUsingWebDriverClass(),
-					new Class[] { URL.class, Capabilities.class },
-					new Object[] { remoteAddress, capabilities });
-		else {
-			if (remoteAddress == null & supporteddriver.requiresRemoteURL())
-				throw new RuntimeException(
-						"Defined driver '"
-								+ supporteddriver.toString()
-								+ "' requires remote address (URL)! Please, define it in settings.json "
-								+ "or use suitable constructor");
-			if (remoteAddress != null)
-				Log.message("Remote address " + String.valueOf(remoteAddress)
-						+ " has been ignored");
-			createWebDriver(supporteddriver.getUsingWebDriverClass(),
-					new Class[] { Capabilities.class },
-					new Object[] { capabilities });
-		}
-		String initURL = (String) capabilities.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
-		if (initURL!=null
-				&& supporteddriver.isForBrowser()){
-			enclosedDriver.get(initURL);
-		}
+		constructorBody(supporteddriver, capabilities, remoteAddress);
+		this.instantiatedESupportedDriver = supporteddriver;
 	}
 
 	// other methods:
@@ -252,5 +233,9 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	
 	public TimeOut getTimeOut(){
 		return timeOut;
+	}
+	
+	public ESupportedDrivers getInstantiatedSupportedDriver(){
+		return instantiatedESupportedDriver;
 	}
 }

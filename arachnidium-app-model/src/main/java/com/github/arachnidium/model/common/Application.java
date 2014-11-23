@@ -68,8 +68,6 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 * @see ScreenManager
 	 */
 	protected final Manager<U> manager;
-	Class<? extends InteractiveInterceptor<?>> usedInteractiveInterceptor;
-
 	/**
 	 * {@link Handle} is the given browser window or mobile context which
 	 * currently present. <br/>
@@ -84,11 +82,9 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	}
 
 	private <T extends IDecomposable> T get(Class<T> partClass, Object[] values) {
-		T part = DecompositionUtil.get(partClass, usedInteractiveInterceptor,
-				values);
+		T part = DecompositionUtil.get(partClass, values);
 		// get(partClass, params, values);
 		((FunctionalPart<?>) part).application = this;
-		((FunctionalPart<?>) part).usedInteractiveInterceptor = usedInteractiveInterceptor;
 		addChild((ModelObject<?>) part);
 		return part;
 	}
