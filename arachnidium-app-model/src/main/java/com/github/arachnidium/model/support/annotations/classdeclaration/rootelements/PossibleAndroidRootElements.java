@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * 
- * Each {@link RootIOSElement} declaration is a possible
+ * Each {@link RootAndroidElement} declaration is a possible
  * variant where desired element could be located.
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface PossibleIOSElements {
-    RootIOSElement[] value();
+public @interface PossibleAndroidRootElements {
+    RootAndroidElement[] value();
 }

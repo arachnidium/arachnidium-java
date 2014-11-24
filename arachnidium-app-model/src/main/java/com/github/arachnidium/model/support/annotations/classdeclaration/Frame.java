@@ -36,7 +36,7 @@ import org.openqa.selenium.support.How;
  * The set of annotation values is the path to desired frame.
  * 
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Repeatable(Frames.class)
 public @interface Frame {

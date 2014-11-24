@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * against Android. 
  *
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RootAndroidElement {
 	AndroidFindBy[] chain();

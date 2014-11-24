@@ -28,7 +28,6 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobil
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.IRootElementReader;
 import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootAndroidElement;
 import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
 import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootIOSElement;
@@ -79,7 +78,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.rootele
 public abstract class ApplicationInterceptor<IndexAnnotation extends Annotation, 
 HandleUniqueIdentifiers extends Annotation, 
 AdditionalStringIdentifier extends Annotation, 
-HowTo extends IHowToGetHandle> extends ModelObjectInterceptor {
+HowTo extends IHowToGetHandle> extends CommonInterceptor {
 	/**
 	 *Invokes methods and performs
 	 *the substitution of methods specified 
@@ -115,7 +114,7 @@ HowTo extends IHowToGetHandle> extends ModelObjectInterceptor {
 					.getActualTypeArguments()[3].getTypeName());
 			
 			// the first parameter is a class which instance we
-			Class<?> desiredClass = (Class<?>) args[0];// want
+			Class<?> desiredClass = extractTargetFromGetPart(method, args);// want
 			Application<?, ?> app = (Application<?, ?>) application;
 
 			// There is nothing to do if all parameters apparently defined
@@ -134,25 +133,6 @@ HowTo extends IHowToGetHandle> extends ModelObjectInterceptor {
 					how.setExpected(index.intValue());
 				}
 
-				// frame strategy
-				HowToGetByFrames howToGetByFrames = MethodReadingUtil
-						.getDefinedParameter(method, HowToGetByFrames.class,
-								args);
-				if (howToGetByFrames == null)
-					howToGetByFrames = AnnotationReadingUtil
-							.getHowToGetByFramesStrategy(desiredClass);
-				
-				// By strategy of the getting root element
-				By rootBy = MethodReadingUtil.getDefinedParameter(method,
-						By.class, args);
-				if (rootBy == null) {
-					IRootElementReader rootElementReader = AnnotationReadingUtil
-							.getRootElementReader(app
-									.getWebDriverEncapsulation());
-					rootBy = rootElementReader.readClassAndGetBy(desiredClass,
-							app.getWrappedDriver());
-				}
-
 				Long timeOutLong = MethodReadingUtil.getDefinedParameter(method, long.class, args);
 				if (timeOutLong == null)
 					timeOutLong = AnnotationReadingUtil.getTimeOut(desiredClass);
@@ -165,13 +145,7 @@ HowTo extends IHowToGetHandle> extends ModelObjectInterceptor {
 					newArgs = ArrayUtils.add(newArgs, index.intValue());
 				}
 
-				if (howToGetByFrames != null) {
-					newArgs = ArrayUtils.add(newArgs, howToGetByFrames);
-				}
-
-				if (rootBy != null) {
-					newArgs = ArrayUtils.add(newArgs, rootBy);
-				}
+				newArgs = ArrayUtils.addAll(newArgs, getArgs(app.getWebDriverEncapsulation(), method, newArgs, desiredClass));
 				
 				if (timeOutLong != null) {
 					newArgs = ArrayUtils.add(newArgs, timeOutLong.longValue());

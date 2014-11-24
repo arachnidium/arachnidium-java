@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * Each {@link RootElement} declaration is a possible
  * variant where desired element could be located.
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface PossibleRootElements {
     RootElement[] value();

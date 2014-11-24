@@ -223,4 +223,8 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	public final WebDriverEncapsulation getWebDriverEncapsulation(){
 		return driverEncapsulation;
 	}
+	
+	public Handle getHandle(){
+		return handle;
+	}
 }

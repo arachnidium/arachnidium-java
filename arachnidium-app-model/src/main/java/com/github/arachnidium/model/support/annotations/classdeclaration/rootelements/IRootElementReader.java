@@ -1,5 +1,7 @@
 package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
 
+import java.lang.reflect.AnnotatedElement;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -19,5 +21,5 @@ public interface IRootElementReader extends IDefaultAnnotationReader{
 	 * {@link RootElement}, {@link RootAndroidElement},
      * {@link RootIOSElement}
 	 */
-	public By readClassAndGetBy(Class<?> readableClass, WebDriver driver);
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver);
 }

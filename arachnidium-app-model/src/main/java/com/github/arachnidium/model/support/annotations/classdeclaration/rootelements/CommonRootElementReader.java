@@ -1,5 +1,6 @@
 package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,9 +92,9 @@ public class CommonRootElementReader implements IRootElementReader {
 	}
 
 	@Override
-	public By readClassAndGetBy(Class<?> readableClass, WebDriver driver) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver) {
 		List<By> result = new ArrayList<>();		
-		RootElement[] rootElements = getAnnotations(RootElement.class, readableClass);
+		RootElement[] rootElements = getAnnotations(RootElement.class, annotatedTarget);
 		
 		for (RootElement rootElement: rootElements) {
 			result.add(getPossibleChain(rootElement));
