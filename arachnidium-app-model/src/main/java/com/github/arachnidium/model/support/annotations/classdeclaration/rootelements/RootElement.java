@@ -17,7 +17,7 @@ import org.openqa.selenium.support.FindBy;
  * and {@link RootIOSElement} are not present 
  *
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Repeatable(PossibleRootElements.class)
 public @interface RootElement {

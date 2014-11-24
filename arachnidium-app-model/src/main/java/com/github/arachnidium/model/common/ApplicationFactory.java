@@ -132,6 +132,7 @@ public abstract class ApplicationFactory {
 			T result = EnhancedProxyFactory.getProxy(appClass,
 					MethodReadingUtil.getParameterClasses(new Object[] { h }, appClass),
 					new Object[] { h }, mi);
+			DecompositionUtil.populateFieldsWhichAreDecomposable(result);
 			return result;
 		} catch (Exception e) {
 			if (h != null) {

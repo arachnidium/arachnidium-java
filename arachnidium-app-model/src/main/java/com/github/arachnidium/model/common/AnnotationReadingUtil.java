@@ -1,6 +1,7 @@
 package com.github.arachnidium.model.common;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
 import com.github.arachnidium.core.HowToGetBrowserWindow;
@@ -46,10 +47,10 @@ abstract class AnnotationReadingUtil {
 	 * <code>null</code> if the 
 	 * given class isn't annotated by {@link Frame}
 	 */	
-	static HowToGetByFrames getHowToGetByFramesStrategy(Class<?> targetClass){
+	static HowToGetByFrames getHowToGetByFramesStrategy(AnnotatedElement annotatedElement){
 		List<Object> framePath = classDeclarationReader
 				.getFramePath(classDeclarationReader.getAnnotations(
-						Frame.class, targetClass));
+						Frame.class, annotatedElement));
 		if (framePath.size() != 0) {	
 			HowToGetByFrames howTo = new HowToGetByFrames();
 			framePath.forEach((chainElement) -> {

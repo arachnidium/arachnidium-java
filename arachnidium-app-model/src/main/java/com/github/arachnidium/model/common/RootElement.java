@@ -24,7 +24,7 @@ import com.google.common.base.Function;
  */
 class RootElement implements WrapsElement {
 	private final long POLLING_EVERY = 100; //MILLISECONDS
-	final By by;
+	By by;
 	long timeValue;
 	TimeUnit timeUnit;
 	final FunctionalPart<?> functionalPart;
@@ -98,5 +98,10 @@ class RootElement implements WrapsElement {
 
 	By getTheGivenByStrategy() {
 		return by;
+	}
+	
+	
+	void changeByStrategy(By by){
+		this.by = by;
 	}
 }

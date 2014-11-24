@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Is used when it is necessary to switch from frame to frame 
  * Is useful to browser and hybrid applications.
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Frames {
    Frame[] value();

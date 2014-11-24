@@ -1,19 +1,23 @@
 package com.github.arachnidium.web.google;
 
 import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserApplication;
+import com.github.arachnidium.model.common.Static;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
 		
-	private SearchBar<?> searchBar;		
+	@Static
+	@RootElement(chain = {@FindBy(id = "viewport")})
+	private SearchBar<?> searchBar;	
+	@Static
 	private LinksAreFound<?> linksAreFound;
 	
 	protected Google(BrowserWindow browserWindow){
-		super(browserWindow);  
-		searchBar     = getPart(SearchBar.class);
-		linksAreFound = getPart(LinksAreFound.class); 		
+		super(browserWindow);  	
 	}
 	
 	public void performSearch(String searchString) {

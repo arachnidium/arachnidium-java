@@ -6,15 +6,11 @@ import java.util.concurrent.TimeUnit;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.openqa.selenium.By;
 
-import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import com.github.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.IRootElementReader;
 
 /**
  * 
@@ -30,49 +26,13 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.rootele
  * 
  * UI. It is actual for browser and hybrid mobile apps.
  */
-public abstract class InteractiveInterceptor extends ModelObjectInterceptor {
+public abstract class InteractiveInterceptor extends CommonInterceptor {
 	
 	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {
 		funcPart.getTimeOut().implicitlyWait(timeOutValue, timeUnit);
 		funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOutValue,
 				timeUnit);
-	}
-	
-	private Object[] getSubstitutedArgs(FunctionalPart<?> funcPart, Method method, Object[] args) throws Throwable{		
-		// the first parameter is a class which instance we
-		Class<?> desiredClass = (Class<?>) args[0];// want
-		// if .getPart(SomeClass),
-		// SomeClass can be annotated by
-		// @Frame
-		// so we attempt to invoke .getPart(SomeClass, HowToGetByFrames)
-		HowToGetByFrames howTo = MethodReadingUtil
-				.getDefinedParameter(method, HowToGetByFrames.class,
-						args);
-		if (howTo == null)
-			howTo = AnnotationReadingUtil
-					.getHowToGetByFramesStrategy(desiredClass);
-		
-		By rootBy = MethodReadingUtil.getDefinedParameter(method, By.class,
-				args);
-		if (rootBy == null) {
-			IRootElementReader reader = AnnotationReadingUtil
-					.getRootElementReader(funcPart.getWebDriverEncapsulation());
-			rootBy = reader.readClassAndGetBy(desiredClass,
-					funcPart.getWrappedDriver());
-		}	
-		
-		// the first parameter is a class which instance we want
-		Object[] newArgs = new Object[] { desiredClass };
-		if (howTo != null) {
-			newArgs = ArrayUtils.add(newArgs, howTo);
-		}
-		
-		if (rootBy != null){
-			newArgs = ArrayUtils.add(newArgs, rootBy);
-		}
-		
-		return newArgs;
 	}
 
 	@Override
@@ -102,11 +62,16 @@ public abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 				resetTimeOut(funcPart, customTimeOut, customTimeUnit);
 				timeOutIsChanged = true;
 			}
+			//TODO implement behavior when method is annotated by @RootElement
+			//and @Frame
 		}
 
 		try {
 			if (method.getName().equals(GET_PART)) {
-				args = getSubstitutedArgs(funcPart, method, args);
+				Class<?> target = extractTargetFromGetPart(method, args);
+				Object[] newArgs = ArrayUtils.addAll(new Object[]{target}, 
+						getArgs(funcPart.getWebDriverEncapsulation(), method, args, target));
+				args = newArgs;
 				method = MethodReadingUtil.getSuitableMethod(
 						funcPart.getClass(), GET_PART, args);
 				methodProxy = MethodReadingUtil.getMethodProxy(

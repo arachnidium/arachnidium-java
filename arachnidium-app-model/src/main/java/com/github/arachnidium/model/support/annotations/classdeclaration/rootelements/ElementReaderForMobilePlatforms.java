@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,14 +92,14 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 	}	
 
 	@Override
-	public By readClassAndGetBy(Class<?> readableClass, WebDriver driver) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver) {
 		List<By> result = new ArrayList<>();
 		Annotation[] possibleRoots = null;		
 		if (AndroidDriver.class.isAssignableFrom(driver.getClass())){
-			possibleRoots = getAnnotations(RootAndroidElement.class, readableClass);
+			possibleRoots = getAnnotations(RootAndroidElement.class, annotatedTarget);
 		}
 		if (IOSDriver.class.isAssignableFrom(driver.getClass())){
-			possibleRoots = getAnnotations(RootIOSElement.class, readableClass);
+			possibleRoots = getAnnotations(RootIOSElement.class, annotatedTarget);
 		}
 		if (possibleRoots == null){
 			return null;
@@ -115,7 +116,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		//this is an attempt to get By strategy
 		//by present @FindBy annotations
 		if (result.size() == 0)
-			return new CommonRootElementReader().readClassAndGetBy(readableClass, driver);
+			return new CommonRootElementReader().readClassAndGetBy(annotatedTarget, driver);
 		return new ByAll(result.toArray(new By[]{}));
 	}
 
