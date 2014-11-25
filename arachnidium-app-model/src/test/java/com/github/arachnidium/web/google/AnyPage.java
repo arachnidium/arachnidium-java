@@ -17,7 +17,7 @@ public class AnyPage extends BrowserPage {
 
 	@Static
 	@RootElement(chain = {@FindBy(id = "content")})
-	private FunctionalPart<?> content;
+	public FunctionalPart<?> content;
 	
 	public AnyPage(BrowserWindow browserWindow){
 		super(browserWindow);

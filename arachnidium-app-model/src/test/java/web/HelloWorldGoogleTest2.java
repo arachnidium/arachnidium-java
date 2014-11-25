@@ -79,6 +79,7 @@ public class HelloWorldGoogleTest2 {
 			google.clickOnLinkByIndex(1);
 		}
 		AnyPage anyPage = google.getPart(AnyPage.class, howToGet.get());	
+		anyPage.content.switchToMe();
 		anyPage.close();
 	}
 
