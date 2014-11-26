@@ -100,6 +100,15 @@
     </classes>
   </test> <!-- Test -->   
   
+   <test name="This test checks exception interception and handling. Annotated classes">
+    <classes>
+      <class name="web.GoogleExceptionInterceptionTest"/>
+      <methods>
+              <include name="exceptionInterceptionTest2" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->    
+  
   <test name="This is the test of implicitl waiting time out customization">
     <classes>
       <class name="implicitliwait_test.ImlicitlyWaitTest"/>
