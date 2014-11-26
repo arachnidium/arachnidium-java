@@ -2,12 +2,14 @@ package com.github.arachnidium.model.abstractions;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
+import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
 
 /**
  * It is the abstraction which describes the process of 
@@ -26,17 +28,21 @@ IModelObjectExceptionHandler {
 	 * handled 
 	 */
 	public ModelObjectExceptionHandler(Class<? extends Throwable> tClass) {
-		throwableList.add(tClass);
+		addThrowableClass(tClass);
 	}
 
-	/**
-	 * @param tClassList is the class list of exceptions which should be caught and
-	 */
-	public ModelObjectExceptionHandler(
-			List<Class<? extends Throwable>> tClassList) {
-		throwableList.addAll(tClassList);
+	public ModelObjectExceptionHandler() {
+		super();
+		IDefaultAnnotationReader reader = new IDefaultAnnotationReader() {
+		};
+		ExpectectedThrowables[] expectectedThrowables = reader.getAnnotations(ExpectectedThrowables.class, 
+				this.getClass());		
+		if (expectectedThrowables.length != 0){
+			ExpectectedThrowables et = expectectedThrowables[0];
+			throwableList.addAll(Arrays.asList(et.expectedThrowables()));
+		}
 	}
-
+	
 	@Override
 	public abstract Object handleException(Object object,
 			Method originalMethod, MethodProxy methodProxy, Object[] args,
@@ -50,6 +56,11 @@ IModelObjectExceptionHandler {
 	 */
 	public boolean isThrowableInList(Class<? extends Throwable> tClass) {
 		return throwableList.contains(tClass);
+	}
+	
+	@Override
+	public void addThrowableClass(Class<? extends Throwable> tClass){
+		throwableList.add(tClass);
 	}
 
 }

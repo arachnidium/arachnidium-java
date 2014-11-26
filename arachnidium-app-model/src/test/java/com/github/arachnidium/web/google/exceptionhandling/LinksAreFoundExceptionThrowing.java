@@ -1,18 +1,19 @@
-package com.github.arachnidium.web.google;
+package com.github.arachnidium.web.google.exceptionhandling;
 
 import org.openqa.selenium.By;
 
 import com.github.arachnidium.core.Handle;
+import com.github.arachnidium.web.google.LinksAreFound;
 
 public class LinksAreFoundExceptionThrowing<T extends Handle> extends
 		LinksAreFound<T> {
-	private boolean isMethodInvokedTwice = false;
+	boolean isMethodInvokedTwice = false;
 
 	protected LinksAreFoundExceptionThrowing(T handle, By by) {
 		super(handle, by);
 	}
 
-	private void onInvokeTwice() {
+	protected void onInvokeTwice() {
 		if (!isMethodInvokedTwice) {
 			isMethodInvokedTwice = true;
 			throw new TestException();

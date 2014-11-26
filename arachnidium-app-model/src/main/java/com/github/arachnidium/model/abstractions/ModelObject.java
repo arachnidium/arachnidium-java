@@ -19,13 +19,18 @@ package com.github.arachnidium.model.abstractions;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
+
+
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.Handle;
@@ -38,6 +43,7 @@ import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
 
 /**
  * This is a basic abstraction 
@@ -108,6 +114,23 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		driverEncapsulation = handle.getDriverEncapsulation();
 		awaiting = new Awaiting(getWrappedDriver());
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
+
+		IDefaultAnnotationReader idar = new IDefaultAnnotationReader() {
+		};
+		UsedImplicitExceptionHandlers[] annotations = idar.getAnnotations(
+				UsedImplicitExceptionHandlers.class, this.getClass());
+		if (annotations.length != 0) {
+			UsedImplicitExceptionHandlers ueh = annotations[0];
+			List<Class<? extends ModelObjectExceptionHandler>> throwableHandlers = Arrays
+					.asList(ueh.areUsed());
+			throwableHandlers.forEach((handler) -> {
+				try {
+					checkInExceptionHandler(handler.newInstance());
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
 	}
 
 	/**
