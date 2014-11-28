@@ -26,7 +26,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
  * 
  * UI. It is actual for browser and hybrid mobile apps.
  */
-public abstract class InteractiveInterceptor extends CommonInterceptor {
+abstract class InteractiveInterceptor extends CommonInterceptor {
 	
 	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {

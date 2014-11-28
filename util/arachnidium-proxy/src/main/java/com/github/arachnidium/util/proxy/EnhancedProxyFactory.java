@@ -41,15 +41,11 @@ public abstract class EnhancedProxyFactory {
 	 * @param interceptors A list of {@link MethodInterceptor} instances
 	 * @return A proxy instance of the defined class
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getProxy(Class<T> clazz,
 			Class<?>[] paramClasses, Object[] paramValues,
 			List<MethodInterceptor> interceptors) {
 		Enhancer enhancer = new Enhancer();
-		enhancer.setCallbacks(interceptors.toArray(new MethodInterceptor[] {}));
-		enhancer.setSuperclass(clazz);
-		T proxy = (T) enhancer.create(paramClasses, paramValues);
-		return proxy;
+		return getProxy(enhancer, clazz, paramClasses, paramValues, interceptors);
 	}
 	
 	/**
@@ -65,14 +61,44 @@ public abstract class EnhancedProxyFactory {
 	public static <T extends Object> T getProxy(Class<T> clazz,
 			Class<?>[] paramClasses, Object[] paramValues,
 			final MethodInterceptor interceptor) {
-		return getProxy(clazz, paramClasses, paramValues,
+		return getProxy(new Enhancer(), clazz, paramClasses, paramValues,
+				interceptor);
+	}
+	
+	/**
+	 * 
+	 * @param enhancer is an instance of {@link Enhancer} superclass
+	 * @param clazz Instance of defined class has to be got from
+	 * @param paramClasses An array of classes which matches to required constructor 
+	 * parameter list
+	 * @param paramValues An array of values which matches to required constructor 
+	 * parameter list
+	 * @param interceptors A list of {@link MethodInterceptor} instances
+	 * @return A proxy instance of the defined class
+	 */
+	public static <T extends Object> T getProxy(Enhancer enhancer, Class<T> clazz,
+			Class<?>[] paramClasses, Object[] paramValues,
+			List<MethodInterceptor> interceptors) {
+		enhancer.setCallbacks(interceptors.toArray(new MethodInterceptor[] {}));
+		enhancer.setSuperclass(clazz);
+		@SuppressWarnings("unchecked")
+		T proxy = (T) enhancer.create(paramClasses, paramValues);
+		return proxy;
+		
+	}
+	
+	public static <T extends Object> T getProxy(Enhancer enhancer, Class<T> clazz,
+			Class<?>[] paramClasses, Object[] paramValues,
+			final MethodInterceptor interceptor) {
+		return getProxy(enhancer, clazz, paramClasses, paramValues,
 				new ArrayList<MethodInterceptor>() {
 					private static final long serialVersionUID = 1L;
 					{
 						add(interceptor);
 					}
 				});
-	}
+		
+	}	
 
 	private EnhancedProxyFactory() {
 		super();

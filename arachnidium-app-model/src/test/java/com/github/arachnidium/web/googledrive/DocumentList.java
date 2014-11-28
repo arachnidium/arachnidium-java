@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.common.Static;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
 
@@ -19,6 +20,9 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrows
 @IfBrowserDefaultPageIndex(index = 0)
 public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 
+	@Static
+	public LogOut<?> logOut;
+	
 	@FindAll({@FindBy(className = "treedoclistview-root-node-name"),
 		@FindBy(xpath = ".//*[contains(@class,'goog-listitem-container')]")})
 	private List<WebElement> sections;

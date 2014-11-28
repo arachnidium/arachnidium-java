@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.github.arachnidium.util.configuration.Configuration;
+
 import org.openqa.selenium.Platform;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
@@ -17,6 +18,7 @@ import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.web.googledrive.Document;
 import com.github.arachnidium.web.googledrive.DocumentList;
+import com.github.arachnidium.web.googledrive.GoogleDriveService;
 import com.github.arachnidium.web.googledrive.LogOut;
 import com.github.arachnidium.web.googledrive.LoginToGoogleService;
 import com.github.arachnidium.web.googledrive.ShareDocumentSettings;
@@ -196,6 +198,37 @@ public class GoogleDriveTest {
 			googleDrive.quit();
 		}
 	}
+	
+	private void test3(GoogleDriveService<?, ?> service) {
+		try {
+			service.login.clickOnPersistentCookie();
+			service.login.setEmail(USER);
+			service.login.setPassword(PASSWORD);
+			service.login.singIn();
+
+			service.documentList.choseSection(0);
+			service.documentList.clickOnDoc("TestDocument");
+
+			service.document.clickShareButton();
+			service.document.shareDocumentSettings.clickOnManagePermissions();
+			service.document.shareDocumentSettings
+					.invite("arachnidiumtester@gmail.com");
+			service.document.shareDocumentSettings.clickCancel();
+			service.document.shareDocumentSettings.clickDone();
+			
+			service.documentList.clickOnDoc("TestSpreadSheet");
+			service.sheet.shareDocumentSettings.clickOnManagePermissions();
+			service.sheet.shareDocumentSettings
+					.invite("arachnidiumtester@gmail.com");
+			service.sheet.shareDocumentSettings.clickCancel();
+			service.sheet.shareDocumentSettings.clickDone();
+
+			service.documentList.logOut.clickOnProfile();
+			service.documentList.logOut.quit();
+		} finally {
+			service.quit();
+		}
+	}
 
 	@Test(description = "Classes are marked by annotatins whose values form strategies of getting page objects. But some parameters are defined explicitly. "
 			+ "Check this out!")
@@ -214,6 +247,25 @@ public class GoogleDriveTest {
 			}
 			Configuration configuration = Configuration.get(path + config);
 			test2(new WebFactory(configuration).launch(Application.class, GOOGLE_DRIVE));
+		}
+	}
+	
+	@Test(description = "This test checks possibility to create proxy instances and use them to fill FunctionalPart fields")
+	@Parameters(value = { "path", "configList" })
+	public void test3(
+			@Optional("src/test/resources/configs/desctop/") String path,
+			@Optional("chrome.json,firefox.json") String configList)
+			throws Exception {
+
+		List<String> configs = getConfigsByCurrentPlatform();
+		String[] configNames = configList.split(",");
+
+		for (String config : configNames) {
+			if (!configs.contains(config)) {
+				continue;
+			}
+			Configuration configuration = Configuration.get(path + config);
+			test3(new WebFactory(configuration).launch(GoogleDriveService.class, GOOGLE_DRIVE));
 		}
 	}
 }

@@ -3,12 +3,7 @@ package com.github.arachnidium.model.common;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-
-
-
-
 import org.mockito.Mockito;
-
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
@@ -63,6 +58,8 @@ abstract class DecompositionUtil {
 					Object value = Mockito.mock(field.getType(),
 							new ModelObjectFieldAnswer(field, targetDecomposableObject));
 					field.set(targetDecomposableObject, value);
+					//ModelObject fields of a new mock-instance are mocked too 
+					populateFieldsWhichAreDecomposable((ModelObject<?>) value);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
