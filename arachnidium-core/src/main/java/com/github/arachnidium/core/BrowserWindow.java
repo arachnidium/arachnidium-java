@@ -23,9 +23,9 @@ public class BrowserWindow extends Handle implements Navigation,
 
 	BrowserWindow(String handle, WindowManager windowManager) {
 		super(handle, windowManager);
-		this.windowTool = getDriverEncapsulation().getComponent(
+		this.windowTool = driverEncapsulation.getComponent(
 				WindowTool.class);
-		this.navigationTool = getDriverEncapsulation().getComponent(
+		this.navigationTool = driverEncapsulation.getComponent(
 				NavigationTool.class);
 	}
 
@@ -46,7 +46,7 @@ public class BrowserWindow extends Handle implements Navigation,
 			NoSuchWindowException, UnhandledAlertException,
 			UnreachableBrowserException {
 		try {
-			getManager().close(handle);
+			((WindowManager) nativeManager).close(handle);
 			destroy();
 		} catch (UnhandledAlertException | UnclosedWindowException e) {
 			throw e;
@@ -71,7 +71,7 @@ public class BrowserWindow extends Handle implements Navigation,
 	@Override
 	public synchronized String getCurrentUrl() throws NoSuchWindowException {
 		switchToMe();
-		return getDriverEncapsulation().getWrappedDriver().getCurrentUrl();
+		return driverEncapsulation.getWrappedDriver().getCurrentUrl();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized String getTitle() {
-		return getDriverEncapsulation().getWrappedDriver().getTitle();
+		return driverEncapsulation.getWrappedDriver().getTitle();
 	}
 
 	/**
@@ -153,16 +153,5 @@ public class BrowserWindow extends Handle implements Navigation,
 		switchToMe();
 		navigationTool.to(url);
 
-	}
-
-	/**
-	 * @return {@link WindowManager} instance
-	 * 
-	 * @see com.github.arachnidium.core.Handle#getManager()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public WindowManager getManager() {
-		return super.getManager();
 	}
 }

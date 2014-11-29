@@ -15,7 +15,7 @@ public class MobileScreen extends Handle implements IContext {
 
 	MobileScreen(String context, ScreenManager manager) {
 		super(context, manager);
-		rotator = getDriverEncapsulation().getComponent(Rotator.class);
+		rotator = driverEncapsulation.getComponent(Rotator.class);
 	}
 
 	/**
@@ -36,19 +36,8 @@ public class MobileScreen extends Handle implements IContext {
 		rotator.rotate(orientation);
 	}
 
-	/**
-	 * @return {@link ScreenManager} instance
-	 * 
-	 * @see com.github.arachnidium.core.Handle#getManager()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public ScreenManager getManager() {
-		return super.getManager();
-	}
-
 	@Override
 	public WebDriver getWrappedDriver() {
-		return getDriverEncapsulation().getWrappedDriver();
+		return driverEncapsulation.getWrappedDriver();
 	}		
 }

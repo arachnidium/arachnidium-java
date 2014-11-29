@@ -18,17 +18,17 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
 ITakesPictureOfItSelf, IDestroyable {
 
-	static IHasHandle isInitiated(String handle, Manager<?> manager) {
+	static IHasHandle isInitiated(String handle, Manager<?,?> manager) {
 		return manager.getHandleReceptionist().isInstantiated(handle);
 	}
 
 	final String handle;
-	private final WebDriverEncapsulation driverEncapsulation;
-	private final Manager<?> nativeManager;
+	public final WebDriverEncapsulation driverEncapsulation;
+	public final Manager<?,?> nativeManager;
 
 	private final HandleReceptionist receptionist;
 
-	Handle(String handle, Manager<?> manager) {
+	Handle(String handle, Manager<?,?> manager) {
 		this.nativeManager = manager;
 		this.driverEncapsulation = manager.getWebDriverEncapsulation();
 		this.handle = handle;
@@ -54,10 +54,6 @@ ITakesPictureOfItSelf, IDestroyable {
 		}
 	}
 
-	public WebDriverEncapsulation getDriverEncapsulation() {
-		return driverEncapsulation;
-	}
-
 	/**
 	 * @return Window string handle/mobile context name
 	 * 
@@ -66,14 +62,6 @@ ITakesPictureOfItSelf, IDestroyable {
 	@Override
 	public String getHandle() {
 		return handle;
-	}
-
-	/**
-	 * @return {@link Manager}
-	 */
-	@SuppressWarnings("unchecked")
-	public <T extends Manager<?>> T getManager() {
-		return (T) nativeManager;
 	}
 
 	/**

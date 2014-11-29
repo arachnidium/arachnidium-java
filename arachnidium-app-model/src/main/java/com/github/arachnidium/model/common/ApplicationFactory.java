@@ -118,7 +118,7 @@ public abstract class ApplicationFactory {
 	}	
 
 	protected <T extends Application<?, ?>> T launch(
-			Class<? extends Manager<?>> handleManagerClass, Class<T> appClass,
+			Class<? extends Manager<?,?>> handleManagerClass, Class<T> appClass,
 			ApplicationInterceptor<?, ?, ?, ?> mi,
 			WebDriverDesignationChecker objectWhichChecksWebDriver) {
 		Handle h = null;
@@ -127,7 +127,7 @@ public abstract class ApplicationFactory {
 			h = getTheFirstHandle(handleManagerClass, getInitParamClasses(),
 					getInitParamValues());
 			if (config != null){
-				h.getDriverEncapsulation().resetAccordingTo(config);
+				h.driverEncapsulation.resetAccordingTo(config);
 			}
 			T result = EnhancedProxyFactory.getProxy(appClass,
 					MethodReadingUtil.getParameterClasses(new Object[] { h }, appClass),
@@ -136,7 +136,7 @@ public abstract class ApplicationFactory {
 			return result;
 		} catch (Exception e) {
 			if (h != null) {
-				h.getDriverEncapsulation().destroy();
+				h.driverEncapsulation.destroy();
 			}
 			throw new RuntimeException(e);
 		}	
@@ -151,7 +151,7 @@ public abstract class ApplicationFactory {
 	public abstract <T extends Application<?, ?>> T launch(Class<T> appClass);
 
 	static Handle getTheFirstHandle(
-			Class<? extends Manager<?>> handleManagerClass,
+			Class<? extends Manager<?,?>> handleManagerClass,
 			Class<?>[] wdEncapsulationParams, Object[] wdEncapsulationParamVals) {
 		try {
 			Constructor<?> wdeC = WebDriverEncapsulation.class
@@ -161,7 +161,7 @@ public abstract class ApplicationFactory {
 			
 			Constructor<?> c = handleManagerClass
 					.getConstructor(new Class<?>[] { WebDriverEncapsulation.class });
-			Manager<?> m = (Manager<?>) c
+			Manager<?,?> m = (Manager<?,?>) c
 					.newInstance(new Object[] { wdeInstance });
 	
 			return m.getHandle(0);

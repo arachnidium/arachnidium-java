@@ -1,5 +1,6 @@
 package com.github.arachnidium.core;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.Photographer;
+import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
@@ -29,8 +32,9 @@ import com.github.arachnidium.core.settings.HandleWaitingTimeOut;
  * how to switch from one another
  * 
  * @param <U> it is a s strategy of the {@link Handle} receiving
+ * @param <V> it is the expected {@link Handle} class e.g {@link BrowserWindow} or {@link MobileScreen}
  */
-public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable {
+public abstract class Manager<U extends IHowToGetHandle, V extends Handle> implements IDestroyable {
 
 	static long getTimeOut(Long possibleTimeOut) {
 		if (possibleTimeOut == null)
@@ -44,11 +48,13 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	boolean isAlive = true;
 	private final HandleReceptionist handleReceptionist = new HandleReceptionist();
 
-	private final static Map<WebDriverEncapsulation, Manager<?>> managerMap = Collections
-			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?>>());
+	private final static Map<WebDriverEncapsulation, Manager<?,?>> managerMap = Collections
+			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?,?>>());
 	final static long defaultTimeOut = 5; // we will wait
 	// appearance of а handle for 5 seconds by default
 	protected IFluentHandleWaiting handleWaiting;
+	
+	private String STUB_HANDLE = "STUB";
 	
 	/**
 	 * @param driverEncapsulation
@@ -58,7 +64,7 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	 *         In another case it returns <code>null</code>.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends Manager<?>> T getInstanstiatedManager(
+	public static <T extends Manager<?,?>> T getInstanstiatedManager(
 			WebDriverEncapsulation driverEncapsulation) {
 		return (T) managerMap.get(driverEncapsulation);
 	}
@@ -117,26 +123,42 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 
 	/**
 	 * @param An expected window/mobile context index
-	 * @return Window or mobile context
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
 	 */
-	public abstract <T extends Handle> T getHandle(int index);
+	public V getHandle(int index){
+		return getHandle(index, getTimeOut(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut())); 
+	}
 	
 	/**
 	 * @param An expected window/mobile context index
 	 * @param It is an explicitly given time (seconds) to wait for
 	 *            window/mobile context is present
-	 * @return Window or mobile context
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
 	 */
-	public abstract <T extends Handle> T getHandle(int index, long timeOut);
-
-	/** 
-	 * @param An expected window/mobile context index
-	 * @param It is an explicitly given time (seconds) to wait for
-	 *            window/mobile context is present
-	 * @return Window handle/context name
-	 */
-	abstract String getStringHandle(int index, long timeOut);
-
+	@SuppressWarnings("unchecked")
+	public V getHandle(int index, long timeOut){
+		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Class<U> howToGetClass = null;
+		try {
+			howToGetClass = (Class<U>) Class
+					.forName(generic.getActualTypeArguments()[0].getTypeName());
+		} catch (Exception e) {
+			throw new RuntimeException(e); 
+		}
+		
+		U howToGet = null;
+		try {
+			howToGet = howToGetClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet);
+	}
+	
 	HandleReceptionist getHandleReceptionist() {
 		return handleReceptionist;
 	}
@@ -151,11 +173,15 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	 * by conditions. 
 	 * 
 	 * @param howToGet Given strategy. 
-	 * @return Window or mobile context
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
 	 * 
 	 * @see IHowToGetHandle
 	 */
-	public abstract <T extends Handle> T getHandle(U howToGet);
+	public V getHandle(U howToGet){
+		return getHandle(getTimeOut(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut()), howToGet); 
+	}
 	
 	/**
 	 * Returns window on mobile context 
@@ -165,11 +191,41 @@ public abstract class Manager<U extends IHowToGetHandle> implements IDestroyable
 	 *            window/mobile context is present
 	 *            
 	 * @param howToGet Given strategy.
-	 * @return Window or mobile context
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
 	 * 
 	 * @see IHowToGetHandle. 
 	 */
-	public abstract <T extends Handle> T getHandle(long timeOut, U howToGet);
+	@SuppressWarnings("unchecked")
+	public V getHandle(long timeOut, U howToGet){
+		HandleInterceptor<U> hi = new HandleInterceptor<U>(
+				this, howToGet, timeOut);
+		Class<?>[] params = new Class<?>[] {String.class, this.getClass()};
+		Object[] values = new Object[] {STUB_HANDLE, this};
+		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Class<V> required = null;
+		try {
+			required = (Class<V>) Class
+					.forName(generic.getActualTypeArguments()[1].getTypeName());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return EnhancedProxyFactory.getProxy(required, params, values, hi);
+	}
+	
+	/**
+	 * Returns window on mobile context 
+	 * by conditions. 
+	 * 
+	 * @param timeOut It is an explicitly given time (seconds) to wait for
+	 *            window/mobile context is present
+	 *            
+	 * @param howToGet Given strategy.
+	 * @return Window or mobile context.
+	 *  
+	 * @see IHowToGetHandle. 
+	 */
+	abstract V getRealHandle(long timeOut, U howToGet);	
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;

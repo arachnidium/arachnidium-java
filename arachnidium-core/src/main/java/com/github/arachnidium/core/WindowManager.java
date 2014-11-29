@@ -14,7 +14,7 @@ import com.github.arachnidium.core.bean.MainBeanConfiguration;
 import com.github.arachnidium.core.fluenthandle.FluentWindowWaiting;
 import com.github.arachnidium.core.settings.WindowIsClosedTimeOut;
 
-public final class WindowManager extends Manager<HowToGetBrowserWindow> {
+public final class WindowManager extends Manager<HowToGetBrowserWindow, BrowserWindow> {
 
 	private static long TIME_OUT_TO_SWITCH_ON = 2; //two seconds
 	
@@ -92,59 +92,11 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 	}
 
 	/**
-	 * @see com.github.arachnidium.core.Manager#getHandle(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public BrowserWindow getHandle(int windowIndex)
-			throws NoSuchWindowException {		
-		Long time = getTimeOut(getHandleWaitingTimeOut()
-				.getHandleWaitingTimeOut());
-		return getHandle(windowIndex, time);
-	}
-
-	/**
 	 * @see com.github.arachnidium.core.Manager#getHandles()
 	 */
 	@Override
 	Set<String> getHandles() {
 		return getWrappedDriver().getWindowHandles();
-	}
-
-	/**
-	 * @see com.github.arachnidium.core.Manager#getHandle(com.github.arachnidium.core.fluenthandle.IHowToGetHandle)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public BrowserWindow getHandle(HowToGetBrowserWindow howToGet)
-			throws NoSuchWindowException {
-		Long time = getTimeOut(getHandleWaitingTimeOut()
-				.getHandleWaitingTimeOut());
-		return getHandle(time,howToGet);
-	}
-
-	/**
-	 *  Actual strategy is {@link HowToGetBrowserWindow}
-	 * 
-	 * @see com.github.arachnidium.core.Manager#getHandle(long,
-	 *      com.github.arachnidium.core.fluenthandle.IHowToGetHandle)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public BrowserWindow getHandle(long timeOut,
-			HowToGetBrowserWindow howToGet)
-			throws NoSuchWindowException {
-		String handle = this.getStringHandle(timeOut,
-				howToGet);
-		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(
-				handle, this);
-		if (initedWindow != null) {
-			return initedWindow;
-		}
-		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
-				howToGet), this);
-		return returnNewCreatedListenableHandle(window,
-				MainBeanConfiguration.WINDOW_BEAN);
 	}
 
 	/**
@@ -200,29 +152,20 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow> {
 		return from -> isSwithedOn(from, handle);
 	}	
 
-	/**
-	 * @see com.github.arachnidium.core.Manager#getHandle(int, long)
-	 */
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public BrowserWindow getHandle(int windowIndex, long timeOut) {
-		String handle = this.getStringHandle(windowIndex, timeOut);
-		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(handle,
-				this);
-		if (initedWindow != null)
+	BrowserWindow getRealHandle(long timeOut,
+			HowToGetBrowserWindow howToGet) {
+		String handle = this.getStringHandle(timeOut,
+				howToGet);
+		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(
+				handle, this);
+		if (initedWindow != null) {
 			return initedWindow;
-		BrowserWindow window = new BrowserWindow(handle, this);
+		}
+		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
+				howToGet), this);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
-	}
-
-	/**
-	 * @see com.github.arachnidium.core.Manager#getStringHandle(int, long)
-	 */
-	@Override
-	String getStringHandle(int windowIndex, long timeOut) {
-		HowToGetBrowserWindow f = new HowToGetBrowserWindow();
-		f.setExpected(windowIndex);
-		return getStringHandle(timeOut, f);
 	}
 }
