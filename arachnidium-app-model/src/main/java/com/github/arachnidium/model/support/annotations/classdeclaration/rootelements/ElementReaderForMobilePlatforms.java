@@ -39,7 +39,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		}
 	}
 	
-	private static By getBy(Annotation annotation, WebDriver driver){
+	private static By getBy(Annotation annotation, Class<? extends WebDriver> driverClass){
 		String value = getValueFromAnnotation(annotation, ACCESSIBILITY);
 		if (!"".equals(value)){
 			return MobileBy.AccessibilityId(value);
@@ -72,7 +72,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		
 		value = getValueFromAnnotation(annotation, UI_AUTOMATOR);
 		if (!"".equals(value)){
-			if (AndroidDriver.class.isAssignableFrom(driver.getClass())){
+			if (AndroidDriver.class.isAssignableFrom(driverClass)){
 				return MobileBy.AndroidUIAutomator(value);
 			}
 			return MobileBy.IosUIAutomation(value);
@@ -80,25 +80,25 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		throw new IllegalArgumentException("No one known locator strategy was defined!");
 	}
 	
-	private static ByChained getPossibleChain(Annotation annotation, WebDriver driver){
+	private static ByChained getPossibleChain(Annotation annotation, Class<? extends WebDriver> driverClass){
 		List<By> result = new ArrayList<>();		
 		Annotation[] bies = getValueFromAnnotation(annotation, CHAIN);
 		
 		for (Annotation chainElement: bies) {
-			By by = getBy(chainElement, driver);
+			By by = getBy(chainElement, driverClass);
 			result.add(by);
 		}
 		return new ByChained(result.toArray(new By[]{}));
 	}	
 
 	@Override
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass) {
 		List<By> result = new ArrayList<>();
 		Annotation[] possibleRoots = null;		
-		if (AndroidDriver.class.isAssignableFrom(driver.getClass())){
+		if (AndroidDriver.class.isAssignableFrom(driverClass)){
 			possibleRoots = getAnnotations(RootAndroidElement.class, annotatedTarget);
 		}
-		if (IOSDriver.class.isAssignableFrom(driver.getClass())){
+		if (IOSDriver.class.isAssignableFrom(driverClass)){
 			possibleRoots = getAnnotations(RootIOSElement.class, annotatedTarget);
 		}
 		if (possibleRoots == null){
@@ -110,13 +110,13 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		}
 		
 		for (Annotation chain: possibleRoots) {
-			result.add(getPossibleChain(chain, driver));
+			result.add(getPossibleChain(chain, driverClass));
 		}	
 		
 		//this is an attempt to get By strategy
 		//by present @FindBy annotations
 		if (result.size() == 0)
-			return new CommonRootElementReader().readClassAndGetBy(annotatedTarget, driver);
+			return new CommonRootElementReader().readClassAndGetBy(annotatedTarget, driverClass);
 		return new ByAll(result.toArray(new By[]{}));
 	}
 

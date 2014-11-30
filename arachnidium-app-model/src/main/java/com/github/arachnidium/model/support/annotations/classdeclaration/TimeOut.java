@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * There is an assumption that time unit
  * is seconds. 
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface TimeOut {
 	long timeOut();

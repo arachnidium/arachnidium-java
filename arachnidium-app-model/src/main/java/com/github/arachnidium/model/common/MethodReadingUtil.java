@@ -115,7 +115,7 @@ abstract class MethodReadingUtil {
 	}
 
 	static Method getSuitableMethod(Class<?> clazz, String methodName, Object[] argValues){
-		Method[] declaredMethods = clazz.getDeclaredMethods();
+		Method[] declaredMethods = clazz.getMethods();
 		List<Method> found = new ArrayList<Method>();
 		for (Method m: declaredMethods){
 			if (!m.getName().equals(methodName)){

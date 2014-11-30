@@ -90,8 +90,7 @@ public final class WebFactory extends ApplicationFactory {
 
 	@Override
 	public <T extends Application<?, ?>> T launch(Class<T> appClass) {
-		return launch(WindowManager.class, appClass, new BrowserApplicationInterceptor(),
-				objectWhichChecksWebDriver);
+		return launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
 	}
 	
 	/**
@@ -103,8 +102,7 @@ public final class WebFactory extends ApplicationFactory {
 	 */
 	public <T extends Application<?, ?>> T launch(Class<T> appClass, String desiredUrl) {
 		capabilities = new DesiredCapabilities(setInitURLToCapabilityMap(capabilities, desiredUrl));
-		return launch(WindowManager.class, appClass, new BrowserApplicationInterceptor(),
-				objectWhichChecksWebDriver);
+		return launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
 	}
 	
 	

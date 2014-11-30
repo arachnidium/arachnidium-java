@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * </code>
  * 
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface IfBrowserDefaultPageIndex {
 	/**

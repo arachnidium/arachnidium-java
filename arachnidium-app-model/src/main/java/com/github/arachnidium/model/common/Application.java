@@ -67,7 +67,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see ScreenManager
 	 */
-	protected final Manager<U> manager;
+	protected final Manager<U, ?> manager;
 	/**
 	 * {@link Handle} is the given browser window or mobile context which
 	 * currently present. <br/>
@@ -77,7 +77,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@SuppressWarnings("unchecked")
 	protected Application(S handle) {
 		super(handle);
-		manager = (Manager<U>) handle.getManager();
+		manager = (Manager<U, ?>) handle.nativeManager;
 		getWebDriverEncapsulation().addDestroyable(this);
 	}
 
@@ -441,7 +441,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 * @see ScreenManager
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Manager<?>> T getManager() {
+	public <T extends Manager<?,?>> T getManager() {
 		return (T) manager;
 	}
 

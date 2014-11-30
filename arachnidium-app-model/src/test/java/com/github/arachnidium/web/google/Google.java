@@ -12,6 +12,7 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 		
 	@Static
 	@RootElement(chain = {@FindBy(id = "viewport")})
+	@RootElement(chain = {@FindBy(tagName = "body")}) //:)
 	private SearchBar<?> searchBar;	
 	@Static
 	private LinksAreFound<?> linksAreFound;

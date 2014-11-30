@@ -29,7 +29,7 @@ import org.openqa.selenium.ContextAware;
  * 
  * @see ContextAware
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface IfMobileContext {
 	/**
