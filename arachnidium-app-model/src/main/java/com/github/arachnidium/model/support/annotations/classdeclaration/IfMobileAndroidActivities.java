@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Is used when mobile screen needs to be identified
  * by Android activity. Is ignored by iOS
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface IfMobileAndroidActivities {
 	IfMobileAndroidActivity[] value();

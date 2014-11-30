@@ -91,6 +91,15 @@
     </classes>
   </test> <!-- Test -->  
   
+   <test name="This test checks ability to create proxy instances and use them to fill FunctionalPart fields">
+    <classes>
+      <class name="web.GoogleDriveTest"/>
+      <methods>
+              <include name="test3" />
+      </methods>
+    </classes>
+  </test> <!-- Test -->  
+  
   <test name="This test checks exception interception and handling">
     <classes>
       <class name="web.GoogleExceptionInterceptionTest"/>

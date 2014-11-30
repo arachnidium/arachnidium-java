@@ -92,7 +92,7 @@ public class CommonRootElementReader implements IRootElementReader {
 	}
 
 	@Override
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass) {
 		List<By> result = new ArrayList<>();		
 		RootElement[] rootElements = getAnnotations(RootElement.class, annotatedTarget);
 		

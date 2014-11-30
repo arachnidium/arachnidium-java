@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * </code> 
  * Each activity can be specified by regular expression.
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Repeatable(IfMobileAndroidActivities.class)
 public @interface IfMobileAndroidActivity {

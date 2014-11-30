@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * <p>public class ...
  * </code> 
  */
-@Target(value = ElementType.TYPE)
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface IfBrowserPageTitle {
 	/**

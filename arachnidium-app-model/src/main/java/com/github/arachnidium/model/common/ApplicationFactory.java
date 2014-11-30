@@ -119,7 +119,6 @@ public abstract class ApplicationFactory {
 
 	protected <T extends Application<?, ?>> T launch(
 			Class<? extends Manager<?,?>> handleManagerClass, Class<T> appClass,
-			ApplicationInterceptor<?, ?, ?, ?> mi,
 			WebDriverDesignationChecker objectWhichChecksWebDriver) {
 		Handle h = null;
 		try {
@@ -131,7 +130,8 @@ public abstract class ApplicationFactory {
 			}
 			T result = EnhancedProxyFactory.getProxy(appClass,
 					MethodReadingUtil.getParameterClasses(new Object[] { h }, appClass),
-					new Object[] { h }, mi);
+					new Object[] { h }, new ApplicationInterceptor() {
+					});
 			DecompositionUtil.populateFieldsWhichAreDecomposable(result);
 			return result;
 		} catch (Exception e) {

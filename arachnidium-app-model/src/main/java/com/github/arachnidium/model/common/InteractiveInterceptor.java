@@ -4,9 +4,8 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.cglib.proxy.MethodProxy;
-
-import org.apache.commons.lang3.ArrayUtils;
-
+import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
+import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import com.github.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
 import com.github.arachnidium.model.interfaces.IDecomposable;
@@ -26,7 +25,7 @@ import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
  * 
  * UI. It is actual for browser and hybrid mobile apps.
  */
-abstract class InteractiveInterceptor extends CommonInterceptor {
+abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 	
 	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {
@@ -67,13 +66,15 @@ abstract class InteractiveInterceptor extends CommonInterceptor {
 		}
 
 		try {
-			if (method.getName().equals(GET_PART)) {
-				Class<?> target = extractTargetFromGetPart(method, args);
-				Object[] newArgs = ArrayUtils.addAll(new Object[]{target}, 
-						getArgs(funcPart.getWebDriverEncapsulation(), method, args, target));
+			if (method.getName().equals(DecompositionUtil.GET_PART)) {
+				Class<?> target = DecompositionUtil.extractTargetFromGetPart(method, args);
+				ESupportedDrivers supportedDriver = 
+						funcPart.getWebDriverEncapsulation().getInstantiatedSupportedDriver();
+				Object[] newArgs = DecompositionUtil.
+						getRelevantArgs(supportedDriver, method, args, target);
 				args = newArgs;
 				method = MethodReadingUtil.getSuitableMethod(
-						funcPart.getClass(), GET_PART, args);
+						funcPart.getClass(), DecompositionUtil.GET_PART, args);
 				methodProxy = MethodReadingUtil.getMethodProxy(
 						funcPart.getClass(), method);
 			}

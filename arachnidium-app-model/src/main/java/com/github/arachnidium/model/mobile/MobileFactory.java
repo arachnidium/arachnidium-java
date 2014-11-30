@@ -48,7 +48,6 @@ public final class MobileFactory extends ApplicationFactory {
 
 	@Override
 	public <T extends Application<?, ?>> T launch(Class<T> appClass) {
-		return launch(ScreenManager.class, appClass,
-				new MobileApplicationInterceptor(), objectWhichChecksWebDriver);
+		return launch(ScreenManager.class, appClass, objectWhichChecksWebDriver);
 	}
 }

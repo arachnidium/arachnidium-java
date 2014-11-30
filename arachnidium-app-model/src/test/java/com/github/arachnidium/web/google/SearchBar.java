@@ -1,5 +1,6 @@
 package com.github.arachnidium.web.google;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,8 +13,8 @@ public class SearchBar<T extends Handle> extends FunctionalPart<T> implements IP
 	@FindBy(name="btnG")
 	private WebElement searchButton;
 	
-	protected SearchBar(T handle) {
-		super(handle);
+	protected SearchBar(T handle, By by) {
+		super(handle, by);
 		load();
 	}
 

@@ -16,7 +16,7 @@ public class SearchBarExceptionThrowing<T extends Handle> extends SearchBar<T>{
 	}
 	
 	protected SearchBarExceptionThrowing(T handle) {
-		super(handle);
+		super(handle, null);
 	}
 
 	@InteractiveMethod

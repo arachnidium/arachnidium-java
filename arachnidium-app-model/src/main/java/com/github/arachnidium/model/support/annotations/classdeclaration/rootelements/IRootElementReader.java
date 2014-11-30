@@ -21,5 +21,5 @@ public interface IRootElementReader extends IDefaultAnnotationReader{
 	 * {@link RootElement}, {@link RootAndroidElement},
      * {@link RootIOSElement}
 	 */
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, WebDriver driver);
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass);
 }

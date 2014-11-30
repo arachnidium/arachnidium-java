@@ -217,6 +217,8 @@ public class GoogleDriveTest {
 			service.document.shareDocumentSettings.clickDone();
 			
 			service.documentList.clickOnDoc("TestSpreadSheet");
+			
+			service.sheet.clickShareButton();
 			service.sheet.shareDocumentSettings.clickOnManagePermissions();
 			service.sheet.shareDocumentSettings
 					.invite("arachnidiumtester@gmail.com");
@@ -250,7 +252,7 @@ public class GoogleDriveTest {
 		}
 	}
 	
-	@Test(description = "This test checks possibility to create proxy instances and use them to fill FunctionalPart fields")
+	@Test(description = "This test checks ability to create proxy instances and use them to fill FunctionalPart fields")
 	@Parameters(value = { "path", "configList" })
 	public void test3(
 			@Optional("src/test/resources/configs/desctop/") String path,
