@@ -1,5 +1,6 @@
 package com.github.arachnidium.web.googledrive;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -9,28 +10,33 @@ import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
+import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
 
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
+@RootElement(chain = {
+		@FindBy(xpath = ".//*[@class=\"modal-dialog data-dialog\"]"),
+		@FindBy(xpath = ".//*[@class=\"modal-dialog-content\"]")
+		})
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 
-	@FindBy(xpath = ".//*[contains(@id,'fakeRecipient')]")
+	@FindBy(xpath = "//*[contains(@id,'fakeRecipient')]")
 	private WebElement invite;
-	@FindBy(xpath = ".//*[contains(@id,'close')]")
+	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	
-	@FindBy(xpath = ".//*[contains(@id,'cancel')]")
+	@FindBy(xpath = "//*[contains(@id,'cancel')]")
 	private WebElement cancel;
 	@FindBy(className = "simple-sharing-manage-permissions-link")
 	private WebElement managePermissions;
 	
 	protected ShareDocumentSettings(FunctionalPart<S> parent,
-			HowToGetByFrames path) {
-		super(parent, path);
+			HowToGetByFrames path, By by) {
+		super(parent, path, by);
 		load();
 	}
 	
 	protected ShareDocumentSettings(S handle,
-			HowToGetByFrames path) {
-		super(handle, path);
+			HowToGetByFrames path, By by) {
+		super(handle, path, by);
 		load();
 	}	
 	

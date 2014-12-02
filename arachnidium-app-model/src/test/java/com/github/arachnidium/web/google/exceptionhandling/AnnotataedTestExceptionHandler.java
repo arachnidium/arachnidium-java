@@ -18,10 +18,6 @@ public class AnnotataedTestExceptionHandler extends ModelObjectExceptionHandler 
 	public Object handleException(Object object, Method originalMethod,
 			MethodProxy methodProxy, Object[] args, Throwable t)
 			throws Throwable {
-		if (!isThrowableInList(t.getClass())){
-			throw t;
-		}
-
 		t.printStackTrace();
 		try{
 			return methodProxy.invoke(object, args);

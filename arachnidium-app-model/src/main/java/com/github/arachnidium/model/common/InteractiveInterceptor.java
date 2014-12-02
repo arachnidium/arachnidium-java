@@ -61,8 +61,6 @@ abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 				resetTimeOut(funcPart, customTimeOut, customTimeUnit);
 				timeOutIsChanged = true;
 			}
-			//TODO implement behavior when method is annotated by @RootElement
-			//and @Frame
 		}
 
 		try {
