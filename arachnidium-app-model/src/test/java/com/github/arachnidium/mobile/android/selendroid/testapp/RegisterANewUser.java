@@ -27,7 +27,6 @@ public class RegisterANewUser extends NativeContent {
     
 	protected RegisterANewUser(MobileScreen context) {
 		super(context);
-		load();
 	}
 
 	@InteractiveMethod

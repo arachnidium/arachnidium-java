@@ -51,7 +51,6 @@ public class BBCMain extends FunctionalPart<Handle>{
 	
 	protected BBCMain(Handle context) {
 		super(context);
-		load();
 	}
 
 	@InteractiveMethod

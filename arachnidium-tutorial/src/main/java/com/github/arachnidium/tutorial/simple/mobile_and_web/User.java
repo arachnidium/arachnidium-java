@@ -21,7 +21,6 @@ public class User<S extends Handle> extends FunctionalPart<S> {
 	
 	protected User(S handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod

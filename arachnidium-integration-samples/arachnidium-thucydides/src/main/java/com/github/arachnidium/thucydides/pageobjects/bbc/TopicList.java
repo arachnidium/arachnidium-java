@@ -47,7 +47,6 @@ public class TopicList extends FunctionalPart<Handle> {
 	
 	protected TopicList(Handle context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

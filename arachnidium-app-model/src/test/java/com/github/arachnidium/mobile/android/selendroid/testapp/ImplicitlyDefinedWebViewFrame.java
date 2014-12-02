@@ -21,7 +21,6 @@ public class ImplicitlyDefinedWebViewFrame extends WebViewContent {
 
 	public ImplicitlyDefinedWebViewFrame(MobileScreen screen, HowToGetByFrames howTo) {
 		super(screen, howTo);
-		load();
 	}
 	
 	@InteractiveMethod

@@ -17,7 +17,6 @@ public class UserPage<S extends Handle> extends FunctionalPart<S> {
 	
 	protected UserPage(S handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod

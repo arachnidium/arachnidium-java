@@ -24,7 +24,6 @@ public class Webview extends WebViewContent {
 	
 	protected Webview(MobileScreen context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

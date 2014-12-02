@@ -15,7 +15,6 @@ public class SearchBar<T extends Handle> extends FunctionalPart<T> implements IP
 	
 	protected SearchBar(T handle, By by) {
 		super(handle, by);
-		load();
 	}
 
 	@InteractiveMethod

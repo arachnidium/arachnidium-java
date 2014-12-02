@@ -28,7 +28,6 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	
 	protected LoginToGoogleService(T handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod

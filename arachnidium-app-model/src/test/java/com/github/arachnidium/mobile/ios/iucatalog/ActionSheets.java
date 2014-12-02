@@ -22,7 +22,6 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	
 	public ActionSheets(T handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod
