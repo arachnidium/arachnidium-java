@@ -14,7 +14,7 @@
 			<version>1.12</version>
 			<exclusions>
 				<exclusion>
-					<groupId>com.github.seleniumhq.selenium</groupId>
+					<groupId>org.seleniumhq.selenium</groupId>
 					<artifactId>selenium-java</artifactId>
 				</exclusion>
 			</exclusions>

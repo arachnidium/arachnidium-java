@@ -112,7 +112,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	protected ModelObject(S handle) {
 		this.handle = handle;
 		driverEncapsulation = handle.driverEncapsulation;
-		awaiting = new Awaiting(getWrappedDriver());
+		awaiting = new Awaiting(driverEncapsulation.getWrappedDriver());
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
 
 		IDefaultAnnotationReader idar = new IDefaultAnnotationReader() {

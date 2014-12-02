@@ -36,7 +36,6 @@ public class BBCMain extends AndroidNativeContent implements IBar{
 	
 	protected BBCMain(MobileScreen context) {
 		super(context);
-		load();
 	}
 
 	@InteractiveMethod

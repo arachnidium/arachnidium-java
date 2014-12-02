@@ -21,7 +21,6 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 	
 	protected LinksAreFound(T handle, By by) {
 		super(handle, by);
-		load();
 	}
 
 	@InteractiveMethod

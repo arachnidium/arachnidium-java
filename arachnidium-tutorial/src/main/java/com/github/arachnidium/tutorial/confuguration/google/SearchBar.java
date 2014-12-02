@@ -14,7 +14,6 @@ class SearchBar<T extends Handle> extends FunctionalPart<T> implements IPerforms
 	
 	protected SearchBar(T handle) {
 		super(handle);
-		load();
 	}
 
 	@InteractiveMethod

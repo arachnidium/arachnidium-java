@@ -22,7 +22,6 @@ public class AppleCom extends FunctionalPart<Handle> {
 	
 	protected AppleCom(FunctionalPart<?> parent) {
 		super(parent);
-		load();
 	}
 	
 	@InteractiveMethod

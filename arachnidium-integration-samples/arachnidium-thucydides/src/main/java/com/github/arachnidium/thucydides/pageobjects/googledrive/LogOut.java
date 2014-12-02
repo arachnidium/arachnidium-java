@@ -18,7 +18,6 @@ public class LogOut<S extends Handle> extends FunctionalPart<S> {
 
 	protected LogOut(FunctionalPart<?> parent) {
 		super(parent);
-		load();
 	}
 	
 	@InteractiveMethod

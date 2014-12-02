@@ -35,7 +35,6 @@ public class TopicList<T extends Handle> extends FunctionalPart<T> {
 	
 	protected TopicList(FunctionalPart<?> parent, By by) {
 		super(parent);
-		load();
 	}
 	
 	@InteractiveMethod

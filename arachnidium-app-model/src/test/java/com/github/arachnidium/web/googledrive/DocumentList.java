@@ -32,7 +32,6 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 
 	protected DocumentList(S handle) {
 		super(handle);
-		load();
 	}
 
 	@InteractiveMethod

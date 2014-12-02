@@ -15,7 +15,6 @@ public class UserScreen<S extends Handle> extends FunctionalPart<S> {
 	
 	protected UserScreen(S handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod

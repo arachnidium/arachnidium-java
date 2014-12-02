@@ -3,8 +3,6 @@
  */
 package com.github.arachnidium.model.common;
 
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-
 import java.awt.Color;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -93,7 +91,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected Application<?, ?> application;
 	protected final Ime ime;
 	private final HowToGetByFrames pathStrategy;
-	private final AppiumFieldDecorator defaultFieldDecorator;
+	final DefaultDecorator defaultFieldDecorator;
 	private final TimeOut timeOut;
 	protected final ScriptExecutor scriptExecutor; // executes given javaScript
 
@@ -355,17 +353,18 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected FunctionalPart(S handle, HowToGetByFrames path, By by) {
 		super(handle);
 		this.pathStrategy = path;
-		timeOut = getWebDriverEncapsulation().getTimeOut();
+		timeOut = handle.driverEncapsulation.getTimeOut();
 		long primaryTimeOut = timeOut.getImplicitlyWaitTimeOut();
 		TimeUnit primaryTimeUnit = timeOut.getImplicitlyWaitTimeUnit();
 		this.rootElement = new RootElement(this);
 		this.rootElement.changeByStrategy(by);
 		this.rootElement.setTimeValue(primaryTimeOut);
 		this.rootElement.setTimeUnit(primaryTimeUnit);
-		defaultFieldDecorator = new AppiumFieldDecorator(
-					getCurrentSearcContext(), primaryTimeOut, primaryTimeUnit);
-		ime = getComponent(Ime.class);
 		scriptExecutor = getComponent(ScriptExecutor.class);
+	    ime = getComponent(Ime.class);
+	    defaultFieldDecorator = new DefaultDecorator(
+				getCurrentSearcContext(), this, primaryTimeOut, primaryTimeUnit);
+	    load();
 	}
 	
 	/**
@@ -607,7 +606,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	/**
 	 * Instantiates declared {@link WebElement} fields using {@link PageFactory}
-	 * and {@link AppiumFieldDecorator}
+	 * and {@link DefaultDecorator}
+	 * This method can be overridden if it is needed
 	 */
 	protected void load() {
 		PageFactory.initElements(defaultFieldDecorator, this);
@@ -705,14 +705,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			return getWebDriverEncapsulation().getTimeOut();
 		}
 		return timeOut;
-	}
-
-	AppiumFieldDecorator getDefaultFieldDecorator() {
-		if (defaultFieldDecorator == null) {
-			return new AppiumFieldDecorator(getWebDriverEncapsulation()
-					.getWrappedDriver());
-		}
-		return defaultFieldDecorator;
 	}
 
 	/**

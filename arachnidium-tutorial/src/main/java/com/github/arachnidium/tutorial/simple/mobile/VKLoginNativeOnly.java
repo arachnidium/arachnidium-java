@@ -32,7 +32,6 @@ public class VKLoginNativeOnly extends NativeContent {
 	
 	public VKLoginNativeOnly(MobileScreen context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

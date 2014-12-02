@@ -16,7 +16,6 @@ public class Videos<S extends Handle> extends HasSearchField<S> {
 	
 	protected Videos(FunctionalPart<S> parent) {
 		super(parent);
-		load();
 	}
 	
 	@InteractiveMethod

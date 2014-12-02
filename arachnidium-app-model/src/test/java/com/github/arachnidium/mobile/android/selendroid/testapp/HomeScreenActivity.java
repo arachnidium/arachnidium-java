@@ -37,7 +37,6 @@ public class HomeScreenActivity extends NativeContent {
 	
 	public HomeScreenActivity(MobileScreen context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

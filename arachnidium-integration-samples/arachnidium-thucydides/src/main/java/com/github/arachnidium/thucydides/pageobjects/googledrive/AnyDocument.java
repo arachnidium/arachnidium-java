@@ -17,7 +17,6 @@ public abstract class AnyDocument<T extends Handle> extends FunctionalPart<T> {
 	
 	protected AnyDocument(T handle) {
 		super(handle);
-		load();
 	}
 	
 	@InteractiveMethod

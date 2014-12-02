@@ -13,7 +13,6 @@ public class AlertView extends NativeContent {
 	
 	protected AlertView(MobileScreen context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

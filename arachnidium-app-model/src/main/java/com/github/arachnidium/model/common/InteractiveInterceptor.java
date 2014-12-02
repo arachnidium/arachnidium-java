@@ -30,8 +30,9 @@ abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 	private static void resetTimeOut(FunctionalPart<?> funcPart,
 			long timeOutValue, TimeUnit timeUnit) {
 		funcPart.getTimeOut().implicitlyWait(timeOutValue, timeUnit);
-		funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOutValue,
-				timeUnit);
+		if (funcPart.defaultFieldDecorator != null)
+			funcPart.defaultFieldDecorator.resetImplicitlyWaitTimeOut(timeOutValue,
+					timeUnit);
 	}
 
 	@Override
@@ -49,8 +50,9 @@ abstract class InteractiveInterceptor extends ModelObjectInterceptor {
 			timeOut = funcPart.getTimeOut().getImplicitlyWaitTimeOut();
 			timeUnit = funcPart.getTimeOut().getImplicitlyWaitTimeUnit();
 			
-			funcPart.getDefaultFieldDecorator().resetImplicitlyWaitTimeOut(timeOut,
-					timeUnit);
+			if (funcPart.defaultFieldDecorator != null)
+				funcPart.defaultFieldDecorator.resetImplicitlyWaitTimeOut(timeOut,
+						timeUnit);
 			
 			// if there is customized time out
 			if (method.isAnnotationPresent(WithImplicitlyWait.class)) {				

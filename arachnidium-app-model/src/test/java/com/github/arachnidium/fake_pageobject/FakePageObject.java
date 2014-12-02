@@ -23,7 +23,6 @@ public class FakePageObject<S extends Handle> extends FunctionalPart<S> {
 	
 	protected FakePageObject(S handle) {
 		super(handle);
-		load();
 	}
 
 	@InteractiveMethod

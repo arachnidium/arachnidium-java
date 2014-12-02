@@ -37,13 +37,12 @@ public class VKLoginBrowserOnly extends BrowserPage {
 	
 	@FindAll(
 			{@FindBy(xpath = "//button[contains(.,'Log in')]"),
-			@FindBy(xpath = "//button[contains(.,'Р’РѕР№С‚Рё')]")
+			@FindBy(xpath = "//button[contains(.,'Войти')]")
 	})
 	private WebElement logInBtn;
 	
 	protected VKLoginBrowserOnly(BrowserWindow window) {
 		super(window);
-		load();
 	}
 	
 	@InteractiveMethod

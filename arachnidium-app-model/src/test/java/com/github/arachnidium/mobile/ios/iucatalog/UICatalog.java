@@ -15,7 +15,6 @@ public class UICatalog extends iOSNativeContent {
 	
 	public UICatalog(MobileScreen context) {
 		super(context);
-		load();
 	}
 	
 	@InteractiveMethod

@@ -31,13 +31,11 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	protected ShareDocumentSettings(FunctionalPart<S> parent,
 			HowToGetByFrames path, By by) {
 		super(parent, path, by);
-		load();
 	}
 	
 	protected ShareDocumentSettings(S handle,
 			HowToGetByFrames path, By by) {
 		super(handle, path, by);
-		load();
 	}	
 	
 	@InteractiveMethod
