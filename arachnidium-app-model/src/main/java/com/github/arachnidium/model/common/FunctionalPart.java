@@ -18,6 +18,7 @@ import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.eLogColors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -173,7 +174,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			return by;
 		}
 
-		if (parent.rootElement == null) {
+		if (parent.rootElement.getTheGivenByStrategy() == null) {
 			return by;
 		}
 
@@ -357,23 +358,25 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 		timeOut = getWebDriverEncapsulation().getTimeOut();
 		long primaryTimeOut = timeOut.getImplicitlyWaitTimeOut();
 		TimeUnit primaryTimeUnit = timeOut.getImplicitlyWaitTimeUnit();
-		if (by != null) {
-			this.rootElement = new RootElement(this, by,
-					primaryTimeOut, primaryTimeUnit);
-		} else {
-			this.rootElement = null;
-		}
-		if (rootElement == null) {
-			defaultFieldDecorator = new AppiumFieldDecorator(
-					getWrappedDriver(), primaryTimeOut, primaryTimeUnit);
-		} else {
-			defaultFieldDecorator = new AppiumFieldDecorator(
-					rootElement.getWrappedElement(), primaryTimeOut,
-					primaryTimeUnit);
-		}
-
+		this.rootElement = new RootElement(this);
+		this.rootElement.changeByStrategy(by);
+		this.rootElement.setTimeValue(primaryTimeOut);
+		this.rootElement.setTimeUnit(primaryTimeUnit);
+		defaultFieldDecorator = new AppiumFieldDecorator(
+					getCurrentSearcContext(), primaryTimeOut, primaryTimeUnit);
 		ime = getComponent(Ime.class);
 		scriptExecutor = getComponent(ScriptExecutor.class);
+	}
+	
+	/**
+	 * This method returns actual {@link SearchContext} for this page/screen representation
+	 * 
+	 * @return an instance of the {@link WebDriver} implementor or the root {@link WebElement}
+	 */
+	protected final SearchContext getCurrentSearcContext(){
+		if (rootElement.getTheGivenByStrategy() != null)
+			return rootElement.getWrappedElement();
+		return getWrappedDriver();
 	}
 
 	/**

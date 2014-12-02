@@ -24,21 +24,17 @@ import com.google.common.base.Function;
  */
 class RootElement implements WrapsElement {
 	private final long POLLING_EVERY = 100; //MILLISECONDS
-	By by;
-	long timeValue;
-	TimeUnit timeUnit;
-	final FunctionalPart<?> functionalPart;
+	private By by;
+	private long timeValue;
+	private TimeUnit timeUnit;
+	private final FunctionalPart<?> functionalPart;
 
 	/**
 	 * The wrapped root element will be found by given parameters
 	 */
 	// Function
-	RootElement(FunctionalPart<?> functionalPart, By by, long timeValue,
-			TimeUnit timeUnit) {
+	RootElement(FunctionalPart<?> functionalPart) {
 		this.functionalPart = functionalPart;
-		this.by = by;
-		setTimeValue(timeValue);
-		setTimeUnit(timeUnit);
 	}
 
 	void setTimeValue(long timeValue) {
@@ -69,6 +65,7 @@ class RootElement implements WrapsElement {
 				return driver;
 			}
 			
+			functionalPart.switchToMe();
 			Timeouts t = driver.manage().timeouts();
 			t.implicitlyWait(0, TimeUnit.SECONDS);
 			WebElement root = null;
@@ -90,7 +87,6 @@ class RootElement implements WrapsElement {
 
 	@Override
 	public WebElement getWrappedElement() {
-		functionalPart.switchToMe();
 		return EnhancedProxyFactory.getProxy(RemoteWebElement.class,
 				new Class[] {}, new Object[] {},
 				getRotElementMethodInterceptor());

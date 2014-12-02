@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * against iOS. 
  *
  */
-@Target(value = {ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
+@Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RootIOSElement {
 	iOSFindBy[] chain();
