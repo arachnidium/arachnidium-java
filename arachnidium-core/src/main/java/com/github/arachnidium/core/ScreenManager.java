@@ -13,6 +13,7 @@ import com.github.arachnidium.core.bean.MainBeanConfiguration;
 import com.github.arachnidium.core.components.mobile.ContextTool;
 import com.github.arachnidium.core.fluenthandle.FluentPageWaiting;
 import com.github.arachnidium.core.fluenthandle.FluentScreenWaiting;
+import com.github.arachnidium.util.logging.Log;
 
 public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScreen> {
 	private final ContextTool contextTool;
@@ -78,9 +79,12 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	
 			if (howToGetPage == null)
 				return context;
-			if (context.contains(NATIVE_APP_CONTEXT))
-				throw new IllegalStateException("In cases when you want to get to the page you should be "
-						+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + context);
+			if (context.contains(NATIVE_APP_CONTEXT)){
+				Log.debug("In cases when you want to get to the page you should be "
+						+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + context + "."
+								+ " So " + howToGetPage.toString() + " has been ignored.");
+				return context;
+			}
 			
 			String window = awaiting.
 					awaitCondition(timeOut, howToGetPage.getExpectedCondition(new FluentPageWaiting()));
