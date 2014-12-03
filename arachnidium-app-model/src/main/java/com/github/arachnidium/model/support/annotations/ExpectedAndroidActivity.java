@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
@@ -33,8 +33,8 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(IfMobileAndroidActivities.class)
-public @interface IfMobileAndroidActivity {
+@Repeatable(ExpectedAndroidActivities.class)
+public @interface ExpectedAndroidActivity {
 	/**
 	 * @return The activity specification
 	 */

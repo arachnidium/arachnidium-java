@@ -8,12 +8,13 @@ import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.mobile.PageTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
+import com.github.arachnidium.model.support.annotations.ExpectedContext;
+import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
 
 /**
  *Can be used to describe a single mobile app web view or its fragment
  */
-@IfMobileContext(regExp = "WEBVIEW")
+@ExpectedContext(regExp = MobileContextNamePatterns.WEBVIEW)
 public abstract class WebViewContent extends FunctionalPart<MobileScreen> implements Navigation{
 
 	protected final PageTouchActions touchActions;

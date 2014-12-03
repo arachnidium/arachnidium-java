@@ -13,17 +13,17 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroidActivity;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
+import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
+import com.github.arachnidium.model.support.annotations.ExpectedContext;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 /**
  * Imagine that we have to check browser and Android versions
  * How?! See below.
  */
-@IfBrowserURL(regExp = "http://www.bbc.com/news/")
-@IfMobileContext(regExp = "NATIVE_APP")
-@IfMobileAndroidActivity(regExp = "PersonalisationActivity")
+@ExpectedURL(regExp = "http://www.bbc.com/news/")
+@ExpectedContext(regExp = "NATIVE_APP")
+@ExpectedAndroidActivity(regExp = "PersonalisationActivity")
 public class TopicList extends FunctionalPart<Handle> {
 	
 	@CacheLookup

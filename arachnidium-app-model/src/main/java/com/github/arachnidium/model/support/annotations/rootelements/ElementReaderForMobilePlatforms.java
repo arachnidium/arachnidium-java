@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
+package com.github.arachnidium.model.support.annotations.rootelements;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;

@@ -3,7 +3,8 @@ package com.github.arachnidium.htmlelements.googledrive;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
+import com.github.arachnidium.model.support.annotations.Frame;
+
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;

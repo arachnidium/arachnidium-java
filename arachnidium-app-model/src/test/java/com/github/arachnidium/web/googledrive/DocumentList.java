@@ -12,12 +12,12 @@ import org.openqa.selenium.support.FindBys;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
+import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
-@IfBrowserURL(regExp = "drive.google.com/drive/")
-@IfBrowserURL(regExp = "drive.google.com")
-@IfBrowserDefaultPageIndex(index = 0)
+@ExpectedURL(regExp = "drive.google.com/drive/")
+@ExpectedURL(regExp = "drive.google.com")
+@DefaultPageIndex(index = 0)
 public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 
 	@Static

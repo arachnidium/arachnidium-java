@@ -2,8 +2,9 @@ package com.github.arachnidium.htmlelements.googledrive;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
+import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
+
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -15,9 +16,9 @@ import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
  * Login form
  *
  */
-@IfBrowserDefaultPageIndex(index = 0)
-@IfBrowserURL(regExp = "https://accounts.google.com/ServiceLogin")
-@IfBrowserURL(regExp = "accounts.google.com")
+@DefaultPageIndex(index = 0)
+@ExpectedURL(regExp = "https://accounts.google.com/ServiceLogin")
+@ExpectedURL(regExp = "accounts.google.com")
 public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	
 	@FindBy(name = "Email")

@@ -9,8 +9,8 @@ import org.openqa.selenium.support.How;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
+import com.github.arachnidium.model.support.annotations.Frame;
+import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
 @RootElement(chain = {

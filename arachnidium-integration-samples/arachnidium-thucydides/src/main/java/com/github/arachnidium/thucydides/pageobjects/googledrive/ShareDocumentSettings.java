@@ -8,7 +8,7 @@ import org.openqa.selenium.support.How;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
+import com.github.arachnidium.model.support.annotations.Frame;
 
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {

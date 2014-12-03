@@ -9,7 +9,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
-import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
+import com.github.arachnidium.model.support.IDefaultAnnotationReader;
 
 /**
  * It is the abstraction which describes the process of 

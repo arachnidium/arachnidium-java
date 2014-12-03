@@ -15,12 +15,13 @@ import org.openqa.selenium.WebElement;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.mobile.NativeTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
+import com.github.arachnidium.model.support.annotations.ExpectedContext;
+import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
 
 /**
  * Can be used to describe a single mobile app native screen or its fragment
  */
-@IfMobileContext(regExp = "NATIVE_APP")
+@ExpectedContext(regExp = MobileContextNamePatterns.NATIVE)
 public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
 DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 

@@ -9,9 +9,13 @@ import java.util.List;
 
 
 
+
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+
 
 
 
@@ -22,20 +26,20 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.ClassDeclarationReader;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserPageTitle;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroidActivity;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileContext;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
-import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.CommonRootElementReader;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.ElementReaderForMobilePlatforms;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.IRootElementReader;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootAndroidElement;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootIOSElement;
+import com.github.arachnidium.model.support.annotations.ClassDeclarationReader;
+import com.github.arachnidium.model.support.annotations.DefaultContextIndex;
+import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
+import com.github.arachnidium.model.support.annotations.ExpectedContext;
+import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
+import com.github.arachnidium.model.support.annotations.Frame;
+import com.github.arachnidium.model.support.annotations.TimeOut;
+import com.github.arachnidium.model.support.annotations.rootelements.CommonRootElementReader;
+import com.github.arachnidium.model.support.annotations.rootelements.ElementReaderForMobilePlatforms;
+import com.github.arachnidium.model.support.annotations.rootelements.IRootElementReader;
+import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
+import com.github.arachnidium.model.support.annotations.rootelements.RootIOSElement;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
 abstract class DecompositionUtil {
@@ -139,15 +143,15 @@ abstract class DecompositionUtil {
 	 * 
 	 *@param indexAnnotation is the class of annotation which 
 	 * is expected marks the given class
-	 *possible annotations are {@link IfBrowserDefaultPageIndex} and {@link IfMobileDefaultContextIndex}.
+	 *possible annotations are {@link DefaultPageIndex} and {@link DefaultContextIndex}.
 	 * 
 	 *@param handleUniqueIdentifiers is the class of annotation which 
 	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserURL} and {@link IfMobileAndroidActivity}.
+	 * Possible annotations are {@link ExpectedURL} and {@link ExpectedAndroidActivity}.
 	 * 
 	 *@param additionalStringIdentifieris the class of annotation which 
 	 * is expected marks the given class
-	 * Possible annotations are {@link IfBrowserPageTitle} and {@link IfMobileContext}.
+	 * Possible annotations are {@link ExpectedPageTitle} and {@link ExpectedContext}.
 	 * 
 	 *@param annotated is a given class that can be marked by annotations above
 	 * 
@@ -346,23 +350,23 @@ abstract class DecompositionUtil {
 	
 	private static Class<? extends Annotation> getIndexAnnotation(ESupportedDrivers supportedDriver){
 		if (supportedDriver.isForBrowser()){
-			return IfBrowserDefaultPageIndex.class;
+			return DefaultPageIndex.class;
 		}
-		return IfMobileDefaultContextIndex.class;
+		return DefaultContextIndex.class;
 	}
 	
 	private static Class<? extends Annotation> getHandleIdentifiers(ESupportedDrivers supportedDriver){
 		if (supportedDriver.isForBrowser()){
-			return IfBrowserURL.class;
+			return ExpectedURL.class;
 		}
-		return IfMobileAndroidActivity.class;
+		return ExpectedAndroidActivity.class;
 	}
 	
 	private static Class<? extends Annotation> getHandleStringIdentifiers(ESupportedDrivers supportedDriver){
 		if (supportedDriver.isForBrowser()){
-			return IfBrowserPageTitle.class;
+			return ExpectedPageTitle.class;
 		}
-		return IfMobileContext.class;
+		return ExpectedContext.class;
 	}	
 	
 	

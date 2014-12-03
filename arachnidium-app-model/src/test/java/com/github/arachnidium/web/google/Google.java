@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
+import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
 		

@@ -26,9 +26,11 @@ import java.util.List;
 
 
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
+
 
 
 
@@ -43,7 +45,7 @@ import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
+import com.github.arachnidium.model.support.IDefaultAnnotationReader;
 
 /**
  * This is a basic abstraction 

@@ -6,8 +6,9 @@ import java.util.NoSuchElementException;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserDefaultPageIndex;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
+import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
+
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -16,9 +17,9 @@ import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.element.Link;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 
-@IfBrowserURL(regExp = "drive.google.com/drive/")
-@IfBrowserURL(regExp = "drive.google.com")
-@IfBrowserDefaultPageIndex(index = 0)
+@ExpectedURL(regExp = "drive.google.com/drive/")
+@ExpectedURL(regExp = "drive.google.com")
+@DefaultPageIndex(index = 0)
 public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 
 	@FindAll({@FindBy(className = "treedoclistview-root-node-name"),

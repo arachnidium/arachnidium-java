@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations;
+package com.github.arachnidium.model.support;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
