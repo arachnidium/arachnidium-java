@@ -11,11 +11,16 @@ import org.openqa.selenium.WebDriver;
 
 import com.github.arachnidium.core.bean.MainBeanConfiguration;
 import com.github.arachnidium.core.components.mobile.ContextTool;
+import com.github.arachnidium.core.fluenthandle.FluentPageWaiting;
 import com.github.arachnidium.core.fluenthandle.FluentScreenWaiting;
 
 public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScreen> {
 	private final ContextTool contextTool;
 	private final boolean isSupportActivities;
+	
+	private final String NATIVE_APP_CONTEXT = "NATIVE_APP";
+	private String SPLITTER = "/";
+	private String WEBVIEW_CONTEXT = "WEBVIEW";
 
 	public ScreenManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
@@ -29,13 +34,21 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	}
 
 	/**
-	 * Changes active context
+	 * Changes active context/WebView page
 	 * 
 	 * @see com.github.arachnidium.core.Manager#changeActive(java.lang.String)
 	 */
 	@Override
 	void changeActive(String context) throws NoSuchContextException {
-		contextTool.context(context);
+		String[] handles = context.split(SPLITTER);
+		contextTool.context(handles[0]);
+		if (handles.length == 1){
+			return;
+		}
+		if (handles.length == 2 && handles[0].contains(NATIVE_APP_CONTEXT))
+			throw new IllegalArgumentException("In cases when you want to get to the page you should be "
+					+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + handles[0]);
+		getWrappedDriver().switchTo().window(handles[1]);		
 	}
 
 	private HowToGetMobileScreen isSupportActivities(
@@ -58,9 +71,21 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	String getStringHandle(long timeOut, HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
 		HowToGetMobileScreen clone = howToGet.cloneThis();
+		HowToGetPage howToGetPage = clone.getHowToGetPageStrategy();
 		try {
-			return awaiting.awaitCondition(timeOut,
+			String context = awaiting.awaitCondition(timeOut,
 					clone.getExpectedCondition(handleWaiting));
+	
+			if (howToGetPage == null)
+				return context;
+			if (context.contains(NATIVE_APP_CONTEXT))
+				throw new IllegalStateException("In cases when you want to get to the page you should be "
+						+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + context);
+			
+			String window = awaiting.
+					awaitCondition(timeOut, howToGetPage.getExpectedCondition(new FluentPageWaiting()));
+			return context + SPLITTER + window;
+			
 		} catch (TimeoutException e) {
 			throw new NoSuchContextException("Can't find screen! Condition is "
 					+ clone.toString(), e);

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.Manager;
 import com.github.arachnidium.core.MobileScreen;
@@ -45,7 +45,7 @@ import com.github.arachnidium.model.support.HowToGetByFrames;
  *            It means the way of getting decomposable parts of the application.
  *            It needs to be used when it is possible the interaction with more
  *            than one window or mobile screen/context at the same time.
- *            Possible strategies are {@link HowToGetBrowserWindow} and
+ *            Possible strategies are {@link HowToGetPage} and
  *            {@link HowToGetMobileScreen} If there is
  *            <code>&lt;S extends {@link IHowToGetHandle}&gt;</code> or
  *            <code>&lt;{@link IHowToGetHandle}&gt;</code> it means that both
@@ -298,7 +298,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *
@@ -331,7 +331,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 */
@@ -372,7 +372,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *
@@ -418,7 +418,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *
@@ -616,7 +616,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *
@@ -655,7 +655,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 */
@@ -703,7 +703,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *
@@ -753,7 +753,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see IHowToGetHandle
 	 *
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 *
 	 * @see HowToGetMobileScreen
 	 *

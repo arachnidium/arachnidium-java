@@ -26,7 +26,7 @@ import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.common.Ime;
@@ -253,7 +253,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 *
 	 * @see Application
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see Handle
 	 * @see BrowserWindow
@@ -280,7 +280,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 *
 	 * @see Application
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see Handle
 	 * @see BrowserWindow
@@ -308,7 +308,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 *
 	 * @see Application
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see Handle
 	 * @see BrowserWindow
@@ -342,7 +342,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 *
 	 * @see Application
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see Handle
 	 * @see BrowserWindow

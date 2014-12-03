@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
 
 
 
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
@@ -135,7 +135,7 @@ abstract class DecompositionUtil {
 	 * This methods transforms
 	 * values of annotations that marks
 	 * the given class to strategies 
-	 * {@link HowToGetBrowserWindow} or {@link HowToGetMobileScreen} 
+	 * {@link HowToGetPage} or {@link HowToGetMobileScreen} 
 	 * 
 	 *@param indexAnnotation is the class of annotation which 
 	 * is expected marks the given class
@@ -152,7 +152,7 @@ abstract class DecompositionUtil {
 	 *@param annotated is a given class that can be marked by annotations above
 	 * 
 	 *@param howToClass is the class of strategy that combines values of 
-	 * annotations above. Available classes are {@link HowToGetBrowserWindow} 
+	 * annotations above. Available classes are {@link HowToGetPage} 
 	 * and {@link HowToGetMobileScreen}
 	 * 
 	 * @return the instance of a strategy class defined by 
@@ -368,7 +368,7 @@ abstract class DecompositionUtil {
 	
 	private static Class<? extends IHowToGetHandle> getHandleStrategyClass(ESupportedDrivers supportedDriver){
 		if (supportedDriver.isForBrowser()){
-			return HowToGetBrowserWindow.class;
+			return HowToGetPage.class;
 		}
 		return HowToGetMobileScreen.class;
 	}

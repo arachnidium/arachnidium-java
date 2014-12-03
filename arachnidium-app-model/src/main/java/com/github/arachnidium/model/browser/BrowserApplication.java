@@ -1,7 +1,7 @@
 package com.github.arachnidium.model.browser;
 
 import com.github.arachnidium.core.BrowserWindow;
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.WindowManager;
 import com.github.arachnidium.model.common.Application;
 
@@ -10,7 +10,7 @@ import com.github.arachnidium.model.common.Application;
  * 
  * @see Application
  */
-public abstract class BrowserApplication extends Application<BrowserWindow, HowToGetBrowserWindow> {
+public abstract class BrowserApplication extends Application<BrowserWindow, HowToGetPage> {
 
 	protected BrowserApplication(BrowserWindow window) {
 		super(window);

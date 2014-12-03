@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  * 
  * @see IFluentHandleWaiting
  */
-public class FluentWindowWaiting implements IFluentHandleWaiting {
+public class FluentPageWaiting implements IFluentHandleWaiting {
 
 	private String getWindowHandleByIndex(final WebDriver from, int windowIndex) {
 		Set<String> handles = from.getWindowHandles();
