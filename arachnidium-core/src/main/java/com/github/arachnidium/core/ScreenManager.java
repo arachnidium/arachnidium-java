@@ -8,6 +8,7 @@ import java.util.Set;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.github.arachnidium.core.bean.MainBeanConfiguration;
 import com.github.arachnidium.core.components.mobile.ContextTool;
@@ -31,7 +32,6 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 				.getWrappedDriver();
 		isSupportActivities = AndroidDriver.class
 				.isAssignableFrom(wrappedDriver.getClass());
-		handleWaiting = new FluentScreenWaiting();
 	}
 
 	/**
@@ -68,31 +68,47 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 		return contextTool.getContextHandles();
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	String getStringHandle(long timeOut, HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
 		HowToGetMobileScreen clone = howToGet.cloneThis();
 		HowToGetPage howToGetPage = clone.getHowToGetPageStrategy();
-		try {
-			String context = awaiting.awaitCondition(timeOut,
-					clone.getExpectedCondition(handleWaiting));
-	
+		
+		//This expected condition tries to find context.
+		//If WEBVIEW is found and page parameters are defined 
+		//then it attempts to find a required page inside WEBVIEW
+		ExpectedCondition<String> ec = input -> {
+			String context = clone.getExpectedCondition(new FluentScreenWaiting()).apply(input);
 			if (howToGetPage == null)
 				return context;
+			
 			if (context.contains(NATIVE_APP_CONTEXT)){
 				Log.debug("In cases when you want to get to the page you should be "
 						+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + context + "."
 								+ " So " + howToGetPage.toString() + " has been ignored.");
 				return context;
+			}				
+			String pageHandle = howToGetPage.getExpectedCondition(new FluentPageWaiting()).apply(input);
+			if (pageHandle == null){
+				return null;
 			}
-			
-			String window = awaiting.
-					awaitCondition(timeOut, howToGetPage.getExpectedCondition(new FluentPageWaiting()));
-			return context + SPLITTER + window;
+			else{
+				return context + SPLITTER + pageHandle;
+			}
+		};
+		
+		try {						
+			return awaiting.
+					awaitCondition(timeOut, ec);
 			
 		} catch (TimeoutException e) {
-			throw new NoSuchContextException("Can't find screen! Condition is "
-					+ clone.toString(), e);
+			String errorMessage = "Can't find screen! Condition is "
+					+ clone.toString() + ".";
+			if (howToGetPage == null){
+				errorMessage = errorMessage + " Defined page is " + howToGetPage.toString();
+			}
+			throw new NoSuchContextException(errorMessage, e);
 		}
 	}
 

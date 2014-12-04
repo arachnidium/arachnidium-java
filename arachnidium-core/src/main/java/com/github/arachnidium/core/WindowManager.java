@@ -20,7 +20,6 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 	
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		handleWaiting = new FluentPageWaiting();
 	}
 
 	/**
@@ -112,7 +111,7 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 		HowToGetPage clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
-					clone.getExpectedCondition(handleWaiting));
+					clone.getExpectedCondition(new FluentPageWaiting()));
 		} catch (TimeoutException e) {
 			throw new NoSuchWindowException("Can't find window! Condition is "
 					+ clone.toString(), e);

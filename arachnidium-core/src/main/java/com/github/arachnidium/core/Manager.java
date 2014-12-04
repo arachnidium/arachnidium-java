@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 
 import com.github.arachnidium.core.components.common.AlertHandler;
 import com.github.arachnidium.core.components.common.Awaiting;
-import com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasHandle;
@@ -51,9 +50,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	private final static Map<WebDriverEncapsulation, Manager<?,?>> managerMap = Collections
 			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?,?>>());
 	final static long defaultTimeOut = 5; // we will wait
-	// appearance of а handle for 5 seconds by default
-	protected IFluentHandleWaiting handleWaiting;
-	
 	private String STUB_HANDLE = "STUB";
 	
 	/**
