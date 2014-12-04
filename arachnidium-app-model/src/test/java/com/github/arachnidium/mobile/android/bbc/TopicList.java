@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootAndroidElement;
+import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 
 @RootAndroidElement(chain = {
 		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/personalisationListView\")")

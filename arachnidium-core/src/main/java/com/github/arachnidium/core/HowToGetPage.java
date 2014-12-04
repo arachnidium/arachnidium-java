@@ -8,7 +8,7 @@ import com.github.arachnidium.core.interfaces.ICloneable;
 /**
  * Strategy of a browser window receiving
  */
-public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable {
+public class HowToGetPage extends HowToGetHandle implements ICloneable {
 	
 	/**
 	 * @param expected window index
@@ -65,9 +65,9 @@ public class HowToGetBrowserWindow extends HowToGetHandle implements ICloneable 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public HowToGetBrowserWindow cloneThis(){
+	public HowToGetPage cloneThis(){
 		try {
-			return (HowToGetBrowserWindow) this.clone();
+			return (HowToGetPage) this.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}

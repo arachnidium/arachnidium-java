@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -31,7 +31,7 @@ import org.openqa.selenium.ContextAware;
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface IfMobileContext {
+public @interface ExpectedContext {
 	/**
 	 * @return The specified context name.
 	 * @see ContextAware 

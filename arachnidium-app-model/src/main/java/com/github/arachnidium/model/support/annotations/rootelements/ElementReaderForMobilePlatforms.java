@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
+package com.github.arachnidium.model.support.annotations.rootelements;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;
@@ -100,13 +100,6 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		}
 		if (IOSDriver.class.isAssignableFrom(driverClass)){
 			possibleRoots = getAnnotations(RootIOSElement.class, annotatedTarget);
-		}
-		if (possibleRoots == null){
-			return null;
-		}
-		
-		if (possibleRoots.length == 0){
-			return null;
 		}
 		
 		for (Annotation chain: possibleRoots) {

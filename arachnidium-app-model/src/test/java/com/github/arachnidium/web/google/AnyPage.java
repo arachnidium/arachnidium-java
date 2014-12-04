@@ -6,7 +6,7 @@ import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.model.support.annotations.classdeclaration.rootelements.RootElement;
+import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 /**
  * 

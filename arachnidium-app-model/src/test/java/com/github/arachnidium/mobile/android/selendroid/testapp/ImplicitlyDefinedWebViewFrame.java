@@ -7,12 +7,12 @@ import org.openqa.selenium.support.How;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileAndroidActivity;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfMobileDefaultContextIndex;
+import com.github.arachnidium.model.support.annotations.DefaultContextIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
+import com.github.arachnidium.model.support.annotations.Frame;
 
-@IfMobileDefaultContextIndex(index = 1)
-@IfMobileAndroidActivity(regExp = "WebViewActivity")
+@DefaultContextIndex(index = 1)
+@ExpectedAndroidActivity(regExp = "WebViewActivity")
 @Frame(howToGet = How.ID, locator = "iframe1")
 public class ImplicitlyDefinedWebViewFrame extends WebViewContent {
 	

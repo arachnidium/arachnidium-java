@@ -1,11 +1,11 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
+package com.github.arachnidium.model.support.annotations.rootelements;
 
 import java.lang.reflect.AnnotatedElement;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
+import com.github.arachnidium.model.support.IDefaultAnnotationReader;
 
 /**
  * Reads class declarations and returns 

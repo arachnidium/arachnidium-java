@@ -5,11 +5,11 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.annotations.classdeclaration.IfBrowserURL;
-import com.github.arachnidium.model.support.annotations.classdeclaration.TimeOut;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
+import com.github.arachnidium.model.support.annotations.TimeOut;
 
-@IfBrowserURL(regExp = "docs.google.com/document/")
-@IfBrowserURL(regExp = "/document/")
+@ExpectedURL(regExp = "docs.google.com/document/")
+@ExpectedURL(regExp = "/document/")
 @TimeOut(timeOut = 10)
 public abstract class AnyDocument<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(xpath=".//*[@id='docs-titlebar-share-client-button']/div")

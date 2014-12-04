@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.How;
 
-import com.github.arachnidium.model.support.annotations.IDefaultAnnotationReader;
+import com.github.arachnidium.model.support.IDefaultAnnotationReader;
 
 /**
  * Reads annotations which mark classes.

@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration.rootelements;
+package com.github.arachnidium.model.support.annotations.rootelements;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;

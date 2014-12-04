@@ -4,12 +4,13 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.cglib.proxy.MethodProxy;
+
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import com.github.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.model.support.annotations.classdeclaration.Frame;
+import com.github.arachnidium.model.support.annotations.Frame;
 
 /**
  * 

@@ -11,16 +11,15 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.github.arachnidium.core.bean.MainBeanConfiguration;
-import com.github.arachnidium.core.fluenthandle.FluentWindowWaiting;
+import com.github.arachnidium.core.fluenthandle.FluentPageWaiting;
 import com.github.arachnidium.core.settings.WindowIsClosedTimeOut;
 
-public final class WindowManager extends Manager<HowToGetBrowserWindow, BrowserWindow> {
+public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 
 	private static long TIME_OUT_TO_SWITCH_ON = 2; //two seconds
 	
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
-		handleWaiting = new FluentWindowWaiting();
 	}
 
 	/**
@@ -100,19 +99,19 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow, BrowserW
 	}
 
 	/**
-	 * Actual strategy is {@link HowToGetBrowserWindow}
+	 * Actual strategy is {@link HowToGetPage}
 	 * 
 	 * @see com.github.arachnidium.core.Manager#getStringHandle(long,
 	 *      com.github.arachnidium.core.fluenthandle.IHowToGetHandle)
 	 */
 	@Override
 	String getStringHandle(long timeOut,
-			HowToGetBrowserWindow howToGet)
+			HowToGetPage howToGet)
 			throws NoSuchWindowException {
-		HowToGetBrowserWindow clone = howToGet.cloneThis();
+		HowToGetPage clone = howToGet.cloneThis();
 		try {
 			return awaiting.awaitCondition(timeOut,
-					clone.getExpectedCondition(handleWaiting));
+					clone.getExpectedCondition(new FluentPageWaiting()));
 		} catch (TimeoutException e) {
 			throw new NoSuchWindowException("Can't find window! Condition is "
 					+ clone.toString(), e);
@@ -155,7 +154,7 @@ public final class WindowManager extends Manager<HowToGetBrowserWindow, BrowserW
 
 	@Override
 	BrowserWindow getRealHandle(long timeOut,
-			HowToGetBrowserWindow howToGet) {
+			HowToGetPage howToGet) {
 		String handle = this.getStringHandle(timeOut,
 				howToGet);
 		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(

@@ -4,8 +4,6 @@ import io.appium.java_client.android.AndroidKeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 //import com.github.arachnidium.mobile.android.selendroid.testapp.ImplicitlyDefinedWebViewFrame;
 import com.github.arachnidium.util.configuration.Configuration;
 
@@ -15,9 +13,12 @@ import org.testng.annotations.Test;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.mobile.android.bbc.BBCMain;
 import com.github.arachnidium.mobile.android.bbc.TopicList;
+import com.github.arachnidium.mobile.android.selendroid.testapp.GoogleInsideWebView;
 import com.github.arachnidium.mobile.android.selendroid.testapp.HomeScreenActivity;
+import com.github.arachnidium.mobile.android.selendroid.testapp.LinksAreFoundInsideWebViewByGoogle;
 import com.github.arachnidium.mobile.android.selendroid.testapp.RegisterANewUser;
 import com.github.arachnidium.mobile.android.selendroid.testapp.Webview;
+import com.github.arachnidium.mobile.android.selendroid.testapp.WikiPageInsideWebView;
 import com.github.arachnidium.model.mobile.MobileApplication;
 import com.github.arachnidium.model.mobile.MobileFactory;
 
@@ -118,4 +119,19 @@ public class AndroidTestExamples {
 			selendroidTestApp.quit();
 		}
 	}  
+  
+  @Test
+  public void androidWebViewPagesTest() {
+		Configuration config = Configuration
+				.get("src/test/resources/configs/mobile/app/android/android_selendroid-test-app2.json");
+		MobileApplication selendroidTestApp = new MobileFactory(config).launch(MobileApplication.class);
+		try {
+			selendroidTestApp.getPart(Webview.class).to("https://www.google.com");
+			selendroidTestApp.getPart(GoogleInsideWebView.class).performSearch("Hello world Wikipedia");
+			selendroidTestApp.getPart(LinksAreFoundInsideWebViewByGoogle.class).clickOnLinkByIndex(1);
+			selendroidTestApp.getPart(WikiPageInsideWebView.class);
+		} finally {
+			selendroidTestApp.quit();
+		}
+	}    
 }

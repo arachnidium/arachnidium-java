@@ -15,7 +15,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.web.google.AnyPage;
 import com.github.arachnidium.web.google.Google;
 
@@ -24,16 +24,16 @@ public class HelloWorldGoogleTest2 {
 	private enum HowToGetANewWindow {
 		BYPARTIALTITLE {
 			@Override
-			HowToGetBrowserWindow get() {
-				HowToGetBrowserWindow h = super.get();
+			HowToGetPage get() {
+				HowToGetPage h = super.get();
 				h.setExpected("^*[?[Hello]\\?[world]]");
 				return h;
 			}
 		},
 		BYPARTIALURL {
 			@Override
-			HowToGetBrowserWindow get() {
-				HowToGetBrowserWindow h = super.get();
+			HowToGetPage get() {
+				HowToGetPage h = super.get();
 				h.setExpected(new ArrayList<String>(){
 					private static final long serialVersionUID = 1L;
 					{
@@ -46,8 +46,8 @@ public class HelloWorldGoogleTest2 {
 		},
 		FULL {
 			@Override
-			HowToGetBrowserWindow get() {
-				HowToGetBrowserWindow h = super.get();
+			HowToGetPage get() {
+				HowToGetPage h = super.get();
 				h.setExpected(new ArrayList<String>(){
 					private static final long serialVersionUID = 1L;
 					{
@@ -60,8 +60,8 @@ public class HelloWorldGoogleTest2 {
 			}
 		};
 
-		HowToGetBrowserWindow get() {
-			HowToGetBrowserWindow h = new HowToGetBrowserWindow();
+		HowToGetPage get() {
+			HowToGetPage h = new HowToGetPage();
 			h.setExpected(1);
 			return h;
 		}

@@ -7,21 +7,27 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.core.MobileScreen;
+import com.github.arachnidium.model.mobile.WebViewContent;
+import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
+import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 /**
  * This can describe apple.com web page as well 
  * content of web view.
  *
  */
-public class AppleCom extends FunctionalPart<Handle> {
+@ExpectedURL(regExp = ".apple.com")
+@DefaultPageIndex(index = 0)
+@ExpectedPageTitle(regExp = "Apple")
+public class AppleCom extends WebViewContent {
 
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
 	
-	protected AppleCom(FunctionalPart<?> parent) {
-		super(parent);
+	protected AppleCom(MobileScreen screen) {
+		super(screen);
 	}
 	
 	@InteractiveMethod

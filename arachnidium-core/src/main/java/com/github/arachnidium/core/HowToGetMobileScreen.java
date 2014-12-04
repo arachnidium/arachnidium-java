@@ -10,6 +10,7 @@ import com.github.arachnidium.core.interfaces.ICloneable;
  */
 public class HowToGetMobileScreen extends HowToGetHandle implements ICloneable{
 	
+	private HowToGetPage howToGetPageStrategy;
 	/**
 	 * @param expected context index
 	 * 
@@ -73,5 +74,26 @@ public class HowToGetMobileScreen extends HowToGetHandle implements ICloneable{
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	/**
+	 * This method is useful for WebView content recognition
+	 * 
+	 * @param howToGetPageStrategy is an instance of {@link HowToGetPage} where
+	 * expected URLs, page indexes and titles are set up 
+	 */
+	public void defineHowToGetPageStrategy(HowToGetPage howToGetPageStrategy){
+		this.howToGetPageStrategy = howToGetPageStrategy;
+	}
+	
+	/**
+	 * This method is useful for WebView content recognition. It is for
+	 * the inner using
+	 * 
+	 * @return an instance of {@link HowToGetPage} where
+	 * expected URLs, page indexes and titles are set up
+	 */
+	HowToGetPage getHowToGetPageStrategy(){
+		return howToGetPageStrategy;
 	}
 }

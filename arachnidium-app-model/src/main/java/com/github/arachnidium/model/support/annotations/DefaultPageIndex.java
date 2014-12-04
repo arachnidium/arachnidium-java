@@ -1,20 +1,17 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.openqa.selenium.ContextAware;
-
 /**
  * This annotation is for
  * UI specifications when it is 
  * possible the interaction with
- * more than one mobile context at the same time.
- * (e.g. NATIVE_APP, WEBVIEW_0, WEBVIEW_1 and so on)
+ * more than one browser window at the same time.
  * 
- * If some screen UI is always at the first context (or second
+ * If some page is always loaded at the first window (or second
  * and so on) the class-specification could be marked 
  * by the annotation.
  * <p>
@@ -22,7 +19,7 @@ import org.openqa.selenium.ContextAware;
  * <p>
  * <code>
  * <p>
- * <p>@IfMobileDefaultContextIndex(index = 0) //is always the first context
+ * <p>@IfBrowserDefaultPageIndex(index = 0) //is always on the first browser window
  * <p>public class ...
  * </code>
  * <p>
@@ -30,18 +27,16 @@ import org.openqa.selenium.ContextAware;
  * <p>
  * <code>
  * <p>
- * <p>@IfMobileDefaultContextIndex(index = 1) //is always the second context
+ * <p>@IfBrowserDefaultPageIndex(index = 1) //is always on the second browser window
  * <p>public class ...
  * </code>
  * 
- * @see ContextAware
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface IfMobileDefaultContextIndex {
+public @interface DefaultPageIndex {
 	/**
-	 * @return The specified context index
-	 * @see ContextAware
+	 * @return The specified default browser window index
 	 */
 	int index();
 }

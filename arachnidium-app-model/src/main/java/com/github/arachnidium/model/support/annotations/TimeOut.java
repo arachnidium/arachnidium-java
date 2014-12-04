@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

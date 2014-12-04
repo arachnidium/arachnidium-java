@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.core.HowToGetBrowserWindow;
+import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.model.support.HowToGetByFrames;
@@ -210,7 +210,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -239,7 +239,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see By
 	 */	
@@ -265,7 +265,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -294,7 +294,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see By
 	 */	
@@ -323,7 +323,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -358,7 +358,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -388,7 +388,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
@@ -423,7 +423,7 @@ public interface IDecomposableByHandles<U extends IHowToGetHandle> extends IDeco
 	 * parameter
 	 * 
 	 * @see IHowToGetHandle
-	 * @see HowToGetBrowserWindow
+	 * @see HowToGetPage
 	 * @see HowToGetMobileScreen
 	 * @see By
 	 */	

@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.support.annotations.classdeclaration;
+package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  */
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface IfBrowserPageTitle {
+public @interface ExpectedPageTitle {
 	/**
 	 * The string specification of the default page title
 	 * @return
