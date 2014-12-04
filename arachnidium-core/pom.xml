@@ -9,7 +9,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<ghostdriver.version>1.1.0</ghostdriver.version>
+		<ghostdriver.version>1.2.1</ghostdriver.version>
 		<appium.version>2.1.0</appium.version>
 	</properties>
 
@@ -55,7 +55,8 @@
 			<version>${selenium.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
+			<!--<groupId>com.github.detro.ghostdriver</groupId>-->
+			<groupId>com.codeborne</groupId>
 			<artifactId>phantomjsdriver</artifactId>
 			<version>${ghostdriver.version}</version>
 
