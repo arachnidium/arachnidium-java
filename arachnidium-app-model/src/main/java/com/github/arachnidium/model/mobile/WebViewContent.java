@@ -2,6 +2,7 @@ package com.github.arachnidium.model.mobile;
 
 import java.net.URL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver.Navigation;
 
 import com.github.arachnidium.core.MobileScreen;
@@ -22,31 +23,59 @@ public abstract class WebViewContent extends FunctionalPart<MobileScreen> implem
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
 	 */
 	protected WebViewContent(WebViewContent parent) {
-		this(parent, new HowToGetByFrames());
+		this(parent, new HowToGetByFrames(), (By) null);
 	}
+	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, By)}
+	 */
+	protected WebViewContent(WebViewContent parent, By by) {
+		this(parent, new HowToGetByFrames(), by);
+	}	
+	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames, By)}
+	 */
+	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames, By by) {
+		super(parent, howToGetByFrames, by);
+		touchActions =   getComponent(PageTouchActions.class);
+	}	
 	
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)}
 	 */
 	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames) {
-		super(parent, howToGetByFrames);
-		touchActions =   getComponent(PageTouchActions.class);
+		this(parent, howToGetByFrames, (By) null);
 	}	
 	
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 */	
 	protected WebViewContent(MobileScreen context){
-		this(context, new HowToGetByFrames());
+		this(context, new HowToGetByFrames(), (By) null);
 	}
+	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, By)
+	 */	
+	protected WebViewContent(MobileScreen context, By by){
+		this(context, new HowToGetByFrames(), by);
+	}	
 	
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames))
 	 */
 	protected WebViewContent(MobileScreen context, HowToGetByFrames howToGetByFrames){
-		super(context, howToGetByFrames);
-		touchActions =   getComponent(PageTouchActions.class);
+		this(context, howToGetByFrames, (By) null);
 	}
+	
+	/**
+	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames, By))
+	 */
+	protected WebViewContent(MobileScreen context, HowToGetByFrames howToGetByFrames, By by){
+		super(context, howToGetByFrames ,by);
+		touchActions =   getComponent(PageTouchActions.class);
+	}	
 
 	@InteractiveMethod
 	@Override

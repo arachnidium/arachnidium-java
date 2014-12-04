@@ -294,10 +294,22 @@ abstract class DecompositionUtil {
 			AnnotatedElement annotatedElement) {	
 		
 		IHowToGetHandle how = MethodReadingUtil.getDefinedParameter(method, IHowToGetHandle.class, args);
-		if (how == null)
-			how = getHowToGetHandleStrategy(getIndexAnnotation(supportedDriver),
-					getHandleIdentifiers(supportedDriver), getHandleStringIdentifiers(supportedDriver), 
-					annotatedElement, getHandleStrategyClass(supportedDriver));
+		if (how == null){
+			HowToGetMobileScreen howGetMobileScreen = null;
+			HowToGetPage howToGetPage = getHowToGetHandleStrategy(DefaultPageIndex.class,
+					ExpectedURL.class, ExpectedPageTitle.class, 
+					annotatedElement, HowToGetPage.class);
+			
+			if (supportedDriver.isForBrowser()){
+				how = howToGetPage;
+			}else{
+				howGetMobileScreen = getHowToGetHandleStrategy(DefaultContextIndex.class,
+						ExpectedAndroidActivity.class, ExpectedContext.class, 
+						annotatedElement, HowToGetMobileScreen.class);
+				howGetMobileScreen.defineHowToGetPageStrategy(howToGetPage);
+				how = howGetMobileScreen;
+			}
+		}
 		
 		Integer index = MethodReadingUtil.getDefinedParameter(method, int.class, args);
 		// if index of a window/screen was defined
@@ -346,36 +358,6 @@ abstract class DecompositionUtil {
 		
 		return newArgs;
 	}	
-	
-	
-	private static Class<? extends Annotation> getIndexAnnotation(ESupportedDrivers supportedDriver){
-		if (supportedDriver.isForBrowser()){
-			return DefaultPageIndex.class;
-		}
-		return DefaultContextIndex.class;
-	}
-	
-	private static Class<? extends Annotation> getHandleIdentifiers(ESupportedDrivers supportedDriver){
-		if (supportedDriver.isForBrowser()){
-			return ExpectedURL.class;
-		}
-		return ExpectedAndroidActivity.class;
-	}
-	
-	private static Class<? extends Annotation> getHandleStringIdentifiers(ESupportedDrivers supportedDriver){
-		if (supportedDriver.isForBrowser()){
-			return ExpectedPageTitle.class;
-		}
-		return ExpectedContext.class;
-	}	
-	
-	
-	private static Class<? extends IHowToGetHandle> getHandleStrategyClass(ESupportedDrivers supportedDriver){
-		if (supportedDriver.isForBrowser()){
-			return HowToGetPage.class;
-		}
-		return HowToGetMobileScreen.class;
-	}
 		
 
 	/**

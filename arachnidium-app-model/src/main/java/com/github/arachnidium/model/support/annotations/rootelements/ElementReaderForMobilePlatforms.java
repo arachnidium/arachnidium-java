@@ -101,13 +101,6 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		if (IOSDriver.class.isAssignableFrom(driverClass)){
 			possibleRoots = getAnnotations(RootIOSElement.class, annotatedTarget);
 		}
-		if (possibleRoots == null){
-			return null;
-		}
-		
-		if (possibleRoots.length == 0){
-			return null;
-		}
 		
 		for (Annotation chain: possibleRoots) {
 			result.add(getPossibleChain(chain, driverClass));

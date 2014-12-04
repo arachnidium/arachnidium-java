@@ -68,7 +68,6 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 		return contextTool.getContextHandles();
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	String getStringHandle(long timeOut, HowToGetMobileScreen howToGet)
 			throws NoSuchContextException {
@@ -105,7 +104,7 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 		} catch (TimeoutException e) {
 			String errorMessage = "Can't find screen! Condition is "
 					+ clone.toString() + ".";
-			if (howToGetPage == null){
+			if (howToGetPage != null){
 				errorMessage = errorMessage + " Defined page is " + howToGetPage.toString();
 			}
 			throw new NoSuchContextException(errorMessage, e);
