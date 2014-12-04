@@ -295,7 +295,7 @@ abstract class DecompositionUtil {
 		
 		IHowToGetHandle how = MethodReadingUtil.getDefinedParameter(method, IHowToGetHandle.class, args);
 		if (how == null){
-			HowToGetMobileScreen howGetMobileScreen = null;
+			HowToGetMobileScreen howToGetMobileScreen = null;
 			HowToGetPage howToGetPage = getHowToGetHandleStrategy(DefaultPageIndex.class,
 					ExpectedURL.class, ExpectedPageTitle.class, 
 					annotatedElement, HowToGetPage.class);
@@ -303,11 +303,12 @@ abstract class DecompositionUtil {
 			if (supportedDriver.isForBrowser()){
 				how = howToGetPage;
 			}else{
-				howGetMobileScreen = getHowToGetHandleStrategy(DefaultContextIndex.class,
+				howToGetMobileScreen = getHowToGetHandleStrategy(DefaultContextIndex.class,
 						ExpectedAndroidActivity.class, ExpectedContext.class, 
 						annotatedElement, HowToGetMobileScreen.class);
-				howGetMobileScreen.defineHowToGetPageStrategy(howToGetPage);
-				how = howGetMobileScreen;
+				if (howToGetMobileScreen != null)
+					howToGetMobileScreen.defineHowToGetPageStrategy(howToGetPage);
+				how = howToGetMobileScreen;
 			}
 		}
 		
