@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * <p>
  * <code>
  * <p>
- * <p>@IfBrowserDefaultPageIndex(index = 0) //is always on the first browser window
+ * <p>@DefaultPageIndex(index = 0) //is always on the first browser window
  * <p>public class ...
  * </code>
  * <p>
@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  * <p>
  * <code>
  * <p>
- * <p>@IfBrowserDefaultPageIndex(index = 1) //is always on the second browser window
+ * <p>@DefaultPageIndex(index = 1) //is always on the second browser window
  * <p>public class ...
  * </code>
  * 

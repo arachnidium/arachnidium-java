@@ -18,15 +18,15 @@ import java.lang.annotation.Target;
  * If there is only one activity 
  * <p>
  * <code>
- * <p>@IfMobileAndroidActivity(regExp = "WebViewActivity")
+ * <p>@ExpectedAndroidActivity(regExp = "WebViewActivity")
  * <p>public class ...
  * </code> 
  * 
  * If UI is the same but it is possible more than one activity
  * <p>
  * <code>
- * <p>@IfMobileAndroidActivity(regExp = "WebViewActivity") 
- * <p>@IfMobileAndroidActivity(regExp = "SomeOneActivity")
+ * <p>@ExpectedAndroidActivity(regExp = "WebViewActivity") 
+ * <p>@ExpectedAndroidActivity(regExp = "SomeOneActivity")
  * <p>public class ...
  * </code> 
  * Each activity can be specified by regular expression.

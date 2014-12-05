@@ -23,7 +23,7 @@ import org.openqa.selenium.ContextAware;
  * 
  * <p>
  * <code>
- * <p>@IfMobileContext(regExp = "WEBVIEW_")
+ * <p>@ExpectedContext(regExp = "WEBVIEW_")
  * <p>public class ...
  * </code> 
  * 

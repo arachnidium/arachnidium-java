@@ -16,15 +16,15 @@ import java.lang.annotation.Target;
  * by the set of possible URLs. If there is only one URL 
  * <p>
  * <code>
- * <p>@IfBrowserURL(@IfBrowserURL(regExp = "https://accounts.google.com/ServiceLogin")) 
+ * <p>@ExpectedURL(regExp = "https://accounts.google.com/ServiceLogin")
  * <p>public class ...
  * </code> 
  * 
  * If UI is the same but it is possible more than one URL
  * <p>
  * <code>
- * <p>@IfBrowserURL(regExp = "docs.google.com/document/") 
- * <p>@IfBrowserURL(regExp = "docs.google.com/spreadsheets/") 
+ * <p>@ExpectedURL(regExp = "docs.google.com/document/") 
+ * <p>@ExpectedURL(regExp = "docs.google.com/spreadsheets/") 
  * <p>public class ...
  * </code> 
  * Each URL can be specified by regular expression.

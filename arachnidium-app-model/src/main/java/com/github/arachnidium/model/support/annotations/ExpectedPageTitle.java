@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * 
  * <p>
  * <code>
- * <p>@IfBrowserPageTitle(regExp = "^*[?[Hello]\\?[world]]") //we need the page with 
+ * <p>@ExpectedPageTitle(regExp = "^*[?[Hello]\\?[world]]") //we need the page with 
  * <p>//title that contains "Hello world"
  * <p>public class ...
  * </code> 

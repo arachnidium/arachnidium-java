@@ -22,7 +22,7 @@ import org.openqa.selenium.ContextAware;
  * <p>
  * <code>
  * <p>
- * <p>@IfMobileDefaultContextIndex(index = 0) //is always the first context
+ * <p>@DefaultContextIndex(index = 0) //is always the first context
  * <p>public class ...
  * </code>
  * <p>
@@ -30,7 +30,7 @@ import org.openqa.selenium.ContextAware;
  * <p>
  * <code>
  * <p>
- * <p>@IfMobileDefaultContextIndex(index = 1) //is always the second context
+ * <p>@DefaultContextIndex(index = 1) //is always the second context
  * <p>public class ...
  * </code>
  * 
