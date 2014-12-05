@@ -129,7 +129,7 @@ public class AndroidTestExamples {
 			selendroidTestApp.getPart(Webview.class).to("https://www.google.com");
 			selendroidTestApp.getPart(GoogleInsideWebView.class).performSearch("Hello world Wikipedia");
 			selendroidTestApp.getPart(LinksAreFoundInsideWebViewByGoogle.class).clickOnLinkByIndex(1);
-			selendroidTestApp.getPart(WikiPageInsideWebView.class);
+			selendroidTestApp.getPart(WikiPageInsideWebView.class).switchToMe();
 		} finally {
 			selendroidTestApp.quit();
 		}
