@@ -4,9 +4,12 @@ import com.github.arachnidium.core.BrowserWindow;
 
 public class SpreadSheet extends AnyDocument {
 
-	//TODO to be implemented
 	protected SpreadSheet(BrowserWindow window) {
 		super(window);
 	}
+	
+	//Specific actions which perform the interaction with the table editor and cells 
+	//could be implemented here
+	//.......
 
 }

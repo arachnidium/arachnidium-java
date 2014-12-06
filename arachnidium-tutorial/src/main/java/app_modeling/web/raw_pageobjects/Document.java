@@ -4,9 +4,11 @@ import com.github.arachnidium.core.BrowserWindow;
 
 public class Document extends AnyDocument {
 
-	//TODO to be implemented
 	protected Document(BrowserWindow window) {
 		super(window);
 	}
+	
+	//Specific actions which perform the interaction with the text editor could be implemented here
+	//.......
 
 }
