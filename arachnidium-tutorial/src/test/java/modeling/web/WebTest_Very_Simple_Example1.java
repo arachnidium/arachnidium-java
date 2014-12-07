@@ -7,9 +7,9 @@ import org.junit.Test;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.tutorial.app_modeling.web.
-     annotated_pageobjects.aggregated_page_objects.GoogleDriveApp;  /**<== */
+    unannotated_pageobjects.aggregated_page_objects_with_annotated_fields.GoogleDriveApp;  /**<== */
 
-public class WebTest_Very_Simple_Example2 {
+public class WebTest_Very_Simple_Example1 {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
 	//please don't use this account. There is nothing interesting for you. 
 	private final String USER = "ArachnidiumTester"; //I have created it only for this test.

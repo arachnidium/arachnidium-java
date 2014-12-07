@@ -8,22 +8,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import app_modeling.web.unannotated_pageobjects.AccountOptions;
-import app_modeling.web.unannotated_pageobjects.Document;
-import app_modeling.web.unannotated_pageobjects.FilterListAndButton;
-import app_modeling.web.unannotated_pageobjects.GoogleDriveMainPage;
-import app_modeling.web.unannotated_pageobjects.GoogleSearchBar;
-import app_modeling.web.unannotated_pageobjects.ItemList;
-import app_modeling.web.unannotated_pageobjects.LoginToGoogleService;
-import app_modeling.web.unannotated_pageobjects.ShareSettingsDialog;
-import app_modeling.web.unannotated_pageobjects.SpreadSheet;
-
 import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 //import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.AccountOptions;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.Document;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.FilterListAndButton;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.GoogleDriveMainPage;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.GoogleSearchBar;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.ItemList;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.LoginToGoogleService;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.ShareSettingsDialog;
+import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.SpreadSheet;
 
 public class WebTest_GoogleDrive_ComplexButFlexible {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";

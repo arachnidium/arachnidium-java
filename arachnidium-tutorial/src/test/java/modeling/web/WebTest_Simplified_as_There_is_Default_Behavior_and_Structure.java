@@ -4,21 +4,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import app_modeling.web.annotated_pageobjects.AccountOptions;
-import app_modeling.web.annotated_pageobjects.Document;
-import app_modeling.web.annotated_pageobjects.FilterListAndButton;
-import app_modeling.web.annotated_pageobjects.GoogleDriveMainPage;
-import app_modeling.web.annotated_pageobjects.GoogleSearchBar;
-import app_modeling.web.annotated_pageobjects.ItemList;
-import app_modeling.web.annotated_pageobjects.LoginToGoogleService;
-import app_modeling.web.annotated_pageobjects.ShareSettingsDialog;
-import app_modeling.web.annotated_pageobjects.SpreadSheet;
-
 import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 //import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.AccountOptions;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.Document;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.FilterListAndButton;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.GoogleDriveMainPage;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.GoogleSearchBar;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.ItemList;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.LoginToGoogleService;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.ShareSettingsDialog;
+import com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.SpreadSheet;
 
 public class WebTest_Simplified_as_There_is_Default_Behavior_and_Structure {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
