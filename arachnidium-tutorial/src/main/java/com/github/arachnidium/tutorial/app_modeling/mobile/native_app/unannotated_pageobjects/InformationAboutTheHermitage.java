@@ -61,6 +61,9 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> {
 	@InteractiveMethod
 	public void back(){
 		back.click();
-	}		
+	}	
+	
+	/**Some more interesting things could be implemented below*/
+	/**.................................*/	
 
 }

@@ -43,5 +43,6 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 		return views.get(1).getText();
 	}
 	
-	
+	/**Some more interesting things could be implemented below*/
+	/**.................................*/	
 }

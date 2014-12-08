@@ -23,10 +23,17 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootElement
 /**
  * This class can be annotated by {@link ExpectedURL}, {@link ExpectedPageTitle}
  * or {@link DefaultPageIndex} if it would needs to check the interaction with
- * browser. So, lets imagine that these annotations are present here :)   
+ * browser. So, lets imagine that these annotations are present here :)
+ * 
+ * But... all these are ignored when we need to interact with native Android/iOS
+ * content. See below.   
  */
 @ExpectedContext(regExp = MobileContextNamePatterns.NATIVE) /**Here is the name of the expected mobile application context - 
 NATIVE_APP, name of WebView*/
+/**Declaration is applied to subclasses till they are annotated by @ExpectedContext with 
+another values. Also if the class is going to be instantiated by {@link Application#getPart(Class, com.github.arachnidium.core.fluenthandle.IHowToGetHandle)}
+(where IHowToGetHandle is a {@link HowToGetMobileScreen} instance) then 
+the values contained by given strategy will be used instead of declared by annotation*/
 /**
  * If {@link NativeContent} is extended then there is no need to annotate class 
  * by @ExpectedContext(regExp = MobileContextNamePatterns.NATIVE) because
@@ -35,18 +42,19 @@ NATIVE_APP, name of WebView*/
 @ExpectedAndroidActivity(regExp = "SomeActivity") /**<= Here are possible activities for this screen or its part.*/
 @ExpectedAndroidActivity(regExp = "AcSingleFragment_")/**Each one @ExpectedAndroidActivity declaration is one more possible activity
 of Android app. It is Android-only parameter which is ignored when here is iOS*/
+/**Declaration is applied to subclasses till they are annotated by @ExpectedAndroidActivity with 
+another values. Also if the class is going to be instantiated by {@link Application#getPart(Class, com.github.arachnidium.core.fluenthandle.IHowToGetHandle)}
+(where IHowToGetHandle is a {@link HowToGetMobileScreen} instance) then 
+the values contained by given strategy will be used instead of declared by annotations*/
+
 @DefaultContextIndex(index = 0) /**<= Sometimes it is useful to define the index of the context. For example, 
 it could be useful when here are few WEBVIEW's. This declaration is just example*/
-
 
 @RootElement(chain = {@FindBy(id = "someRootId")})   /**<--It is the demonstration of the ability
 to define the default root element for the whole page object. All declared elements will be found from this element 
 instead of WebDriver. We can define it as a chain of searches*/
 /**We can define it as a set of possible element
-chains. Declaration is applied to subclasses till they are annotated by @RootElement with 
-another values. Also if the class is going to be instantiated by {@link FunctionalPart#getPart(Class, By)}
-then the given By-strategy will be used instead of declared by annotations*/
-
+chains. */
 /**Lets imagine that there is the similar browser UI.*/
 
 @RootAndroidElement(chain = { /**It is possible to define the root element especially for Android and iOS*/
@@ -54,6 +62,9 @@ then the given By-strategy will be used instead of declared by annotations*/
 		@AndroidFindBy(id = "android:id/action_bar_overlay_layout")
 		}/**<==  It will be used by Android and will be active right now!!!*/
 )
+/**Declaration is applied to subclasses till they are annotated by @RootElement/@RootAndroidElement/@RootIOSElement 
+ * with another values. Also if the class is going to be instantiated by {@link FunctionalPart#getPart(Class, By)} or
+ * {@link Application#getPart(Class, By)} then the given By-strategy will be used instead of declared by annotations*/
 @SuppressWarnings("unused")
 public class InformationAboutTheHermitage extends FunctionalPart<Handle> { /** <==
 	 * Below is an available option if we want the interaction with
@@ -106,5 +117,6 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> { /** <
 	public void back(){
 		back.click();
 	}		
-
+	/**Some more interesting things could be implemented below*/
+	/**.................................*/
 }

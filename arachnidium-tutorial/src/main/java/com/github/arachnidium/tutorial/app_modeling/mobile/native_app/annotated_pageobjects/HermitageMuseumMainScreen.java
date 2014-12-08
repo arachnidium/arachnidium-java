@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 
+/**Let it be without annotations*/
 public class HermitageMuseumMainScreen extends FunctionalPart<Handle> {
 	/**
 	 * Below is an available option if we want the interaction with
