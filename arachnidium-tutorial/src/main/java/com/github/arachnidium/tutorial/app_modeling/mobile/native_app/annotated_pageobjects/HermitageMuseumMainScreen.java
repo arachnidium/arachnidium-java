@@ -56,7 +56,11 @@ public class HermitageMuseumMainScreen extends FunctionalPart<Handle> {
 	 *  
 	 */	
 	
-	@InteractiveMethod
+	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
+	some interaction. By default the presence of it means that Webdriver should be focused
+	on the window/context and switched to the required frame if currently this content is 
+	placed inside iframe. All this will have been done before the annotated method
+	will be invoked*/
 	public void clickHistory(){
 		history.click();
 	}

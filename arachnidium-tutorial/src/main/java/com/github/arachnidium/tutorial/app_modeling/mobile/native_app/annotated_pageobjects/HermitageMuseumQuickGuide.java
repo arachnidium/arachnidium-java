@@ -17,8 +17,14 @@ public class HermitageMuseumQuickGuide extends NativeContent {
 		super(context);
 	}
 	
-	@InteractiveMethod
-	@WithImplicitlyWait(timeOut = 60, timeUnit = TimeUnit.SECONDS)
+	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
+	some interaction. By default the presence of it means that Webdriver should be focused
+	on the window/context and switched to the required frame if currently this content is 
+	placed inside iframe. All this will have been done before the annotated method
+	will be invoked*/
+	@WithImplicitlyWait(timeOut = 60, 
+	timeUnit = TimeUnit.SECONDS)  /**The presence of @InteractiveMethod activates 
+	some useful options like this*/
 	public void close(){
 		close.click();
 	}

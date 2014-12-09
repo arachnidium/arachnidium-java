@@ -17,7 +17,11 @@ public class UICatalog extends iOSNativeContent {
 		super(context);
 	}
 	
-	@InteractiveMethod
+	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
+	some interaction. By default the presence of it means that Webdriver should be focused
+	on the window/context and switched to the required frame if currently this content is 
+	placed inside iframe. All this will have been done before the annotated method
+	will be invoked*/
 	public void selectItem(String item){
 		TouchAction touchAction = new TouchAction((MobileDriver) getWrappedDriver());
 		scrollTo(item);

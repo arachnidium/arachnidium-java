@@ -17,7 +17,7 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 	private RemoteWebElement entry_ticket_label;
 	
 	@FindBy(id = "some_element_id")
-	@AndroidFindBy(accessibility = "Ticket for non-profit photography and video  filming") 
+	@AndroidFindBy(accessibility = "Ticket for non-profit photography and videoï¿½ filming") 
 	private RemoteWebElement ticket_for_non_profit_photography_and_video_filming;
 	
 	
@@ -30,7 +30,11 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 		return entry_ticket_label.isDisplayed();
 	}
 	
-	@InteractiveMethod
+	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
+	some interaction. By default the presence of it means that Webdriver should be focused
+	on the window/context and switched to the required frame if currently this content is 
+	placed inside iframe. All this will have been done before the annotated method
+	will be invoked*/
 	public boolean isTicketForNonProfitPhotographyAndVideoFilmingVisible(){
 		return ticket_for_non_profit_photography_and_video_filming.isDisplayed();
 	}
