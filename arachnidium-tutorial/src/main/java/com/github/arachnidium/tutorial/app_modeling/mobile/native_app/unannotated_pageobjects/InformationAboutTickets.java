@@ -1,9 +1,6 @@
 package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotated_pageobjects;
 
-import java.util.List;
-
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AndroidFindBys;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -20,13 +17,8 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 	private RemoteWebElement entry_ticket_label;
 	
 	@FindBy(id = "some_element_id")
-	@AndroidFindBys({
-		@AndroidFindBy(className = "android.widget.GridView"),
-		@AndroidFindBy(className = "android.view.View"),
-		@AndroidFindBy(className = "android.view.View"),
-		@AndroidFindBy(className = "android.view.View")
-		})
-	private List<RemoteWebElement> views;
+	@AndroidFindBy(accessibility = "Ticket for non-profit photography and video  filming") 
+	private RemoteWebElement ticket_for_non_profit_photography_and_video_filming;
 	
 	
 	protected InformationAboutTickets(Handle handle, By by) {
@@ -39,8 +31,8 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 	}
 	
 	@InteractiveMethod
-	public String getEntryPrice(){
-		return views.get(1).getText();
+	public boolean isTicketForNonProfitPhotographyAndVideoFilmingVisible(){
+		return ticket_for_non_profit_photography_and_video_filming.isDisplayed();
 	}
 	
 	/**Some more interesting things could be implemented below*/

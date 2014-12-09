@@ -1,6 +1,7 @@
 package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotated_pageobjects;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
@@ -27,11 +28,13 @@ public class TheHistoryOfTheHermitage extends InformationAboutTheHermitage{
 	}
 	
 	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = 40, timeUnit = TimeUnit.SECONDS)
 	public int getPictiresCount(){
 		return pictures.size();
 	}
 	
 	@InteractiveMethod
+	@WithImplicitlyWait(timeOut = 40, timeUnit = TimeUnit.SECONDS)
 	public int getParagraphCount(){
 		return paragraphs.size();
 	}
