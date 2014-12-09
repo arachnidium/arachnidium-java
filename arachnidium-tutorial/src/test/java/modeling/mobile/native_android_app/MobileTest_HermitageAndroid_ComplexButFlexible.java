@@ -108,7 +108,7 @@ public class MobileTest_HermitageAndroid_ComplexButFlexible {
 		Assert.assertEquals(true, informationAboutTickets.isTicketForNonProfitPhotographyAndVideoFilmingVisible());
 		
 		/**Ok! And then we get back to the general screen*/
-		theHistoryOfTheHermitage.back();		
+		informationAboutTickets.back();		
 	}
 
 }

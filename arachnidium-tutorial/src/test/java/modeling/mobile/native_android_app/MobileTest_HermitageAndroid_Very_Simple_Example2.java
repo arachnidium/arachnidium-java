@@ -12,23 +12,13 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
-import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.model.mobile.MobileFactory;
-import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
-		annotated_pageobjects.HermitageMuseumQuickGuide; /**<==*/
-import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
-		annotated_pageobjects.HermitageMuseumMainScreen; /**<==*/
-import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
-		annotated_pageobjects.TheHistoryOfTheHermitage;  /**<==*/
-import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
-		annotated_pageobjects.InformationAboutTickets; /**<==*/
+import com.github.arachnidium.tutorial.app_modeling.mobile.native_app. /**<==!!!*/
+		annotated_pageobjects.aggregated_page_objects.Hermitage;
 
+public class MobileTest_HermitageAndroid_Very_Simple_Example2 {
 
-
-
-public class MobileTest_HermitageAndroid_Simplified_as_There_is_Default_Behavior_and_Structure {
-
-	private Application<?, ?> hermitage;
+	private Hermitage hermitage;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -48,12 +38,12 @@ public class MobileTest_HermitageAndroid_Simplified_as_There_is_Default_Behavior
 								"Android Emulator");
 					}
 				}, new URL("http://127.0.0.1:4723/wd/hub")). //URL of the remote host where Appium NodeJS server is launched
-				launch(Application.class 
+				launch(Hermitage.class 
 						//MobileApplication.class
 						//AndroidApp.class  are available here
 						); 
 			//When app is launched then we close the quick tab guide
-		    hermitage.getPart(HermitageMuseumQuickGuide.class).close();
+		    hermitage.hermitageMuseumQuickGuide.close();
 	}
 
 	@After
@@ -64,32 +54,27 @@ public class MobileTest_HermitageAndroid_Simplified_as_There_is_Default_Behavior
 	@Test
 	public void test() {
 		//here we want to see the history of the museum
-		HermitageMuseumMainScreen mainScreen = hermitage.getPart(HermitageMuseumMainScreen.class);
-		mainScreen.clickHistory();
-		
-		TheHistoryOfTheHermitage theHistoryOfTheHermitage = 
-				hermitage.getPart(TheHistoryOfTheHermitage.class);
+		hermitage.hermitageMuseumMainScreen.clickHistory();
+				
 		/**We should see that it is the history of the museum is shown*/
-		Assert.assertEquals("History", theHistoryOfTheHermitage.getTitle());
-		/**We look at pictures and read the text*/
-		Assert.assertNotEquals(0, theHistoryOfTheHermitage.getPictiresCount());
-		Assert.assertNotEquals(0, theHistoryOfTheHermitage.getParagraphCount());
+		Assert.assertEquals("History", hermitage.theHistoryOfTheHermitage.getTitle());
+	    /**We look at pictures and read the text*/
+		Assert.assertNotEquals(0, hermitage.theHistoryOfTheHermitage.getPictiresCount());
+		Assert.assertNotEquals(0, hermitage.theHistoryOfTheHermitage.getParagraphCount());
 		/**Ok! And then we get back to the general screen*/
-		theHistoryOfTheHermitage.back();
+		hermitage.theHistoryOfTheHermitage.back();
+				
+		/**And now we want to see the price of entry ticket*/
+		hermitage.hermitageMuseumMainScreen.clickTickets();
 		
 		/**And now we want to see the price of entry ticket*/
-		mainScreen.clickTickets();
-		
-		/**And now we want to see the price of entry ticket*/
-		InformationAboutTickets informationAboutTickets = 
-				hermitage.getPart(InformationAboutTickets.class); 
 		/**We should see that the entry price is here*/
-		Assert.assertEquals(true, informationAboutTickets.isEntryTicketLabelVisible());
-		Assert.assertEquals(true, informationAboutTickets.
-				isTicketForNonProfitPhotographyAndVideoFilmingVisible());
-		
+		Assert.assertEquals(true, hermitage.informationAboutTickets.isEntryTicketLabelVisible());
+		Assert.assertEquals(true, hermitage.informationAboutTickets.
+						isTicketForNonProfitPhotographyAndVideoFilmingVisible());
+				
 		/**Ok! And then we get back to the general screen*/
-		informationAboutTickets.back();		
+		hermitage.theHistoryOfTheHermitage.back();		
 	}
 
 }
