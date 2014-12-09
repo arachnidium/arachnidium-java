@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 //import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.browser.WebFactory;
@@ -27,11 +26,10 @@ public class WebTest_Simplified_as_There_is_Default_Behavior_and_Structure {
 	//I will made a simple site which will be used by the similar test 
 		
 	
-	private Application<?, HowToGetPage> googleDrive;
+	private Application<?, ?> googleDrive;
 	//or googleDrive = new WebFactory(ESupportedDrivers.CHROME).launch(BrowserApplication.class);
 	private GoogleDriveMainPage googleDriveMainPage;
 	
-	@SuppressWarnings("unchecked")
 	@Before //performs the opening of the Drive Google
 	//and login to the account
 	public void setUp() throws Exception {
