@@ -18,6 +18,7 @@ import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.model.mobile.MobileFactory;
+//import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
 import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
 	   unannotated_pageobjects.HermitageMuseumMainScreen;  /**<==*/
 import com.github.arachnidium.tutorial.app_modeling.mobile.native_app.
@@ -74,7 +75,9 @@ public class MobileTest_HermitageAndroid_ComplexButFlexible {
 		//get by some conditions
 		HowToGetMobileScreen howToGet = new HowToGetMobileScreen();
 		howToGet.setExpected("NATIVE_APP"); /**<= here I set the required context name. It can be full name 
-		or defined by regular expression*/
+		or name defined by regular expression*/ 
+		//howToGet.setExpected(MobileContextNamePatterns.NATIVE);
+		
 		howToGet.setExpected(0);  /**<= here I set the required context index. Here it is just example*/
 		List<String> activities = new ArrayList<String>(){
 			private static final long serialVersionUID = 1L;
