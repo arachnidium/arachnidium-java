@@ -16,6 +16,19 @@ import com.github.arachnidium.model.common.FunctionalPart;
  *
  */
 public class AppleCom extends FunctionalPart<Handle> {
+	
+	/**
+	 * Below is an available option if we want the interaction with
+	 * only web view of mobile client
+	 * 
+	 *  ...
+	 *  import com.github.arachnidium.model.mobile.WebViewContent;
+	 *  ....
+	 * 
+	 *  public class AppleCom extends WebViewContent{
+	 *  ...
+	 *  
+	 */	
 
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
@@ -23,6 +36,21 @@ public class AppleCom extends FunctionalPart<Handle> {
 	protected AppleCom(Handle handle) {
 		super(handle);
 	}
+	
+	/**
+	 * Below is an available option if we want the interaction with
+	 * only web view of mobile client
+	 * 
+	 *  ...
+	 *  import com.github.arachnidium.model.mobile.WebViewContent;
+	 *  import com.github.arachnidium.core.MobileScreen;
+	 *  ....
+	 * 
+	 *	protected AppleCom(MobileScreen screen) {
+	 *		super(screen);
+	 *	}
+	 *  
+	 */		
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
 	some interaction. By default the presence of it means that Webdriver should be focused

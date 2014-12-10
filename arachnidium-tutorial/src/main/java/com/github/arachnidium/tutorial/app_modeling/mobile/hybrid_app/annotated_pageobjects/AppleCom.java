@@ -20,12 +20,38 @@ import com.github.arachnidium.model.support.annotations.MobileContextNamePattern
  * content of web view.
  *
  */
-@ExpectedURL(regExp = ".apple.com")
-@DefaultPageIndex(index = 0)
-@ExpectedPageTitle(regExp = "Apple")
+@ExpectedURL(regExp = ".apple.com") /**<== Possible URLs that should be loaded can be declared by annotations*/
+/**Each one @ExpectedURL means one more possible web address*/
+/**Declaration is applied to subclasses till they are annotated by @ExpectedURL with 
+another values. Also if the class is going to be instantiated by {@link Application#getPart(Class, com.github.arachnidium.core.fluenthandle.IHowToGetHandle)}
+then the values contained by given strategy will be used instead of declared by annotations*/
+@DefaultPageIndex(index = 0) /**<-Also it is possible to define the default expected window/tab index*/
+@ExpectedPageTitle(regExp = "Apple") /**and page title*/
 
-@ExpectedContext(regExp = MobileContextNamePatterns.WEBVIEW)
-public class AppleCom extends FunctionalPart<Handle> {
+@ExpectedContext(regExp = MobileContextNamePatterns.WEBVIEW) /**Here is the name of the expected mobile application context - 
+NATIVE_APP, name of WebView*/
+/**Declaration is applied to subclasses till they are annotated by @ExpectedContext with 
+another values. Also if the class is going to be instantiated by {@link Application#getPart(Class, com.github.arachnidium.core.fluenthandle.IHowToGetHandle)}
+(where IHowToGetHandle is a {@link HowToGetMobileScreen} instance) then 
+the values contained by given strategy will be used instead of declared by annotation*/
+/**
+ * If {@link WebViewContent} is extended then there is no need to annotate class 
+ * by @ExpectedContext(regExp = MobileContextNamePatterns.WEBVIEW) because
+ * {@link WebViewContent} is already annotated that. :)  
+ */
+public class AppleCom extends FunctionalPart<Handle> {	
+	/**
+	 * Below is an available option if we want the interaction with
+	 * only web view of mobile client
+	 * 
+	 *  ...
+	 *  import com.github.arachnidium.model.mobile.WebViewContent;
+	 *  ....
+	 * 
+	 *  public class AppleCom extends WebViewContent{
+	 *  ...
+	 *  
+	 */		
 
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
@@ -33,6 +59,21 @@ public class AppleCom extends FunctionalPart<Handle> {
 	protected AppleCom(Handle handle) {
 		super(handle);
 	}
+	
+	/**
+	 * Below is an available option if we want the interaction with
+	 * only web view of mobile client
+	 * 
+	 *  ...
+	 *  import com.github.arachnidium.model.mobile.WebViewContent;
+	 *  import com.github.arachnidium.core.MobileScreen;
+	 *  ....
+	 * 
+	 *	protected AppleCom(MobileScreen screen) {
+	 *		super(screen);
+	 *	}
+	 *  
+	 */		
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
 	some interaction. By default the presence of it means that Webdriver should be focused

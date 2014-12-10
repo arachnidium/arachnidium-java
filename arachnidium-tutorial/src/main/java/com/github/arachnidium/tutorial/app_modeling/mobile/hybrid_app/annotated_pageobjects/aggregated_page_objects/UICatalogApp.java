@@ -10,8 +10,11 @@ import com.github.arachnidium.tutorial.app_modeling.mobile.hybrid_app.
 
 public class UICatalogApp extends IOSApp {
 
-	@Static
-	public UICatalog uiCatalog;
+	@Static /**<== This annotation means that it is content which always/very frequently present
+	and frequently used*/
+	public UICatalog uiCatalog; /**It is not necessary to 
+	make fields public. You can make them private and implement public getter 
+	for each one. I made that just for visibility*/
 	
 	@Static
 	public AppleCom appleCom;
