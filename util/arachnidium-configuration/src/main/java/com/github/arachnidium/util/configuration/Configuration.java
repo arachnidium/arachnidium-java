@@ -97,6 +97,7 @@ public class Configuration {
 	public final static Configuration byDefault = get(getPathToDefault("."));
 
 	private static final String typeTag = "type";
+	private static final String requiredClassTag = "class";
 	private static final String valueTag = "value";
 
 	private final HashMap<String, HashMap<String, Object>> mappedSettings = new HashMap<String, HashMap<String, Object>>();
@@ -128,17 +129,24 @@ public class Configuration {
 						"Type specification that is not supported! Specification is "
 								+ String.valueOf(type)
 								+ ". "
-								+ " STRING, BOOL, LONG, FLOAT, INT are suppurted. Setting name is "
+								+ " STRING, BOOL, LONG, FLOAT, INT, ENUM are suppurted. Setting name is "
 								+ key, e);
 			}
-
+			
+			String className   =  (String) value.get(requiredClassTag);
 			Object returnValue = null;
 			String strValue = (String) value.get(valueTag);
 
-			if ("".equals(strValue))
+			if ("".equals(strValue) || strValue == null)
 				result.put(key, returnValue);
 			else
-				result.put(key, requiredType.getValue(String.valueOf(strValue)));
+				if ("".equals(className) || className == null) {
+					result.put(key, requiredType.getValue(String.valueOf(strValue)));
+				}else{
+					result.put(key, requiredType.getValue(String.valueOf(className), 
+							String.valueOf(strValue)));
+				}
+					
 		});
 		return result;
 	}

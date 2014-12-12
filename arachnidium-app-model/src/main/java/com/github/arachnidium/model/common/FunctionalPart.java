@@ -389,17 +389,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 		childPart.application = this.application;
 	}
 
-	/**
-	 * this method starts destruction of related information
-	 */
-	@Override
-	public void destroy() {
-		if (!handle.exists())
-			handle.destroy();
-		super.destroy();
-		return;
-	}
-
 	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] parameters) {
 		T result = DecompositionUtil.get(partClass,

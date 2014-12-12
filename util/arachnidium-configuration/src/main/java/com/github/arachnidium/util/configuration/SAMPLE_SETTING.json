@@ -124,5 +124,13 @@
           "type":"STRING",
           "value":"phantomjs.exe"           
       }       
-  }  
+  },
+  "someEnumExample":
+  {
+       "someEnumSetting":{
+          "type":"ENUM",
+          "class":"org.somepackage.SomeClassName",
+          "value":"SOMEENUMELEMENT"           
+      }   
+  }
 }
