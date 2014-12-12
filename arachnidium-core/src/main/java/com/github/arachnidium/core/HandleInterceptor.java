@@ -23,6 +23,10 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 			handle = manager.getRealHandle(timeOut, howToGetHandle);
 			return;
 		}
+		if (!handle.exists() && manager.isAlive()){
+			handle = manager.getRealHandle(timeOut, howToGetHandle);
+			return;
+		}
 	}
 	
 	@Override

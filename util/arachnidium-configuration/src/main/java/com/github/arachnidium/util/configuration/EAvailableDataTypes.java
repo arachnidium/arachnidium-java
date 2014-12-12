@@ -11,24 +11,67 @@ enum EAvailableDataTypes {
 	/**
 	 * java.lang.String
 	 */
-	STRING(String.class), 
+	STRING(String.class){
+		@Override
+		<T> T getValue(String ignored, String strValue) {
+			return getValue(strValue);
+		}
+	}, 
 	/**
 	 * java.lang.Boolean
 	 */
-	BOOL(Boolean.class), 
+	BOOL(Boolean.class){
+		@Override
+		<T> T getValue(String ignored, String strValue) {
+			return getValue(strValue);
+		}
+	}, 
 	/**
 	 * java.lang.Long
 	 */	
-	LONG(Long.class), 
+	LONG(Long.class){
+		@Override
+		<T> T getValue(String ignored, String strValue) {
+			return getValue(strValue);
+		}
+	}, 
 	/**
 	 * java.lang.Float
 	 */	
 	FLOAT(
-			Float.class), 
+			Float.class){
+		@Override
+		<T> T getValue(String ignored, String strValue) {
+			return getValue(strValue);
+		}
+	}, 
 	/**
 	* java.lang.Integer
 	*/			
-	INT(Integer.class);
+	INT(Integer.class){
+		@Override
+		<T> T getValue(String ignored, String strValue) {
+			return getValue(strValue);
+		}
+		
+	},
+	/**
+	 * Some {@link Enum}
+	 */
+	ENUM(Enum.class){
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		<T> T getValue(String classFullName, String strValue) {
+			Class<Enum> enumCls = null;
+			try {
+				enumCls = (Class<Enum>) Class.forName(classFullName);
+			} catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+			Enum<?> requiredEnumValue = Enum.valueOf((Class<Enum>) enumCls, strValue);
+			return (T) requiredEnumValue;
+		}
+		
+	};
 
 	private final Class<?> usingClass;
 
@@ -36,16 +79,19 @@ enum EAvailableDataTypes {
 		this.usingClass = usingClass;
 	}
 
-	Object getValue(String strValue) {
+	@SuppressWarnings("unchecked")
+	<T> T getValue(String strValue) {
 		Class<?>[] params = new Class<?>[] { String.class };
 		Object[] values = new Object[] { strValue };
 
 		try {
 			Constructor<?> suitableConstructor = usingClass
 					.getConstructor(params);
-			return suitableConstructor.newInstance(values);
+			return (T) suitableConstructor.newInstance(values);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	abstract <T> T getValue(String classFullName, String strValue);
 }
