@@ -53,7 +53,7 @@ public class GoogleDriveMainPage extends BrowserPage {/**<-- it is the example w
 	
 	@Static
 	@RootElement(chain = {@FindBy(id = "someIdForAnotherService_or_Component")})
-	@RootElement(chain = {@FindBy(xpath = ".//*[@class='gb_ia gb_D']")}) 
+	@RootElement(chain = {@FindBy(xpath = ".//*[@class='gb_ka gb_F']")}) 
 	public AccountOptions<?> accountOptions;
 	
 	@Static
