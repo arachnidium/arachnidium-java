@@ -18,5 +18,16 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RootAndroidElement {
+	/**
+	 * It is the chain of the searchings for the target element
+	 * @return the chain of the searchings for the target element as the {@link AndroidFindBy} array
+	 */
 	AndroidFindBy[] chain();
+	/**
+	 * It is the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootAndroidElement#chain()}
+	 * @return  the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootAndroidElement#chain()}
+	 */
+	int index() default 0;
 }
