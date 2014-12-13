@@ -15,6 +15,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import com.github.arachnidium.model.support.ByNumbered;
+import com.github.arachnidium.model.support.annotations.ClassDeclarationReader;
+
 public class ElementReaderForMobilePlatforms implements IRootElementReader {
 	private static final String UI_AUTOMATOR = "uiAutomator";
 	private static final String ACCESSIBILITY = "accessibility";
@@ -80,7 +83,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		throw new IllegalArgumentException("No one known locator strategy was defined!");
 	}
 	
-	private static ByChained getPossibleChain(Annotation annotation, Class<? extends WebDriver> driverClass){
+	private static By getPossibleChain(Annotation annotation, Class<? extends WebDriver> driverClass){
 		List<By> result = new ArrayList<>();		
 		Annotation[] bies = getValueFromAnnotation(annotation, CHAIN);
 		
@@ -88,7 +91,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 			By by = getBy(chainElement, driverClass);
 			result.add(by);
 		}
-		return new ByChained(result.toArray(new By[]{}));
+		return new ByNumbered(new ByChained(result.toArray(new By[]{})), new ClassDeclarationReader().getIndex(annotation));
 	}	
 
 	@Override

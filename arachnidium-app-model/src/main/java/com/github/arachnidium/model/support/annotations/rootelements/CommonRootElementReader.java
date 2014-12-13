@@ -12,6 +12,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import com.github.arachnidium.model.support.ByNumbered;
+
 public class CommonRootElementReader implements IRootElementReader {
 
 	private static By getBy(FindBy findBy) {
@@ -75,7 +77,7 @@ public class CommonRootElementReader implements IRootElementReader {
 	    }	
 	}
 	
-	private static ByChained getPossibleChain(RootElement rootElement){
+	private static By getPossibleChain(RootElement rootElement){
 		List<By> result = new ArrayList<>();		
 		FindBy[] findBies = rootElement.chain();
 		
@@ -88,7 +90,7 @@ public class CommonRootElementReader implements IRootElementReader {
 			}
 			result.add(getBy(findBy.how(), findBy.using()));
 		}
-		return new ByChained(result.toArray(new By[]{}));
+		return new ByNumbered(new ByChained(result.toArray(new By[]{})), rootElement.index());
 	}
 
 	@Override
