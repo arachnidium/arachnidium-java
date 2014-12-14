@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 //
 // Object oriented programming is appreciated. So we can to define
@@ -55,8 +56,8 @@ public abstract class HasSearchField<S extends Handle> extends FunctionalPart<S>
 	 *{@link Videos}
 	 *{@link User}
 	 */		
-	protected HasSearchField(FunctionalPart<?> parent) {
-		super(parent);
+	protected HasSearchField(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
 	@InteractiveMethod

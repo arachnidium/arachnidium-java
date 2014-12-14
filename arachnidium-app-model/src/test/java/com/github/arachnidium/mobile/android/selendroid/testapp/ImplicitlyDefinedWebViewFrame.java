@@ -1,5 +1,6 @@
 package com.github.arachnidium.mobile.android.selendroid.testapp;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -19,8 +20,8 @@ public class ImplicitlyDefinedWebViewFrame extends WebViewContent {
 	@FindBy(xpath = ".//*[@href='/foo']")
 	private WebElement fooLink;
 
-	public ImplicitlyDefinedWebViewFrame(MobileScreen screen, HowToGetByFrames howTo) {
-		super(screen, howTo);
+	public ImplicitlyDefinedWebViewFrame(MobileScreen screen, HowToGetByFrames howTo, By by) {
+		super(screen, howTo, by);
 	}
 	
 	@InteractiveMethod

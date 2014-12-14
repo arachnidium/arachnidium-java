@@ -1,5 +1,6 @@
 package com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -36,18 +37,15 @@ public class ShareSettingsDialog extends FunctionalPart<Handle> { /** <==
 	/**
 	 * If you want to represent some page object as a 
 	 * "child" component of any page/screen then your implementation 
-	 * should have constructors like these
+	 * should have constructor like this:
 	 * 
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart)}
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, By)}
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, com.github.arachnidium.model.support.HowToGetByFrames)}
 	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, com.github.arachnidium.model.support.HowToGetByFrames, By)}
 	 * 
 	 * As you can see the class should have (one of) constructors which instantiate it
 	 *  class as a child of more generalized parent
 	 */
-	public ShareSettingsDialog(FunctionalPart<?> parent, HowToGetByFrames path) {
-		super(parent, path);
+	public ShareSettingsDialog(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

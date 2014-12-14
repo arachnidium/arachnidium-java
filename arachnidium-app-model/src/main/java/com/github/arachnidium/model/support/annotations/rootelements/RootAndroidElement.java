@@ -29,5 +29,5 @@ public @interface RootAndroidElement {
 	 * @return  the index of the desired element if there few elements are found by the 
 	 * given locator chain. This chain is defined by {@link RootAndroidElement#chain()}
 	 */
-	int index() default 0;
+	int index() default -1;
 }

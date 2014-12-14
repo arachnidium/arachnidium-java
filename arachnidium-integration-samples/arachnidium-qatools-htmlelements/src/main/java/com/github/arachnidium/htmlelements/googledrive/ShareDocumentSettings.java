@@ -5,6 +5,7 @@ import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.Frame;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -25,17 +26,16 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(className = "simple-sharing-manage-permissions-link")
 	private Button managePermissions;
 	
-	protected ShareDocumentSettings(FunctionalPart<S> parent,
-			HowToGetByFrames path) {
-		super(parent, path);
+	protected ShareDocumentSettings(FunctionalPart<S> parent, 
+			HowToGetByFrames path, By by) {
+		super(parent, path, by);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
 						getWrappedDriver());
 	}
 	
-	protected ShareDocumentSettings(S handle,
-			HowToGetByFrames path) {
-		super(handle, path);
+	protected ShareDocumentSettings(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
 								getWrappedDriver());

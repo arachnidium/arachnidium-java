@@ -1,5 +1,6 @@
 package com.github.arachnidium.thucydides.pageobjects.googledrive;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -22,14 +23,12 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(className = "simple-sharing-manage-permissions-link")
 	private WebElement managePermissions;
 	
-	protected ShareDocumentSettings(FunctionalPart<S> parent,
-			HowToGetByFrames path) {
-		super(parent, path);
+	protected ShareDocumentSettings(FunctionalPart<S> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
-	protected ShareDocumentSettings(S handle,
-			HowToGetByFrames path) {
-		super(handle, path);
+	protected ShareDocumentSettings(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}	
 	
 	@InteractiveMethod

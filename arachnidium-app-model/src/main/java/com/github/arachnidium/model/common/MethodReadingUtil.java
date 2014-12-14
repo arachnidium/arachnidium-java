@@ -1,11 +1,9 @@
 package com.github.arachnidium.model.common;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,25 +26,6 @@ abstract class MethodReadingUtil {
 
 	private MethodReadingUtil(){
 		super();
-	}
-
-	static Class<?>[] getParameterClasses(Object[] paramerers,
-			Class<?> requiredClass) {
-	
-		Class<?>[] givenParameters = new Class<?>[paramerers.length];
-		for (int i = 0; i < paramerers.length; i++) {
-			givenParameters[i] = paramerers[i].getClass();
-		}	
-		Constructor<?>[] declaredConstructors = requiredClass
-				.getDeclaredConstructors();
-		Class<?>[] result = getSuitableParameterClasses(declaredConstructors, paramerers);
-		if (result != null){
-			return result;
-		}
-		throw new RuntimeException(new NoSuchMethodException(
-				"There is no suitable constructor! Given parameters: "
-						+ Arrays.asList(givenParameters).toString() + ". "
-						+ "Class is " + requiredClass.getName()));
 	}
 
 	private static Class<?>[] getSuitableParameterClasses(

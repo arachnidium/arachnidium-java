@@ -2,12 +2,14 @@ package com.github.arachnidium.tutorial.simple.mobile_and_web;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class User<S extends Handle> extends FunctionalPart<S> {
    
@@ -19,8 +21,8 @@ public class User<S extends Handle> extends FunctionalPart<S> {
 	@AndroidFindBy(uiAutomator="new UiSelector().text(\"Videos\")")
 	private WebElement videos;
 	
-	protected User(S handle) {
-		super(handle);
+	protected User(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 	
 	@InteractiveMethod

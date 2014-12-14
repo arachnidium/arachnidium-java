@@ -84,10 +84,7 @@ public class MobileTest_HermitageAndroid_Simplified_as_There_is_Default_Behavior
 		InformationAboutTickets informationAboutTickets = 
 				hermitage.getPart(InformationAboutTickets.class); 
 		/**We should see that the entry price is here*/
-		Assert.assertEquals(true, informationAboutTickets.isEntryTicketLabelVisible());
-		Assert.assertEquals(true, informationAboutTickets.
-				isTicketForNonProfitPhotographyAndVideoFilmingVisible());
-		
+		Assert.assertEquals(true, informationAboutTickets.isEntryTicketLabelVisible());		
 		/**Ok! And then we get back to the general screen*/
 		informationAboutTickets.back();		
 	}

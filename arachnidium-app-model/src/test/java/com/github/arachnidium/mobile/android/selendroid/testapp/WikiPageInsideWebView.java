@@ -1,7 +1,10 @@
 package com.github.arachnidium.mobile.android.selendroid.testapp;
 
+import org.openqa.selenium.By;
+
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -13,8 +16,8 @@ import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 public class WikiPageInsideWebView extends WebViewContent {
 
-	public WikiPageInsideWebView(MobileScreen context) {
-		super(context);
+	public WikiPageInsideWebView(MobileScreen context, HowToGetByFrames path, By by) {
+		super(context, path, by);
 	}
 
 }

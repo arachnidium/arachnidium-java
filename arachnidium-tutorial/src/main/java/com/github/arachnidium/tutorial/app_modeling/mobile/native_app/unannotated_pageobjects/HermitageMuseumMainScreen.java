@@ -2,11 +2,13 @@ package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotat
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class HermitageMuseumMainScreen extends FunctionalPart<Handle> {
 	/**
@@ -36,8 +38,8 @@ public class HermitageMuseumMainScreen extends FunctionalPart<Handle> {
 	@AndroidFindBy(id = "org.hermitagemuseum:id/frg_museum_item_direction")
 	private RemoteWebElement direction;
 
-	protected HermitageMuseumMainScreen(Handle handle) {
-		super(handle);
+	protected HermitageMuseumMainScreen(Handle handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 	
 	/**
@@ -49,7 +51,7 @@ public class HermitageMuseumMainScreen extends FunctionalPart<Handle> {
 	 *  import com.github.arachnidium.core.MobileScreen;
 	 *  ....
 	 * 
-	 *	protected HermitagemuseumMain(MobileScreen screen) {
+	 *	protected HermitagemuseumMain(MobileScreen screen, HowToGetByFrames ignored, By by) {
 	 *		super(screen);
 	 *	}
 	 *  

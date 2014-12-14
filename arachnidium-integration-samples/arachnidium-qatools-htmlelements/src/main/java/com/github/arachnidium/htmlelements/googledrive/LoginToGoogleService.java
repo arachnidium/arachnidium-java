@@ -2,9 +2,11 @@ package com.github.arachnidium.htmlelements.googledrive;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.qatools.htmlelements.element.Button;
@@ -30,8 +32,8 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(name="signIn")
 	private Button singIn;
 	
-	protected LoginToGoogleService(T handle) {
-		super(handle);
+	protected LoginToGoogleService(T handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
 						getWrappedDriver());

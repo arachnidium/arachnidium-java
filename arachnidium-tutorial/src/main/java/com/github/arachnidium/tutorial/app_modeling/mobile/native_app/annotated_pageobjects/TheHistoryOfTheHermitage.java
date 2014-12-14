@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class TheHistoryOfTheHermitage extends InformationAboutTheHermitage{
 	
@@ -23,8 +24,8 @@ public class TheHistoryOfTheHermitage extends InformationAboutTheHermitage{
 	@AndroidFindBy(className = "android.view.View")
 	private List<RemoteWebElement> paragraphs;
 
-	protected TheHistoryOfTheHermitage(Handle handle, By by) {
-		super(handle, by);
+	protected TheHistoryOfTheHermitage(Handle handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

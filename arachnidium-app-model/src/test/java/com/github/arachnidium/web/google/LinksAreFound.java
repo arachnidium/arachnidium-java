@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @RootElement(chain = {@FindBy(id = "test_id"),@FindBy(id = "test_id")})
@@ -19,8 +20,8 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> links;
 	
-	protected LinksAreFound(T handle, By by) {
-		super(handle, by);
+	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 
 	@InteractiveMethod

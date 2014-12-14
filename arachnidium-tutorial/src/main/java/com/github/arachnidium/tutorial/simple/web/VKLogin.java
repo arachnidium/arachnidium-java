@@ -1,11 +1,13 @@
 package com.github.arachnidium.tutorial.simple.web;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 //
  // com.github.arachnidium.model.common.FunctionalPart is the basic class which subclasses help to describe interaction
@@ -74,8 +76,8 @@ public class VKLogin<S extends Handle> extends FunctionalPart<S> {
 	 //
 	 //Special things will be described in another
 	 // chapters.
-	protected VKLogin(S handle) {
-		super(handle);
+	protected VKLogin(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 		load(); //this method instantiates values of 
 		//WebElement and List<WebElement> (RemoteWebElement and List<RemoteWebElement> are possible) fields marked by 
 		//@FindBy, @FindBys, @FindAll

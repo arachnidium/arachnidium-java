@@ -13,10 +13,11 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 
 @RootAndroidElement(chain = {
-		@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/personalisationListView\")")
+		@AndroidFindBy(id = "android:id/content")
 		})
 public class TopicList<T extends Handle> extends FunctionalPart<T> {
 	@CacheLookup
@@ -33,8 +34,8 @@ public class TopicList<T extends Handle> extends FunctionalPart<T> {
 	
 	
 	
-	protected TopicList(FunctionalPart<?> parent, By by) {
-		super(parent);
+	protected TopicList(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
 	@InteractiveMethod

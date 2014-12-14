@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @RootElement(chain = {@FindBy(id = "someIdForAnotherService_or_Component")}) /**<--It is the demonstration of the ability
@@ -33,18 +34,15 @@ public class GoogleSearchBar extends FunctionalPart<Handle> {/** <==
 	/**
 	 * If you want to represent some page object as a 
 	 * "child" component of any page/screen then your implementation 
-	 * should have constructors like these
+	 * should have constructor like this:
 	 * 
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart)}
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, By)}
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, com.github.arachnidium.model.support.HowToGetByFrames)}
 	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, com.github.arachnidium.model.support.HowToGetByFrames, By)}
 	 * 
 	 * As you can see the class should have (one of) constructors which instantiate it
 	 *  class as a child of more generalized parent
 	 */
-	protected GoogleSearchBar(FunctionalPart<?> parent, By by) {
-		super(parent, by);
+	protected GoogleSearchBar(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

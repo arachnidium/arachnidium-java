@@ -7,9 +7,11 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 
+
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.NativeContent;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultContextIndex;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
@@ -89,8 +91,8 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> { /** <
 	@AndroidFindBy(id = "android:id/up")
 	private RemoteWebElement back;
 
-	protected InformationAboutTheHermitage(Handle handle, By by) {
-		super(handle, by);
+	protected InformationAboutTheHermitage(Handle handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 	
 	/**
@@ -102,7 +104,7 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> { /** <
 	 *  import com.github.arachnidium.core.MobileScreen;
 	 *  ....
 	 * 
-	 *	protected InformationAboutTheHermitage(MobileScreen screen, By by) {
+	 *	protected InformationAboutTheHermitage(MobileScreen screen, HowToGetByFrames ignored, By by) {
 	 *		super(screen, by);
 	 *	}
 	 *  

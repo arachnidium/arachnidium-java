@@ -32,5 +32,5 @@ public @interface RootElement {
 	 * @return  the index of the desired element if there few elements are found by the 
 	 * given locator chain. This chain is defined by {@link RootElement#chain()}
 	 */
-	int index() default 0;
+	int index() default -1;
 }

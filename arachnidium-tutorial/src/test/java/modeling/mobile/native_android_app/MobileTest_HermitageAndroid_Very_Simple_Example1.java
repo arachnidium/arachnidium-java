@@ -70,9 +70,6 @@ public class MobileTest_HermitageAndroid_Very_Simple_Example1 {
 		/**And now we want to see the price of entry ticket*/
 		/**We should see that the entry price is here*/
 		Assert.assertEquals(true, hermitage.informationAboutTickets.isEntryTicketLabelVisible());
-		Assert.assertEquals(true, hermitage.informationAboutTickets.
-						isTicketForNonProfitPhotographyAndVideoFilmingVisible());
-				
 		/**Ok! And then we get back to the general screen*/
 		hermitage.theHistoryOfTheHermitage.back();		
 	}

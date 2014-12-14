@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class SearchBar<T extends Handle> extends FunctionalPart<T> implements IPerformsSearch{
 	@FindBy(name = "q")
@@ -13,8 +14,8 @@ public class SearchBar<T extends Handle> extends FunctionalPart<T> implements IP
 	@FindBy(name="btnG")
 	private WebElement searchButton;
 	
-	protected SearchBar(T handle, By by) {
-		super(handle, by);
+	protected SearchBar(T handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 
 	@InteractiveMethod

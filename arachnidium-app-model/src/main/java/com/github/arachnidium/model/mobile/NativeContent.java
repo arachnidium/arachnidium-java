@@ -16,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.mobile.NativeTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
@@ -33,32 +32,19 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
 	 */	
-	protected NativeContent(NativeContent parent) {
-		this(parent, (By) null);
+	protected NativeContent(NativeContent parent, @Deprecated HowToGetByFrames ignored, By by) {
+		super(parent, null, by);
+		touchActions = getComponent(NativeTouchActions.class);
 	}
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 */
-	protected NativeContent(MobileScreen context) {
-		this(context, (By) null);
+	protected NativeContent(MobileScreen context, @Deprecated HowToGetByFrames ignored, By by) {
+		super(context, null, by);
+		touchActions = getComponent(NativeTouchActions.class);
 	}
 	
-	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart, By)
-	 */	
-	protected NativeContent(NativeContent parent, By by) {
-		super(parent, by);
-		touchActions = getComponent(NativeTouchActions.class);
-	}
-
-	/**
-	 * @see FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, By)
-	 */
-	protected NativeContent(MobileScreen context, By by) {
-		super(context, by);
-		touchActions = getComponent(NativeTouchActions.class);
-	}	
 
 	/**
 	 * @see org.openqa.selenium.Rotatable#getOrientation()
@@ -152,27 +138,6 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 	@Override
 	public String getAppStrings(String language) {
 		return ((AndroidDriver) getWrappedDriver()).getAppStrings(language);
-	}
-
-	
-	@Override
-	@Deprecated
-	/**
-	 * This is deprecated because native content has no iframes
-	 */
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			HowToGetByFrames path) {
-		return super.getPart(partClass, path);
-	}
-
-	@Override
-	@Deprecated
-	/**
-	 * This is deprecated because native content has no iframes
-	 */	
-	public <T extends IDecomposable> T getPart(Class<T> partClass,
-			HowToGetByFrames path, By by) {
-		return super.getPart(partClass, by);
 	}	
 	
 	
