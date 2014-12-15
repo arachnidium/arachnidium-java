@@ -86,7 +86,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	}
 	
-	private final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
+	final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
 			{FunctionalPart.class, HowToGetByFrames.class, By.class}; 
 
 	FunctionalPart<?> parent; // parent test object

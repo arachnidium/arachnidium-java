@@ -68,7 +68,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 * @see ScreenManager
 	 */
 	protected final Manager<U, ?> manager;
-	private final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
+	final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
 			{Handle.class, HowToGetByFrames.class, By.class}; 
 	
 	/**
