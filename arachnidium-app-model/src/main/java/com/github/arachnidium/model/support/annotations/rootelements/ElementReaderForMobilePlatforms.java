@@ -1,8 +1,6 @@
 package com.github.arachnidium.model.support.annotations.rootelements;
 
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -11,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.support.ByNumbered;
 import com.github.arachnidium.model.support.annotations.ClassDeclarationReader;
 
@@ -42,7 +40,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		}
 	}
 	
-	private static By getBy(Annotation annotation, Class<? extends WebDriver> driverClass){
+	private static By getBy(Annotation annotation, ESupportedDrivers supportedDriver){
 		String value = getValueFromAnnotation(annotation, ACCESSIBILITY);
 		if (!"".equals(value)){
 			return MobileBy.AccessibilityId(value);
@@ -75,7 +73,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		
 		value = getValueFromAnnotation(annotation, UI_AUTOMATOR);
 		if (!"".equals(value)){
-			if (AndroidDriver.class.isAssignableFrom(driverClass)){
+			if (supportedDriver.equals(ESupportedDrivers.ANDROID_APP)){
 				return MobileBy.AndroidUIAutomator(value);
 			}
 			return MobileBy.IosUIAutomation(value);
@@ -83,36 +81,36 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 		throw new IllegalArgumentException("No one known locator strategy was defined!");
 	}
 	
-	private static By getPossibleChain(Annotation annotation, Class<? extends WebDriver> driverClass){
+	private static By getPossibleChain(Annotation annotation, ESupportedDrivers supportedDriver){
 		List<By> result = new ArrayList<>();		
 		Annotation[] bies = getValueFromAnnotation(annotation, CHAIN);
 		
 		for (Annotation chainElement: bies) {
-			By by = getBy(chainElement, driverClass);
+			By by = getBy(chainElement, supportedDriver);
 			result.add(by);
 		}
 		return new ByNumbered(new ByChained(result.toArray(new By[]{})), new ClassDeclarationReader().getIndex(annotation));
 	}	
 
 	@Override
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, ESupportedDrivers supportedDriver) {
 		List<By> result = new ArrayList<>();
 		Annotation[] possibleRoots = null;		
-		if (AndroidDriver.class.isAssignableFrom(driverClass)){
+		if (supportedDriver.equals(ESupportedDrivers.ANDROID_APP)){
 			possibleRoots = getAnnotations(RootAndroidElement.class, annotatedTarget);
 		}
-		if (IOSDriver.class.isAssignableFrom(driverClass)){
+		if (supportedDriver.equals(ESupportedDrivers.IOS_APP)){
 			possibleRoots = getAnnotations(RootIOSElement.class, annotatedTarget);
 		}
 		
 		for (Annotation chain: possibleRoots) {
-			result.add(getPossibleChain(chain, driverClass));
+			result.add(getPossibleChain(chain, supportedDriver));
 		}	
 		
 		//this is an attempt to get By strategy
 		//by present @FindBy annotations
 		if (result.size() == 0)
-			return new CommonRootElementReader().readClassAndGetBy(annotatedTarget, driverClass);
+			return new CommonRootElementReader().readClassAndGetBy(annotatedTarget, supportedDriver);
 		return new ByAll(result.toArray(new By[]{}));
 	}
 

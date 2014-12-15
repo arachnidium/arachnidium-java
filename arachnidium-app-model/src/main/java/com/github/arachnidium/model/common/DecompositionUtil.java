@@ -254,8 +254,7 @@ abstract class DecompositionUtil {
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
-			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,
-					supportedDriver.getUsingWebDriverClass());
+			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,	supportedDriver);
 		}		
 		
 		Object[] newArgs = new Object[]{extractTargetFromGetPart(method, args)};
@@ -326,8 +325,7 @@ abstract class DecompositionUtil {
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
-			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,
-					supportedDriver.getUsingWebDriverClass());
+			rootBy = rootElementReader.readClassAndGetBy(annotatedElement, supportedDriver);
 		}			
 
 		// attempt to substitute methods is described below
