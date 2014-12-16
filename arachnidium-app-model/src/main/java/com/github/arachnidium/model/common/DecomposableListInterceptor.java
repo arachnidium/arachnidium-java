@@ -28,13 +28,13 @@ import net.sf.cglib.proxy.MethodProxy;
 
 class DecomposableListInterceptor implements MethodInterceptor {
 	private final Field lisField;
-	private final IDecomposable invoker;
+	private final ModelObject<?> invoker;
 	private final ESupportedDrivers supportedDriver;
 	private final Class<? extends IDecomposable> required;
 	private final boolean isInvokerApp;
 
 	DecomposableListInterceptor(Field field, 
-			IDecomposable invoker,
+			ModelObject<?> invoker,
 			ESupportedDrivers supportedDriver) {
 		lisField = field;
 		this.invoker = invoker;
@@ -44,6 +44,7 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		isInvokerApp = Application.class.isAssignableFrom(invoker.getClass());
 	}
 
+	//TODO to be separated into few methods   
 	@SuppressWarnings("unchecked")
 	private Handle getActualHandle() {
 		Class<? extends IDecomposable> required = DecompositionUtil
@@ -96,6 +97,7 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		return by;
 	}
 	
+	//TODO to be refactored
 	private List<IDecomposable> buildList() {
 		ArrayList<IDecomposable> result = new ArrayList<>();
 		Handle handle = getActualHandle();

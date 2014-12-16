@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.common.Static;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
@@ -19,6 +20,16 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootElement
 public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implements ILinkList {
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> links;
+	
+	@Static
+	public List<FoundLink> foundLinks1;
+	
+	@Static
+	public List<FoundLink2> foundLinks2;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")})
+	public List<FoundLink> foundLinks3;
 	
 	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
 		super(handle, path, by);

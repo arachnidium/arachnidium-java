@@ -111,6 +111,10 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			return by;
 		}
 
+		if (by == null){
+			return parent.rootElement.getTheGivenByStrategy();
+		}
+		
 		LinkedList<By> previuosChain = new LinkedList<>();
 		previuosChain.addFirst(by);
 
@@ -127,11 +131,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 		
 		if (previuosChain.size() == 0){
 			return by;
-		}
-		
-		if (by != null){ //we add the defined by 
-			//to the end of the chain
-			previuosChain.addLast(by);
 		}
 		return new ByChained(previuosChain.toArray(new By[] {}));
 	}

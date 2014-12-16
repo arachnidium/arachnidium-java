@@ -81,7 +81,16 @@ abstract class DecompositionUtil {
 						continue;
 					}
 				
-					Class<?> fieldClass = field.getDeclaringClass();
+					Class<?> fieldClass = field.getType();
+					//if here is possible list of decomposable object
+					if (List.class.isAssignableFrom(fieldClass) && getClassFromTheList(field) != null){
+						field.set(targetDecomposableObject, EnhancedProxyFactory.
+								getProxy(ArrayList.class, new Class<?>[] {}, 
+								new Object[]{}, new DecomposableListInterceptor(field, 
+										targetDecomposableObject, supportedDriver)));
+						continue;
+					}					
+					
 					if (ModelObject.class.isAssignableFrom(fieldClass)){ //if here is a field where 
 						//should be only single object
 						Object[] args = new Object[] {field.getType()};
@@ -97,13 +106,7 @@ abstract class DecompositionUtil {
 						field.set(targetDecomposableObject, value);
 						//ModelObject fields of a new mock-instance are mocked too 
 						populateFieldsWhichAreDecomposable((ModelObject<?>) value);
-					}
-					//also here is possible list of decomposable object
-					if (List.class.isAssignableFrom(fieldClass) && getClassFromTheList(field) != null){
-						field.set(targetDecomposableObject, EnhancedProxyFactory.
-								getProxy(ArrayList.class, new Class<?>[] {}, 
-								new Object[]{}, new DecomposableListInterceptor(field, 
-										targetDecomposableObject, supportedDriver)));
+						continue;
 					}
 					
 				} catch (Exception e) {

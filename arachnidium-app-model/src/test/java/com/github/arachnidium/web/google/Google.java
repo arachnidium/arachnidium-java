@@ -1,5 +1,7 @@
 package com.github.arachnidium.web.google;
 
+import java.util.List;
+
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,7 +17,17 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 	@RootElement(chain = {@FindBy(tagName = "body")}) //:)
 	private SearchBar<?> searchBar;	
 	@Static
-	private LinksAreFound<?> linksAreFound;
+	public LinksAreFound<?> linksAreFound;
+	
+	@Static
+	public List<FoundLink> foundLinks1;
+	
+	@Static
+	public List<FoundLink2> foundLinks2;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")})
+	public List<FoundLink> foundLinks3;
 	
 	protected Google(BrowserWindow browserWindow){
 		super(browserWindow);  	
