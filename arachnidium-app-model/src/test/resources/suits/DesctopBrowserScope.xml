@@ -127,4 +127,13 @@
     </classes>
   </test> <!-- Test -->   
   
+  <test name="This test verifies ability to instantiate lists of page objects">
+    <classes>
+      <class name="web.HelloWorldGoogleTest4"/>
+      <methods>
+              <include name="test" />
+      </methods>
+    </classes>
+  </test> <!-- Test --> 
+  
 </suite> <!-- Suite -->

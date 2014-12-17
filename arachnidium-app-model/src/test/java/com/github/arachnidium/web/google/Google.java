@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.common.Static;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 public class Google extends BrowserApplication implements IPerformsSearch, ILinkList, WrapsDriver{
@@ -28,6 +29,27 @@ public class Google extends BrowserApplication implements IPerformsSearch, ILink
 	@Static
 	@RootElement(chain = {@FindBy(className="rc")})
 	public List<FoundLink> foundLinks3;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")}, index = 4)
+	public List<FoundLink> foundLinks4;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")}, index = 4)
+	public List<FoundLink2> foundLinks5;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="fake")}, index = 4)
+	public List<FoundLink> foundLinks6;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="fake")}, index = 4)
+	public List<FoundLink2> foundLinks7;
+	
+	@Static
+	@ExpectedURL(regExp = "fake")
+	@RootElement(chain = {@FindBy(className="rc")})
+	public List<FoundLink2> foundLinks8;
 	
 	protected Google(BrowserWindow browserWindow){
 		super(browserWindow);  	

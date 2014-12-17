@@ -12,6 +12,7 @@ import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.common.Static;
 import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @RootElement(chain = {@FindBy(id = "test_id"),@FindBy(id = "test_id")})
@@ -30,6 +31,27 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 	@Static
 	@RootElement(chain = {@FindBy(className="rc")})
 	public List<FoundLink> foundLinks3;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")}, index = 4)
+	public List<FoundLink> foundLinks4;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="rc")}, index = 4)
+	public List<FoundLink2> foundLinks5;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="fake")}, index = 4)
+	public List<FoundLink> foundLinks6;
+	
+	@Static
+	@RootElement(chain = {@FindBy(className="fake")}, index = 4)
+	public List<FoundLink2> foundLinks7;
+	
+	@Static
+	@ExpectedURL(regExp = "fake")
+	@RootElement(chain = {@FindBy(className="rc")})
+	public List<FoundLink2> foundLinks8;
 	
 	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
 		super(handle, path, by);

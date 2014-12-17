@@ -170,7 +170,7 @@ public class WebElementHighLighter implements IConfigurable,
 		} // There is a problem with mobile applications. Not all locators are
 			// supported
 		catch (WebDriverException e) {
-			if (toDoScreenShots)
+			if (toDoScreenShots && !LogLevel.equals(eAvailableLevels.FINE))
 				Photographer.takeAPictureForLog(driver, LogLevel, comment);
 			else
 				Log.log(LogLevel, comment);
