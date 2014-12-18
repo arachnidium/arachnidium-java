@@ -1,5 +1,6 @@
 package com.github.arachnidium.mobile.android.selendroid.testapp;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 /**
  * 
@@ -22,8 +24,8 @@ public class Webview extends WebViewContent {
 	@FindBy(xpath = ".//*[@type=\"submit\"]")
 	private WebElement sendMeYourName;
 	
-	protected Webview(MobileScreen context) {
-		super(context);
+	protected Webview(MobileScreen context, HowToGetByFrames path, By by) {
+		super(context, path, by);
 	}
 	
 	@InteractiveMethod

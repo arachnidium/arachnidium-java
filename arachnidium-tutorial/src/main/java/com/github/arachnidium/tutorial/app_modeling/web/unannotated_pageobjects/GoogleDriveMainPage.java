@@ -1,10 +1,12 @@
 package com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 /**it is the example which demonstrates how to implement a page object
  * which is supposed to be something generalized. It can be a description of interaction
@@ -15,9 +17,9 @@ public class GoogleDriveMainPage extends BrowserPage {/**<-- it is the example w
 	@FindBy(xpath = ".//*[contains(@href,'https://profiles.google.com/')]")
 	private WebElement visibleProfile;
 	
-	protected GoogleDriveMainPage(BrowserWindow window) {/**<-- it is the example which demonstrates component which can be used 
+	protected GoogleDriveMainPage(BrowserWindow window, HowToGetByFrames path, By by) {/**<-- it is the example which demonstrates component which can be used 
 		   when only interaction with browser is needed*/
-		super(window);
+		super(window, path, by);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

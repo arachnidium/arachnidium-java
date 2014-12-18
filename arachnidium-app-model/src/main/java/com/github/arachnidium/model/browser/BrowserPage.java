@@ -2,6 +2,7 @@ package com.github.arachnidium.model.browser;
 
 import java.net.URL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
@@ -31,31 +32,18 @@ public abstract class BrowserPage extends FunctionalPart<BrowserWindow> implemen
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
 	 */
-	protected BrowserPage(BrowserPage parent) {
-		this(parent, new HowToGetByFrames());
-	}
-
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)}
-	 */
-	protected BrowserPage(BrowserPage parent, HowToGetByFrames path) {
-		super(parent, path);
+	protected BrowserPage(BrowserPage parent,  HowToGetByFrames howToGetByFrames, By by) {
+		super(parent,  howToGetByFrames, by);
 		inputDevices =   getComponent(InputDevices.class);
 		touchActions =   getComponent(PageTouchActions.class);
 	}
 
+
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 */
-	protected BrowserPage(BrowserWindow window) {
-		this(window, new HowToGetByFrames());
-	}
-
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames))
-	 */
-	protected BrowserPage(BrowserWindow window, HowToGetByFrames path) {
-		super(window, path);
+	protected BrowserPage(BrowserWindow window, HowToGetByFrames howToGetByFrames, By by) {
+		super(window, howToGetByFrames, by);
 		inputDevices =   getComponent(InputDevices.class);
 		touchActions =   getComponent(PageTouchActions.class);
 	}

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -28,8 +29,8 @@ public class LinksAreFoundInsideWebViewByGoogle extends WebViewContent {
 	@FindBys({@FindBy(className = "r"), @FindBy(tagName = "a")})
 	private List<WebElement> links;
 	
-	protected LinksAreFoundInsideWebViewByGoogle(MobileScreen context, By by) {
-		super(context, by);
+	protected LinksAreFoundInsideWebViewByGoogle(MobileScreen context, HowToGetByFrames path, By by) {
+		super(context, path, by);
 	}
 
 	@InteractiveMethod

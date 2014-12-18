@@ -21,5 +21,16 @@ import org.openqa.selenium.support.FindBy;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Repeatable(PossibleRootElements.class)
 public @interface RootElement {
+	/**
+	 * It is the chain of the searchings for the target element
+	 * @return the chain of the searchings for the target element as the {@link FindBy} array
+	 */
 	FindBy[] chain();
+	/**
+	 * It is the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootElement#chain()}
+	 * @return  the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootElement#chain()}
+	 */
+	int index() default -1;
 }

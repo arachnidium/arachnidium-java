@@ -10,8 +10,13 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class FakePageObject<S extends Handle> extends FunctionalPart<S> {
+
+	protected FakePageObject(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
+	}
 
 	public final long TIME_OUT = 4700; //MILLISECONDS
 	public final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
@@ -21,9 +26,6 @@ public class FakePageObject<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(className = FAKE_CLASS)
 	private List<WebElement> fakeElements;
 	
-	protected FakePageObject(S handle) {
-		super(handle);
-	}
 
 	@InteractiveMethod
 	public long fakeInteractiveMethod(){

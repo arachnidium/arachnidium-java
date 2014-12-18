@@ -8,14 +8,15 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class Videos<S extends Handle> extends HasSearchField<S> {
 
 	@FindBy(className = "video_row_cont")
 	private List<WebElement> videos;
 	
-	protected Videos(FunctionalPart<S> parent) {
-		super(parent);
+	protected Videos(FunctionalPart<S> parent, HowToGetByFrames path, By by) {
+		super(parent, path, by);
 	}
 	
 	@InteractiveMethod

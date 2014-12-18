@@ -5,6 +5,7 @@ import io.appium.java_client.pagefactory.AndroidFindBys;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -13,6 +14,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -45,8 +47,8 @@ public class TopicList extends FunctionalPart<Handle> {
 	
 	
 	
-	protected TopicList(Handle context) {
-		super(context);
+	protected TopicList(Handle context, HowToGetByFrames path, By by) {
+		super(context, path, by);
 	}
 	
 	@InteractiveMethod

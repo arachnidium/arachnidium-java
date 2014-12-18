@@ -107,9 +107,7 @@ public class MobileTest_HermitageAndroid_ComplexButFlexible {
 				Actually it is the similar UI as the history of museum*/
 				By.id("android:id/action_bar_overlay_layout")); 
 		/**We should see that the entry price is here*/
-		Assert.assertEquals(true, informationAboutTickets.isEntryTicketLabelVisible());
-		Assert.assertEquals(true, informationAboutTickets.isTicketForNonProfitPhotographyAndVideoFilmingVisible());
-		
+		Assert.assertEquals(true, informationAboutTickets.isEntryTicketLabelVisible());		
 		/**Ok! And then we get back to the general screen*/
 		informationAboutTickets.back();		
 	}

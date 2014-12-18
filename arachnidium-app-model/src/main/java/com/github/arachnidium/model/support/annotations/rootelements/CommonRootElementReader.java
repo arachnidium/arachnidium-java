@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
+
+import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
+import com.github.arachnidium.model.support.ByNumbered;
 
 public class CommonRootElementReader implements IRootElementReader {
 
@@ -75,7 +77,7 @@ public class CommonRootElementReader implements IRootElementReader {
 	    }	
 	}
 	
-	private static ByChained getPossibleChain(RootElement rootElement){
+	private static By getPossibleChain(RootElement rootElement){
 		List<By> result = new ArrayList<>();		
 		FindBy[] findBies = rootElement.chain();
 		
@@ -88,11 +90,11 @@ public class CommonRootElementReader implements IRootElementReader {
 			}
 			result.add(getBy(findBy.how(), findBy.using()));
 		}
-		return new ByChained(result.toArray(new By[]{}));
+		return new ByNumbered(new ByChained(result.toArray(new By[]{})), rootElement.index());
 	}
 
 	@Override
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass) {
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, ESupportedDrivers supportedDriver) {
 		List<By> result = new ArrayList<>();		
 		RootElement[] rootElements = getAnnotations(RootElement.class, annotatedTarget);
 		

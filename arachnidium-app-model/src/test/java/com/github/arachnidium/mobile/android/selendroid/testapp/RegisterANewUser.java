@@ -2,11 +2,13 @@ package com.github.arachnidium.mobile.android.selendroid.testapp;
 
 import io.appium.java_client.MobileElement;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 
 
 public class RegisterANewUser extends NativeContent {
@@ -25,8 +27,8 @@ public class RegisterANewUser extends NativeContent {
     @FindBy(id = "io.selendroid.testapp:id/buttonRegisterUser")
     private WebElement buttonRegisterUser;
     
-	protected RegisterANewUser(MobileScreen context) {
-		super(context);
+	protected RegisterANewUser(MobileScreen context, HowToGetByFrames path, By by) {
+		super(context, path, by);
 	}
 
 	@InteractiveMethod

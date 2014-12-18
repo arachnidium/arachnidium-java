@@ -25,7 +25,7 @@ import com.github.arachnidium.util.proxy.DefaultInterceptor;
  *Also it performs the substitution of methods specified 
  *by {@link IDecomposable} and {@link IDecomposableByHandles}. 
  */
-public abstract class ApplicationInterceptor extends ModelObjectInterceptor{
+class ApplicationInterceptor extends ModelObjectInterceptor{
 	/**
 	 *Invokes methods and performs
 	 *the substitution of methods specified 

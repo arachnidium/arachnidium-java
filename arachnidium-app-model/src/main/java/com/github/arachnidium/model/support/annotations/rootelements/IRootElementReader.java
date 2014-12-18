@@ -3,8 +3,8 @@ package com.github.arachnidium.model.support.annotations.rootelements;
 import java.lang.reflect.AnnotatedElement;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
+import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.support.IDefaultAnnotationReader;
 
 /**
@@ -21,5 +21,5 @@ public interface IRootElementReader extends IDefaultAnnotationReader{
 	 * {@link RootElement}, {@link RootAndroidElement},
      * {@link RootIOSElement}
 	 */
-	public By readClassAndGetBy(AnnotatedElement annotatedTarget, Class<? extends WebDriver> driverClass);
+	public By readClassAndGetBy(AnnotatedElement annotatedTarget, ESupportedDrivers supportedDriver);
 }

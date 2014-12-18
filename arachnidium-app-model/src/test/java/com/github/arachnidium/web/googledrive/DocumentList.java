@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.FindBys;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.common.Static;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
@@ -30,8 +32,8 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 	@FindBys({@FindBy(className = "doclist-name-wrapper"), @FindBy(tagName = "a")})
 	private List<WebElement> documents;
 
-	protected DocumentList(S handle) {
-		super(handle);
+	protected DocumentList(S handle, HowToGetByFrames path, By by) {
+		super(handle, path, by);
 	}
 
 	@InteractiveMethod

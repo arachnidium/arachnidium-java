@@ -129,7 +129,9 @@ public abstract class ApplicationFactory {
 				h.driverEncapsulation.resetAccordingTo(config);
 			}
 			T result = EnhancedProxyFactory.getProxy(appClass,
-					MethodReadingUtil.getParameterClasses(new Object[] { h }, appClass),
+					DecompositionUtil.
+					getRelevantConstructorParameters(new Class<?>[]{Handle.class},
+							new Object[] { h }, appClass),
 					new Object[] { h }, new ApplicationInterceptor() {
 					});
 			DecompositionUtil.populateFieldsWhichAreDecomposable(result);

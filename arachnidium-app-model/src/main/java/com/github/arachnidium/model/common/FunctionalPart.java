@@ -85,6 +85,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected static @interface InteractiveMethod {
 
 	}
+	
+	final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
+			{FunctionalPart.class, HowToGetByFrames.class, By.class}; 
 
 	FunctionalPart<?> parent; // parent test object
 	// parent application
@@ -96,79 +99,11 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected final ScriptExecutor scriptExecutor; // executes given javaScript
 
 	final RootElement rootElement;
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from another.<br/>
-	 * <br/>
-	 * This instantiation means that described specific UI or the fragment is on
-	 * the same window/mobile context and inside the same frame (it is actual
-	 * for browser and mobile hybrid apps) as the more generalized "parent".
-	 * 
-	 * 
-	 * @param parent
-	 *            is considered as a more general UI or the part of client UI
-	 *
-	 * @see IDecomposable#getPart(Class)
-	 */
-	protected FunctionalPart(FunctionalPart<?> parent) {
-		this(parent, new HowToGetByFrames(), (By) null);
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from another.<br/>
-	 * <br/>
-	 * This instantiation means that described specific UI or the fragment is on
-	 * the same window/mobile context and inside the same frame (it is actual
-	 * for browser and mobile hybrid apps) as the more generalized "parent". <br/>
-	 * <br/>
-	 * There is known root {@link WebElement} defined {@link By} locator
-	 * strategy
-	 * 
-	 * 
-	 * @param parent
-	 *            is considered as a more general UI or the part of client UI
-	 * @param by
-	 *            It is {@link By} strategy which is used to get the root
-	 *            element
-	 *
-	 * @see IDecomposable#getPart(Class)
-	 */
-	protected FunctionalPart(FunctionalPart<?> parent, By by) {
-		this(parent, new HowToGetByFrames(), by);
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from another.<br/>
-	 * <br/>
-	 * This instantiation means that described specific UI or the fragment is on
-	 * the same window/mobile context and inside the same frame (it is actual
-	 * for browser and mobile hybrid apps) as the more generalized "parent". <br/>
-	 * <br/>
-	 * The described piece of UI is inside frame (it is actual for browser and
-	 * mobile hybrid apps). Path to desired frame is specified by
-	 * {@link HowToGetByFrames} instance. <br/>
-	 * 
-	 * @param parent
-	 *            is considered as a more general UI or the part of client UI
-	 * @param path
-	 *            is a path to frame which is specified by
-	 *            {@link HowToGetByFrames}
-	 *
-	 * @see IDecomposable#getPart(Class, HowToGetByFrames)
-	 *
-	 * @see HowToGetByFrames
-	 */
-	protected FunctionalPart(FunctionalPart<?> parent, HowToGetByFrames path) {
-		this(parent, path, (By) null);
-	}
-
 	private static By getChainedBy(FunctionalPart<?> parent,
 			HowToGetByFrames path, By by) {
 		// root element chain is broken when we switch
 		// driver to another frame
-		if (path.getFramePath().size() > 0) {
+		if (path != null && path.getFramePath().size() > 0) {
 			return by;
 		}
 
@@ -176,12 +111,17 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			return by;
 		}
 
+		if (by == null){
+			return parent.rootElement.getTheGivenByStrategy();
+		}
+		
 		LinkedList<By> previuosChain = new LinkedList<>();
 		previuosChain.addFirst(by);
 
 		FunctionalPart<?> previousParent = parent.parent;
 		while (previousParent != null) {
-			if (previousParent.pathStrategy.getFramePath().size() > 0)
+			if ( previousParent.pathStrategy != null && 
+					previousParent.pathStrategy.getFramePath().size() > 0)
 				break;
 			if (previousParent.rootElement == null)
 				break;
@@ -191,11 +131,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 		
 		if (previuosChain.size() == 0){
 			return by;
-		}
-		
-		if (by != null){ //we add the defined by 
-			//to the end of the chain
-			previuosChain.addLast(by);
 		}
 		return new ByChained(previuosChain.toArray(new By[] {}));
 	}
@@ -238,85 +173,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			By by) {
 		this((S) parent.handle, path, getChainedBy(parent, path, by));
 		parent.addChild(this);
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from the given {@link Handle} e.g. browser window or mobile
-	 * context.
-	 *
-	 * It is expected that this is the most frequently used case.
-	 *
-	 * @param handle
-	 *            is the given browser window or mobile context
-	 *
-	 *
-	 * @see Application
-	 * @see IHowToGetHandle
-	 * @see HowToGetPage
-	 * @see HowToGetMobileScreen
-	 * @see Handle
-	 * @see BrowserWindow
-	 * @see MobileScreen
-	 */
-	protected FunctionalPart(S handle) {
-		this(handle, new HowToGetByFrames(), (By) null);
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from the given {@link Handle} e.g. browser window or mobile
-	 * context. <br/>
-	 * <br/>
-	 * There is known root {@link WebElement} defined {@link By} locator
-	 * strategy
-	 *
-	 * @param handle
-	 *            is the given browser window or mobile context
-	 * @param by
-	 *            It is {@link By} strategy which is used to get the root
-	 *            element
-	 *
-	 *
-	 * @see Application
-	 * @see IHowToGetHandle
-	 * @see HowToGetPage
-	 * @see HowToGetMobileScreen
-	 * @see Handle
-	 * @see BrowserWindow
-	 * @see MobileScreen
-	 * @see By
-	 */
-	protected FunctionalPart(S handle, By by) {
-		this(handle, new HowToGetByFrames(), by);
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from the given {@link Handle} e.g. browser window or mobile
-	 * context. <br/>
-	 * <br/>
-	 * The described piece of UI is inside frame (it is actual for browser and
-	 * mobile hybrid apps). Path to desired frame is specified by
-	 * {@link HowToGetByFrames} instance.
-	 *
-	 * @param handle
-	 *            is the given browser window or mobile context
-	 * @param path
-	 *            is a path to frame which is specified by
-	 *            {@link HowToGetByFrames}
-	 *
-	 * @see Application
-	 * @see IHowToGetHandle
-	 * @see HowToGetPage
-	 * @see HowToGetMobileScreen
-	 * @see Handle
-	 * @see BrowserWindow
-	 * @see MobileScreen
-	 * @see HowToGetByFrames
-	 */
-	protected FunctionalPart(S handle, HowToGetByFrames path) {
-		this(handle, path, (By) null);
 	}
 
 	/**
@@ -392,7 +248,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] parameters) {
 		T result = DecompositionUtil.get(partClass,
-				parameters);
+				DEFAULT_PARAMETERS_FOR_DECOPMOSITION, parameters);
 		return result;
 	}
 
@@ -410,7 +266,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		return get(partClass, new Object[] { this });
+		return get(partClass, new Object[] { this, null, null });
 	}
 
 	/**
@@ -437,7 +293,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames path) {
-		return get(partClass, new Object[] { this, path });
+		return get(partClass, new Object[] { this, path, null });
 	}
 
 	private IWebElementHighlighter getHighlighter() {
@@ -638,7 +494,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			parent.switchToMe();
 		else
 			handle.switchToMe();
-		pathStrategy.switchTo(getWrappedDriver());
+		if (pathStrategy != null)
+			pathStrategy.switchTo(getWrappedDriver());
 		return;
 	}
 
@@ -738,6 +595,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 * element.
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass, By by) {
-		return get(partClass, new Object[] { this, by });
+		return get(partClass, new Object[] { this, null ,by });
 	}
 }

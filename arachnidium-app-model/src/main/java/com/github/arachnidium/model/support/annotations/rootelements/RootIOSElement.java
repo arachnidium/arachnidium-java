@@ -19,5 +19,16 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.TYPE, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface RootIOSElement {
+	/**
+	 * It is the chain of the searchings for the target element
+	 * @return the chain of the searchings for the target element as the {@link iOSFindBy} array
+	 */
 	iOSFindBy[] chain();
+	/**
+	 * It is the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootIOSElement#chain()}
+	 * @return  the index of the desired element if there few elements are found by the 
+	 * given locator chain. This chain is defined by {@link RootIOSElement#chain()}
+	 */
+	int index() default -1;	
 }

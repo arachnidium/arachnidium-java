@@ -4,6 +4,7 @@ import io.appium.java_client.ios.GetsNamedTextField;
 import io.appium.java_client.ios.IOSDeviceActionShortcuts;
 import io.appium.java_client.ios.IOSDriver;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.MobileScreen;
@@ -23,8 +24,8 @@ public abstract class iOSNativeContent extends NativeContent implements IOSDevic
 	 * 
 	 * @see NativeContent#Screen(FunctionalPart)
 	 */
-	protected iOSNativeContent(NativeContent parent) {
-		super(parent);
+	protected iOSNativeContent(NativeContent parent, @Deprecated HowToGetByFrames ignored, By by) {
+		super(parent, ignored, by);
 	}
 
 	/**
@@ -32,8 +33,8 @@ public abstract class iOSNativeContent extends NativeContent implements IOSDevic
 	 * 
 	 * @see NativeContent#Screen(FunctionalPart, HowToGetByFrames)
 	 */	
-	protected iOSNativeContent(MobileScreen context) {
-		super(context);
+	protected iOSNativeContent(MobileScreen context, @Deprecated HowToGetByFrames ignored, By by) {
+		super(context, ignored, by);
 	}
 
 	@Override

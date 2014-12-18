@@ -20,54 +20,12 @@ public abstract class WebViewContent extends FunctionalPart<MobileScreen> implem
 
 	protected final PageTouchActions touchActions;
 	/**
-	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart)}
-	 */
-	protected WebViewContent(WebViewContent parent) {
-		this(parent, new HowToGetByFrames(), (By) null);
-	}
-	
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, By)}
-	 */
-	protected WebViewContent(WebViewContent parent, By by) {
-		this(parent, new HowToGetByFrames(), by);
-	}	
-	
-	/**
 	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames, By)}
 	 */
 	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames, By by) {
 		super(parent, howToGetByFrames, by);
 		touchActions =   getComponent(PageTouchActions.class);
 	}	
-	
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)}
-	 */
-	protected WebViewContent(WebViewContent parent, HowToGetByFrames howToGetByFrames) {
-		this(parent, howToGetByFrames, (By) null);
-	}	
-	
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
-	 */	
-	protected WebViewContent(MobileScreen context){
-		this(context, new HowToGetByFrames(), (By) null);
-	}
-	
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, By)
-	 */	
-	protected WebViewContent(MobileScreen context, By by){
-		this(context, new HowToGetByFrames(), by);
-	}	
-	
-	/**
-	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames))
-	 */
-	protected WebViewContent(MobileScreen context, HowToGetByFrames howToGetByFrames){
-		this(context, howToGetByFrames, (By) null);
-	}
 	
 	/**
 	 * @see {@link FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle, HowToGetByFrames, By))

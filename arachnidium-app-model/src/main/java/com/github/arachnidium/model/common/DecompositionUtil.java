@@ -2,22 +2,18 @@ package com.github.arachnidium.model.common;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
-
-
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-
-
-
 
 import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
@@ -43,16 +39,16 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootIOSElem
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
 abstract class DecompositionUtil {
-	protected static final String GET_PART = "getPart";
+	static final String GET_PART = "getPart";
 
 	/**
 	 * Creation of any decomposable part of application
 	 */
 	static <T extends IDecomposable> T get(Class<T> partClass,
-			Object[] paramValues) {
+			Class<?>[] params, Object[] paramValues) {
 		try{
 			T decomposable = EnhancedProxyFactory.getProxy(partClass,
-					MethodReadingUtil.getParameterClasses(paramValues, partClass), paramValues,
+					getRelevantConstructorParameters(params, paramValues, partClass), paramValues,
 					new InteractiveInterceptor() {
 					});
 			DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) decomposable);
@@ -80,24 +76,39 @@ abstract class DecompositionUtil {
 			for (Field field: fields){
 				try {
 					field.setAccessible(true);
-					if (!field.isAnnotationPresent(Static.class)||!ModelObject.class.isAssignableFrom(field
-							.getDeclaringClass()) || field.get(targetDecomposableObject) != null) {
+					if (!field.isAnnotationPresent(Static.class)|| 
+							field.get(targetDecomposableObject) != null) {
 						continue;
 					}
 				
-					Object[] args = new Object[] {field.getType()};
-					Method m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
-					if (Application.class.isAssignableFrom(clazz)){
-						args = getRelevantArgs2(supportedDriver, m, args, field);
+					Class<?> fieldClass = field.getType();
+					//if here is possible list of decomposable object
+					if (List.class.isAssignableFrom(fieldClass) && getClassFromTheList(field) != null){
+						field.set(targetDecomposableObject, EnhancedProxyFactory.
+								getProxy(ArrayList.class, new Class<?>[] {}, 
+								new Object[]{}, new DecomposableListInterceptor(field, 
+										targetDecomposableObject, supportedDriver)));
+						continue;
+					}					
+					
+					if (ModelObject.class.isAssignableFrom(fieldClass)){ //if here is a field where 
+						//should be only single object
+						Object[] args = new Object[] {field.getType()};
+						Method m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
+						if (Application.class.isAssignableFrom(clazz)){
+							args = getRelevantArgs2(supportedDriver, m, args, field);
+						}
+						else{
+							args = getRelevantArgs(supportedDriver, m, args, field);
+						}
+						m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
+						ModelObject<?> value =  (ModelObject<?>) m.invoke(targetDecomposableObject, args);
+						field.set(targetDecomposableObject, value);
+						//ModelObject fields of a new mock-instance are mocked too 
+						populateFieldsWhichAreDecomposable((ModelObject<?>) value);
+						continue;
 					}
-					else{
-						args = getRelevantArgs(supportedDriver, m, args, field);
-					}
-					m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
-					ModelObject<?> value =  (ModelObject<?>) m.invoke(targetDecomposableObject, args);
-					field.set(targetDecomposableObject, value);
-					//ModelObject fields of a new mock-instance are mocked too 
-					populateFieldsWhichAreDecomposable((ModelObject<?>) value);
+					
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -121,7 +132,7 @@ abstract class DecompositionUtil {
 	 * <code>null</code> if the 
 	 * given class isn't annotated by {@link Frame}
 	 */	
-	private static HowToGetByFrames getHowToGetByFramesStrategy(AnnotatedElement annotatedElement){
+	static HowToGetByFrames getHowToGetByFramesStrategy(AnnotatedElement annotatedElement){
 		List<Object> framePath = declarationReader
 				.getFramePath(declarationReader.getAnnotations(
 						Frame.class, annotatedElement));
@@ -221,7 +232,7 @@ abstract class DecompositionUtil {
 	 * by {@link TimeOut}
 	 * @return {@link Long} value if annotation is present. <code>null</code> otherwise
 	 */
-	private static Long getTimeOut(AnnotatedElement annotated) {
+	static Long getTimeOut(AnnotatedElement annotated) {
 		TimeOut[] timeOuts = declarationReader.getAnnotations(
 				TimeOut.class, annotated);
 		if (timeOuts.length == 0) {
@@ -230,7 +241,7 @@ abstract class DecompositionUtil {
 		return declarationReader.getTimeOut(timeOuts[0]);
 	}
 
-	private static IRootElementReader getRootElementReader(ESupportedDrivers supportedDriver){
+	static IRootElementReader getRootElementReader(ESupportedDrivers supportedDriver){
 		if (supportedDriver.isForBrowser()){
 			return new CommonRootElementReader();
 		}
@@ -261,8 +272,7 @@ abstract class DecompositionUtil {
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
-			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,
-					supportedDriver.getUsingWebDriverClass());
+			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,	supportedDriver);
 		}		
 		
 		Object[] newArgs = new Object[]{extractTargetFromGetPart(method, args)};
@@ -294,23 +304,9 @@ abstract class DecompositionUtil {
 			AnnotatedElement annotatedElement) {	
 		
 		IHowToGetHandle how = MethodReadingUtil.getDefinedParameter(method, IHowToGetHandle.class, args);
-		if (how == null){
-			HowToGetMobileScreen howToGetMobileScreen = null;
-			HowToGetPage howToGetPage = getHowToGetHandleStrategy(DefaultPageIndex.class,
-					ExpectedURL.class, ExpectedPageTitle.class, 
-					annotatedElement, HowToGetPage.class);
+		if (how == null)
+			how = getRelevantHowToGetHandleStrategy(supportedDriver, annotatedElement);
 			
-			if (supportedDriver.isForBrowser()){
-				how = howToGetPage;
-			}else{
-				howToGetMobileScreen = getHowToGetHandleStrategy(DefaultContextIndex.class,
-						ExpectedAndroidActivity.class, ExpectedContext.class, 
-						annotatedElement, HowToGetMobileScreen.class);
-				if (howToGetMobileScreen != null)
-					howToGetMobileScreen.defineHowToGetPageStrategy(howToGetPage);
-				how = howToGetMobileScreen;
-			}
-		}
 		
 		Integer index = MethodReadingUtil.getDefinedParameter(method, int.class, args);
 		// if index of a window/screen was defined
@@ -333,8 +329,7 @@ abstract class DecompositionUtil {
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
-			rootBy = rootElementReader.readClassAndGetBy(annotatedElement,
-					supportedDriver.getUsingWebDriverClass());
+			rootBy = rootElementReader.readClassAndGetBy(annotatedElement, supportedDriver);
 		}			
 
 		// attempt to substitute methods is described below
@@ -374,6 +369,132 @@ abstract class DecompositionUtil {
 			return (Class<?>) args[0];
 		}
 		return null;
+	}
+	
+	static Class<?>[] getRelevantConstructorParameters(
+			Class<?>[] paramerers, 
+			Object[] values,
+			Class<? extends IDecomposable> requiredClass) throws NoSuchMethodException {
+		
+		Constructor<?>[] declaredConstructors = requiredClass
+				.getDeclaredConstructors();
+		
+		for (Constructor<?> constructor: declaredConstructors){			
+			Class<?>[] declaredParams = constructor.getParameterTypes();			
+			if (declaredParams.length != paramerers.length){
+				continue;
+			}
+			
+			Class<?>[] result = new Class<?>[]{};
+			boolean matches = true;
+			int i = 0;
+			for (Class<?> declaredParam: declaredParams){
+				if (declaredParam.isAssignableFrom(paramerers[i])){
+					result = ArrayUtils.add(result, paramerers[i]);
+					i++;
+					continue;
+				}
+				
+				if (values[i] == null){
+					result = ArrayUtils.add(result, paramerers[i]);
+					i++;
+					continue;					
+				}
+				
+				if (declaredParam.isAssignableFrom(values[i].getClass())){
+					result = ArrayUtils.add(result, declaredParam);
+					i++;
+					continue;
+				}				
+				matches = false;
+				break;
+			}
+			
+			if (matches){
+				return result;
+			}
+		}
+		
+		throw new NoSuchMethodException("There is no cunstructor which matches to " + Arrays.asList(paramerers).toString() + 
+				". The target class is " + requiredClass.getName());
+	}
+	
+	/**
+	 * This method is used to instantiate lists of {@link IDecomposable} 
+	 * (e.g. {@link FunctionalPart} subclasses). It detects the class of the list-field.
+	 * If the result implements {@link IDecomposable} then it will be returned. <code>null</code>
+	 * will be returned otherwise
+	 * 
+	 * @param field which is supposed to be a list of {@link IDecomposable} (e.g. {@link FunctionalPart} subclasses)
+	 * @return the generic class of the list. If it is the {@link List}-field and the generic class 
+	 * implements {@link IDecomposable} then it will be returned. <code>null</code>
+	 * will be returned otherwise
+	 */
+	@SuppressWarnings("unchecked")
+	static Class<? extends IDecomposable> getClassFromTheList(Field field){
+		if (!List.class.isAssignableFrom(field.getType()))
+			return null;
+		
+		Type genericType = field.getGenericType();
+		if (!(genericType instanceof ParameterizedType)) {
+			return null;
+		}
+		
+		Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];	
+		try {
+			Class<?> candidate = Class.forName(listType.getTypeName());
+			if (IDecomposable.class.isAssignableFrom(candidate)){
+				return (Class<? extends IDecomposable>) candidate;
+			}
+			return null;
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}				
+	}
+	
+	/**
+	 * This method returns the relevant {@link IHowToGetHandle} instance. It depends on the 
+	 * launched {@link WebDriver} implementor and annotations which mark the given class/field
+	 * <br/><br/>
+	 * Here are possible annotations for browser pages and mobile web view content: <br>
+	 * {@link ExpectedURL}<br/>
+	 * {@link ExpectedPageTitle}<br/>
+	 * {@link DefaultPageIndex}<br/><br/>
+	 * Here are possible annotations for mobile screens: <br>
+	 * {@link ExpectedAndroidActivity}
+	 * {@link ExpectedContext}
+	 * {@link DefaultContextIndex}
+	 * 
+	 * 
+	 * @param supportedDriver they are parameters of {@link WebDriver} which is already launched
+	 * @param annotatedElement the given class or field which is probably annotated by 
+	 * <br/>
+	 * {@link ExpectedURL}<br/>
+	 * {@link ExpectedPageTitle}<br/>
+	 * {@link DefaultPageIndex}<br/> if browser pages or mobile web view content are supposed <br/>
+	 * {@link ExpectedAndroidActivity}<br/>
+	 * {@link ExpectedContext}<br/>
+	 * {@link DefaultContextIndex} if mobile screens are supposed	 * 
+	 * @return a built instance of {@link IHowToGetHandle}
+	 */
+	static IHowToGetHandle getRelevantHowToGetHandleStrategy(ESupportedDrivers supportedDriver, 
+			AnnotatedElement annotatedElement){
+		
+		HowToGetMobileScreen howToGetMobileScreen = null;
+		HowToGetPage howToGetPage = getHowToGetHandleStrategy(DefaultPageIndex.class,
+				ExpectedURL.class, ExpectedPageTitle.class, 
+				annotatedElement, HowToGetPage.class);
+		
+		if (supportedDriver.isForBrowser()){
+			return howToGetPage;
+		}else{
+			howToGetMobileScreen = getHowToGetHandleStrategy(DefaultContextIndex.class,
+					ExpectedAndroidActivity.class, ExpectedContext.class, 
+					annotatedElement, HowToGetMobileScreen.class);
+			if (howToGetMobileScreen != null)
+				howToGetMobileScreen.defineHowToGetPageStrategy(howToGetPage);
+			return howToGetMobileScreen;
+		}			
 	}
 
 }

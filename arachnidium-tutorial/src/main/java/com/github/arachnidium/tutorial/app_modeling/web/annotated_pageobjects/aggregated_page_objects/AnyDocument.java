@@ -2,12 +2,14 @@ package com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects.a
 
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage; 
 import com.github.arachnidium.model.common.Static;
+import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 import com.github.arachnidium.tutorial.app_modeling.web.
       annotated_pageobjects.ShareSettingsDialog; /**<== */
@@ -40,16 +42,13 @@ public class AnyDocument extends BrowserPage  {/**<-- it is the example which de
 	/**
 	 * If it is implemented as something general
 	 * (general page/screen description) then it 
-	 * should have (one of) constructors like these:
+	 * should have constructor like this:
 	 * 
-     * {@link FunctionalPart##FunctionalPart(Handle)}
-	 * {@link FunctionalPart##FunctionalPart(Handle, org.openqa.selenium.By) }
-	 * {@link FunctionalPart##FunctionalPart(Handle, com.github.arachnidium.model.support.HowToGetByFrames)}
 	 * {@link FunctionalPart##FunctionalPart(Handle, com.github.arachnidium.model.support.HowToGetByFrames, org.openqa.selenium.By)}
 	 */	
-	protected AnyDocument(BrowserWindow window) {/**<-- it is the example which demonstrates component which can be used 
+	protected AnyDocument(BrowserWindow window, HowToGetByFrames path, By by) {/**<-- it is the example which demonstrates component which can be used 
 		   when only interaction with browser is needed*/
-		super(window);
+		super(window, path, by);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
