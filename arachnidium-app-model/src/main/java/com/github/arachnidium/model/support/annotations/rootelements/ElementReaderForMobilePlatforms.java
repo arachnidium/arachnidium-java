@@ -89,7 +89,7 @@ public class ElementReaderForMobilePlatforms implements IRootElementReader {
 			By by = getBy(chainElement, supportedDriver);
 			result.add(by);
 		}
-		return new ByNumbered(new ByChained(result.toArray(new By[]{})), new ClassDeclarationReader().getIndex(annotation));
+		return new ByNumbered(new ByChained(result.toArray(new By[]{})), ClassDeclarationReader.getIndex(annotation));
 	}	
 
 	@Override

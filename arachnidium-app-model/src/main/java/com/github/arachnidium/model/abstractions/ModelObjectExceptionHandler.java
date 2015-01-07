@@ -9,7 +9,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
-import com.github.arachnidium.model.support.IDefaultAnnotationReader;
+import com.github.arachnidium.util.reflect.annotations.AnnotationUtil;
 
 /**
  * It is the abstraction which describes the process of 
@@ -33,10 +33,9 @@ IModelObjectExceptionHandler {
 
 	public ModelObjectExceptionHandler() {
 		super();
-		IDefaultAnnotationReader reader = new IDefaultAnnotationReader() {
-		};
-		ExpectectedThrowables[] expectectedThrowables = reader.getAnnotations(ExpectectedThrowables.class, 
-				this.getClass());		
+		ExpectectedThrowables[] expectectedThrowables = AnnotationUtil.
+				getAnnotations(ExpectectedThrowables.class, 
+				this.getClass(), true);		
 		if (expectectedThrowables.length != 0){
 			ExpectectedThrowables et = expectectedThrowables[0];
 			throwableList.addAll(Arrays.asList(et.expectedThrowables()));

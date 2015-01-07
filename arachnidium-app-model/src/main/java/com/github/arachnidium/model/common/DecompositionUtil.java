@@ -40,6 +40,7 @@ import com.github.arachnidium.model.support.annotations.rootelements.IRootElemen
 import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 import com.github.arachnidium.model.support.annotations.rootelements.RootIOSElement;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
+import com.github.arachnidium.util.reflect.annotations.AnnotationUtil;
 import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 abstract class DecompositionUtil {
@@ -127,8 +128,6 @@ abstract class DecompositionUtil {
 		}
 	}
 
-	private static ClassDeclarationReader declarationReader = new ClassDeclarationReader();
-
 	/**
 	 * Creates an instance of {@link HowToGetByFrames} class if
 	 * the given class is annotated by {@link Frame}.
@@ -143,9 +142,12 @@ abstract class DecompositionUtil {
 	 * given class isn't annotated by {@link Frame}
 	 */	
 	static HowToGetByFrames getHowToGetByFramesStrategy(AnnotatedElement annotatedElement){
-		List<Object> framePath = declarationReader
-				.getFramePath(declarationReader.getAnnotations(
-						Frame.class, annotatedElement));
+		List<Object> framePath = new ArrayList<>();
+		
+		framePath.addAll(ClassDeclarationReader
+					.getFramePath(getAnnotations(
+							Frame.class, annotatedElement)));
+		
 		if (framePath.size() != 0) {	
 			HowToGetByFrames howTo = new HowToGetByFrames();
 			framePath.forEach((chainElement) -> {
@@ -190,26 +192,25 @@ abstract class DecompositionUtil {
 			Class<? extends Annotation> handleUniqueIdentifiers,
 			Class<? extends Annotation> additionalStringIdentifier,
 			AnnotatedElement annotated, Class<T> howToClass) {
-		Annotation[] indexAnnotations = declarationReader
-				.getAnnotations(indexAnnotation, annotated);
+		Annotation[] indexAnnotations = getAnnotations(indexAnnotation, annotated);
 		Integer index = null;
 		if (indexAnnotations.length > 0) {
-			index = declarationReader.getIndex(indexAnnotations[0]);
+			index = ClassDeclarationReader.getIndex(indexAnnotations[0]);
 		}
 	
-		Annotation[] handleUniqueIdentifiers2 = declarationReader
-				.getAnnotations(handleUniqueIdentifiers, annotated);
-		List<String> identifiers = declarationReader
+		Annotation[] handleUniqueIdentifiers2 = getAnnotations(handleUniqueIdentifiers, 
+				annotated);
+		List<String> identifiers = ClassDeclarationReader
 				.getRegExpressions(handleUniqueIdentifiers2);
 		if (identifiers.size() == 0) {
 			identifiers = null;
 		}
 	
 		String additionalStringIdentifier2 = null;
-		Annotation[] additionalStringIdentifiers = declarationReader
-				.getAnnotations(additionalStringIdentifier, annotated);
+		Annotation[] additionalStringIdentifiers = getAnnotations(additionalStringIdentifier, 
+				annotated);
 		if (additionalStringIdentifiers.length > 0) {
-			additionalStringIdentifier2 = declarationReader
+			additionalStringIdentifier2 = ClassDeclarationReader
 					.getRegExpressions(additionalStringIdentifiers).get(0);
 		}
 	
@@ -243,12 +244,12 @@ abstract class DecompositionUtil {
 	 * @return {@link Long} value if annotation is present. <code>null</code> otherwise
 	 */
 	static Long getTimeOut(AnnotatedElement annotated) {
-		TimeOut[] timeOuts = declarationReader.getAnnotations(
+		TimeOut[] timeOuts = getAnnotations(
 				TimeOut.class, annotated);
 		if (timeOuts.length == 0) {
 			return null;
 		}
-		return declarationReader.getTimeOut(timeOuts[0]);
+		return ClassDeclarationReader.getTimeOut(timeOuts[0]);
 	}
 
 	static IRootElementReader getRootElementReader(ESupportedDrivers supportedDriver){
@@ -479,5 +480,13 @@ abstract class DecompositionUtil {
 			return (T) args[paramIndex];
 		}
 		return null;
+	}
+	
+	private static <T extends Annotation> T[] getAnnotations(Class<? extends Annotation> requiredAnnotation, AnnotatedElement target){
+		if (!Class.class.isAssignableFrom(target.getClass())){
+			return AnnotationUtil.getAnnotations(requiredAnnotation, target);
+		}
+		
+		return AnnotationUtil.getAnnotations(requiredAnnotation, (Class<?>) target, true);
 	}
 }

@@ -14,7 +14,7 @@ import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class Videos<S extends Handle> extends HasSearchField<S> {
 
-	@FindBy(className = "video_row_cont")
+	@FindBy(className = "video_image_div")
 	@AndroidFindBy(id = "com.vkontakte.android:id/album_thumb")
 	private List<WebElement> videos;
 	
