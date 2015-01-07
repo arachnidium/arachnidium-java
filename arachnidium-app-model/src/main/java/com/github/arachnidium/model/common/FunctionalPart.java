@@ -86,9 +86,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	}
 	
-	final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
-			{FunctionalPart.class, HowToGetByFrames.class, By.class}; 
-
 	FunctionalPart<?> parent; // parent test object
 	// parent application
 	protected Application<?, ?> application;
@@ -248,7 +245,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	private <T extends IDecomposable> T get(Class<T> partClass,
 			Object[] parameters) {
 		T result = DecompositionUtil.get(partClass,
-				DEFAULT_PARAMETERS_FOR_DECOPMOSITION, parameters);
+				parameters);
 		return result;
 	}
 

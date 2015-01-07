@@ -12,7 +12,7 @@ import com.github.arachnidium.model.support.HowToGetByFrames;
 
 public class Videos<S extends Handle> extends HasSearchField<S> {
 
-	@FindBy(className = "video_row_cont")
+	@FindBy(className = "video_image_div")
 	private List<WebElement> videos;
 	
 	protected Videos(FunctionalPart<S> parent, HowToGetByFrames path, By by) {
@@ -26,7 +26,7 @@ public class Videos<S extends Handle> extends HasSearchField<S> {
 	
 	@InteractiveMethod
 	public void playVideo(int index){
-		videos.get(index).findElement(By.className("video_row_info_play")).click();
+		videos.get(index).click();
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

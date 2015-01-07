@@ -68,9 +68,6 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 * @see ScreenManager
 	 */
 	protected final Manager<U, ?> manager;
-	final static Class<?>[] DEFAULT_PARAMETERS_FOR_DECOPMOSITION = new Class<?>[] 
-			{Handle.class, HowToGetByFrames.class, By.class}; 
-	
 	/**
 	 * {@link Handle} is the given browser window or mobile context which
 	 * currently present. <br/>
@@ -85,7 +82,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	}
 
 	private <T extends IDecomposable> T get(Class<T> partClass, Object[] values) {
-		T part = DecompositionUtil.get(partClass, DEFAULT_PARAMETERS_FOR_DECOPMOSITION, values);
+		T part = DecompositionUtil.get(partClass, values);
 		// get(partClass, params, values);
 		((FunctionalPart<?>) part).application = this;
 		addChild((ModelObject<?>) part);

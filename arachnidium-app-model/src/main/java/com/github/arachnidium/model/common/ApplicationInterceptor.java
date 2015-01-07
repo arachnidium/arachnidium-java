@@ -16,6 +16,7 @@ import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IDecomposableByHandles;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 /**
  *This an iterceptor of {@link Application} methods.
@@ -61,9 +62,9 @@ class ApplicationInterceptor extends ModelObjectInterceptor{
 						getInstantiatedSupportedDriver();
 				Object[] newArgs = DecompositionUtil.getRelevantArgs2(supportedDriver, method, args, desiredClass);
 				args = newArgs;
-				method = MethodReadingUtil.getSuitableMethod(
+				method = ExecutableUtil.getRelevantMethod(
 						application.getClass(), DecompositionUtil.GET_PART, args);
-				methodProxy = MethodReadingUtil.getMethodProxy(
+				methodProxy = DecompositionUtil.getMethodProxy(
 						application.getClass(), method);
 
 			}

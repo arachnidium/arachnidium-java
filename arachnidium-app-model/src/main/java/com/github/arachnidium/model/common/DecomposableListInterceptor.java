@@ -24,6 +24,7 @@ import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.ByNumbered;
 import com.github.arachnidium.model.support.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.IRootElementReader;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 class DecomposableListInterceptor implements MethodInterceptor {
 	private final Field lisField;
@@ -114,7 +115,7 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		} else {
 			args = clearArgs(new Object[] { target, howToGetByFrames });
 		}
-		Method method = MethodReadingUtil.getSuitableMethod(invoker.getClass(),
+		Method method = ExecutableUtil.getRelevantMethod(invoker.getClass(),
 				DecompositionUtil.GET_PART, args);
 		try {
 			return (IDecomposable) method.invoke(invoker, args);
@@ -156,12 +157,10 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		for (int i = 0; i < totalElements; i++) {
 			if (isInvokerApp) {
 				result.add(DecompositionUtil.get(required,
-						Application.DEFAULT_PARAMETERS_FOR_DECOPMOSITION,
 						new Object[] { intermediate.getHandle(),
 								howToGetByFrames, new ByNumbered(by, i) }));
 			} else {
 				result.add(DecompositionUtil.get(required,
-						FunctionalPart.DEFAULT_PARAMETERS_FOR_DECOPMOSITION,
 						new Object[] { invoker, howToGetByFrames,
 								new ByNumbered(by, i) }));
 			}

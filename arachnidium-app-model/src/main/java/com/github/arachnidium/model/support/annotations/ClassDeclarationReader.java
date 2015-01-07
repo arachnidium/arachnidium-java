@@ -1,71 +1,54 @@
 package com.github.arachnidium.model.support.annotations;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.How;
-
-import com.github.arachnidium.model.support.IDefaultAnnotationReader;
+import com.github.arachnidium.util.reflect.annotations.AnnotationUtil;
 
 /**
  * Reads annotations which mark classes.
  * It is the inner utility class.
  */
-public class ClassDeclarationReader implements IDefaultAnnotationReader{
+public final class ClassDeclarationReader {
 
 	private static final String REG_EXP_METHOD = "regExp";
 	private static final String INDEX_METHOD = "index";
 	private static final String TIME_OUT = "timeOut";
-	private static final Class<?>[] ANNOTATION_METHOD_PARAM_CLASSES = new Class<?>[] {};
-	private static final Object[] ANNOTATION_METHOD_PARAM_VALUES = new Object[] {};
-
 	// @Frame
 	private static final String STRING_PATH_METHOD = "stringPath";
 	private static final String FRAME_INDEX_METHOD = "frameIndex";
 	private static final String HOW_TO_GET_FRAME_ELEMENT = "howToGet";
 	private static final String HOW_TO_GET_LOCATOR_VALUE = "locator";
 	
-
-	// --@Frame@SuppressWarnings("unchecked")
-	@SuppressWarnings("unchecked")
-	private static <T extends Object> T getValue(Annotation a, String methodName) {
-		try {
-			Method m = a.getClass().getMethod(methodName,
-					ANNOTATION_METHOD_PARAM_CLASSES);
-			return (T) m.invoke(a, ANNOTATION_METHOD_PARAM_VALUES);
-		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException
-				| SecurityException e) {
-			throw new RuntimeException(e);
-		}
+	private ClassDeclarationReader(){
+		super();
 	}
-	
+
 	/**
 	 * Returns "regExp()" value
 	 * @param a An instance of Annotation which has "regExp()" method 
 	 */
 	private static String getRegExpression(Annotation a){
-		return getValue(a, REG_EXP_METHOD);
+		return AnnotationUtil.getValue(a, REG_EXP_METHOD);
 	}
 	
 	/**
 	 * Returns "index()" value
 	 * @param a An instance of Annotation which has "index()" method 
 	 */	
-	public Integer getIndex(Annotation a){
-		return getValue(a, INDEX_METHOD);
+	public static Integer getIndex(Annotation a){
+		return AnnotationUtil.getValue(a, INDEX_METHOD);
 	}	
 	
 	/**
 	 * Returns "regExp()" value
 	 * @param a An instance of Annotation{@A1}. A1 has "regExp()" method 
 	 */		
-	public List<String> getRegExpressions(Annotation[] a){
+	public static List<String> getRegExpressions(Annotation[] a){
 		List<String> result = new ArrayList<String>();
 		for (Annotation annotation: a){
 			result.add(getRegExpression(annotation));
@@ -99,24 +82,24 @@ public class ClassDeclarationReader implements IDefaultAnnotationReader{
 	/**
 	 * Reads {@link Frames} annotation
 	 */
-	public List<Object> getFramePath(Frame[] frames){
+	public static List<Object> getFramePath(Frame[] frames){
 		List<Object> result = new ArrayList<Object>();
 		String info = STRING_PATH_METHOD + ", " + FRAME_INDEX_METHOD + ", {" +
 		HOW_TO_GET_FRAME_ELEMENT + " & " + HOW_TO_GET_LOCATOR_VALUE + "}";
 		for (Frame frame: frames){
 			Object[] filled = new Object[3];
-			String path = getValue(frame, STRING_PATH_METHOD);
+			String path = AnnotationUtil.getValue(frame, STRING_PATH_METHOD);
 			if (!Frame.ILLEGAL_FRAME_STRING_PATH.equals(path)){
 				filled[0] = path; 
 			}
-			int index = getValue(frame, FRAME_INDEX_METHOD);
+			int index = AnnotationUtil.getValue(frame, FRAME_INDEX_METHOD);
 			if (Frame.ILLEGAL_FRAME_INDEX != index){
 				filled[1] = index;
 			}
 			
-			String locator = getValue(frame, HOW_TO_GET_LOCATOR_VALUE);
+			String locator = AnnotationUtil.getValue(frame, HOW_TO_GET_LOCATOR_VALUE);
 			if (!Frame.ILLEGAL_LOCATOR.equals(locator)){
-				filled[2] = getBy(getValue(frame, HOW_TO_GET_FRAME_ELEMENT), locator); 
+				filled[2] = getBy(AnnotationUtil.getValue(frame, HOW_TO_GET_FRAME_ELEMENT), locator); 
 			}
 			
 			int filledCount = 0;
@@ -143,8 +126,8 @@ public class ClassDeclarationReader implements IDefaultAnnotationReader{
 	 * Returns "timeOut()" value
 	 * @param a An instance of Annotation which has "timeOut()" method 
 	 */	
-	public long getTimeOut(Annotation a){
-		return getValue(a, TIME_OUT);
+	public static long getTimeOut(Annotation a){
+		return AnnotationUtil.getValue(a, TIME_OUT);
 	}
 	
 }
