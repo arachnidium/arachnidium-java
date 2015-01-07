@@ -157,12 +157,10 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		for (int i = 0; i < totalElements; i++) {
 			if (isInvokerApp) {
 				result.add(DecompositionUtil.get(required,
-						Application.DEFAULT_PARAMETERS_FOR_DECOPMOSITION,
 						new Object[] { intermediate.getHandle(),
 								howToGetByFrames, new ByNumbered(by, i) }));
 			} else {
 				result.add(DecompositionUtil.get(required,
-						FunctionalPart.DEFAULT_PARAMETERS_FOR_DECOPMOSITION,
 						new Object[] { invoker, howToGetByFrames,
 								new ByNumbered(by, i) }));
 			}

@@ -49,10 +49,16 @@ abstract class DecompositionUtil {
 	 * Creation of any decomposable part of application
 	 */
 	static <T extends IDecomposable> T get(Class<T> partClass,
-			Class<?>[] params, Object[] paramValues) {
+			Object[] paramValues) {
 		try{
+			Constructor<?> c = ExecutableUtil.getRelevantConstructor(partClass, paramValues);
+			if (c == null){
+				throw new RuntimeException(new NoSuchMethodException("There is no cunstructor which matches to " + Arrays.asList(paramValues).toString() + 
+						". The target class is " + partClass.getName()));
+			}
+			
 			T decomposable = EnhancedProxyFactory.getProxy(partClass,
-					getRelevantConstructorParameters(params, paramValues, partClass), paramValues,
+					c.getParameterTypes(), paramValues,
 					new InteractiveInterceptor() {
 					});
 			DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) decomposable);
@@ -371,54 +377,6 @@ abstract class DecompositionUtil {
 			return (Class<?>) args[0];
 		}
 		return null;
-	}
-	
-	static Class<?>[] getRelevantConstructorParameters(
-			Class<?>[] paramerers, 
-			Object[] values,
-			Class<? extends IDecomposable> requiredClass) throws NoSuchMethodException {
-		
-		Constructor<?>[] declaredConstructors = requiredClass
-				.getDeclaredConstructors();
-		
-		for (Constructor<?> constructor: declaredConstructors){			
-			Class<?>[] declaredParams = constructor.getParameterTypes();			
-			if (declaredParams.length != paramerers.length){
-				continue;
-			}
-			
-			Class<?>[] result = new Class<?>[]{};
-			boolean matches = true;
-			int i = 0;
-			for (Class<?> declaredParam: declaredParams){
-				if (declaredParam.isAssignableFrom(paramerers[i])){
-					result = ArrayUtils.add(result, paramerers[i]);
-					i++;
-					continue;
-				}
-				
-				if (values[i] == null){
-					result = ArrayUtils.add(result, paramerers[i]);
-					i++;
-					continue;					
-				}
-				
-				if (declaredParam.isAssignableFrom(values[i].getClass())){
-					result = ArrayUtils.add(result, declaredParam);
-					i++;
-					continue;
-				}				
-				matches = false;
-				break;
-			}
-			
-			if (matches){
-				return result;
-			}
-		}
-		
-		throw new NoSuchMethodException("There is no cunstructor which matches to " + Arrays.asList(paramerers).toString() + 
-				". The target class is " + requiredClass.getName());
 	}
 	
 	/**

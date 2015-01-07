@@ -2,6 +2,7 @@ package com.github.arachnidium.model.common;
 
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.util.Arrays;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +16,7 @@ import com.github.arachnidium.core.settings.WebDriverSettings;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 /**
  * Utility class that contains methods which create {@link Application}
@@ -128,10 +130,17 @@ public abstract class ApplicationFactory {
 			if (config != null){
 				h.driverEncapsulation.resetAccordingTo(config);
 			}
+			
+			Object[] params = new Object[] { h };
+			Constructor<?> c = ExecutableUtil.getRelevantConstructor(appClass, params);
+			
+			if (c == null){
+				throw new RuntimeException(new NoSuchMethodException("There is no cunstructor which matches to " + Arrays.asList(params).toString() + 
+						". The target class is " + appClass.getName()));
+			}
+			
 			T result = EnhancedProxyFactory.getProxy(appClass,
-					DecompositionUtil.
-					getRelevantConstructorParameters(new Class<?>[]{Handle.class},
-							new Object[] { h }, appClass),
+					c.getParameterTypes(),
 					new Object[] { h }, new ApplicationInterceptor() {
 					});
 			DecompositionUtil.populateFieldsWhichAreDecomposable(result);
