@@ -11,6 +11,7 @@ import com.github.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import com.github.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.annotations.Frame;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 /**
  * 
@@ -74,9 +75,9 @@ class InteractiveInterceptor extends ModelObjectInterceptor {
 				Object[] newArgs = DecompositionUtil.
 						getRelevantArgs(supportedDriver, method, args, target);
 				args = newArgs;
-				method = MethodReadingUtil.getSuitableMethod(
+				method = ExecutableUtil.getRelevantMethod(
 						funcPart.getClass(), DecompositionUtil.GET_PART, args);
-				methodProxy = MethodReadingUtil.getMethodProxy(
+				methodProxy = DecompositionUtil.getMethodProxy(
 						funcPart.getClass(), method);
 			}
 			return super.intercept(funcPart, method, args, methodProxy);

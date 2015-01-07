@@ -5,11 +5,14 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import net.sf.cglib.core.Signature;
+import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
@@ -37,6 +40,7 @@ import com.github.arachnidium.model.support.annotations.rootelements.IRootElemen
 import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 import com.github.arachnidium.model.support.annotations.rootelements.RootIOSElement;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 abstract class DecompositionUtil {
 	static final String GET_PART = "getPart";
@@ -94,14 +98,14 @@ abstract class DecompositionUtil {
 					if (ModelObject.class.isAssignableFrom(fieldClass)){ //if here is a field where 
 						//should be only single object
 						Object[] args = new Object[] {field.getType()};
-						Method m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
+						Method m = ExecutableUtil.getRelevantMethod(clazz, GET_PART, args);
 						if (Application.class.isAssignableFrom(clazz)){
 							args = getRelevantArgs2(supportedDriver, m, args, field);
 						}
 						else{
 							args = getRelevantArgs(supportedDriver, m, args, field);
 						}
-						m = MethodReadingUtil.getSuitableMethod(clazz, GET_PART, args);
+						m = ExecutableUtil.getRelevantMethod(clazz, GET_PART, args);
 						ModelObject<?> value =  (ModelObject<?>) m.invoke(targetDecomposableObject, args);
 						field.set(targetDecomposableObject, value);
 						//ModelObject fields of a new mock-instance are mocked too 
@@ -262,13 +266,12 @@ abstract class DecompositionUtil {
 	 */
 	static Object[] getRelevantArgs(ESupportedDrivers supportedDriver, Method method, Object[] args, 
 			AnnotatedElement annotatedElement) {		
-		HowToGetByFrames howTo = MethodReadingUtil
-				.getDefinedParameter(method, HowToGetByFrames.class,
+		HowToGetByFrames howTo = getDefinedParameter(method, HowToGetByFrames.class,
 						args);
 		if (howTo == null)
 			howTo = getHowToGetByFramesStrategy(annotatedElement);
 		
-		By rootBy = MethodReadingUtil.getDefinedParameter(method,
+		By rootBy = getDefinedParameter(method,
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
@@ -303,29 +306,28 @@ abstract class DecompositionUtil {
 	static Object[] getRelevantArgs2(ESupportedDrivers supportedDriver, Method method, Object[] args, 
 			AnnotatedElement annotatedElement) {	
 		
-		IHowToGetHandle how = MethodReadingUtil.getDefinedParameter(method, IHowToGetHandle.class, args);
+		IHowToGetHandle how = getDefinedParameter(method, IHowToGetHandle.class, args);
 		if (how == null)
 			how = getRelevantHowToGetHandleStrategy(supportedDriver, annotatedElement);
 			
 		
-		Integer index = MethodReadingUtil.getDefinedParameter(method, int.class, args);
+		Integer index = getDefinedParameter(method, int.class, args);
 		// if index of a window/screen was defined
 		if (how != null && index != null) {
 			how.setExpected(index.intValue());
 		}
 		
-		Long timeOutLong = MethodReadingUtil.getDefinedParameter(method, long.class, args);
+		Long timeOutLong = getDefinedParameter(method, long.class, args);
 		if (timeOutLong == null)
 			timeOutLong = getTimeOut(annotatedElement);
 		
 		
-		HowToGetByFrames howTo = MethodReadingUtil
-				.getDefinedParameter(method, HowToGetByFrames.class,
+		HowToGetByFrames howTo = getDefinedParameter(method, HowToGetByFrames.class,
 						args);
 		if (howTo == null)
 			howTo = getHowToGetByFramesStrategy(annotatedElement);
 		
-		By rootBy = MethodReadingUtil.getDefinedParameter(method,
+		By rootBy = getDefinedParameter(method,
 				By.class, args);
 		if (rootBy == null) {
 			IRootElementReader rootElementReader = getRootElementReader(supportedDriver);
@@ -496,5 +498,28 @@ abstract class DecompositionUtil {
 			return howToGetMobileScreen;
 		}			
 	}
-
+	
+	/**
+	 * Converts the given {@link Method} to {@link MethodProxy}
+	 * 
+	 * @param clazz A class whose {@link Method} should be converted to {@link MethodProxy}
+	 * @param m a method to be converted to {@link MethodProxy}
+	 * @return an instance of {@link MethodProxy}
+	 */
+	static MethodProxy getMethodProxy(Class<?> clazz, Method m){
+		org.objectweb.asm.Type returned = org.objectweb.asm.Type.getReturnType(m);
+		org.objectweb.asm.Type[] argTypes = org.objectweb.asm.Type.getArgumentTypes(m);
+		Signature s = new Signature(m.getName(), returned, argTypes);
+		return MethodProxy.find(clazz, s);		
+	}	
+	
+	@SuppressWarnings("unchecked")
+	static <T> T getDefinedParameter(Method method, Class<?> desiredClass, Object[] args){
+		int paramIndex = ExecutableUtil.getParameterIndex(
+				method, desiredClass);
+		if (paramIndex >= 0){
+			return (T) args[paramIndex];
+		}
+		return null;
+	}
 }
