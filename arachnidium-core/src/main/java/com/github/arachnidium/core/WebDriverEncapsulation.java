@@ -17,7 +17,9 @@
 
 package com.github.arachnidium.core;
 
+import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.util.Arrays;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -38,6 +40,7 @@ import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 /**
  * This class creates an instance of required {@link WebDriver} implementor,
@@ -47,19 +50,13 @@ import com.github.arachnidium.util.logging.Log;
 public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		WrapsDriver, IConfigurationWrapper {
 
-	private static void prelaunch(ESupportedDrivers supporteddriver,
-			Configuration config, Capabilities capabilities) {
-		supporteddriver.launchRemoteServerLocallyIfWasDefined();
-		supporteddriver.setSystemProperty(config, capabilities);
-	}
-
-	private RemoteWebDriver enclosedDriver;
+	private final RemoteWebDriver enclosedDriver;
 
 	private Configuration configuration = Configuration.byDefault;
 	final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
 			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
-	private TimeOut timeOut;
+	private final TimeOut timeOut;
 	private final ESupportedDrivers instantiatedESupportedDriver;
 	
 	/**
@@ -76,9 +73,8 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities) {
-		prelaunch(supporteddriver, this.configuration, capabilities);
-		constructorBody(supporteddriver, capabilities, (URL) null);
-		this.instantiatedESupportedDriver = supporteddriver;
+		this(supporteddriver, returnCommonConstructorValues(supporteddriver,
+				capabilities, (URL) null));
 	}
 
 	/**
@@ -99,17 +95,14 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	 */
 	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
-		constructorBody(supporteddriver, capabilities, remoteAddress);
-		this.instantiatedESupportedDriver = supporteddriver;
+		this(supporteddriver, returnCommonConstructorValues(supporteddriver,
+				capabilities, remoteAddress));
 	}
 
-	// other methods:
-	private void constructorBody(ESupportedDrivers supporteddriver,
+	private static Object[] returnCommonConstructorValues(ESupportedDrivers supporteddriver,
 			Capabilities capabilities, URL remoteAddress) {
 		if (supporteddriver.startsRemotely() & remoteAddress != null)
-			createWebDriver(supporteddriver.getUsingWebDriverClass(),
-					new Class[] { URL.class, Capabilities.class },
-					new Object[] { remoteAddress, capabilities });
+			return new Object[] { remoteAddress, capabilities };
 		else {
 			if (remoteAddress == null & supporteddriver.requiresRemoteURL())
 				throw new RuntimeException(
@@ -120,36 +113,72 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			if (remoteAddress != null)
 				Log.message("Remote address " + String.valueOf(remoteAddress)
 						+ " has been ignored");
-			createWebDriver(supporteddriver.getUsingWebDriverClass(),
-					new Class[] { Capabilities.class },
-					new Object[] { capabilities });
-		}
-		String initURL = (String) capabilities.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
-		if (initURL!=null
-				&& supporteddriver.isForBrowser()){
-			enclosedDriver.get(initURL);
+			return new Object[] { capabilities };
 		}
 	}
 
-	// it makes objects of any WebDriver and navigates to specified URL
-	private void createWebDriver(Class<? extends WebDriver> driverClass,
-			Class<?>[] paramClasses, Object[] values) {
+	/**
+	 * Allows to instantiate the selected {@link WebDriver} by given parameters.
+	 * These parameters should correspond existing {@link WebDriver} constructors
+	 * 
+	 * @param supporteddriver the selected {@link WebDriver} representation
+	 * @param values they are used to launch {@link WebDriver}
+	 */
+	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
+			Object... values) {
 		try {
+			Class<? extends WebDriver> driverClass = supporteddriver.getUsingWebDriverClass();
+			Constructor<?> c = ExecutableUtil.getRelevantConstructor(driverClass, values);
+			
+			if (c == null){
+				throw new NoSuchMethodException(driverClass.getName() + " has no constructor that matches " +
+						"given parameters " + Arrays.asList(values).toString());
+			}
+			
 			enclosedDriver = (RemoteWebDriver) context.getBean(
 					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
-					destroyableObjects, driverClass, paramClasses, values);
+					destroyableObjects, driverClass, c.getParameterTypes(), values);
 			Log.message("Getting started with " + driverClass.getSimpleName());
 			timeOut = getComponent(TimeOut.class);
 			resetAccordingTo(configuration);
+			this.instantiatedESupportedDriver = supporteddriver;
+			
+			String initURL = returnInitialURL(supporteddriver, values);
+			if (initURL!=null){
+				enclosedDriver.get(initURL);
+			}
 		} catch (Exception e) {
 			Log.error(
 					"Attempt to create a new web driver instance has been failed! "
 							+ e.getMessage(), e);
 			destroy();
-			throw e;
+			throw new RuntimeException(e);
 		}
 	}
 
+	private static String returnInitialURL(ESupportedDrivers supporteddriver,
+			Object... values){
+		
+		if (!supporteddriver.isForBrowser()){
+			return null;
+		}
+		
+		String initURL = null;
+		for (Object value: values){			
+			if (initURL != null){
+				break;
+			}
+			
+			if (!Capabilities.class.isAssignableFrom(value.getClass())){
+				continue;
+			}
+			
+			Capabilities c = (Capabilities) value;
+			initURL = (String) c.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
+		}
+		return initURL;
+	}
+	
 	/**
 	 * Attempts to shut down {@link RemoteWebDriver} and destroys all related
 	 * information
