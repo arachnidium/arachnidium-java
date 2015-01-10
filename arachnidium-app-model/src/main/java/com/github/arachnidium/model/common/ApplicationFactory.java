@@ -26,7 +26,7 @@ public abstract class ApplicationFactory {
 	protected Configuration config; //By this configuration app will be launched
 	protected ESupportedDrivers supportedDriver; //desired WebDriver
 	protected Capabilities capabilities;//desired capabilities
-	protected URL remoteUrl; //URL to the desired remotehost 
+	protected URL remoteUrl; //URL to the desired remote host 
 	
 	/**
 	 * If factory instantiated this way 
@@ -125,6 +125,7 @@ public abstract class ApplicationFactory {
 		Handle h = null;
 		try {
 			objectWhichChecksWebDriver.checkGivenDriver(supportedDriver);
+			prelaunch();
 			h = getTheFirstHandle(handleManagerClass, getInitParamClasses(),
 					getInitParamValues());
 			if (config != null){
@@ -161,6 +162,15 @@ public abstract class ApplicationFactory {
 	 */
 	public abstract <T extends Application<?, ?>> T launch(Class<T> appClass);
 
+	private void prelaunch() {
+		supportedDriver.launchRemoteServerLocallyIfWasDefined();
+		if (config == null){
+			supportedDriver.setSystemProperty(Configuration.byDefault, capabilities);
+			return;
+		}
+		supportedDriver.setSystemProperty(config, capabilities);
+	}
+	
 	static Handle getTheFirstHandle(
 			Class<? extends Manager<?,?>> handleManagerClass,
 			Class<?>[] wdEncapsulationParams, Object[] wdEncapsulationParamVals) {
