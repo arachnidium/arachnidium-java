@@ -18,10 +18,8 @@
 package com.github.arachnidium.core;
 
 import java.lang.reflect.Constructor;
-import java.net.URL;
 import java.util.Arrays;
 
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
@@ -35,7 +33,6 @@ import com.github.arachnidium.core.components.WebdriverComponent;
 import com.github.arachnidium.core.components.common.TimeOut;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
-import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
 import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
@@ -58,64 +55,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	private final TimeOut timeOut;
 	private final ESupportedDrivers instantiatedESupportedDriver;
-	
-	/**
-	 * Creates and wraps an instance of required {@link RemoteWebDriver}
-	 * subclass with given {@link Capabilities}
-	 * 
-	 * @param supporteddriver
-	 *            Is the one element from {@link ESupportedDrivers} enumeration
-	 *            which contains the class of required {@link RemoteWebDriver}
-	 *            subclass
-	 * 
-	 * @param capabilities
-	 *            in an instance of {@link Capabilities}
-	 */
-	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
-			Capabilities capabilities) {
-		this(supporteddriver, returnCommonConstructorValues(supporteddriver,
-				capabilities, (URL) null));
-	}
-
-	/**
-	 * Creates and wraps an instance of required {@link RemoteWebDriver}
-	 * subclass with given {@link Capabilities}. It should be launched on the
-	 * remote host.
-	 * 
-	 * @param supporteddriver
-	 *            Is the one element from {@link ESupportedDrivers} enumeration
-	 *            which contains the class of required {@link RemoteWebDriver}
-	 *            subclass
-	 * 
-	 * @param capabilities
-	 *            in an instance of {@link Capabilities}
-	 * 
-	 * @param remoteAddress
-	 *            is the URL of the required remote host
-	 */
-	public WebDriverEncapsulation(ESupportedDrivers supporteddriver,
-			Capabilities capabilities, URL remoteAddress) {
-		this(supporteddriver, returnCommonConstructorValues(supporteddriver,
-				capabilities, remoteAddress));
-	}
-
-	private static Object[] returnCommonConstructorValues(ESupportedDrivers supporteddriver,
-			Capabilities capabilities, URL remoteAddress) {
-		if (supporteddriver.startsRemotely() & remoteAddress != null)
-			return new Object[] { remoteAddress, capabilities };
-		else {
-			if (remoteAddress == null & supporteddriver.requiresRemoteURL())
-				throw new RuntimeException(
-						"Defined driver '"
-								+ supporteddriver.toString()
-								+ "' requires remote address (URL)! Please, define it in settings.json "
-								+ "or use suitable constructor");
-			if (remoteAddress != null)
-				Log.message("Remote address " + String.valueOf(remoteAddress)
-						+ " has been ignored");
-			return new Object[] { capabilities };
-		}
-	}
 
 	/**
 	 * Allows to instantiate the selected {@link WebDriver} by given parameters.
@@ -143,10 +82,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			resetAccordingTo(configuration);
 			this.instantiatedESupportedDriver = supporteddriver;
 			
-			String initURL = returnInitialURL(supporteddriver, values);
-			if (initURL!=null){
-				enclosedDriver.get(initURL);
-			}
 		} catch (Exception e) {
 			Log.error(
 					"Attempt to create a new web driver instance has been failed! "
@@ -154,29 +89,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			destroy();
 			throw new RuntimeException(e);
 		}
-	}
-
-	private static String returnInitialURL(ESupportedDrivers supporteddriver,
-			Object... values){
-		
-		if (!supporteddriver.isForBrowser()){
-			return null;
-		}
-		
-		String initURL = null;
-		for (Object value: values){			
-			if (initURL != null){
-				break;
-			}
-			
-			if (!Capabilities.class.isAssignableFrom(value.getClass())){
-				continue;
-			}
-			
-			Capabilities c = (Capabilities) value;
-			initURL = (String) c.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
-		}
-		return initURL;
 	}
 	
 	/**
