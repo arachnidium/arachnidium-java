@@ -69,7 +69,10 @@ public abstract class ApplicationFactory {
 	
 	/**
 	 * If factory instantiated this way 
-	 * the app will be started using the given {@link Configuration}
+	 * the app will be started using the given {@link Configuration}.
+	 * 
+	 * Declared  {@link ESupportedDrivers} (it is {@link WebDriver} description), {@link Capabilities} and
+	 * {@link URL} (it is the desired remote host URL which is used optionally) are used here
 	 */
 	protected ApplicationFactory(Configuration configuration){
 		this(extractSupportedDriver(configuration), extractRequiredParameters(configuration));
@@ -116,6 +119,15 @@ public abstract class ApplicationFactory {
 		this(supportedDriver, new Object[]{capabilities, remoteUrl});
 	}
 	
+	/**
+	 * If factory instantiated this way 
+	 * the app will be started using desired
+	 * {@link WebDriver} description and given parameters.
+	 * These parameters should correspond existing {@link WebDriver} constructors
+	 * 
+	 * @param supporteddriver the selected {@link WebDriver} representation
+	 * @param params they are used to launch {@link WebDriver}
+	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver, Object[] params){
 		this.supportedDriver = supportedDriver;
 		config = null;
