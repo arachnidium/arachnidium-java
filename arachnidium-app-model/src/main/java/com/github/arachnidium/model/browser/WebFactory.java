@@ -1,13 +1,11 @@
 package com.github.arachnidium.model.browser;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.WindowManager;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.core.settings.supported.ExtendedCapabilityType;
@@ -22,13 +20,6 @@ public final class WebFactory extends ApplicationFactory {
 						" is not for browser launching!");
 			}
 		};
-	@SuppressWarnings("unchecked")
-	private static Map<String, Object> setInitURLToCapabilityMap(Capabilities capabilities, String initURL){
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.putAll((Map<String, Object>) capabilities.asMap());
-		map.put(ExtendedCapabilityType.BROWSER_INITIAL_URL, initURL);
-		return map;
-	}
 
 
 	
@@ -85,12 +76,41 @@ public final class WebFactory extends ApplicationFactory {
 			Capabilities capabilities, URL remoteUrl){
 		super(supportedDriver, capabilities, remoteUrl);
 	}
+	
+	
+	public WebFactory(ESupportedDrivers supportedDriver, 
+			Object[] paramValues){
+		super(supportedDriver, paramValues);
+	}
 
 
+	private String returnInitialURL(){
+		
+		String initURL = null;
+		for (Object value: paramValues){			
+			if (initURL != null){
+				break;
+			}
+			
+			if (!Capabilities.class.isAssignableFrom(value.getClass())){
+				continue;
+			}
+			
+			Capabilities c = (Capabilities) value;
+			initURL = (String) c.getCapability(ExtendedCapabilityType.BROWSER_INITIAL_URL);
+		}
+		return initURL;
+	}
 
 	@Override
 	public <T extends Application<?, ?>> T launch(Class<T> appClass) {
-		return launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
+		T result =  super.launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
+		BrowserWindow window = (BrowserWindow) result.getHandle();
+		String initURL = returnInitialURL();
+		
+		if (initURL != null)
+			window.to(initURL);
+		return result;
 	}
 	
 	/**
@@ -101,8 +121,10 @@ public final class WebFactory extends ApplicationFactory {
 	 * @return an instance of the given appClass
 	 */
 	public <T extends Application<?, ?>> T launch(Class<T> appClass, String desiredUrl) {
-		capabilities = new DesiredCapabilities(setInitURLToCapabilityMap(capabilities, desiredUrl));
-		return launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
+		T result =  super.launch(WindowManager.class, appClass, objectWhichChecksWebDriver);
+		BrowserWindow window = (BrowserWindow) result.getHandle();		
+		window.to(desiredUrl);		
+		return result;
 	}
 	
 	

@@ -18,7 +18,7 @@ public class LogOut<S extends Handle> extends FunctionalPart<S> {
 		@FindBy(id="gbgs4d")})
 	private Link profile;	
 	@FindAll({@FindBy(xpath = ".//*[@class='gbmpalb']/a"),
-		@FindBy(xpath = ".//*[@class='gb_ta']/div[2]/a")})
+		@FindBy(xpath = ".//*[@class='gb_ua']/div[2]/a")})
 	private Button quitButton;
 
 	protected LogOut(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
