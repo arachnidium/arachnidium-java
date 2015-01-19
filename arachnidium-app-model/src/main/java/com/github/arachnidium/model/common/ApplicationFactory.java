@@ -186,6 +186,8 @@ public abstract class ApplicationFactory {
 		dc.merge(supportedDriver.getDefaultCapabilities());
 		
 		Arrays.asList(paramValues).forEach(param -> {
+			if (param == null)
+				return;
 			if (Capabilities.class.isAssignableFrom(param.getClass()))
 				dc.merge((Capabilities) param);
 		});
