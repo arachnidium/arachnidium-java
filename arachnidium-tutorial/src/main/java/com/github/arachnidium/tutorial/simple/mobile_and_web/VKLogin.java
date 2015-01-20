@@ -57,7 +57,7 @@ public class VKLogin<S extends Handle> extends FunctionalPart<S> {
 	
 	@FindAll(
 			{@FindBy(xpath = "//button[contains(.,'Log in')]"),
-			@FindBy(xpath = "//button[contains(.,'Р’РѕР№С‚Рё')]")
+			@FindBy(xpath = "//button[contains(.,'Войти')]")
 	})
 	@AndroidFindBy(id = "com.vkontakte.android:id/auth_btn")
 	private WebElement logInBtn;

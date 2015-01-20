@@ -17,9 +17,6 @@
 
 package com.github.arachnidium.core;
 
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.internal.WrapsDriver;
@@ -37,7 +34,6 @@ import com.github.arachnidium.util.configuration.Configuration;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurable;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
-import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 /**
  * This class creates an instance of required {@link WebDriver} implementor,
@@ -67,16 +63,10 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 			Object... values) {
 		try {
 			Class<? extends WebDriver> driverClass = supporteddriver.getUsingWebDriverClass();
-			Constructor<?> c = ExecutableUtil.getRelevantConstructor(driverClass, values);
-			
-			if (c == null){
-				throw new NoSuchMethodException(driverClass.getName() + " has no constructor that matches " +
-						"given parameters " + Arrays.asList(values).toString());
-			}
 			
 			enclosedDriver = (RemoteWebDriver) context.getBean(
 					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
-					destroyableObjects, driverClass, c.getParameterTypes(), values);
+					destroyableObjects, driverClass, values);
 			Log.message("Getting started with " + driverClass.getSimpleName());
 			timeOut = getComponent(TimeOut.class);
 			resetAccordingTo(configuration);

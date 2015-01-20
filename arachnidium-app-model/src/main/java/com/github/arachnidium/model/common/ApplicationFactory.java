@@ -94,7 +94,7 @@ public abstract class ApplicationFactory {
 	 * and its default {@link Capabilities} 
 	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver){
-		this(supportedDriver, supportedDriver.getDefaultCapabilities(), null);
+		this(supportedDriver, new Object[]{supportedDriver.getDefaultCapabilities()});
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public abstract class ApplicationFactory {
 	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver, 
 			Capabilities capabilities){
-		this(supportedDriver, capabilities, null);
+		this(supportedDriver, new Object[]{capabilities});
 	}	
 	
 	/**

@@ -5,8 +5,11 @@ import io.appium.java_client.MobileElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.JavascriptExecutor;
@@ -66,9 +69,14 @@ public class MainBeanConfiguration {
 			IConfigurationWrapper configurationWrapper,
 			IDestroyable destroyable,
 			Class<T> required,
-			Class<?>[] paramClasses, Object[] paramValues) {
+			Object[] paramValues) {
 		try {
-			Constructor<?> c = required.getConstructor(paramClasses);
+            Constructor<?> c = ExecutableUtil.getRelevantConstructor(required, paramValues);
+			
+			if (c == null){
+				throw new NoSuchMethodException(required.getName() + " has no constructor that matches " +
+						"given parameters " + Arrays.asList(paramValues).toString());
+			}
 			T result = (T) c.newInstance(paramValues);
 			return (T) populate(context, configurationWrapper, destroyable, result);
 		} catch (NoSuchMethodException | SecurityException
