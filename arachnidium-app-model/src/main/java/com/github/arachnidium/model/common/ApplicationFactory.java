@@ -116,7 +116,7 @@ public abstract class ApplicationFactory {
 	 */
 	protected ApplicationFactory(ESupportedDrivers supportedDriver, 
 			Capabilities capabilities, URL remoteUrl){
-		this(supportedDriver, new Object[]{capabilities, remoteUrl});
+		this(supportedDriver, new Object[]{remoteUrl, capabilities});
 	}
 	
 	/**
