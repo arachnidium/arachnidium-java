@@ -11,7 +11,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.arachnidium</groupId>
 	<artifactId>arachnidium</artifactId>
-	<version>0.9.9.9-BETA</version>
+	<version>1.0.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>arachnidium</name>
 
@@ -49,7 +49,7 @@
 		<url>scm:git:git@github.com:/arachnidium/arachnidium-java.git</url>
 		<connection>scm:git:git@github.com:arachnidium/arachnidium-java.git</connection>
 		<developerConnection>scm:git:git@github.com:arachnidium/arachnidium-java.git</developerConnection>
-	  <tag>0.9.9.9-BETA</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
