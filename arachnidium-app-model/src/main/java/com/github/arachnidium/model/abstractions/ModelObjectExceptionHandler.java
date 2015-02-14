@@ -42,6 +42,7 @@ IModelObjectExceptionHandler {
 		if (expectectedThrowables.length != 0){
 			ExpectectedThrowables et = expectectedThrowables[0];
 			throwableList.addAll(Arrays.asList(et.expectedThrowables()));
+			expectedMessagePattern = et.messagePattern();
 		}
 	}
 	

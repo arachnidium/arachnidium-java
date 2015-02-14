@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface ExpectectedThrowables {
 	Class<? extends Throwable>[]  expectedThrowables();
+	String messagePattern() default ".*"; 
 }
