@@ -19,7 +19,6 @@ package com.github.arachnidium.model.abstractions;
 
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -36,10 +35,11 @@ import com.github.arachnidium.core.components.WebdriverComponent;
 import com.github.arachnidium.core.components.common.Awaiting;
 import com.github.arachnidium.core.components.common.DriverLogs;
 import com.github.arachnidium.core.interfaces.IDestroyable;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectExceptionHandler;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.UsedImplicitExceptionHandlerReader;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
 import com.github.arachnidium.model.support.HowToGetByFrames;
-import com.github.arachnidium.util.reflect.annotations.AnnotationUtil;
 
 /**
  * This is a basic abstraction 
@@ -88,7 +88,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 							}
 							
 							if (handler.getExpectedMessagePattern() != null){
-								if (!handler.doesExceptionMessageMatch(t.getMessage())){
+								if (!handler.doesExceptionMessageMatch(t)){
 									continue;
 								}
 							}
@@ -120,21 +120,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		driverEncapsulation = handle.driverEncapsulation;
 		awaiting = new Awaiting(driverEncapsulation.getWrappedDriver());
 		logs = driverEncapsulation.getComponent(DriverLogs.class);
-
-		UsedImplicitExceptionHandlers[] annotations = AnnotationUtil.getAnnotations(
-				UsedImplicitExceptionHandlers.class, this.getClass(), true);
-		if (annotations.length != 0) {
-			UsedImplicitExceptionHandlers ueh = annotations[0];
-			List<Class<? extends ModelObjectExceptionHandler>> throwableHandlers = Arrays
-					.asList(ueh.areUsed());
-			throwableHandlers.forEach((handler) -> {
-				try {
-					checkInExceptionHandler(handler.newInstance());
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			});
-		}
+		checkInExceptionHandlers(UsedImplicitExceptionHandlerReader.getDeclaredExceptionHandlers(this.getClass()));
 	}
 
 	/**
@@ -147,12 +133,12 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	}
 
 	/**
-	 * This method add an object that 
-	 * performs automatically handling of 
+	 * This method adds an object that 
+	 * performs handling of 
 	 * some caught exception.  
 	 * 
 	 * @param exceptionHandler is the object which
-	 * performs automatically handling of 
+	 * performs that handling of 
 	 * some caught exception
 	 * 
 	 * @see ModelObjectExceptionHandler
@@ -163,11 +149,34 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 			ModelObjectExceptionHandler exceptionHandler) {
 		checkedInExceptionHandlers.add(exceptionHandler);
 	}
+	
+	/**
+	 * This method adds a list of objects which 
+	 * perform handling of 
+	 * some caught exceptions.   
+	 * 
+	 * @param exceptionHandlers is a list of objects which 
+	 * perform handling of 
+	 * some caught exceptions.
+	 * 
+	 * @see ModelObjectExceptionHandler
+	 * 
+	 * @see IModelObjectExceptionHandler 
+	 */
+	public void checkInExceptionHandlers(
+			List<ModelObjectExceptionHandler> exceptionHandlers) {
+		checkedInExceptionHandlers.addAll(exceptionHandlers);
+	}
 
 	public void checkOutExceptionHandler(
 			ModelObjectExceptionHandler exceptionHandler) {
 		checkedInExceptionHandlers.remove(exceptionHandler);
 	}
+	
+	public void checkOutExceptionHandlers(
+			List<ModelObjectExceptionHandler> exceptionHandlers) {
+		checkedInExceptionHandlers.removeAll(exceptionHandlers);
+	}	
 
 	/**
 	 * This method destroys information

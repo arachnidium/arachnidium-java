@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
 
-import com.github.arachnidium.model.abstractions.ModelObjectExceptionHandler;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectExceptionHandler;
 
 public class TestExceptionHandler extends ModelObjectExceptionHandler {
 

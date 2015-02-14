@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.abstractions;
+package com.github.arachnidium.model.abstractions.exceptionhandlers;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

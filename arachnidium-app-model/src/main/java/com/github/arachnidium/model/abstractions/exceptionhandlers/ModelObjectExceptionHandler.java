@@ -1,4 +1,4 @@
-package com.github.arachnidium.model.abstractions;
+package com.github.arachnidium.model.abstractions.exceptionhandlers;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -76,13 +76,25 @@ IModelObjectExceptionHandler {
 		this.expectedMessagePattern = expectedMessagePattern;
 	}
 	
-	String getExpectedMessagePattern(){
+	/**
+	 * This methods returns given expected exception message pattern
+	 */
+	public String getExpectedMessagePattern(){
 		return expectedMessagePattern;
 	}
 	
-	boolean doesExceptionMessageMatch(String theGivenMessage){
+	/**
+	 * This method attempts to detect the matching of the given {@link Throwable} message text and 
+	 * the given text pattern 
+	 * 
+	 * @param givenThrowable is the {@link Throwable} whose message is supposed to match the given string pattern
+	 * @return <code>true</code> when here is string pattern and {@link Throwable} message text matches to it.  
+	 */
+	public boolean doesExceptionMessageMatch(Throwable givenThrowable){
+		if (expectedMessagePattern == null)
+			return false;
 		Pattern p = Pattern.compile(expectedMessagePattern);
-		Matcher m = p.matcher(theGivenMessage);
+		Matcher m = p.matcher(givenThrowable.getMessage());
 		return m.find();
 	}
 }

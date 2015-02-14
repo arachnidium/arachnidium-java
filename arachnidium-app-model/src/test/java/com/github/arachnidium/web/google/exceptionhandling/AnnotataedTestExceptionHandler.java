@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
 
-import com.github.arachnidium.model.abstractions.ExpectectedThrowables;
-import com.github.arachnidium.model.abstractions.ModelObjectExceptionHandler;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ExpectectedThrowables;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectExceptionHandler;
 
 @ExpectectedThrowables(expectedThrowables = {TestException2.class})
 public class AnnotataedTestExceptionHandler extends ModelObjectExceptionHandler {
