@@ -81,15 +81,25 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 					(proxy, method, args) -> {
 						// it needs to know exception
 						Throwable t = (Throwable) args[4];
-						for (ModelObjectExceptionHandler handler : checkedInExceptionHandlers)
+						for (ModelObjectExceptionHandler handler : checkedInExceptionHandlers) {
 							// it looks for the suitable handler
-							if (handler.isThrowableInList(t.getClass()))
-								try {
-									return method.invoke(handler, args);
-								} catch (Exception e) {
-									continue; // it wasn't the suitable
-												// handler
+							if (!handler.isThrowableInList(t.getClass())) {
+								continue;
+							}
+							
+							if (handler.getExpectedMessagePattern() != null){
+								if (!handler.doesExceptionMessageMatch(t.getMessage())){
+									continue;
 								}
+							}
+							
+							try {
+								return method.invoke(handler, args);
+							} catch (Exception e) {
+								continue; // it wasn't the suitable
+												// handler
+							}
+						}
 						// if there are no suitable handlers
 						throw t;
 					});
