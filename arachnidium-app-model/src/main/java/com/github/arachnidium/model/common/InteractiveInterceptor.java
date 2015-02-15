@@ -1,12 +1,15 @@
 package com.github.arachnidium.model.common;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.cglib.proxy.MethodProxy;
 
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectExceptionHandler;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.UsedImplicitExceptionHandlerReader;
 import com.github.arachnidium.model.common.FunctionalPart.InteractiveMethod;
 import com.github.arachnidium.model.common.FunctionalPart.WithImplicitlyWait;
 import com.github.arachnidium.model.interfaces.IDecomposable;
@@ -44,6 +47,7 @@ class InteractiveInterceptor extends ModelObjectInterceptor {
 		FunctionalPart<?> funcPart = (FunctionalPart<?>) object;
 		long timeOut = 0;
 		TimeUnit timeUnit = null;
+		ArrayList<ModelObjectExceptionHandler> handlers = new ArrayList<>();
 		
 		boolean timeOutIsChanged = false;		
 		if (method.isAnnotationPresent(InteractiveMethod.class)) {
@@ -65,6 +69,11 @@ class InteractiveInterceptor extends ModelObjectInterceptor {
 				resetTimeOut(funcPart, customTimeOut, customTimeUnit);
 				timeOutIsChanged = true;
 			}
+			
+			handlers.addAll(UsedImplicitExceptionHandlerReader.getDeclaredExceptionHandlers(method));
+			if (handlers.size() > 0){
+				funcPart.checkInExceptionHandlers(handlers);
+			}
 		}
 
 		try {
@@ -85,7 +94,10 @@ class InteractiveInterceptor extends ModelObjectInterceptor {
 			throw e;
 		} finally {
 			if (timeOutIsChanged)
-				resetTimeOut(funcPart, timeOut, timeUnit);
+				resetTimeOut(funcPart, timeOut, timeUnit);			
+			if (handlers.size() > 0){
+				funcPart.checkOutExceptionHandlers(handlers);
+			}
 		}
 	}
 }

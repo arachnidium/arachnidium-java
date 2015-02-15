@@ -4,10 +4,11 @@ import java.lang.reflect.Method;
 
 import net.sf.cglib.proxy.MethodProxy;
 
-import com.github.arachnidium.model.abstractions.ExpectectedThrowables;
-import com.github.arachnidium.model.abstractions.ModelObjectExceptionHandler;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ExpectectedThrowables;
+import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectExceptionHandler;
 
-@ExpectectedThrowables(expectedThrowables = {TestException2.class})
+@ExpectectedThrowables(expectedThrowables = {TestException2.class}, 
+messagePattern = "There is the Test exception! Ha-ha")
 public class AnnotataedTestExceptionHandler extends ModelObjectExceptionHandler {
 
 	public static boolean isExceptionCatched_Static = false;

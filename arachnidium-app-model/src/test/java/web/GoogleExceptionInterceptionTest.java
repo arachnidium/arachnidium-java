@@ -10,7 +10,9 @@ import com.github.arachnidium.web.google.exceptionhandling.AnnotataedTestExcepti
 import com.github.arachnidium.web.google.exceptionhandling.AnnotatedLinksAreFoundExceptionThrowing;
 import com.github.arachnidium.web.google.exceptionhandling.AnnotatedSearchBarExceptionThrowing;
 import com.github.arachnidium.web.google.exceptionhandling.LinksAreFoundExceptionThrowing;
+import com.github.arachnidium.web.google.exceptionhandling.LinksAreFoundExceptionThrowingAnnotatedMethods;
 import com.github.arachnidium.web.google.exceptionhandling.SearchBarExceptionThrowing;
+import com.github.arachnidium.web.google.exceptionhandling.SearchBarExceptionThrowingAnnotatedMethods;
 import com.github.arachnidium.web.google.exceptionhandling.TestExceptionHandler;
 
 public class GoogleExceptionInterceptionTest {
@@ -106,4 +108,12 @@ public class GoogleExceptionInterceptionTest {
 				AnnotatedLinksAreFoundExceptionThrowing.class, false);
 		
 	}	
+	
+	@Test(description = "This test checks exception interception and handling. Annotated methods")
+	public void exceptionInterceptionTest3() throws Exception{
+		test(new WebFactory().launch(Google.class, "http://www.google.com/"), 
+				SearchBarExceptionThrowingAnnotatedMethods.class, 
+				LinksAreFoundExceptionThrowingAnnotatedMethods.class, false);
+		
+	}
 }
