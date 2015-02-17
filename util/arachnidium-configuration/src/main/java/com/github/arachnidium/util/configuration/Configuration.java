@@ -1,6 +1,6 @@
 /*
- +Copyright 2014 Arachnidium contributors
- +Copyright 2014 Software Freedom Conservancy
+ +Copyright 2014-2015 Arachnidium contributors
+ +Copyright 2014-2015 Software Freedom Conservancy
  +
  +Licensed under the Apache License, Version 2.0 (the "License");
  +you may not use this file except in compliance with the License.
@@ -23,7 +23,10 @@ package com.github.arachnidium.util.configuration;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import net.sf.cglib.proxy.Callback;
@@ -53,6 +56,29 @@ import org.json.simple.parser.JSONParser;
  * </p> 
  */
 public class Configuration {
+	
+	/**
+	 * This method returns {@link Configuration} instance using specified absolute/relative path
+	 * to JSON-file. Required text format is <p>
+	 * <p>
+	 * {<br/>
+	 * ...<br/>
+	 * &nbsp;&nbsp;"settingGroupName":<br/>
+	 * &nbsp;&nbsp;{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;"settingName1":{<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":"Type you need", <code>// {@link String} (STRING),<br/> 
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// {@link Boolean} (BOOL), {@link Integer} (INT), {@link Long} (LONG), {@link Float} (Float)<br/></code>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value":"some value"<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
+	 * &nbsp;&nbsp;}<br/> 
+	 * ...<br/> 
+	 * }<br/>
+	 * </p> 
+	 * 
+	 * @param filePath is a path to JSON-file
+	 * @return a {@link Configuration} instance
+	 */
 	public static Configuration get(String filePath) {
 		Callback interceptor = new ConfigurationInterceptor();
 
@@ -63,7 +89,32 @@ public class Configuration {
 		return (Configuration) enhancer.create(new Class[] { String.class },
 				new Object[] { filePath });
 	}
+	
+	/**
+	 * This method returns a list of {@link Configuration} instances. If it needs to get not empty list
+	 * then system property {@link Configuration#DEFAULT_CONFIGS_PROPERTY_NAME} should be set up.
+	 * 
+	 * @return a list of {@link Configuration} instances.
+	 */
+	public static List<Configuration> getConfigurations(){
+		return configPool;
+	}
 
+	private static String[] getConfigurationPool(){
+		String result = System.getProperty(DEFAULT_CONFIGS_PROPERTY_NAME);
+		if (result != null)
+			return result.split(POOL_SEPARATOR);
+		return new String[] {};
+	}
+	
+	private static String getPathToDefault(){
+		String result = System.getProperty(DEFAULT_CONFIG_PROPERTY_NAME);
+		if (result != null){
+			return result;
+		}
+		return getPathToDefault(".");
+	}
+	
 	private static String getPathToDefault(String startPath) {
 		// attempt to find configuration in the specified directory
 		File defaultConfig = new File(startPath);
@@ -86,15 +137,38 @@ public class Configuration {
 		}
 		return null;
 	}
+	
+	private static final String POOL_SEPARATOR = ",";
+	/**
+	 * This system property is used to set up the absolute/relative path to general configuration JSON file
+	 * = "default.configuration"
+	 */
+	public static String DEFAULT_CONFIG_PROPERTY_NAME = "default.configuration";
+	
+	/**
+	 * This system property contains comma separated absolute/relative paths to JSON-configuration files which are used
+	 * by project
+	 * = "configuration.pool"
+	 */
+	public static String DEFAULT_CONFIGS_PROPERTY_NAME = "configuration.pool";
 
 	private final static String commonFileName = "settings.json"; // default
 																	// settings
 	/**
-	 * The default settings that are read 
+	 * The default settings that are read from the file defined by 
+	 * {@link Configuration#DEFAULT_CONFIG_PROPERTY_NAME} system property.  If this property
+	 * is not set up then it reads data 
 	 * from <code>settings.json</code> located 
 	 * in <code>.classPath</code> folder or subfolders
 	 */
-	public final static Configuration byDefault = get(getPathToDefault("."));
+	public final static Configuration byDefault = get(getPathToDefault());
+	private final static List<Configuration> configPool = Collections.synchronizedList(new ArrayList<Configuration>(){
+		private static final long serialVersionUID = 1L; {
+			for (String pathToConfig: getConfigurationPool()){
+				add(Configuration.get(pathToConfig));
+			}
+		}
+	});
 
 	private static final String typeTag = "type";
 	private static final String requiredClassTag = "class";
