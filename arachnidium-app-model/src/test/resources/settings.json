@@ -1,11 +1,4 @@
   {
-	  "Log":
-	  {
-	      "Level":{
-	          "type":"STRING",
-	          "value":"FINE"           
-	      }      
-	  },
 	  "screenShots":
 	  {
 	      "toTakeScreenShotsOnElementHighLighting":{

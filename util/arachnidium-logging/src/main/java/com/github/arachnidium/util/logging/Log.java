@@ -17,10 +17,7 @@
 
 package com.github.arachnidium.util.logging;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Proxy;
 import java.util.Calendar;
 import java.util.Collections;
@@ -30,8 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
-import com.github.arachnidium.util.configuration.Configuration;
 
 public class Log {
 	/**
@@ -78,10 +73,8 @@ public class Log {
 	}
 
 	private static void applyLogRec(LogRecWithAttach rec) {
-		if (commonLevel.intValue() <= rec.getLevel().intValue()) {
-			log.log(rec);
-			converting.convert(rec);
-		}
+		getAnonymousLogger().log(rec);
+		converting.convert(rec);
 	}
 
 	private static void applyLogRec(LogRecWithAttach rec, File attached) {
@@ -197,7 +190,6 @@ public class Log {
 		rec.setSourceMethodName(element.getMethodName());
 		rec.setMillis(Calendar.getInstance().getTimeInMillis());
 		rec.setThreadID((int) Thread.currentThread().getId());
-		rec.setLoggerName(log.getName());
 		rec.setLevel(level.getLevel());
 		sequence = sequence + 1;
 		rec.setSequenceNumber(sequence);
@@ -297,24 +289,9 @@ public class Log {
 	 * @param level
 	 * @return new current {@link Level}
 	 */
-	public static Level resetLogLevel(Level level) {
+	public static void resetLogLevel(Level level) {
 		if (level == null)
-			commonLevel = info;
-		else
-			commonLevel = level;
-		
-		String config = "\n" + 
-			       "handlers = java.util.logging.ConsoleHandler" + "\n" + 
-			       ".level = " + commonLevel.getLocalizedName() +"\n"+
-			       "java.util.logging.ConsoleHandler.level = " + commonLevel.getLocalizedName() + "\n" +
-			       "";
-		InputStream ins = new ByteArrayInputStream(config.getBytes());
-	    try {
-	       LogManager.getLogManager().readConfiguration(ins);
-	    } catch (IOException e) {
-	       throw new RuntimeException(e);
-	    }
-		return commonLevel;
+			getAnonymousLogger().setLevel(level);
 	}
 
 	private static LogRecWithAttach setThrown(LogRecWithAttach rec, Throwable t) {
@@ -367,18 +344,22 @@ public class Log {
 	}
 
 	private final static int levelUp = 3;
-
-	private final static Level info = Level.INFO;
-
-	private static Level commonLevel = resetLogLevel(Configuration.byDefault
-			.getSection(LoggingHelper.class).getLevel());
-
-	private static Logger log = Logger.getAnonymousLogger();
 	
+	private final static Level commonLevel = Level.INFO;	
 	private static long sequence = 0;
+	
+	private static Logger getAnonymousLogger(){
+		return Logger.getAnonymousLogger();
+	}
 
 	private static final List<ILogConverter> converters = Collections
 			.synchronizedList(new LinkedList<ILogConverter>());
+	
+	static {
+		LogManager logManager = LogManager.getLogManager();
+		if (logManager.getProperty(".level") == null)
+			getAnonymousLogger().setLevel(commonLevel);
+	}
 
 	private static final ILogConverter converting = (ILogConverter) Proxy
 			.newProxyInstance(ILogConverter.class.getClassLoader(),

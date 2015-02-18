@@ -73,13 +73,6 @@
           "type":"LONG",
           "value":"5"     
       }
-  },   
-  "Log":
-  {
-      "Level":{
-          "type":"STRING",
-          "value":"FINE"           
-      }      
   },
   "screenShots":
   {

@@ -2,8 +2,6 @@ Here is the sample of general parameters defined in **settings.json**:
 
 - "DesiredCapabilities". Here are capabilities which should be used at all cases;
 
-- "Log". It is required log level for console/reports. This parameter is defined once and cann't be overriden for now.
-
 - "screenShots". They are parameters which define what to do if there is a new browser window/context of mobile application and 
 what to do when HTML element is highlighted. When "true" then a screenshot is taken.
 
