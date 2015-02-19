@@ -138,6 +138,11 @@ public final class Photographer {
 	private synchronized void makeFileForLog(BufferedImage imageForLog,
 			eAvailableLevels LogLevel, String comment) {
 
+		if (LogLevel.getLevel().intValue() < Log.getLevel().intValue()){
+			Log.log(LogLevel, comment);
+			return;
+		}
+		
 		String FolderPath = folder;
 
 		File ImgFolder = new File(FolderPath);

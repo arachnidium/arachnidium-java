@@ -4,10 +4,11 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 import com.github.arachnidium.util.logging.ILogConverter;
 import com.github.arachnidium.util.logging.Log;
-import com.github.arachnidium.util.logging.Log.LogRecWithAttach;
+import com.github.arachnidium.util.logging.LogRecWithAttach;
 import com.github.arachnidium.util.logging.Photographer;
 
 import net.thucydides.core.model.DataTable;
@@ -152,23 +153,27 @@ public class ArachnidiumAndThucydidesStepListener extends BaseStepListener imple
 		super.assumptionViolated(message);
 	}
 
-	public void convert(LogRecWithAttach arg0) {
-		File screenShot = arg0.getAttachedFile();
+	public String convert(LogRecord arg0) {
 		TestStep step = getCurrentTestOutcome().currentStep();
-		if (screenShot != null) { // is it picture
-			if (screenShot.getAbsolutePath().contains(Photographer.format)) {
-				step.addScreenshot(new ScreenshotAndHtmlSource(arg0
-						.getAttachedFile()));
+		
+		if (LogRecWithAttach.class.isAssignableFrom(arg0.getClass())) {
+			File screenShot = ((LogRecWithAttach) arg0).getAttachedFile();
+			if (screenShot != null) { // is it picture
+				if (screenShot.getAbsolutePath().contains(Photographer.format)) {
+					step.addScreenshot(new ScreenshotAndHtmlSource(((LogRecWithAttach) arg0)
+							.getAttachedFile()));
+				}
 			}
+			if ((arg0.getLevel() == Level.WARNING)
+					& (step.getResult() != TestResult.FAILURE)) { // if there is a
+																	// warning
+				step.setResult(TestResult.ERROR);
+			}
+			if (arg0.getLevel() == Level.SEVERE) { // if there is a warning
+				step.setResult(TestResult.FAILURE);
+			}			
 		}
-		if ((arg0.getLevel() == Level.WARNING)
-				& (step.getResult() != TestResult.FAILURE)) { // if there is a
-																// warning
-			step.setResult(TestResult.ERROR);
-		}
-		if (arg0.getLevel() == Level.SEVERE) { // if there is a warning
-			step.setResult(TestResult.FAILURE);
-		}
+		return step.getDescription() + ": " + arg0.getMessage();
 	}
 
 }
