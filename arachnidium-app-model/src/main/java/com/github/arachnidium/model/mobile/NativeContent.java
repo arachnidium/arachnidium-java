@@ -68,12 +68,6 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 		((AppiumDriver) getWrappedDriver()).hideKeyboard();		
 	}
 
-	@Override
-	@InteractiveMethod
-	public void sendKeyEvent(int key) {
-		((AppiumDriver) getWrappedDriver()).sendKeyEvent(key);		
-	}
-
 	@InteractiveMethod
 	@Override
 	public void zoom(int x, int y) {

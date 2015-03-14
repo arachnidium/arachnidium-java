@@ -55,7 +55,7 @@ public class AndroidTestExamples {
 			topicList.setTopicChecked("LATIN AMERICA", false);
 			topicList.setTopicChecked("UK", false);
 			topicList.ok();
-			
+
 			bbcMain.sendKeyEvent(AndroidKeyCode.ENTER);
 			bbcMain.play();
 		} finally {

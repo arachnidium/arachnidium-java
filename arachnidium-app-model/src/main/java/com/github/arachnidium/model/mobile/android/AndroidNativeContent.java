@@ -40,7 +40,13 @@ public abstract class AndroidNativeContent extends NativeContent implements Andr
 		return ((AndroidDriver) getWrappedDriver()).currentActivity();
 	}
 
-	@InteractiveMethod
+    @InteractiveMethod
+    @Override
+    public void sendKeyEvent(int i) {
+        ((AndroidDriver) getWrappedDriver()).sendKeyEvent(i);
+    }
+
+    @InteractiveMethod
 	@Override
 	public void sendKeyEvent(int key, Integer metastate) {
 		((AndroidDriver) getWrappedDriver()).sendKeyEvent(key, metastate);		

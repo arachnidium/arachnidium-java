@@ -36,11 +36,6 @@ public abstract class MobileApplication extends Application<MobileScreen,
 	}
 
 	@Override
-	public void sendKeyEvent(int key) {
-		((AppiumDriver) getWrappedDriver()).hideKeyboard();		
-	}
-
-	@Override
 	public Location location() {
 		return ((AppiumDriver) getWrappedDriver()).location();
 	}
