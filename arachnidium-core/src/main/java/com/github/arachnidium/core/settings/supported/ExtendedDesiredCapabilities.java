@@ -101,7 +101,36 @@ public class ExtendedDesiredCapabilities extends DesiredCapabilities {
 		dc.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.CHROMIUM);
 		dc.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
 		return dc;
-	}		
+	}	
+	
+	/**
+	 * @return a {@link DesiredCapabilities} instance which contains:
+	 * <br/>
+	 * {<br/>
+	 *&nbsp;&nbsp;"platformName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Android"<br/>    
+	 *&nbsp;&nbsp;}, <br/>    
+	 *&nbsp;&nbsp;"automationName":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"Selendroid"<br/>           
+	 *&nbsp;&nbsp;} <br/>
+	 *&nbsp;&nbsp;"javascriptEnabled":{ <br/>
+	 *&nbsp;&nbsp;&nbsp;&nbsp;"value":"true" <br/>     
+	 *&nbsp;&nbsp;}<br/>
+	 *}<br/>
+	 *<br/> 
+	 * This is not full capability set. Other required capabilities should be set 
+	 * properly. E.g. "deviceName" and so on.
+	 * 
+	 * @see CapabilityType
+	 * @see MobileCapabilityType
+	 */
+	public static DesiredCapabilities selendroid(){
+		DesiredCapabilities dc = new DesiredCapabilities();
+		dc.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+		dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Selendroid");
+		dc.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+		return dc;
+	}	
 	
 	/**
 	 * @return a {@link DesiredCapabilities} instance which contains:

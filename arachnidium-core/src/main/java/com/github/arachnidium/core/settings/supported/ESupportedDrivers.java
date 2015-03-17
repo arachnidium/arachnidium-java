@@ -222,7 +222,6 @@ public enum ESupportedDrivers {
 	 * &nbsp;&nbsp;}<br/>	       
 	 * <br/>
 	 * It is enough for the successful starting. Also see {@link MobileCapabilityType}<br/>
-	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
@@ -231,6 +230,27 @@ public enum ESupportedDrivers {
 	 */
 	ANDROID_APP(new DesiredCapabilities(), AndroidDriver.class, false, true, null,
 			null, true, true),
+		
+	/**
+	* <b>Required {@link WebDriver} implementor</b>: {@link AndroidDriver} <br/>
+	* <br/>
+	* <b>Default {@link Capabilities}</b>: empty. They should be defined explicitly. Here is an example: <br/>	    
+	* &nbsp;&nbsp;"deviceName":{<br/>	
+	* &nbsp;&nbsp;&nbsp;&nbsp;"value":"desired device name e.g. Android Emulator, NEXUS and so on"<br/>	    
+	* &nbsp;&nbsp;},<br/> 
+	* &nbsp;&nbsp;"app":{<br/>	
+	* &nbsp;&nbsp;&nbsp;&nbsp;"value":"absolute path to desired *.apk file"<br/>	    
+	* &nbsp;&nbsp;}<br/>	       
+	* <br/>
+	* It is enough for the successful starting. Also see {@link MobileCapabilityType}<br/>
+	* <br/>
+	* <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
+	* http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
+	* http://appium.io/getting-started.html<br/>
+	* mobile apps only
+	*/			
+	SELENDROID_APP(ExtendedDesiredCapabilities.selendroid(), AndroidDriver.class, false, true, null,
+				null, true, true),		
 			
 	/**
 	 * <b>Required {@link WebDriver} implementor</b>: {@link IOSDriver} <br/>
@@ -247,7 +267,6 @@ public enum ESupportedDrivers {
 	 * &nbsp;&nbsp;}<br/>      
      * <br/>
 	 * It is enough for the successful starting. Also see {@link MobileCapabilityType}<br/>
-	 * <b>{@link DriverService}</b>: none<br/>
 	 * <br/>
 	 * <b>Starts</b>: remotely. It requires {@link URL} of the host where Appium node server is started, e.g.
 	 * http://127.0.0.1:4723/wd/hub (local host). Please find information here:<br/>
