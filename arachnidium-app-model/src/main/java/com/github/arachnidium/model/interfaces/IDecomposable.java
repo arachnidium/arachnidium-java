@@ -3,7 +3,7 @@ package com.github.arachnidium.model.interfaces;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * There is an assumption that any object (whole application, page/screen and so on)

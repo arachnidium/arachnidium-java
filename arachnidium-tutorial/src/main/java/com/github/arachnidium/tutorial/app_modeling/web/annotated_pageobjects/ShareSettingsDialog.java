@@ -1,6 +1,7 @@
 package com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.How;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.Frame;
 
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe") /**<--
@@ -25,7 +26,7 @@ public class ShareSettingsDialog extends FunctionalPart<Handle> { /** <==
 	 * Here I demonstrate something that is supposed to be used by the web and 
 	 * mobile testing 
 	 */
-	@FindBy(xpath = "//*[contains(@id,'fakeRecipient')]")
+	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']")
 	private WebElement invite;
 	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	
@@ -55,7 +56,8 @@ public class ShareSettingsDialog extends FunctionalPart<Handle> { /** <==
 	will be invoked*/
 	public void invite(String eMail){
 		Actions a = new Actions(getWrappedDriver());
-		a.sendKeys(invite, eMail);
+		a.click(invite);
+		a.sendKeys(invite, eMail, Keys.ENTER);
 		highlightAsInfo(invite, "eMails of people "
 				+ "to be invited will be printed here");
 		a.perform();

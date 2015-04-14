@@ -31,7 +31,7 @@ public class JUnitSimpleDemo {
 	//please don't use this account. There is nothing interesting for you. 
     private final String USER = "ArachnidiumTester"; //I have created it only for demonstration of 
     //framework capabilities
-	private final String PASSWORD = "ArachnidTester_567"; 
+	private final String PASSWORD = "ArachnidTester_789";
 
 	
 	@Before

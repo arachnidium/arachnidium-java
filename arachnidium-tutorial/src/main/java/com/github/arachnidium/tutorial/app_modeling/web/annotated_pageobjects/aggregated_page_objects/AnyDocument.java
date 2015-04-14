@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage; 
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 import com.github.arachnidium.tutorial.app_modeling.web.
       annotated_pageobjects.ShareSettingsDialog; /**<== */

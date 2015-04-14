@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 public class HomeScreenActivity extends NativeContent {
 	@FindBy(id = "io.selendroid.testapp:id/my_text_field")

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 public class InformationAboutTheHermitage extends FunctionalPart<Handle> {
 	

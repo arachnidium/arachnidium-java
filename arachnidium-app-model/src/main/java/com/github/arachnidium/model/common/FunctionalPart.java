@@ -39,7 +39,7 @@ import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * This class is for description of browser or mobile UI or the fragment of this

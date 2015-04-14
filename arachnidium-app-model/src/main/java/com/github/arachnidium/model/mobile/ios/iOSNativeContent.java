@@ -11,7 +11,7 @@ import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.MobileApplication;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * It is the same as {@link MobileApplication} with some capabilities of

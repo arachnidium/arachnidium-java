@@ -7,7 +7,7 @@ import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.core.HowToGetMobileScreen;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * There is an assumption that any object (whole application, page/screen and so on)

@@ -2,10 +2,11 @@ package com.github.arachnidium.htmlelements.googledrive;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.Frame;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -17,7 +18,7 @@ import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 
-	@FindBy(xpath = ".//*[contains(@id,'fakeRecipient')]")
+	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']")
 	private TextInput invite;
 	@FindBy(xpath = ".//*[contains(@id,'close')]")
 	private Button done;	
@@ -44,7 +45,8 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@InteractiveMethod
 	public void invite(String eMail){
 		Actions a = new Actions(getWrappedDriver());
-		a.sendKeys(invite.getWrappedElement(), eMail);
+		a.click(invite.getWrappedElement());
+		a.sendKeys(invite.getWrappedElement(), eMail, Keys.ENTER);
 		highlightAsInfo(invite.getWrappedElement(), "eMails of people "
 				+ "to be invited will be printed here");
 		a.perform();

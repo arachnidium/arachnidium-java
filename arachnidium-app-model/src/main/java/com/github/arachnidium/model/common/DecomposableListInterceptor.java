@@ -22,7 +22,7 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.support.ByNumbered;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.IRootElementReader;
 import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 

@@ -6,7 +6,7 @@ import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.core.HowToGetPage;
 import com.github.arachnidium.model.common.Application;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 @SuppressWarnings("unused")

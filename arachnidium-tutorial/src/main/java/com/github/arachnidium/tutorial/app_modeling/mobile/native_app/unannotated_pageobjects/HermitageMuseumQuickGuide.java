@@ -8,7 +8,7 @@ import io.appium.java_client.MobileElement;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 public class HermitageMuseumQuickGuide extends NativeContent {
 

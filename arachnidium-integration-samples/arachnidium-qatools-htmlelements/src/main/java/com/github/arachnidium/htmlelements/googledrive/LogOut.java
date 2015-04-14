@@ -2,7 +2,7 @@ package com.github.arachnidium.htmlelements.googledrive;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindAll;

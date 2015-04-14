@@ -8,7 +8,7 @@ import io.appium.java_client.android.AndroidDriver;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * The same as {@link NativeContent} with some capabilities specifically for Android

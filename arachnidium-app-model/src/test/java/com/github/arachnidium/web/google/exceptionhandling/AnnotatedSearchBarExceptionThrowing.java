@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.abstractions.exceptionhandlers.UsedImplicitExceptionHandlers;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 @UsedImplicitExceptionHandlers(areUsed = {AnnotataedTestExceptionHandler.class})
 public class AnnotatedSearchBarExceptionThrowing<T extends Handle> extends SearchBarExceptionThrowing<T>{	

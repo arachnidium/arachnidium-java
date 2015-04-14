@@ -10,7 +10,7 @@ import org.openqa.selenium.support.How;
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage; 
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.Frame;
 import com.github.arachnidium.tutorial.app_modeling.web.
        unannotated_pageobjects.ShareSettingsDialog;  /**<== */

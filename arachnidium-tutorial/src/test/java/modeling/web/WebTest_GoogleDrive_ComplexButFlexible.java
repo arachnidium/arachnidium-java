@@ -13,7 +13,7 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 //import com.github.arachnidium.model.browser.BrowserApplication;
 import com.github.arachnidium.model.browser.WebFactory;
 import com.github.arachnidium.model.common.Application;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.AccountOptions;
 import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.Document;
 import com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects.FilterListAndButton;
@@ -28,7 +28,7 @@ public class WebTest_GoogleDrive_ComplexButFlexible {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
 	//please don't use this account. There is nothing interesting for you. 
 	private final String USER = "ArachnidiumTester"; //I have created it only for this test.
-	private final String PASSWORD = "ArachnidTester_567"; //It is temporary. Later
+	private final String PASSWORD = "ArachnidTester_789"; //It is temporary. Later
 	//I will made a simple site which will be used by the similar test 
 		
 	

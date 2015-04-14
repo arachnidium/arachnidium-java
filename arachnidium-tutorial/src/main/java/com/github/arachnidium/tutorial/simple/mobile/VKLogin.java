@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 //
 // com.github.arachnidium.model.common.FunctionalPart is the basic class which subclasses help to describe interaction

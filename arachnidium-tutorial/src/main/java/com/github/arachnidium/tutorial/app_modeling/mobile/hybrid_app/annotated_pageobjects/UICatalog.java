@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.ios.iOSNativeContent;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 public class UICatalog extends iOSNativeContent {
 	@FindBy(name = "UICatalog")

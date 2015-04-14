@@ -3,7 +3,7 @@ package com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects;
 import org.openqa.selenium.By;
 
 import com.github.arachnidium.core.BrowserWindow;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 @ExpectedURL(regExp = "//some/more/url/") /**<== Possible URLs that should be loaded can be declared by annotations*/   

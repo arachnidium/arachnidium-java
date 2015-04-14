@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage; 
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
 @ExpectedURL(regExp = "//docs.google.com/")  /**<== Possible URLs that should be loaded can be declared by annotations*/

@@ -3,7 +3,7 @@ package com.github.arachnidium.web.google.exceptionhandling;
 import org.openqa.selenium.By;
 
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.web.google.SearchBar;
 
 public class SearchBarExceptionThrowing<T extends Handle> extends SearchBar<T>{	

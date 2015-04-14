@@ -28,7 +28,7 @@ public class GoogleDriveTest {
 	private final String GOOGLE_DRIVE = "https://drive.google.com";
 	//please don't use this account. There is nothing interesting for you. 
 	private final String USER = "ArachnidiumTester"; //I have created it only for this test.
-	private final String PASSWORD = "ArachnidTester_567"; //It is temporary. Later
+	private final String PASSWORD = "ArachnidTester_789"; //It is temporary. Later
 	//I will made a simple site which will be used by the similar test 
 
 	// settings according to current OS

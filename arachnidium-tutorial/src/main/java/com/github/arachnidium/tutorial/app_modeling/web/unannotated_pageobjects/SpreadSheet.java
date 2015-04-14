@@ -3,7 +3,7 @@ package com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects
 import org.openqa.selenium.By;
 
 import com.github.arachnidium.core.BrowserWindow;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**it is the example which demonstrates how to implement a page object
  * which is supposed to be something generalized. It can be a description of interaction

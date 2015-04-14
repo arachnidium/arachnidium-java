@@ -16,7 +16,7 @@ import com.github.arachnidium.core.UnclosedWindowException;
 import com.github.arachnidium.core.components.common.InputDevices;
 import com.github.arachnidium.core.components.mobile.PageTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * Can be used to describe a single browser page or its fragment

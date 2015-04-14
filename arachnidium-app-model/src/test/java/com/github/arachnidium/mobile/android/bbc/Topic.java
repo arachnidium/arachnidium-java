@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 
 @RootAndroidElement(chain = {@AndroidFindBy(className = "android.widget.LinearLayout")})

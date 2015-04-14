@@ -14,7 +14,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;

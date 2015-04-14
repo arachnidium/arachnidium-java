@@ -24,7 +24,7 @@ import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ClassDeclarationReader;
 import com.github.arachnidium.model.support.annotations.DefaultContextIndex;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;

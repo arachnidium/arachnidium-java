@@ -39,7 +39,7 @@ import com.github.arachnidium.model.abstractions.exceptionhandlers.ModelObjectEx
 import com.github.arachnidium.model.abstractions.exceptionhandlers.UsedImplicitExceptionHandlerReader;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IModelObjectExceptionHandler;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * This is a basic abstraction 
@@ -196,7 +196,7 @@ public abstract class ModelObject<S extends Handle> implements IDestroyable,
 	public abstract <T extends IDecomposable> T getPart(Class<T> partClass);
 
 	/**
-	 * @see com.github.arachnidium.model.interfaces.IDecomposable#getPart(java.lang.Class, com.github.arachnidium.model.support.HowToGetByFrames)
+	 * @see com.github.arachnidium.model.interfaces.IDecomposable#getPart(java.lang.Class, com.github.arachnidium.core.HowToGetByFrames)
 	 * 
 	 * @see HowToGetByFrames
 	 */

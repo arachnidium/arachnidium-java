@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.mobile.NativeTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
 

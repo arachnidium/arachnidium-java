@@ -3,7 +3,7 @@ package com.github.arachnidium.selenide.google;
 import org.openqa.selenium.By;
 
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.core.Handle;
 import com.codeborne.selenide.ElementsCollection;
 

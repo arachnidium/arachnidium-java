@@ -14,7 +14,7 @@ import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObjectInterceptor;
 import com.github.arachnidium.model.interfaces.IDecomposable;
 import com.github.arachnidium.model.interfaces.IDecomposableByHandles;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
 import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 

@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBys;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.model.support.HowToGetByFrames;
+import com.github.arachnidium.core.HowToGetByFrames;
 
 /**it is the example which demonstrates how to implement a child page object*/
 public class ItemList extends FunctionalPart<Handle> { /** <==
