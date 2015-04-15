@@ -15,7 +15,7 @@ public class ShareSettingsDialog extends FunctionalPart<Handle> { /** <==
 	 * Here I demonstrate something that is supposed to be used by the web and 
 	 * mobile testing 
 	 */
-	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']")
+	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']//textarea")
 	private WebElement invite;
 	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	
@@ -45,10 +45,8 @@ public class ShareSettingsDialog extends FunctionalPart<Handle> { /** <==
 	will be invoked*/
 	public void invite(String eMail){
 		Actions a = new Actions(getWrappedDriver());
-		a.click(invite);
+		invite.click();
 		a.sendKeys(invite, eMail, Keys.ENTER);
-		highlightAsInfo(invite, "eMails of people "
-				+ "to be invited will be printed here");
 		a.perform();
 	}
 	

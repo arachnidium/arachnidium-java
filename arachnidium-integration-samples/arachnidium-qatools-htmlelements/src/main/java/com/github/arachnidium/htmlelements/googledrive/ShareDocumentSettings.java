@@ -18,7 +18,7 @@ import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 
-	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']")
+	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']//textarea")
 	private TextInput invite;
 	@FindBy(xpath = ".//*[contains(@id,'close')]")
 	private Button done;	
@@ -45,10 +45,8 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@InteractiveMethod
 	public void invite(String eMail){
 		Actions a = new Actions(getWrappedDriver());
-		a.click(invite.getWrappedElement());
+		invite.getWrappedElement().click();
 		a.sendKeys(invite.getWrappedElement(), eMail, Keys.ENTER);
-		highlightAsInfo(invite.getWrappedElement(), "eMails of people "
-				+ "to be invited will be printed here");
 		a.perform();
 	}
 	

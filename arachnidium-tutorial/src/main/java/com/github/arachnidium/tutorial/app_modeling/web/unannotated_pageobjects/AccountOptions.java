@@ -16,7 +16,7 @@ public class AccountOptions<S extends Handle> extends FunctionalPart<S> { /** <=
 	 */
 	
 	@FindAll({@FindBy(xpath = ".//*[@class='gbmpalb']/a"),
-		@FindBy(xpath = ".//*[@class='gb_ua']/div[2]/a")})
+		@FindBy(xpath = ".//*[@class='gb_Ba']/div[2]/a")})
 	private WebElement quitButton;
 	
 	@FindAll({@FindBy(xpath = ".//*[@class='gb_Xb gb_V']"),

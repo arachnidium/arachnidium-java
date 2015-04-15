@@ -19,7 +19,7 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootElement
 		@FindBy(xpath = ".//*[@class=\"modal-dialog-content\"]")
 		})
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
-	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']")
+	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']//textarea")
 	private WebElement invite;
 	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	
@@ -41,10 +41,8 @@ public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
 	@InteractiveMethod
 	public void invite(String eMail){
 		Actions a = new Actions(getWrappedDriver());
-		a.click(invite);
+		invite.click();
 		a.sendKeys(invite, eMail, Keys.ENTER);
-		highlightAsInfo(invite, "eMails of people "
-				+ "to be invited will be printed here");
 		a.perform();
 	}
 	

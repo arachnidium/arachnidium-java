@@ -181,7 +181,7 @@ public class WebTest_GoogleDrive_ComplexButFlexible {
 		 */
 		googleDriveMainPage.clickOnVisibleProfile();
 		AccountOptions<?> accountOptions = googleDriveMainPage.
-				getPart(AccountOptions.class, By.xpath(".//*[@class='gb_ka gb_F']"));
+				getPart(AccountOptions.class, By.xpath(".//*[@class='gb_sa gb_O']"));
 		accountOptions.quit();
 		/**The test is finished*/
 	}

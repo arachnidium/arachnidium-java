@@ -13,7 +13,7 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootElement
 @RootElement(chain = {@FindBy(id = "someIdForAnotherService_or_Component")}) /**<--It is the demonstration of the ability
 to define the default root element for the whole page object. All declared elements will be found from this element 
 instead of WebDriver. We can define it as a chain of searches*/
-@RootElement(chain = {@FindBy(xpath = ".//*[@class='gb_ka gb_F']")}) /**We can define it as a set of possible element
+@RootElement(chain = {@FindBy(xpath = ".//*[@class='gb_sa gb_O']")}) /**We can define it as a set of possible element
 chains. Declaration is applied to subclasses till they are annotated by @RootElement with 
 another values. Also if the class is going to be instantiated by {@link FunctionalPart#getPart(Class, By)}
 then the given By-strategy will be used instead of declared by annotations*/
@@ -25,7 +25,7 @@ public class AccountOptions<S extends Handle> extends FunctionalPart<S> { /** <=
 	 */
 	
 	@FindAll({@FindBy(xpath = ".//*[@class='gbmpalb']/a"),
-		@FindBy(xpath = ".//*[@class='gb_ua']/div[2]/a")})
+		@FindBy(xpath = ".//*[@class='gb_Ba']/div[2]/a")})
 	private WebElement quitButton;
 	
 	@FindAll({@FindBy(xpath = ".//*[@class='gb_Xb gb_V']"),
