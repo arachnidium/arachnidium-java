@@ -12,8 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import com.github.arachnidium.core.ByNumbered;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
-import com.github.arachnidium.model.support.ByNumbered;
 import com.github.arachnidium.model.support.annotations.ClassDeclarationReader;
 
 public class ElementReaderForMobilePlatforms implements IRootElementReader {
