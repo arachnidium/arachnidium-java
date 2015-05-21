@@ -11,8 +11,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.pagefactory.ByAll;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import com.github.arachnidium.core.ByNumbered;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
-import com.github.arachnidium.model.support.ByNumbered;
 
 public class CommonRootElementReader implements IRootElementReader {
 
