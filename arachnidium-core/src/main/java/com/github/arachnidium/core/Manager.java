@@ -13,6 +13,7 @@ import com.github.arachnidium.util.logging.Photographer;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.springframework.context.annotation.Bean;
@@ -116,6 +117,24 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 				new Class[] { long.class },
 				new Object[] { timeOut });
 	}
+	
+	@SuppressWarnings("unchecked")
+	private U returnRelevantHowToGetStrategy(){
+		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Class<U> howToGetClass = null;
+		try {
+			howToGetClass = (Class<U>) Class
+					.forName(generic.getActualTypeArguments()[0].getTypeName());
+		} catch (Exception e) {
+			throw new RuntimeException(e); 
+		}
+		
+		try {
+			return howToGetClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	/**
 	 * @param An expected window/mobile context index
@@ -134,23 +153,8 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @return Window or mobile context. Actually it returns CGLIB proxy
 	 * which instantiate the real object by the invocation 
 	 */
-	@SuppressWarnings("unchecked")
 	public V getHandle(int index, long timeOut){
-		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
-		Class<U> howToGetClass = null;
-		try {
-			howToGetClass = (Class<U>) Class
-					.forName(generic.getActualTypeArguments()[0].getTypeName());
-		} catch (Exception e) {
-			throw new RuntimeException(e); 
-		}
-		
-		U howToGet = null;
-		try {
-			howToGet = howToGetClass.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		U howToGet = returnRelevantHowToGetStrategy();
 		howToGet.setExpected(index);
 		return getHandle(timeOut, howToGet);
 	}
@@ -179,25 +183,14 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 				.getHandleWaitingTimeOut()), howToGet); 
 	}
 	
-	/**
-	 * Returns window on mobile context 
-	 * by conditions. 
-	 * 
-	 * @param timeOut It is an explicitly given time (seconds) to wait for
-	 *            window/mobile context is present
-	 *            
-	 * @param howToGet Given strategy.
-	 * @return Window or mobile context. Actually it returns CGLIB proxy
-	 * which instantiate the real object by the invocation 
-	 * 
-	 * @see IHowToGetHandle. 
-	 */
 	@SuppressWarnings("unchecked")
-	public V getHandle(long timeOut, U howToGet){
+	public V getHandle(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
 		HandleInterceptor<U> hi = new HandleInterceptor<U>(
-				this, howToGet, timeOut);
-		Class<?>[] params = new Class<?>[] {String.class, this.getClass()};
-		Object[] values = new Object[] {STUB_HANDLE, this};
+				this, howToGet, timeOut, by, howToGetByFramesStrategy);
+		Class<?>[] params = new Class<?>[] {String.class, this.getClass(),
+				By.class, HowToGetByFrames.class};
+		Object[] values = new Object[] {STUB_HANDLE, this, by, howToGetByFramesStrategy};
 		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
 		Class<V> required = null;
 		try {
@@ -217,11 +210,29 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 *            window/mobile context is present
 	 *            
 	 * @param howToGet Given strategy.
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
+	 * 
+	 * @see IHowToGetHandle. 
+	 */
+	public V getHandle(long timeOut, U howToGet){
+		return getHandle(timeOut, howToGet, null, null);
+	}
+	
+	/**
+	 * Returns window on mobile context 
+	 * by conditions. 
+	 * 
+	 * @param timeOut It is an explicitly given time (seconds) to wait for
+	 *            window/mobile context is present
+	 *            
+	 * @param howToGet Given strategy.
 	 * @return Window or mobile context.
 	 *  
 	 * @see IHowToGetHandle. 
 	 */
-	abstract V getRealHandle(long timeOut, U howToGet);	
+	abstract V getRealHandle(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy);	
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;

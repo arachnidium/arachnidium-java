@@ -2,7 +2,10 @@ package com.github.arachnidium.core;
 
 import java.lang.reflect.Method;
 
+import org.openqa.selenium.By;
+
 import net.sf.cglib.proxy.MethodProxy;
+
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
 
@@ -11,20 +14,27 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 	private final Manager<U, ?> manager;
 	private final U howToGetHandle;
 	private final long timeOut;
+	private final By by;
+	private final HowToGetByFrames howToGetByFramesStrategy;
 	
-	public HandleInterceptor(Manager<U, ?> manager, U howToGetHandle, long timeOut) {
+	public HandleInterceptor(Manager<U, ?> manager, U howToGetHandle, long timeOut,
+			By by, HowToGetByFrames howToGetByFramesStrategy) {
 		this.howToGetHandle = howToGetHandle;
 		this.timeOut = timeOut;
 		this.manager = manager;
+		this.by = by;
+		this.howToGetByFramesStrategy = howToGetByFramesStrategy;
 	}
 	
 	private void instantiateHandle(){
 		if (handle == null && manager.isAlive){
-			handle = manager.getRealHandle(timeOut, howToGetHandle);
+			handle = manager.getRealHandle(timeOut, howToGetHandle, 
+					by, howToGetByFramesStrategy);
 			return;
 		}
 		if (!handle.exists() && manager.isAlive()){
-			handle = manager.getRealHandle(timeOut, howToGetHandle);
+			handle = manager.getRealHandle(timeOut, howToGetHandle, 
+					by, howToGetByFramesStrategy);
 			return;
 		}
 	}

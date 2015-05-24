@@ -2,6 +2,7 @@ package com.github.arachnidium.core;
 
 import java.net.URL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
@@ -21,8 +22,9 @@ public class BrowserWindow extends Handle implements Navigation,
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 
-	BrowserWindow(String handle, WindowManager windowManager) {
-		super(handle, windowManager);
+	BrowserWindow(String handle, WindowManager windowManager, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
+		super(handle, windowManager, by, howToGetByFramesStrategy);
 		this.windowTool = driverEncapsulation.getComponent(
 				WindowTool.class);
 		this.navigationTool = driverEncapsulation.getComponent(

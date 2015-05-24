@@ -2,6 +2,7 @@ package com.github.arachnidium.core;
 
 import java.util.Set;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
@@ -154,7 +155,8 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 
 	@Override
 	BrowserWindow getRealHandle(long timeOut,
-			HowToGetPage howToGet) {
+			HowToGetPage howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
 		String handle = this.getStringHandle(timeOut,
 				howToGet);
 		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(
@@ -163,7 +165,7 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 			return initedWindow;
 		}
 		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
-				howToGet), this);
+				howToGet), this, by, howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
 	}

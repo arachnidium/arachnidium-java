@@ -4,6 +4,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 
 import com.github.arachnidium.core.interfaces.IDestroyable;
@@ -11,7 +13,7 @@ import com.github.arachnidium.core.interfaces.IHasHandle;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 
-/**
+/**z
  * Represents objects that have handles e.g.
  * browser window and mobile context/screen
  */
@@ -25,14 +27,19 @@ ITakesPictureOfItSelf, IDestroyable {
 	final String handle;
 	public final WebDriverEncapsulation driverEncapsulation;
 	public final Manager<?,?> nativeManager;
+	final By by;
+	final HowToGetByFrames howToGetByFramesStrategy;
 
 	private final HandleReceptionist receptionist;
 
-	Handle(String handle, Manager<?,?> manager) {
+	Handle(String handle, Manager<?,?> manager, 
+			By by, HowToGetByFrames howToGetByFramesStrategy) {
 		this.nativeManager = manager;
 		this.driverEncapsulation = manager.getWebDriverEncapsulation();
 		this.handle = handle;
 		this.receptionist = nativeManager.getHandleReceptionist();
+		this.by = by;
+		this.howToGetByFramesStrategy = howToGetByFramesStrategy;
 	}
 
 	@Override

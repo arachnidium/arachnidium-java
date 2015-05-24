@@ -1,5 +1,6 @@
 package com.github.arachnidium.core;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 
@@ -13,8 +14,9 @@ public class MobileScreen extends Handle implements IContext {
 
 	private final Rotator rotator;
 
-	MobileScreen(String context, ScreenManager manager) {
-		super(context, manager);
+	MobileScreen(String context, ScreenManager manager, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
+		super(context, manager, by, howToGetByFramesStrategy);
 		rotator = driverEncapsulation.getComponent(Rotator.class);
 	}
 

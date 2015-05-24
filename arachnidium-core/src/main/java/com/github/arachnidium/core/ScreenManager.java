@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -113,14 +114,16 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 
 	@Override
 	MobileScreen getRealHandle(long timeOut,
-			HowToGetMobileScreen howToGet) {
+			HowToGetMobileScreen howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
 		String handle = this.getStringHandle(timeOut,
 				isSupportActivities(howToGet));
 		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(handle,
 				this);
 		if (initedContext != null)
 			return initedContext;
-		MobileScreen context = new MobileScreen(handle, this);
+		MobileScreen context = new MobileScreen(handle, this, by, 
+				howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}
