@@ -8,6 +8,7 @@ import com.github.arachnidium.util.logging.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 
+import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasHandle;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
@@ -29,6 +30,9 @@ ITakesPictureOfItSelf, IDestroyable {
 	public final Manager<?,?> nativeManager;
 	final By by;
 	final HowToGetByFrames howToGetByFramesStrategy;
+	
+	IHowToGetHandle howToGetHandleStrategy;
+	long timeOut;
 
 	private final HandleReceptionist receptionist;
 

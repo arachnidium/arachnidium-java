@@ -159,6 +159,86 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		return getHandle(timeOut, howToGet);
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, By by, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(int index, By by){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param howToGetByFramesStrategy
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, HowToGetByFrames howToGetByFramesStrategy, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(int index, HowToGetByFrames howToGetByFramesStrategy){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, By by, HowToGetByFrames howToGetByFramesStrategy, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, by, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(int index, By by, HowToGetByFrames howToGetByFramesStrategy){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, howToGetByFramesStrategy);
+	}
+	
 	HandleReceptionist getHandleReceptionist() {
 		return handleReceptionist;
 	}
@@ -167,21 +247,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @return Set of string window handles/context names
 	 */
 	abstract Set<String> getHandles();
-
-	/**
-	 * Returns window on mobile context 
-	 * by conditions. 
-	 * 
-	 * @param howToGet Given strategy. 
-	 * @return Window or mobile context. Actually it returns CGLIB proxy
-	 * which instantiate the real object by the invocation 
-	 * 
-	 * @see IHowToGetHandle
-	 */
-	public V getHandle(U howToGet){
-		return getHandle(getTimeOut(getHandleWaitingTimeOut()
-				.getHandleWaitingTimeOut()), howToGet); 
-	}
 	
 	@SuppressWarnings("unchecked")
 	public V getHandle(long timeOut, U howToGet, By by, 
@@ -199,8 +264,69 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return EnhancedProxyFactory.getProxy(required, params, values, hi);
+		V proxy = EnhancedProxyFactory.getProxy(required, params, values, hi);
+		proxy.timeOut = timeOut;
+		proxy.howToGetHandleStrategy = howToGet;
+		return proxy;
 	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param timeOut
+	 * @param howToGet
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(long timeOut, U howToGet, By by){
+		return getHandle(timeOut, howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(U howToGet, By by){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param timeOut
+	 * @param howToGet
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(long timeOut, U howToGet, HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(timeOut, howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(U howToGet, HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, null, 
+				howToGetByFramesStrategy);
+	}	
 	
 	/**
 	 * Returns window on mobile context 
@@ -218,6 +344,22 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	public V getHandle(long timeOut, U howToGet){
 		return getHandle(timeOut, howToGet, null, null);
 	}
+	
+	/**
+	 * Returns window on mobile context 
+	 * by conditions. 
+	 * 
+	 * @param howToGet Given strategy. 
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
+	 * 
+	 * @see IHowToGetHandle
+	 */
+	public V getHandle(U howToGet){
+		return getHandle(getTimeOut(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut()), howToGet); 
+	}	
+	
 	
 	/**
 	 * Returns window on mobile context 
