@@ -249,7 +249,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	abstract Set<String> getHandles();
 	
 	@SuppressWarnings("unchecked")
-	public V getHandle(long timeOut, U howToGet, By by, 
+	private V createProxy(long timeOut, U howToGet, By by, 
 			HowToGetByFrames howToGetByFramesStrategy){
 		HandleInterceptor<U> hi = new HandleInterceptor<U>(
 				this, howToGet, timeOut, by, howToGetByFramesStrategy);
@@ -267,7 +267,12 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		V proxy = EnhancedProxyFactory.getProxy(required, params, values, hi);
 		proxy.timeOut = timeOut;
 		proxy.howToGetHandleStrategy = howToGet;
-		return proxy;
+		return proxy;		
+	}
+	
+	public V getHandle(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return createProxy(timeOut, howToGet, by, howToGetByFramesStrategy);
 	}
 	
 	/**
