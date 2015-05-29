@@ -12,10 +12,12 @@ import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.Photographer;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.springframework.context.annotation.Bean;
 
 import com.github.arachnidium.core.components.common.AlertHandler;
@@ -269,6 +271,70 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		proxy.howToGetHandleStrategy = howToGet;
 		return proxy;		
 	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public V getHandle(V parent, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		HowToGetByFrames path = null;
+		if (parent.howToGetByFramesStrategy != null){
+			path = new HowToGetByFrames();
+			List<Object> previousFrames = parent.howToGetByFramesStrategy.getFramePath();
+			for (Object o: previousFrames){
+				path.addNextFrame(o);
+			}
+		}
+		
+		if (howToGetByFramesStrategy != null){
+			if (path == null)
+				path = new HowToGetByFrames();
+			List<Object> definedFramePath = howToGetByFramesStrategy.getFramePath();
+			for (Object o: definedFramePath){
+				path.addNextFrame(o);
+			}
+		}
+		
+		By usedBy = null;
+		if (howToGetByFramesStrategy != null)
+			usedBy = by;
+		else{
+			if (parent.by == null){
+				usedBy = by;
+			}
+			else{
+				By[] chain = new By[]{parent.by};
+				if (by != null)
+					chain = ArrayUtils.add(chain, by);
+				usedBy = new ByChained(chain);
+			}
+		}
+		
+		return createProxy(parent.timeOut, (U) parent.howToGetHandleStrategy, 
+				usedBy, path);
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(V parent, By by){
+		return getHandle(parent, by, null);
+	}
+	
+	public V getHandle(V parent, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(parent, null, howToGetByFramesStrategy);
+	}
+	
 	
 	public V getHandle(long timeOut, U howToGet, By by, 
 			HowToGetByFrames howToGetByFramesStrategy){
