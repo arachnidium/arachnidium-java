@@ -41,5 +41,14 @@ public class MobileScreen extends Handle implements IContext {
 	@Override
 	public WebDriver getWrappedDriver() {
 		return driverEncapsulation.getWrappedDriver();
-	}		
+	}
+	
+	@Override
+	public synchronized void switchToMe() {
+		if (handle.contains(MobileContextNamePatterns.NATIVE)){
+			nativeManager.switchTo(handle);
+			return;
+		}
+		super.switchToMe();
+	}
 }

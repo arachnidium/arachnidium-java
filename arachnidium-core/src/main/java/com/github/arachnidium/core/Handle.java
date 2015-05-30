@@ -1,12 +1,16 @@
 package com.github.arachnidium.core;
 
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.IDestroyable;
@@ -19,7 +23,7 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
  * browser window and mobile context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
-ITakesPictureOfItSelf, IDestroyable {
+ITakesPictureOfItSelf, IDestroyable, SearchContext {
 
 	static IHasHandle isInitiated(String handle, Manager<?,?> manager) {
 		return manager.getHandleReceptionist().isInstantiated(handle);
@@ -81,6 +85,8 @@ ITakesPictureOfItSelf, IDestroyable {
 	@Override
 	public synchronized void switchToMe() {
 		nativeManager.switchTo(handle);
+		if (howToGetByFramesStrategy != null)
+			howToGetByFramesStrategy.switchTo(driverEncapsulation.getWrappedDriver());
 	}
 
 	/**
@@ -121,6 +127,28 @@ ITakesPictureOfItSelf, IDestroyable {
 	@Override
 	public synchronized void takeAPictureOfAWarning(String comment) {
 		nativeManager.takeAPictureOfAWarning(handle, comment);
+	}
+	
+	private By returnBy(By by){
+		By usedBy = null;
+		if (this.by != null){
+			usedBy = new ByChained(this.by, by);
+		}
+		else
+			usedBy = by;
+		return usedBy;
+	}
+	
+	@Override
+	public WebElement findElement(By by){
+		switchToMe();
+		return driverEncapsulation.getWrappedDriver().findElement(returnBy(by));
+	}
+	
+	@Override
+	public List<WebElement> findElements(By by){
+		switchToMe();
+		return driverEncapsulation.getWrappedDriver().findElements(returnBy(by));
 	}
 
 }

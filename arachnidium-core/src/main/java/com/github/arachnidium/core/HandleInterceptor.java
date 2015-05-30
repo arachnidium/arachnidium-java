@@ -45,7 +45,6 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 		instantiateHandle();
 		if (handle != null )
 			return method.invoke(handle, args);
-		
 		return super.intercept(obj, method, args, proxy);
 	}	
 

@@ -8,7 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 
 
+
 import com.github.arachnidium.core.Handle;
+import com.github.arachnidium.core.MobileContextNamePatterns;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.NativeContent;
 import com.github.arachnidium.core.HowToGetByFrames;
@@ -18,7 +20,6 @@ import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
-import com.github.arachnidium.model.support.annotations.MobileContextNamePatterns;
 import com.github.arachnidium.model.support.annotations.rootelements.RootAndroidElement;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
