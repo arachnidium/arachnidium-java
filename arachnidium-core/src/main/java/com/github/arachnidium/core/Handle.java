@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
+import com.github.arachnidium.util.logging.Photographer;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -96,7 +97,8 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 	 */
 	@Override
 	public synchronized void takeAPictureOfAFine(String comment) {
-		nativeManager.takeAPictureOfAFine(handle, comment);
+		Photographer.takeAPictureOfAFine(driverEncapsulation.getWrappedDriver(), 
+				comment);
 	}
 
 	/**
@@ -106,7 +108,8 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 	 */	
 	@Override
 	public synchronized void takeAPictureOfAnInfo(String comment) {
-		nativeManager.takeAPictureOfAnInfo(handle, comment);
+		Photographer.takeAPictureOfAnInfo(driverEncapsulation.getWrappedDriver(),
+				comment);
 	}
 
 	/**
@@ -116,7 +119,8 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 	 */		
 	@Override
 	public synchronized void takeAPictureOfASevere(String comment) {
-		nativeManager.takeAPictureOfASevere(handle, comment);
+		Photographer.takeAPictureOfASevere(driverEncapsulation.getWrappedDriver(),
+				comment);
 	}
 
 	/**
@@ -126,7 +130,8 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 	 */		
 	@Override
 	public synchronized void takeAPictureOfAWarning(String comment) {
-		nativeManager.takeAPictureOfAWarning(handle, comment);
+		Photographer.takeAPictureOfAWarning(driverEncapsulation.getWrappedDriver(),
+				comment);
 	}
 	
 	private By returnBy(By by){
@@ -141,13 +146,11 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 	
 	@Override
 	public WebElement findElement(By by){
-		switchToMe();
 		return driverEncapsulation.getWrappedDriver().findElement(returnBy(by));
 	}
 	
 	@Override
 	public List<WebElement> findElements(By by){
-		switchToMe();
 		return driverEncapsulation.getWrappedDriver().findElements(returnBy(by));
 	}
 

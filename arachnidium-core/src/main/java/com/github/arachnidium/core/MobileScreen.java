@@ -25,7 +25,6 @@ public class MobileScreen extends Handle implements IContext {
 	 */
 	@Override
 	public synchronized ScreenOrientation getOrientation() {
-		switchToMe();
 		return rotator.getOrientation();
 	}
 
@@ -34,7 +33,6 @@ public class MobileScreen extends Handle implements IContext {
 	 */
 	@Override
 	public synchronized void rotate(ScreenOrientation orientation) {
-		switchToMe();
 		rotator.rotate(orientation);
 	}
 

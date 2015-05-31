@@ -6,10 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
-import com.github.arachnidium.util.logging.Log;
-import com.github.arachnidium.util.logging.Photographer;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -482,62 +479,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @see IHowToGetHandle
 	 */
 	abstract String getStringHandle(long timeOut, U howToGet);
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates FINE {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */
-	synchronized void takeAPictureOfAFine(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAFine(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates INFO {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */	
-	synchronized void takeAPictureOfAnInfo(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAnInfo(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-	
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates SEVERE {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */		
-	synchronized void takeAPictureOfASevere(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfASevere(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates WARN {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */		
-	synchronized void takeAPictureOfAWarning(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAWarning(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
 	
 	/**
 	 * Gets a new created listenable {@link Handle} and notifies listener

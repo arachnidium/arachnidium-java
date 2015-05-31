@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import net.sf.cglib.proxy.MethodProxy;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
+import com.github.arachnidium.core.interfaces.IDestroyable;
+import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
 
 class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
@@ -43,8 +45,15 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
 		instantiateHandle();
-		if (handle != null )
-			return method.invoke(handle, args);
+		Class<?> declaringClass = method.getDeclaringClass();
+		if (handle != null && !declaringClass.equals(Object.class)){
+			if (!declaringClass.equals(IDestroyable.class) && 
+					!declaringClass.equals(ISwitchesToItself.class)){
+				handle.switchToMe();
+			}
+			if (!declaringClass.equals(Object.class))
+				return method.invoke(handle, args);
+		}
 		return super.intercept(obj, method, args, proxy);
 	}	
 
