@@ -12,7 +12,6 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedAndroidActivity;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -50,8 +49,8 @@ public class BBCMain extends FunctionalPart<Handle>{
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/optMenuRefreshAction\")")
 	private RemoteWebElement refresh;
 	
-	protected BBCMain(Handle context, HowToGetByFrames path, By by) {
-		super(context, path, by);
+	protected BBCMain(Handle context) {
+		super(context);
 	}
 
 	@InteractiveMethod

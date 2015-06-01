@@ -14,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
-import org.openqa.selenium.SearchContext;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
@@ -151,9 +150,8 @@ class DecomposableListInterceptor implements MethodInterceptor {
 				| NoSuchFrameException | NoSuchElementException e) {
 			return result;
 		}
-
-		SearchContext sc = intermediate.getCurrentSearcContext();
-		int totalElements = sc.findElements(by).size();
+		
+		int totalElements = intermediate.getHandle().findElements(by).size();
 		for (int i = 0; i < totalElements; i++) {
 			if (isInvokerApp) {
 				result.add(DecompositionUtil.get(required,

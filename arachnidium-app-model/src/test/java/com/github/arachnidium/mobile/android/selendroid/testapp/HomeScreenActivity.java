@@ -7,7 +7,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class HomeScreenActivity extends NativeContent {
 	@FindBy(id = "io.selendroid.testapp:id/my_text_field")
@@ -37,8 +35,8 @@ public class HomeScreenActivity extends NativeContent {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"android:id/text1\")")
 	private List<WebElement> itemsForSelect;
 	
-	public HomeScreenActivity(MobileScreen context, HowToGetByFrames path, By by) {
-		super(context, path, by);
+	public HomeScreenActivity(MobileScreen context) {
+		super(context);
 	}
 	
 	@InteractiveMethod

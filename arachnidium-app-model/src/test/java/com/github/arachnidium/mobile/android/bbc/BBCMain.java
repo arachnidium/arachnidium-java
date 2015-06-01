@@ -14,13 +14,12 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.android.AndroidNativeContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 
 public class BBCMain extends AndroidNativeContent implements IBar{
 	
-	protected BBCMain(MobileScreen context, HowToGetByFrames ignored, By by) {
-		super(context, ignored, by);
+	protected BBCMain(MobileScreen context) {
+		super(context);
 	}
 
 	@AndroidFindBys({@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"bbc.mobile.news.ww:id/articleGallery\")"),

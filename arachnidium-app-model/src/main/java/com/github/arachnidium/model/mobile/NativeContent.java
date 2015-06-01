@@ -8,7 +8,6 @@ import io.appium.java_client.ScrollsTo;
 import io.appium.java_client.TouchShortcuts;
 import io.appium.java_client.android.AndroidDriver;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Rotatable;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
@@ -17,7 +16,6 @@ import com.github.arachnidium.core.MobileContextNamePatterns;
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.core.components.mobile.NativeTouchActions;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedContext;
 
 /**
@@ -29,19 +27,12 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 
 	protected final NativeTouchActions touchActions;
 	
-	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
-	 */	
-	protected NativeContent(NativeContent parent, @Deprecated HowToGetByFrames ignored, By by) {
-		super(parent, null, by);
-		touchActions = getComponent(NativeTouchActions.class);
-	}
 
 	/**
 	 * @see FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 */
-	protected NativeContent(MobileScreen context, @Deprecated HowToGetByFrames ignored, By by) {
-		super(context, null, by);
+	protected NativeContent(MobileScreen context) {
+		super(context);
 		touchActions = getComponent(NativeTouchActions.class);
 	}
 	

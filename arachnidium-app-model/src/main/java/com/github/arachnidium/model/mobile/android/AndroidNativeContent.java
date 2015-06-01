@@ -1,14 +1,11 @@
 package com.github.arachnidium.model.mobile.android;
 
-import org.openqa.selenium.By;
-
 import io.appium.java_client.android.AndroidDeviceActionShortcuts;
 import io.appium.java_client.android.AndroidDriver;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * The same as {@link NativeContent} with some capabilities specifically for Android
@@ -17,21 +14,12 @@ import com.github.arachnidium.core.HowToGetByFrames;
 public abstract class AndroidNativeContent extends NativeContent implements AndroidDeviceActionShortcuts, IHasActivity{
 
 	/**
-	 * @see FunctionalPart#FunctionalPart(FunctionalPart)
-	 * 
-	 * @see NativeContent#Screen(FunctionalPart)
-	 */
-	protected AndroidNativeContent(NativeContent parent, @Deprecated HowToGetByFrames ignored, By by) {
-		super(parent, ignored, by);
-	}
-
-	/**
 	 * @see FunctionalPart#FunctionalPart(com.github.arachnidium.core.Handle)
 	 * 
 	 * @see NativeContent#Screen(MobileScreen)
 	 */
-	protected AndroidNativeContent(MobileScreen context, @Deprecated HowToGetByFrames ignored, By by) {
-		super(context, ignored, by);
+	protected AndroidNativeContent(MobileScreen context) {
+		super(context);
 	}
 
 	@InteractiveMethod

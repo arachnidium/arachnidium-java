@@ -1,18 +1,16 @@
 package com.github.arachnidium.mobile.ios.iucatalog;
 
-import java.util.List;
-
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.pagefactory.iOSFindBy;
 
-import org.openqa.selenium.By;
+import java.util.List;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(name = "Okay / Cancel")
@@ -22,8 +20,8 @@ public class ActionSheets<T extends Handle> extends FunctionalPart<T> {
 	@iOSFindBy(xpath = "//UIACollectionCell/UIAButton")
 	private List<IOSElement> buttons;
 	
-	public ActionSheets(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	public ActionSheets(T handle) {
+		super(handle);
 	}
 	
 	@InteractiveMethod

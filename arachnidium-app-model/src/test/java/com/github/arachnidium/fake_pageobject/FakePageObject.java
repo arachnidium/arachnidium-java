@@ -10,12 +10,11 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class FakePageObject<S extends Handle> extends FunctionalPart<S> {
 
-	protected FakePageObject(S handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected FakePageObject(S handle) {
+		super(handle);
 	}
 
 	public final long TIME_OUT = 4700; //MILLISECONDS

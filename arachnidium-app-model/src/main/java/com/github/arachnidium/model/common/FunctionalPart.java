@@ -8,7 +8,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -16,11 +15,9 @@ import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.eLogColors;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
@@ -86,91 +83,13 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 	}
 	
-	FunctionalPart<?> parent; // parent test object
 	// parent application
 	protected Application<?, ?> application;
 	protected final Ime ime;
-	private final HowToGetByFrames pathStrategy;
 	final DefaultDecorator defaultFieldDecorator;
 	private final TimeOut timeOut;
 	protected final ScriptExecutor scriptExecutor; // executes given javaScript
-
-	final RootElement rootElement;
-	private static By getChainedBy(FunctionalPart<?> parent,
-			HowToGetByFrames path, By by) {
-		// root element chain is broken when we switch
-		// driver to another frame
-		if (path != null && path.getFramePath().size() > 0) {
-			return by;
-		}
-
-		if (parent.rootElement.getTheGivenByStrategy() == null) {
-			return by;
-		}
-
-		if (by == null){
-			return parent.rootElement.getTheGivenByStrategy();
-		}
-		
-		LinkedList<By> previuosChain = new LinkedList<>();
-		previuosChain.addFirst(by);
-
-		FunctionalPart<?> previousParent = parent.parent;
-		while (previousParent != null) {
-			if ( previousParent.pathStrategy != null && 
-					previousParent.pathStrategy.getFramePath().size() > 0)
-				break;
-			if (previousParent.rootElement == null)
-				break;
-			previuosChain.addFirst(parent.rootElement.getTheGivenByStrategy());
-			previousParent = previousParent.parent;
-		}
-		
-		if (previuosChain.size() == 0){
-			return by;
-		}
-		return new ByChained(previuosChain.toArray(new By[] {}));
-	}
-
-	/**
-	 * This constructor should present when an instance of the class is going to
-	 * be got from another.<br/>
-	 * <br/>
-	 * This instantiation means that described specific UI or the fragment is on
-	 * the same window/mobile context and inside the same frame (it is actual
-	 * for browser and mobile hybrid apps) as the more generalized "parent". <br/>
-	 * <br/>
-	 * The described piece of UI is inside frame (it is actual for browser and
-	 * mobile hybrid apps). Path to desired frame is specified by
-	 * {@link HowToGetByFrames} instance. <br/>
-	 * <br/>
-	 * There is known root {@link WebElement} defined {@link By} locator
-	 * strategy
-	 *
-	 * @example someUIDescriptionInstance.getPart(someUIDescription.class,
-	 *          howToGetByFrameInstance);<br/>
-	 * <br/>
-	 *          <b>someUIDescription.class should have this constructor</b>
-	 * 
-	 * @param parent
-	 *            is considered as a more general UI or the part of client UI
-	 * @param path
-	 *            is a path to frame which is specified by
-	 *            {@link HowToGetByFrames}
-	 * @param by
-	 *            It is {@link By} strategy which is used to get the root
-	 *            element
-	 *
-	 * @see IDecomposable#getPart(Class, HowToGetByFrames)
-	 *
-	 * @see HowToGetByFrames
-	 */
-	@SuppressWarnings("unchecked")
-	protected FunctionalPart(FunctionalPart<?> parent, HowToGetByFrames path,
-			By by) {
-		this((S) parent.handle, path, getChainedBy(parent, path, by));
-		parent.addChild(this);
-	}
+	
 
 	/**
 	 * This constructor should present when an instance of the class is going to
@@ -203,32 +122,17 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 * @see HowToGetByFrames
 	 * @see By
 	 */
-	protected FunctionalPart(S handle, HowToGetByFrames path, By by) {
+	protected FunctionalPart(S handle) {
 		super(handle);
-		this.pathStrategy = path;
 		timeOut = handle.driverEncapsulation.getTimeOut();
 		long primaryTimeOut = timeOut.getImplicitlyWaitTimeOut();
 		TimeUnit primaryTimeUnit = timeOut.getImplicitlyWaitTimeUnit();
-		this.rootElement = new RootElement(this);
-		this.rootElement.changeByStrategy(by);
-		this.rootElement.setTimeValue(primaryTimeOut);
-		this.rootElement.setTimeUnit(primaryTimeUnit);
+
 		scriptExecutor = getComponent(ScriptExecutor.class);
 	    ime = getComponent(Ime.class);
 	    defaultFieldDecorator = new DefaultDecorator(
-				getCurrentSearcContext(), this, primaryTimeOut, primaryTimeUnit);
+				handle, this, primaryTimeOut, primaryTimeUnit);
 	    load();
-	}
-	
-	/**
-	 * This method returns actual {@link SearchContext} for this page/screen representation
-	 * 
-	 * @return an instance of the {@link WebDriver} implementor or the root {@link WebElement}
-	 */
-	protected final SearchContext getCurrentSearcContext(){
-		if (rootElement.getTheGivenByStrategy() != null)
-			return rootElement.getWrappedElement();
-		return getWrappedDriver();
 	}
 
 	/**
@@ -238,7 +142,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	protected final void addChild(ModelObject<?> child) {
 		super.addChild(child);
 		FunctionalPart<?> childPart = (FunctionalPart<?>) child;
-		childPart.parent = this;
 		childPart.application = this.application;
 	}
 
@@ -486,14 +389,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	@Override
 	public synchronized void switchToMe() {
-		// firstly we should switch parent browser window on
-		if (parent != null)
-			parent.switchToMe();
-		else
-			handle.switchToMe();
-		if (pathStrategy != null)
-			pathStrategy.switchTo(getWrappedDriver());
-		return;
+		handle.switchToMe();
 	}
 
 	/**

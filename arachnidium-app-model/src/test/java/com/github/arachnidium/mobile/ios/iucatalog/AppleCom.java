@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -27,8 +26,8 @@ public class AppleCom extends WebViewContent {
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
 	
-	protected AppleCom(MobileScreen screen, HowToGetByFrames path, By by) {
-		super(screen, path, by);
+	protected AppleCom(MobileScreen screen) {
+		super(screen);
 	}
 	
 	@InteractiveMethod

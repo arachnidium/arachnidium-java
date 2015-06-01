@@ -1,16 +1,13 @@
 package com.github.arachnidium.web.google.exceptionhandling;
 
-import org.openqa.selenium.By;
-
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.abstractions.exceptionhandlers.UsedImplicitExceptionHandlers;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 @UsedImplicitExceptionHandlers(areUsed = {AnnotataedTestExceptionHandler.class})
 public class AnnotatedSearchBarExceptionThrowing<T extends Handle> extends SearchBarExceptionThrowing<T>{	
 	
-	protected AnnotatedSearchBarExceptionThrowing(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected AnnotatedSearchBarExceptionThrowing(T handle) {
+		super(handle);
 	}
 	
 	protected void onInvokeTwice() {

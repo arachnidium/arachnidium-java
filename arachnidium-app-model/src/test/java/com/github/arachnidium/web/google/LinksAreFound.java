@@ -2,7 +2,6 @@ package com.github.arachnidium.web.google;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +10,6 @@ import org.openqa.selenium.support.FindBys;
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
 import com.github.arachnidium.model.common.Static;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
@@ -53,8 +51,8 @@ public class LinksAreFound<T extends Handle> extends FunctionalPart<T> implement
 	@RootElement(chain = {@FindBy(className="rc")})
 	public List<FoundLink2> foundLinks8;
 	
-	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected LinksAreFound(T handle) {
+		super(handle);
 	}
 
 	@InteractiveMethod
