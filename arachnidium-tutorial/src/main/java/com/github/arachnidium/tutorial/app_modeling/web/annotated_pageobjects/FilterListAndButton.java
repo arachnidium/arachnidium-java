@@ -2,14 +2,12 @@ package com.github.arachnidium.tutorial.app_modeling.web.annotated_pageobjects;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @RootElement(chain = {@FindBy(id = "someIdForAnotherService_or_Component")}) /**<--It is the demonstration of the ability
@@ -21,10 +19,14 @@ another values. Also if the class is going to be instantiated by {@link Function
 then the given By-strategy will be used instead of declared by annotations*/
 
 /**it is the example which demonstrates how to implement a child page object*/
-public class FilterListAndButton extends FunctionalPart<Handle> {/** <==
+public class FilterListAndButton extends FunctionalPart<Handle> { /** <==
 	 * Here I demonstrate something that is supposed to be used by the web and 
 	 * mobile testing 
 	 */
+	
+	protected FilterListAndButton(Handle handle) {
+		super(handle);
+	}
 
 	@FindAll({@FindBy(className = "treedoclistview-root-node-name"),
 		@FindBy(xpath = ".//*[contains(@class,'goog-listitem-container')]")})
@@ -33,19 +35,6 @@ public class FilterListAndButton extends FunctionalPart<Handle> {/** <==
 	@FindBy(xpath = ".//*[contains(@class,'goog-toolbar-item-new')]")
 	private WebElement newDocumentButton;
 	
-	/**
-	 * If you want to represent some page object as a 
-	 * "child" component of any page/screen then your implementation 
-	 * should have constructor like this:
-	 * 
-	 * {@link FunctionalPart##FunctionalPart(FunctionalPart, com.github.arachnidium.model.support.HowToGetByFrames, By)}
-	 * 
-	 * As you can see the class should have (one of) constructors which instantiate it
-	 *  class as a child of more generalized parent
-	 */
-	protected FilterListAndButton(FunctionalPart<?> parent, HowToGetByFrames path, By by) {
-		super(parent, path, by);
-	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
 	some interaction. By default the presence of it means that Webdriver should be focused

@@ -6,15 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 class LinksAreFound<T extends Handle> extends FunctionalPart<T> implements ILinkList {
 	
 	@FindBy(id = "ires")
 	private RemoteWebElement result;
 	
-	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected LinksAreFound(T handle) {
+		super(handle);
 	}
 
 	@InteractiveMethod

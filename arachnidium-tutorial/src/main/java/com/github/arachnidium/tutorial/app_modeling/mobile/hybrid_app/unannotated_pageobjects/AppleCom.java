@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 /**
  * This can describe apple.com web page as well 
@@ -34,8 +33,8 @@ public class AppleCom extends FunctionalPart<Handle> {
 	@FindBy(className = "gh-tab-link")
 	private List<WebElement> links;
 	
-	protected AppleCom(Handle handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected AppleCom(Handle handle) {
+		super(handle);
 	}
 	
 	/**

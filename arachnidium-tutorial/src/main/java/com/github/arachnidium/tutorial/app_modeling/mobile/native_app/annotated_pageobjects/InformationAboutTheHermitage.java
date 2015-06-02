@@ -92,8 +92,8 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> { /** <
 	@AndroidFindBy(id = "android:id/up")
 	private RemoteWebElement back;
 
-	protected InformationAboutTheHermitage(Handle handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected InformationAboutTheHermitage(Handle handle) {
+		super(handle);
 	}
 	
 	/**

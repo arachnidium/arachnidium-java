@@ -1,12 +1,10 @@
 package com.github.arachnidium.tutorial.simple.mobile;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 //
 // com.github.arachnidium.model.common.FunctionalPart is the basic class which subclasses help to describe interaction
@@ -72,30 +70,8 @@ public class VKLogin<S extends Handle> extends FunctionalPart<S> {
 	@FindBy(id = "com.vkontakte.android:id/auth_btn")
 	private WebElement logInBtn;	
 	
-	//
-	 // This constructor should present 
-	 // when an instance of the class is going to
-	 // be got from the given {@link Handle} e.g. browser window
-	 // or mobile context. I.e. UI or repeatable widget/element association
-	 // is located on the window/native or webview context.
-	 //
-	 // There are possible more complex variants which will be shown in another
-	 // chapters.
-	 // 
-	 //@param handle is the given browser window
-	 //or mobile context
-	 //
-	 //@example
-	 //If this constructor is present then instance can got by these methods (for example)
-	 //
-	 //applicationInstance.getPart(someUIDescription.class);
-	 //applicationInstance.getPart(someUIDescription.class, windowOrContextIndex);
-	 //applicationInstance.getPart(someUIDescription.class, howToGetBrowserWindowInstance);
-	 //
-	 //Special things will be described in another
-	 // chapters.
-	protected VKLogin(S handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected VKLogin(S handle) {
+		super(handle);
 		load(); //this method instantiates values of 
 		//WebElement and List<WebElement> (RemoteWebElement and List<RemoteWebElement>/MobileElement and List<MobileElement>/
 		//AndroidElement or IOSElement and List<AndroidElement> or List<IOSElement>  are possible) fields marked by 

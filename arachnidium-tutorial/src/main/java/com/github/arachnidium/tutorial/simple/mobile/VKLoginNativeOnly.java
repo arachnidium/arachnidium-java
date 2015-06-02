@@ -2,12 +2,10 @@ package com.github.arachnidium.tutorial.simple.mobile;
 
 import io.appium.java_client.android.AndroidElement;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 //
 // com.github.arachnidium.model.mobile.NativeContent is a com.github.arachnidium.model.common.FunctionalPart subclass which
@@ -32,8 +30,8 @@ public class VKLoginNativeOnly extends NativeContent {
 	@FindBy(xpath = "com.vkontakte.android:id/auth_btn")
 	private AndroidElement logInBtn;
 	
-	public VKLoginNativeOnly(MobileScreen context, HowToGetByFrames path, By by) {
-		super(context, path, by);
+	public VKLoginNativeOnly(MobileScreen context) {
+		super(context);
 	}
 	
 	@InteractiveMethod

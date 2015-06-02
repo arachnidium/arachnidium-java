@@ -1,13 +1,11 @@
 package com.github.arachnidium.tutorial.simple.web;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.BrowserWindow;
 import com.github.arachnidium.model.browser.BrowserPage;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 //
  // com.github.arachnidium.model.browser.BrowserPage is a com.github.arachnidium.model.common.FunctionalPart subclass which
@@ -43,8 +41,8 @@ public class VKLoginBrowserOnly extends BrowserPage {
 	})
 	private WebElement logInBtn;
 	
-	protected VKLoginBrowserOnly(BrowserWindow window, HowToGetByFrames path, By by) {
-		super(window, path, by);
+	protected VKLoginBrowserOnly(BrowserWindow window) {
+		super(window);
 	}
 	
 	@InteractiveMethod
