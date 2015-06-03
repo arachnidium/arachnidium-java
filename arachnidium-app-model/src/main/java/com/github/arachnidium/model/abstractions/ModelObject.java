@@ -64,7 +64,7 @@ import com.github.arachnidium.core.HowToGetByFrames;
  */
 public abstract class ModelObject<S extends Handle> implements IDestroyable,
 		IDecomposable, WrapsDriver {
-	protected final S handle; //window or mobile context. This object is stationed on it.
+	protected final Handle handle; //window or mobile context. This object is stationed on it.
 	private final WebDriverEncapsulation driverEncapsulation;
 
 	protected final Awaiting awaiting; //performs waiting
