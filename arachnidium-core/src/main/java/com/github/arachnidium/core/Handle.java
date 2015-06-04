@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
+import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasHandle;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
@@ -24,7 +25,7 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
  * browser window and mobile context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
-ITakesPictureOfItSelf, IDestroyable, SearchContext {
+ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy {
 
 	static IHasHandle isInitiated(String handle, Manager<?,?> manager) {
 		return manager.getHandleReceptionist().isInstantiated(handle);
@@ -134,7 +135,8 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext {
 				comment);
 	}
 	
-	private By returnBy(By by){
+	@Override
+	public By returnBy(By by){
 		By usedBy = null;
 		if (this.by != null){
 			usedBy = new ByChained(this.by, by);
