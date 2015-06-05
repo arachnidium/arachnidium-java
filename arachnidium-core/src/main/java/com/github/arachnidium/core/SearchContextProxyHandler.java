@@ -2,6 +2,8 @@ package com.github.arachnidium.core;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasCapabilities;
@@ -14,6 +16,16 @@ import org.openqa.selenium.internal.WrapsElement;
 class SearchContextProxyHandler implements InvocationHandler {
 	
 	private final Handle handle;
+	private final static List<Class<?>> classesThatRequireFocusOnTheHandle = new ArrayList<Class<?>>() {
+		private static final long serialVersionUID = 1L;
+		{
+			add(WebDriver.class);
+			add(WebElement.class);
+			add(WrapsElement.class);
+			add(SearchContext.class);
+		}
+
+	};
 	
 	SearchContextProxyHandler(Handle handle){
 		this.handle = handle;
@@ -24,34 +36,29 @@ class SearchContextProxyHandler implements InvocationHandler {
 			throws Throwable {
 		Class<?> declaredBy = m.getDeclaringClass(); 
 		
+		WebDriver driver = handle.driverEncapsulation.getWrappedDriver();
 		if (declaredBy.equals(WrapsDriver.class))
-			return handle.driverEncapsulation.getWrappedDriver();
+			return driver;
 		
 		if (declaredBy.equals(HasCapabilities.class))
-			return ((HasCapabilities) handle.driverEncapsulation.
-					getWrappedDriver()).getCapabilities();
+			return ((HasCapabilities) driver).getCapabilities();
 		
-		if (declaredBy.equals(WebDriver.class) || declaredBy.equals(WebElement.class)
-				|| declaredBy.equals(WrapsElement.class)
-				|| declaredBy.equals(SearchContext.class))
+		if (classesThatRequireFocusOnTheHandle.contains(declaredBy))
 			handle.switchToMe();		
 		
 		Object webDriverOrElement = null;
 		
 		if (declaredBy.equals(WebDriver.class))
-			webDriverOrElement = handle.driverEncapsulation.getWrappedDriver();
+			webDriverOrElement = driver;
 		
 		if (declaredBy.equals(WrapsElement.class))
-			return handle.driverEncapsulation.
-					getWrappedDriver().findElement(handle.by);
+			return driver.findElement(handle.by);
 		
 		if (declaredBy.equals(WebElement.class))
-			webDriverOrElement = handle.driverEncapsulation.
-					getWrappedDriver().findElement(handle.by);
+			webDriverOrElement = driver.findElement(handle.by);
 		
 		if (declaredBy.equals(SearchContext.class))
-			return m.invoke(handle.driverEncapsulation.
-					getWrappedDriver(), new Object[] {handle.returnBy((By) args[0])});
+			return m.invoke(driver, new Object[] {handle.returnBy((By) args[0])});
 		
 		if (webDriverOrElement != null)
 			return m.invoke(webDriverOrElement, args);

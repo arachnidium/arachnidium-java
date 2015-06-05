@@ -1,5 +1,6 @@
 package com.github.arachnidium.core;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -7,16 +8,22 @@ import java.util.logging.Level;
 import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.Photographer;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasHandle;
+import com.github.arachnidium.core.interfaces.IHasSearchContext;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 
@@ -25,7 +32,7 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
  * browser window and mobile context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
-ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy {
+ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchContext {
 
 	static IHasHandle isInitiated(String handle, Manager<?,?> manager) {
 		return manager.getHandleReceptionist().isInstantiated(handle);
@@ -148,12 +155,30 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy {
 	
 	@Override
 	public WebElement findElement(By by){
-		return driverEncapsulation.getWrappedDriver().findElement(returnBy(by));
+		return getSearchContext().findElement(by);
 	}
 	
 	@Override
 	public List<WebElement> findElements(By by){
-		return driverEncapsulation.getWrappedDriver().findElements(returnBy(by));
+		return getSearchContext().findElements(by);
+	}
+	
+	@Override
+	public SearchContext getSearchContext(){
+		Class<?>[] interfaces = new Class[]{};
+		if (by == null)
+			interfaces = ArrayUtils.addAll(interfaces, new Class<?>[] {WebDriver.class, 
+					WrapsDriver.class, HasCapabilities.class});
+		else
+			interfaces = ArrayUtils.addAll(interfaces, new Class<?>[] {WebElement.class, 
+					WrapsDriver.class, WrapsElement.class});
+		
+		SearchContext result = (SearchContext) Proxy
+				.newProxyInstance(
+						SearchContext.class.getClassLoader(),
+						interfaces, new SearchContextProxyHandler(this));
+		return result;
+						
 	}
 
 }

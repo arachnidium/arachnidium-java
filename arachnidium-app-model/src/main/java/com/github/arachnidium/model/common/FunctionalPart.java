@@ -131,7 +131,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 		scriptExecutor = getComponent(ScriptExecutor.class);
 	    ime = getComponent(Ime.class);
 	    defaultFieldDecorator = new DefaultDecorator(
-				handle, this, primaryTimeOut, primaryTimeUnit);
+				handle.getSearchContext(), this, primaryTimeOut, primaryTimeUnit);
 	    load();
 	}
 
@@ -367,6 +367,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	protected void load(FieldDecorator decorator) {
 		PageFactory.initElements(decorator, this);
+		load();
 	}
 
 	/**
@@ -378,6 +379,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	protected void load(ElementLocatorFactory factory) {
 		PageFactory.initElements(factory, this);
+		load();
 	}
 
 	/**
