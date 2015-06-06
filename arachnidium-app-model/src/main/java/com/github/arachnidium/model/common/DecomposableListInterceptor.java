@@ -4,24 +4,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchContextException;
-import org.openqa.selenium.NoSuchFrameException;
-import org.openqa.selenium.NoSuchWindowException;
 
+import com.github.arachnidium.core.ByNumbered;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
-import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.core.ByNumbered;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.IRootElementReader;
 import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
@@ -130,27 +125,11 @@ class DecomposableListInterceptor implements MethodInterceptor {
 
 		if (by == null) {
 			IDecomposable element = returnPart(required);
-			try {
-				if (ISwitchesToItself.class
-						.isAssignableFrom(element.getClass())) {
-					((ISwitchesToItself) element).switchToMe();
-				}
-				result.add(element);
-				return result;
-			} catch (NoSuchWindowException | NoSuchContextException
-					| NoSuchFrameException | NoSuchElementException e) {
-				return result;
-			}
-		}
-
-		FunctionalPart<?> intermediate = (FunctionalPart<?>) returnPart(FunctionalPart.class);
-		try {
-			intermediate.switchToMe();
-		} catch (NoSuchWindowException | NoSuchContextException
-				| NoSuchFrameException | NoSuchElementException e) {
+			result.add(element);
 			return result;
 		}
-		
+
+		FunctionalPart<?> intermediate = (FunctionalPart<?>) returnPart(FunctionalPart.class);		
 		int totalElements = intermediate.getHandle().findElements(by).size();
 		for (int i = 0; i < totalElements; i++) {
 			if (isInvokerApp) {

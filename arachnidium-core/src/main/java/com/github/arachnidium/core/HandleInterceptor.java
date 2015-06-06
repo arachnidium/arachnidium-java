@@ -4,10 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.By;
-
 import net.sf.cglib.proxy.MethodProxy;
-
+import org.openqa.selenium.By;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
@@ -22,7 +20,8 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 	private final long timeOut;
 	private final By by;
 	private final HowToGetByFrames howToGetByFramesStrategy;
-	private final static List<Class<?>> classesThatDontRequireFocusOnTheHandle = new ArrayList<Class<?>>() {
+	private final static List<Class<?>> interfacesThatDontRequireFocusOnTheHandle = 
+			new ArrayList<Class<?>>() {
 		private static final long serialVersionUID = 1L;
 		{
 			add(Object.class);
@@ -57,14 +56,16 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 	@Override
 	public Object intercept(Object obj, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
-		Class<?> declaringClass = method.getDeclaringClass();
-		if (!classesThatDontRequireFocusOnTheHandle.
+		
+		Class<?> declaringClass = method.getDeclaringClass();		
+		
+		if (!interfacesThatDontRequireFocusOnTheHandle.
 				contains(declaringClass)){
 			instantiateHandle();			
 		}
 		
 		if (handle != null
-				&& !classesThatDontRequireFocusOnTheHandle.
+				&& !interfacesThatDontRequireFocusOnTheHandle.
 				contains(declaringClass) && !declaringClass.
 				equals(ISwitchesToItself.class) && !declaringClass.
 				equals(IDestroyable.class))
