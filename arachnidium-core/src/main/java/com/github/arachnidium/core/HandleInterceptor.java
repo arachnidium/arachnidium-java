@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.cglib.proxy.MethodProxy;
+
 import org.openqa.selenium.By;
+
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasSearchContext;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
+import com.github.arachnidium.util.inheritance.MethodInheritanceUtil;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
 
 class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
@@ -20,7 +23,7 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 	private final long timeOut;
 	private final By by;
 	private final HowToGetByFrames howToGetByFramesStrategy;
-	private final static List<Class<?>> interfacesThatDontRequireFocusOnTheHandle = 
+	private final static List<Class<?>> classesThatDontRequireFocusOnTheHandle = 
 			new ArrayList<Class<?>>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -55,23 +58,22 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 
 	@Override
 	public Object intercept(Object obj, Method method, Object[] args,
-			MethodProxy proxy) throws Throwable {
+			MethodProxy proxy) throws Throwable {	
 		
-		Class<?> declaringClass = method.getDeclaringClass();		
-		
-		if (!interfacesThatDontRequireFocusOnTheHandle.
-				contains(declaringClass)){
+		if (!MethodInheritanceUtil.isOverriddenFromAny(method, 
+				classesThatDontRequireFocusOnTheHandle))
 			instantiateHandle();			
-		}
 		
 		if (handle != null
-				&& !interfacesThatDontRequireFocusOnTheHandle.
-				contains(declaringClass) && !declaringClass.
-				equals(ISwitchesToItself.class) && !declaringClass.
-				equals(IDestroyable.class))
+				&& !MethodInheritanceUtil.isOverriddenFromAny(method, 
+						classesThatDontRequireFocusOnTheHandle) 
+				&& !MethodInheritanceUtil.isOverriddenFrom(method,
+						ISwitchesToItself.class) && !MethodInheritanceUtil.isOverriddenFrom(method, 
+								IDestroyable.class))
 			handle.switchToMe();
 		
-		if (!declaringClass.equals(Object.class) && handle != null)
+		if (!MethodInheritanceUtil.isOverriddenFrom(method, Object.class) && 
+				handle != null)
 			return method.invoke(handle, args);
 
 		return super.intercept(obj, method, args, proxy);

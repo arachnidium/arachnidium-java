@@ -13,6 +13,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
 
+import com.github.arachnidium.util.inheritance.MethodInheritanceUtil;
+
 class SearchContextProxyHandler implements InvocationHandler {
 	
 	private final Handle handle;
@@ -34,30 +36,31 @@ class SearchContextProxyHandler implements InvocationHandler {
 	@Override
 	public Object invoke(Object o, Method m, Object[] args)
 			throws Throwable {
-		Class<?> declaredBy = m.getDeclaringClass(); 
 		
 		WebDriver driver = handle.driverEncapsulation.getWrappedDriver();
-		if (declaredBy.equals(WrapsDriver.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, WrapsDriver.class))
 			return driver;
 		
-		if (declaredBy.equals(HasCapabilities.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, HasCapabilities.class))
 			return ((HasCapabilities) driver).getCapabilities();
 		
-		if (classesThatRequireFocusOnTheHandle.contains(declaredBy))
+		if (MethodInheritanceUtil.isOverriddenFromAny(m, 
+				classesThatRequireFocusOnTheHandle))
 			handle.switchToMe();		
 		
 		Object webDriverOrElement = null;
 		
-		if (declaredBy.equals(WebDriver.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, WebDriver.class))
 			webDriverOrElement = driver;
 		
-		if (declaredBy.equals(WrapsElement.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, WrapsElement.class))
 			return driver.findElement(handle.by);
 		
-		if (declaredBy.equals(WebElement.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, WebElement.class))
 			webDriverOrElement = driver.findElement(handle.by);
 		
-		if (declaredBy.equals(SearchContext.class))
+		if (MethodInheritanceUtil.isOverriddenFrom(m, 
+				SearchContext.class))
 			return m.invoke(driver, new Object[] {handle.returnBy((By) args[0])});
 		
 		if (webDriverOrElement != null)

@@ -32,7 +32,7 @@ public final class MethodInheritanceUtil {
 	
 	public static boolean isOverriddenFromAny(Method m, List<Class<?>> declaringClasses){
 		for (Class<?> declaringClass: declaringClasses){
-			if (declaringClasses.contains(declaringClass))
+			if (isOverriddenFrom(m, declaringClass))
 				return true;
 		}
 		return false;
