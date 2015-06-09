@@ -16,7 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
@@ -171,7 +170,7 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchCon
 					WrapsDriver.class, HasCapabilities.class});
 		else
 			interfaces = ArrayUtils.addAll(interfaces, new Class<?>[] {WebElement.class, 
-					WrapsDriver.class, WrapsElement.class});
+					WrapsDriver.class});
 		
 		SearchContext result = (SearchContext) Proxy
 				.newProxyInstance(

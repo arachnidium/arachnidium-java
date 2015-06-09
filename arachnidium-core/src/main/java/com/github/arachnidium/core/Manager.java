@@ -51,6 +51,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?,?>>());
 	final static long defaultTimeOut = 5; // we will wait
 	private String STUB_HANDLE = "STUB";
+	private String currentHandle;
 	
 	/**
 	 * @param driverEncapsulation
@@ -465,8 +466,9 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * 
 	 * @param String window handle/context name
 	 */
-	synchronized void switchTo(String Handle) {
-		changeActive(Handle);
+	synchronized void switchTo(String handle) {
+		if (handle.equals(currentHandle))
+			changeActive(handle);
 	}
 
 	/**

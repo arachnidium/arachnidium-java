@@ -146,9 +146,9 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	}
 
 	private <T extends IDecomposable> T get(Class<T> partClass,
-			Object[] parameters) {
+			Handle h) {
 		T result = DecompositionUtil.get(partClass,
-				parameters);
+				new Object[]{h});
 		return result;
 	}
 
@@ -166,7 +166,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		return get(partClass, new Object[] { this, null, null });
+		return get(partClass, handle);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames path) {
-		return get(partClass, new Object[] { this, path, null });
+		return get(partClass, application.manager.getHandle(handle, path));
 	}
 
 	private IWebElementHighlighter getHighlighter() {
@@ -474,7 +474,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames path, By by) {
-		return get(partClass, new Object[] { this, path, by });
+		return get(partClass, application.manager.getHandle(handle, by, path));
 	}
 
 	/**
@@ -490,6 +490,6 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 * element.
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass, By by) {
-		return get(partClass, new Object[] { this, null ,by });
+		return get(partClass, application.manager.getHandle(handle, by));
 	}
 }

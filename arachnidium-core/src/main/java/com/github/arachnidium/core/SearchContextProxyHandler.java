@@ -53,15 +53,17 @@ class SearchContextProxyHandler implements InvocationHandler {
 		if (MethodInheritanceUtil.isOverriddenFrom(m, WebDriver.class))
 			webDriverOrElement = driver;
 		
-		if (MethodInheritanceUtil.isOverriddenFrom(m, WrapsElement.class))
-			return driver.findElement(handle.by);
-		
 		if (MethodInheritanceUtil.isOverriddenFrom(m, WebElement.class))
 			webDriverOrElement = driver.findElement(handle.by);
 		
 		if (MethodInheritanceUtil.isOverriddenFrom(m, 
-				SearchContext.class))
-			return m.invoke(driver, new Object[] {handle.returnBy((By) args[0])});
+				SearchContext.class)){
+			if (o instanceof WebDriver)
+				return m.invoke(driver, new Object[] {(By) args[0]});
+			
+			return m.invoke(driver.findElement(handle.by), 
+					new Object[] {(By) args[0]});	
+		}
 		
 		if (webDriverOrElement != null)
 			return m.invoke(webDriverOrElement, args);
