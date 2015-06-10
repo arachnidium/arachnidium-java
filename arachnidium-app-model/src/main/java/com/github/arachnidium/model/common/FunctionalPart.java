@@ -8,6 +8,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -15,6 +16,7 @@ import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.eLogColors;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -46,7 +48,7 @@ import com.github.arachnidium.core.HowToGetByFrames;
  *
  */
 public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
-		implements ITakesPictureOfItSelf, ISwitchesToItself {
+		implements ITakesPictureOfItSelf, ISwitchesToItself, SearchContext {
 
 	/**
 	 * This is used when general time out is not suitable for method that
@@ -149,6 +151,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 			Handle h) {
 		T result = DecompositionUtil.get(partClass,
 				new Object[]{h});
+		addChild((ModelObject<?>) result);
+		DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) result);
 		return result;
 	}
 
@@ -491,5 +495,15 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 */
 	public <T extends IDecomposable> T getPart(Class<T> partClass, By by) {
 		return get(partClass, application.manager.getHandle(handle, by));
+	}
+	
+	@Override
+	public WebElement findElement(By by){
+		return handle.findElement(by);
+	}
+	
+	@Override
+	public List<WebElement> findElements(By by){
+		return handle.findElements(by);
 	}
 }

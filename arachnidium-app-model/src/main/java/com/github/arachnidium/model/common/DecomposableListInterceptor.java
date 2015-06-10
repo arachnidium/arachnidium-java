@@ -129,19 +129,15 @@ class DecomposableListInterceptor implements MethodInterceptor {
 			return result;
 		}
 
-		FunctionalPart<?> intermediate = (FunctionalPart<?>) returnPart(FunctionalPart.class);		
-		int totalElements = intermediate.getHandle().findElements(by).size();
-		for (int i = 0; i < totalElements; i++) {
-			if (isInvokerApp) {
-				result.add(DecompositionUtil.get(required,
-						new Object[] { intermediate.getHandle(),
-								howToGetByFrames, new ByNumbered(by, i) }));
-			} else {
-				result.add(DecompositionUtil.get(required,
-						new Object[] { invoker, howToGetByFrames,
-								new ByNumbered(by, i) }));
-			}
-		}
+		FunctionalPart<?> mediator = (FunctionalPart<?>) returnPart(FunctionalPart.class);		
+		int totalElements = mediator.getHandle().findElements(by).size();
+		IDecomposable target = invoker;
+		if (isInvokerApp) 
+			target = mediator;
+				
+		for (int i = 0; i < totalElements; i++)			
+			result.add(target.getPart(required, 
+						howToGetByFrames, new ByNumbered(by, i)));
 
 		return result;
 	}

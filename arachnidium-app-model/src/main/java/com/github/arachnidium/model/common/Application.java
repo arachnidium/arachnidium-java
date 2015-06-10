@@ -85,7 +85,8 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 		T part = DecompositionUtil.get(partClass, new Object[]{handle});
 		// get(partClass, params, values);
 		((FunctionalPart<?>) part).application = this;
-		addChild((ModelObject<?>) part);
+		this.addChild((ModelObject<?>) part);
+		DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) part);
 		return part;
 	}
 

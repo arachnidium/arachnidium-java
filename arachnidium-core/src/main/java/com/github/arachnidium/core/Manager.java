@@ -467,7 +467,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @param String window handle/context name
 	 */
 	synchronized void switchTo(String handle) {
-		if (handle.equals(currentHandle))
+		if (!handle.equals(currentHandle))
 			changeActive(handle);
 	}
 
