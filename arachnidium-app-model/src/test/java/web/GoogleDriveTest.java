@@ -98,9 +98,10 @@ public class GoogleDriveTest {
 		try {
 			LoginToGoogleService<?> loginToGoogleService = googleDrive
 					.getPart(LoginToGoogleService.class);
-			loginToGoogleService.clickOnPersistentCookie();
 			loginToGoogleService.setEmail(USER);
+			loginToGoogleService.next();
 			loginToGoogleService.setPassword(PASSWORD);
+			loginToGoogleService.clickOnPersistentCookie();
 			loginToGoogleService.singIn();
 
 			Document<?> document = googleDrive.getPart(Document.class);
@@ -146,9 +147,10 @@ public class GoogleDriveTest {
 			LoginToGoogleService<?> loginToGoogleService = googleDrive
 					.getPart(LoginToGoogleService.class);
 
-			loginToGoogleService.clickOnPersistentCookie();
 			loginToGoogleService.setEmail(USER);
+			loginToGoogleService.next();
 			loginToGoogleService.setPassword(PASSWORD);
+			loginToGoogleService.clickOnPersistentCookie();
 			loginToGoogleService.singIn();
 
 			DocumentList<?> documentList = googleDrive
@@ -201,11 +203,12 @@ public class GoogleDriveTest {
 	
 	private void test3(GoogleDriveService<?, ?> service) {
 		try {
-			service.login.clickOnPersistentCookie();
 			service.login.setEmail(USER);
+			service.login.next();
 			service.login.setPassword(PASSWORD);
+			service.login.clickOnPersistentCookie();
 			service.login.singIn();
-
+			
 			service.documentList.choseSection(0);
 			service.documentList.clickOnDoc("TestDocument");
 

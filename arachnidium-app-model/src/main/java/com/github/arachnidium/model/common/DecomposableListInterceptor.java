@@ -10,6 +10,8 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchContextException;
+import org.openqa.selenium.NoSuchWindowException;
 
 import com.github.arachnidium.core.ByNumbered;
 import com.github.arachnidium.core.HowToGetByFrames;
@@ -104,10 +106,10 @@ class DecomposableListInterceptor implements MethodInterceptor {
 	private IDecomposable returnPart(Class<? extends IDecomposable> target) {
 		Object[] args = null;
 		if (isInvokerApp) {
-			args = clearArgs(new Object[] { target, howToGetHandlestrategy,
-					howToGetByFrames, timeOutLong });
+			args = clearArgs(new Object[] {target, howToGetHandlestrategy, 
+					timeOutLong });
 		} else {
-			args = clearArgs(new Object[] { target, howToGetByFrames });
+			args = clearArgs(new Object[] {target});
 		}
 		Method method = ExecutableUtil.getRelevantMethod(invoker.getClass(),
 				DecompositionUtil.GET_PART, args);
@@ -118,24 +120,30 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		}
 	}
 
-	// TODO to be refactored
 	private List<IDecomposable> buildList() {
 		ArrayList<IDecomposable> result = new ArrayList<>();
-		// FunctionalPart<?> intermediate = returnIntermediatePart();
-
-		if (by == null) {
-			IDecomposable element = returnPart(required);
-			result.add(element);
-			return result;
+		FunctionalPart<?> mediator = null;
+		mediator = (FunctionalPart<?>) returnPart(FunctionalPart.class);	
+		
+		int totalElements = 1;
+		if (by != null) {
+			try{
+				totalElements = mediator.getHandle().findElements(by).size();
+			}
+			catch (NoSuchWindowException|NoSuchContextException e){
+				return result;
+			}
 		}
 
-		FunctionalPart<?> mediator = (FunctionalPart<?>) returnPart(FunctionalPart.class);		
-		int totalElements = mediator.getHandle().findElements(by).size();
 		IDecomposable target = invoker;
 		if (isInvokerApp) 
 			target = mediator;
-				
-		for (int i = 0; i < totalElements; i++)			
+		
+		if (by == null)
+			result.add(target.getPart(required, 
+					howToGetByFrames));
+		else 
+			for (int i = 0; i < totalElements; i++)			
 			result.add(target.getPart(required, 
 						howToGetByFrames, new ByNumbered(by, i)));
 

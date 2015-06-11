@@ -25,6 +25,8 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	private WebElement persistentCookie;
 	@FindBy(name="signIn")
 	private WebElement singIn;
+	@FindBy(id="next")
+	private WebElement next;
 	
 	protected LoginToGoogleService(T handle) {
 		super(handle);
@@ -48,6 +50,11 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	@InteractiveMethod
 	public void singIn(){
 		singIn.submit();
+	}
+	
+	@InteractiveMethod
+	public void next(){
+		next.click();
 	}
 
 }
