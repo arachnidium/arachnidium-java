@@ -1,16 +1,14 @@
 package com.github.arachnidium.htmlelements.googledrive;
 
-import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
-import com.github.arachnidium.model.support.annotations.ExpectedURL;
-import com.github.arachnidium.model.support.annotations.TimeOut;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.qatools.htmlelements.element.Button;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
+
+import com.github.arachnidium.core.Handle;
+import com.github.arachnidium.model.common.FunctionalPart;
+import com.github.arachnidium.model.support.annotations.ExpectedURL;
+import com.github.arachnidium.model.support.annotations.TimeOut;
 
 @ExpectedURL(regExp = "docs.google.com/document/")
 @ExpectedURL(regExp = "/document/")
@@ -19,8 +17,8 @@ public abstract class AnyDocument<T extends Handle> extends FunctionalPart<T> {
 	@FindBy(xpath = ".//*[@id='docs-titlebar-share-client-button']/div")
 	private Button shareButton;
 
-	protected AnyDocument(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected AnyDocument(T handle) {
+		super(handle);
 		// (!!!)
 		HtmlElementLoader.populatePageObject(this,
 				getWrappedDriver());

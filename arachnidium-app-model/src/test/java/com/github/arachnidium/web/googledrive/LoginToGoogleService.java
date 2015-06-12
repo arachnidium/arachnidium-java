@@ -1,12 +1,10 @@
 package com.github.arachnidium.web.googledrive;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
 
@@ -27,9 +25,11 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	private WebElement persistentCookie;
 	@FindBy(name="signIn")
 	private WebElement singIn;
+	@FindBy(id="next")
+	private WebElement next;
 	
-	protected LoginToGoogleService(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected LoginToGoogleService(T handle) {
+		super(handle);
 	}
 	
 	@InteractiveMethod
@@ -50,6 +50,11 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {
 	@InteractiveMethod
 	public void singIn(){
 		singIn.submit();
+	}
+	
+	@InteractiveMethod
+	public void next(){
+		next.click();
 	}
 
 }

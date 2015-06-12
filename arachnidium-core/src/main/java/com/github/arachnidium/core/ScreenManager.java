@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -20,9 +21,7 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	private final ContextTool contextTool;
 	private final boolean isSupportActivities;
 	
-	private final String NATIVE_APP_CONTEXT = "NATIVE_APP";
 	private String SPLITTER = "/";
-	private String WEBVIEW_CONTEXT = "WEBVIEW";
 
 	public ScreenManager(WebDriverEncapsulation initialDriverEncapsulation) {
 		super(initialDriverEncapsulation);
@@ -46,9 +45,9 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 		if (handles.length == 1){
 			return;
 		}
-		if (handles.length == 2 && handles[0].contains(NATIVE_APP_CONTEXT))
+		if (handles.length == 2 && handles[0].contains(MobileContextNamePatterns.NATIVE))
 			throw new IllegalArgumentException("In cases when you want to get to the page you should be "
-					+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + handles[0]);
+					+ "inside " + MobileContextNamePatterns.WEBVIEW + " context. The current context is " + handles[0]);
 		getWrappedDriver().switchTo().window(handles[1]);		
 	}
 
@@ -82,9 +81,9 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 			if (howToGetPage == null)
 				return context;
 			
-			if (context.contains(NATIVE_APP_CONTEXT)){
+			if (context.contains(MobileContextNamePatterns.NATIVE)){
 				Log.debug("In cases when you want to get to the page you should be "
-						+ "inside " + WEBVIEW_CONTEXT + " context. The current context is " + context + "."
+						+ "inside " + MobileContextNamePatterns.WEBVIEW + " context. The current context is " + context + "."
 								+ " So " + howToGetPage.toString() + " has been ignored.");
 				return context;
 			}				
@@ -113,14 +112,14 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 
 	@Override
 	MobileScreen getRealHandle(long timeOut,
-			HowToGetMobileScreen howToGet) {
+			HowToGetMobileScreen howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
+		
 		String handle = this.getStringHandle(timeOut,
 				isSupportActivities(howToGet));
-		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(handle,
-				this);
-		if (initedContext != null)
-			return initedContext;
-		MobileScreen context = new MobileScreen(handle, this);
+		
+		MobileScreen context = new MobileScreen(handle, this, by, 
+				howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(context,
 				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
 	}

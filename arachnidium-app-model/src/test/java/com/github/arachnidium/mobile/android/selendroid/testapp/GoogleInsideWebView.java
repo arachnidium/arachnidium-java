@@ -1,12 +1,10 @@
 package com.github.arachnidium.mobile.android.selendroid.testapp;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.WebViewContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.DefaultPageIndex;
 import com.github.arachnidium.model.support.annotations.ExpectedPageTitle;
 import com.github.arachnidium.model.support.annotations.ExpectedURL;
@@ -22,8 +20,8 @@ public class GoogleInsideWebView extends WebViewContent {
 	@FindBy(name="btnG")
 	private WebElement searchButton;
 
-	public GoogleInsideWebView(MobileScreen context, HowToGetByFrames path, By by) {
-		super(context, path, by);
+	public GoogleInsideWebView(MobileScreen context) {
+		super(context);
 	}
 	
 	@InteractiveMethod

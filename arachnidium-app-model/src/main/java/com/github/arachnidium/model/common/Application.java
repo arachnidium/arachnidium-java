@@ -67,7 +67,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 *
 	 * @see ScreenManager
 	 */
-	protected final Manager<U, ?> manager;
+	protected final Manager<U, Handle> manager;
 	/**
 	 * {@link Handle} is the given browser window or mobile context which
 	 * currently present. <br/>
@@ -77,22 +77,17 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@SuppressWarnings("unchecked")
 	protected Application(S handle) {
 		super(handle);
-		manager = (Manager<U, ?>) handle.nativeManager;
+		manager = (Manager<U, Handle>) handle.nativeManager;
 		getWebDriverEncapsulation().addDestroyable(this);
 	}
 
-	private <T extends IDecomposable> T get(Class<T> partClass, Object[] values) {
-		T part = DecompositionUtil.get(partClass, values);
+	private <T extends IDecomposable> T get(Class<T> partClass, Handle handle) {
+		T part = DecompositionUtil.get(partClass, new Object[]{handle});
 		// get(partClass, params, values);
 		((FunctionalPart<?>) part).application = this;
-		addChild((ModelObject<?>) part);
+		this.addChild((ModelObject<?>) part);
+		DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) part);
 		return part;
-	}
-
-
-	private <T extends IDecomposable> T getPart(Class<T> partClass,
-			Handle handle, HowToGetByFrames path, By by) {
-		return get(partClass, new Object[] { handle, path, by });
 	}
 
 	/**
@@ -108,7 +103,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass) {
-		return getPart(partClass, this.handle, null, null);
+		return get(partClass, this.handle);
 	}
 
 	/**
@@ -132,7 +127,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames path) {
-		return getPart(partClass, this.handle, path, null);
+		return get(partClass, manager.getHandle(handle, path));
 	}
 
 	/**
@@ -166,7 +161,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex) {
-		return getPart(partClass, manager.getHandle(handleIndex), null, null);
+		return get(partClass, manager.getHandle(handleIndex));
 	}
 
 	/**
@@ -189,7 +184,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, long timeOut) {
-		return getPart(partClass, manager.getHandle(handleIndex, timeOut), null, null);
+		return get(partClass, manager.getHandle(handleIndex, timeOut));
 	}
 
 	/**
@@ -226,7 +221,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, HowToGetByFrames path) {
-		return getPart(partClass, manager.getHandle(handleIndex), path, null);
+		return get(partClass, manager.getHandle(handleIndex, path));
 	}
 
 	/**
@@ -261,7 +256,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, HowToGetByFrames path, long timeOut) {
-		return getPart(partClass, manager.getHandle(handleIndex, timeOut), path, null);
+		return get(partClass, manager.getHandle(handleIndex, path, timeOut));
 	}
 
 	/**
@@ -293,7 +288,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle) {
-		return getPart(partClass, manager.getHandle(howToGetHandle), null, null);
+		return get(partClass, manager.getHandle(howToGetHandle));
 	}
 
 	/**
@@ -324,7 +319,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, long timeOut) {
-		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle), null, null);
+		return get(partClass, manager.getHandle(timeOut, howToGetHandle));
 	}
 
 	/**
@@ -369,7 +364,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, HowToGetByFrames path) {
-		return getPart(partClass, manager.getHandle(howToGetHandle), path, null);
+		return get(partClass, manager.getHandle(howToGetHandle, path));
 	}
 
 	/**
@@ -413,8 +408,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, HowToGetByFrames path, long timeOut) {
-		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle),
-				path, null);
+		return get(partClass, manager.getHandle(timeOut, howToGetHandle, path));
 	}
 
 	/**
@@ -460,7 +454,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, By by) {
-		return getPart(partClass, manager.getHandle(handleIndex), null, by);
+		return get(partClass, manager.getHandle(handleIndex, by));
 	}
 
 	/**
@@ -489,7 +483,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, By by, long timeOut) {
-		return getPart(partClass, manager.getHandle(handleIndex, timeOut), null, by);
+		return get(partClass, manager.getHandle(handleIndex, by, timeOut));
 	}
 
 	/**
@@ -531,7 +525,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, HowToGetByFrames path, By by) {
-		return getPart(partClass, manager.getHandle(handleIndex), path, by);
+		return get(partClass, manager.getHandle(handleIndex,  by,  path));
 	}
 
 	/**
@@ -571,8 +565,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			int handleIndex, HowToGetByFrames path, By by, long timeOut) {
-		return getPart(partClass, manager.getHandle(handleIndex, timeOut),
-				path, by);
+		return get(partClass, manager.getHandle(handleIndex, by, path, timeOut));
 	}
 
 	/**
@@ -611,7 +604,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, By by) {
-		return getPart(partClass, manager.getHandle(howToGetHandle), null, by);
+		return get(partClass, manager.getHandle(howToGetHandle, by));
 	}
 
 	/**
@@ -648,8 +641,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, By by, long timeOut) {
-		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle),
-				null, by);
+		return get(partClass, manager.getHandle(timeOut,  howToGetHandle, by));
 	}
 
 	/**
@@ -700,7 +692,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, HowToGetByFrames path, By by) {
-		return getPart(partClass, manager.getHandle(howToGetHandle), path, by);
+		return get(partClass, manager.getHandle(howToGetHandle, by, path));
 	}
 
 	/**
@@ -748,8 +740,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			U howToGetHandle, HowToGetByFrames path, By by, long timeOut) {
-		return getPart(partClass, manager.getHandle(timeOut, howToGetHandle),
-				path, by);
+		return get(partClass, manager.getHandle(timeOut, howToGetHandle, by, path));
 	}
 
 	/**
@@ -770,7 +761,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	 */
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass, By by) {
-		return getPart(partClass, this.handle, null, by);
+		return get(partClass, manager.getHandle(handle,  by));
 	}
 
 	/**
@@ -800,7 +791,7 @@ public abstract class Application<S extends Handle, U extends IHowToGetHandle>
 	@Override
 	public <T extends IDecomposable> T getPart(Class<T> partClass,
 			HowToGetByFrames path, By by) {
-		return getPart(partClass, this.handle, path, by);
+		return get(partClass, manager.getHandle(handle, by, path));
 	}
 
 }

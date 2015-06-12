@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
-import com.github.arachnidium.util.logging.Log;
-import com.github.arachnidium.util.logging.Photographer;
 import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.springframework.context.annotation.Bean;
 
 import com.github.arachnidium.core.components.common.AlertHandler;
@@ -51,6 +51,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?,?>>());
 	final static long defaultTimeOut = 5; // we will wait
 	private String STUB_HANDLE = "STUB";
+	private String currentHandle;
 	
 	/**
 	 * @param driverEncapsulation
@@ -116,6 +117,24 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 				new Class[] { long.class },
 				new Object[] { timeOut });
 	}
+	
+	@SuppressWarnings("unchecked")
+	private U returnRelevantHowToGetStrategy(){
+		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Class<U> howToGetClass = null;
+		try {
+			howToGetClass = (Class<U>) Class
+					.forName(generic.getActualTypeArguments()[0].getTypeName());
+		} catch (Exception e) {
+			throw new RuntimeException(e); 
+		}
+		
+		try {
+			return howToGetClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	/**
 	 * @param An expected window/mobile context index
@@ -134,25 +153,90 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @return Window or mobile context. Actually it returns CGLIB proxy
 	 * which instantiate the real object by the invocation 
 	 */
-	@SuppressWarnings("unchecked")
 	public V getHandle(int index, long timeOut){
-		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
-		Class<U> howToGetClass = null;
-		try {
-			howToGetClass = (Class<U>) Class
-					.forName(generic.getActualTypeArguments()[0].getTypeName());
-		} catch (Exception e) {
-			throw new RuntimeException(e); 
-		}
-		
-		U howToGet = null;
-		try {
-			howToGet = howToGetClass.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		U howToGet = returnRelevantHowToGetStrategy();
 		howToGet.setExpected(index);
 		return getHandle(timeOut, howToGet);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, By by, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(int index, By by){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param howToGetByFramesStrategy
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, HowToGetByFrames howToGetByFramesStrategy, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(int index, HowToGetByFrames howToGetByFramesStrategy){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @param timeOut
+	 * @return
+	 */
+	public V getHandle(int index, By by, HowToGetByFrames howToGetByFramesStrategy, long timeOut){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(timeOut, howToGet, by, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(int index, By by, HowToGetByFrames howToGetByFramesStrategy){
+		U howToGet = returnRelevantHowToGetStrategy();
+		howToGet.setExpected(index);
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, howToGetByFramesStrategy);
 	}
 	
 	HandleReceptionist getHandleReceptionist() {
@@ -163,7 +247,173 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @return Set of string window handles/context names
 	 */
 	abstract Set<String> getHandles();
-
+	
+	@SuppressWarnings("unchecked")
+	private V createProxy(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		HandleInterceptor<U> hi = new HandleInterceptor<U>(
+				this, howToGet, timeOut, by, howToGetByFramesStrategy);
+		Class<?>[] params = new Class<?>[] {String.class, this.getClass(),
+				By.class, HowToGetByFrames.class};
+		Object[] values = new Object[] {STUB_HANDLE, this, by, howToGetByFramesStrategy};
+		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
+		Class<V> required = null;
+		try {
+			required = (Class<V>) Class
+					.forName(generic.getActualTypeArguments()[1].getTypeName());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		V proxy = EnhancedProxyFactory.getProxy(required, params, values, hi);
+		proxy.timeOut = timeOut;
+		proxy.howToGetHandleStrategy = howToGet;
+		return proxy;		
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public V getHandle(V parent, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		HowToGetByFrames path = null;
+		if (parent.howToGetByFramesStrategy != null){
+			path = new HowToGetByFrames();
+			List<Object> previousFrames = parent.howToGetByFramesStrategy.getFramePath();
+			for (Object o: previousFrames){
+				path.addNextFrame(o);
+			}
+		}
+		
+		if (howToGetByFramesStrategy != null){
+			if (path == null)
+				path = new HowToGetByFrames();
+			List<Object> definedFramePath = howToGetByFramesStrategy.getFramePath();
+			for (Object o: definedFramePath){
+				path.addNextFrame(o);
+			}
+		}
+		
+		By usedBy = null;
+		if (howToGetByFramesStrategy != null)
+			usedBy = by;
+		else{
+			if (parent.by == null){
+				usedBy = by;
+			}
+			else{
+				By[] chain = new By[]{parent.by};
+				if (by != null)
+					chain = ArrayUtils.add(chain, by);
+				usedBy = new ByChained(chain);
+			}
+		}
+		
+		return createProxy(parent.timeOut, (U) parent.howToGetHandleStrategy, 
+				usedBy, path);
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(V parent, By by){
+		return getHandle(parent, by, null);
+	}
+	
+	public V getHandle(V parent, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(parent, null, howToGetByFramesStrategy);
+	}
+	
+	
+	public V getHandle(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return createProxy(timeOut, howToGet, by, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param by
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param timeOut
+	 * @param howToGet
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(long timeOut, U howToGet, By by){
+		return getHandle(timeOut, howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param by
+	 * @return
+	 */
+	public V getHandle(U howToGet, By by){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, by, null);
+	}
+	
+	/**
+	 * 
+	 * @param timeOut
+	 * @param howToGet
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(long timeOut, U howToGet, HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(timeOut, howToGet, null, howToGetByFramesStrategy);
+	}
+	
+	/**
+	 * 
+	 * @param howToGet
+	 * @param howToGetByFramesStrategy
+	 * @return
+	 */
+	public V getHandle(U howToGet, HowToGetByFrames howToGetByFramesStrategy){
+		return getHandle(getHandleWaitingTimeOut()
+				.getHandleWaitingTimeOut(), howToGet, null, 
+				howToGetByFramesStrategy);
+	}	
+	
+	/**
+	 * Returns window on mobile context 
+	 * by conditions. 
+	 * 
+	 * @param timeOut It is an explicitly given time (seconds) to wait for
+	 *            window/mobile context is present
+	 *            
+	 * @param howToGet Given strategy.
+	 * @return Window or mobile context. Actually it returns CGLIB proxy
+	 * which instantiate the real object by the invocation 
+	 * 
+	 * @see IHowToGetHandle. 
+	 */
+	public V getHandle(long timeOut, U howToGet){
+		return getHandle(timeOut, howToGet, null, null);
+	}
+	
 	/**
 	 * Returns window on mobile context 
 	 * by conditions. 
@@ -177,37 +427,8 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	public V getHandle(U howToGet){
 		return getHandle(getTimeOut(getHandleWaitingTimeOut()
 				.getHandleWaitingTimeOut()), howToGet); 
-	}
+	}	
 	
-	/**
-	 * Returns window on mobile context 
-	 * by conditions. 
-	 * 
-	 * @param timeOut It is an explicitly given time (seconds) to wait for
-	 *            window/mobile context is present
-	 *            
-	 * @param howToGet Given strategy.
-	 * @return Window or mobile context. Actually it returns CGLIB proxy
-	 * which instantiate the real object by the invocation 
-	 * 
-	 * @see IHowToGetHandle. 
-	 */
-	@SuppressWarnings("unchecked")
-	public V getHandle(long timeOut, U howToGet){
-		HandleInterceptor<U> hi = new HandleInterceptor<U>(
-				this, howToGet, timeOut);
-		Class<?>[] params = new Class<?>[] {String.class, this.getClass()};
-		Object[] values = new Object[] {STUB_HANDLE, this};
-		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
-		Class<V> required = null;
-		try {
-			required = (Class<V>) Class
-					.forName(generic.getActualTypeArguments()[1].getTypeName());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return EnhancedProxyFactory.getProxy(required, params, values, hi);
-	}
 	
 	/**
 	 * Returns window on mobile context 
@@ -221,7 +442,8 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 *  
 	 * @see IHowToGetHandle. 
 	 */
-	abstract V getRealHandle(long timeOut, U howToGet);	
+	abstract V getRealHandle(long timeOut, U howToGet, By by, 
+			HowToGetByFrames howToGetByFramesStrategy);	
 
 	WebDriverEncapsulation getWebDriverEncapsulation() {
 		return driverEncapsulation;
@@ -244,8 +466,9 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * 
 	 * @param String window handle/context name
 	 */
-	synchronized void switchTo(String Handle) {
-		changeActive(Handle);
+	synchronized void switchTo(String handle) {
+		if (!handle.equals(currentHandle))
+			changeActive(handle);
 	}
 
 	/**
@@ -258,62 +481,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 * @see IHowToGetHandle
 	 */
 	abstract String getStringHandle(long timeOut, U howToGet);
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates FINE {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */
-	synchronized void takeAPictureOfAFine(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAFine(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates INFO {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */	
-	synchronized void takeAPictureOfAnInfo(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAnInfo(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-	
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates SEVERE {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */		
-	synchronized void takeAPictureOfASevere(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfASevere(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
-
-	/**
-	 * Takes a picture of the given window/mobile context.
-	 * It creates WARN {@link Level} {@link Log} message with 
-	 * attached picture 
-	 * 
-	 * @param handle String window handle/context name
-	 * @param comment Narrative message text
-	 */		
-	synchronized void takeAPictureOfAWarning(String handle, String comment) {
-		changeActive(handle);
-		Photographer.takeAPictureOfAWarning(
-				driverEncapsulation.getWrappedDriver(), comment);
-	}
 	
 	/**
 	 * Gets a new created listenable {@link Handle} and notifies listener

@@ -1,18 +1,17 @@
 package com.github.arachnidium.selenide.google;
 
+import static com.codeborne.selenide.Selenide.$;
+
 import org.openqa.selenium.By;
 
-import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
-import com.github.arachnidium.core.Handle;
 import com.codeborne.selenide.ElementsCollection;
-
-import static com.codeborne.selenide.Selenide.*;
+import com.github.arachnidium.core.Handle;
+import com.github.arachnidium.model.common.FunctionalPart;
 
 public class LinksAreFound<T extends Handle> extends FunctionalPart<T>{
 		
-	protected LinksAreFound(T handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected LinksAreFound(T handle) {
+		super(handle);
 	}
 
 	@InteractiveMethod

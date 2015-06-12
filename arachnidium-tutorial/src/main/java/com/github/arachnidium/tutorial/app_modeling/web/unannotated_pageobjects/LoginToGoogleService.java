@@ -1,12 +1,10 @@
 package com.github.arachnidium.tutorial.app_modeling.web.unannotated_pageobjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 
 /**it is the example which demonstrates how to implement a page object
@@ -32,10 +30,8 @@ public class LoginToGoogleService<T extends Handle> extends FunctionalPart<T> {/
 	 * 
 	 * {@link FunctionalPart##FunctionalPart(Handle, com.github.arachnidium.model.support.HowToGetByFrames, org.openqa.selenium.By)}
 	 */
-	protected LoginToGoogleService(T handle, HowToGetByFrames path, By by) {/**<-- it is the example which demonstrates 
-	       component which can be used 
-		   when interaction with browser and native/webview content is needed*/
-		super(handle, path, by);
+	protected LoginToGoogleService(T handle) {
+		super(handle);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

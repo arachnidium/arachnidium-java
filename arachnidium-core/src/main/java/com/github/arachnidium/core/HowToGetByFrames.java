@@ -81,7 +81,7 @@ public class HowToGetByFrames {
 		}
 		throw new IllegalArgumentException("Object of the type "
 				+ frameIdentifier.getClass().getName()
-				+ " are not alowed! Available classes are "
+				+ " is not alowed! Available classes are "
 				+ availableClassesOfFrameIdentifiers.toString());
 	}
 

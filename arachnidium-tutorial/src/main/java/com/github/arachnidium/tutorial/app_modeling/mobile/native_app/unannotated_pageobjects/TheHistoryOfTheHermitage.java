@@ -1,16 +1,14 @@
 package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotated_pageobjects;
 
+import io.appium.java_client.pagefactory.AndroidFindBy;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.appium.java_client.pagefactory.AndroidFindBy;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class TheHistoryOfTheHermitage extends InformationAboutTheHermitage{
 	
@@ -24,8 +22,8 @@ public class TheHistoryOfTheHermitage extends InformationAboutTheHermitage{
 	@AndroidFindBy(className = "android.view.View")
 	private List<RemoteWebElement> paragraphs;
 
-	protected TheHistoryOfTheHermitage(Handle handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected TheHistoryOfTheHermitage(Handle handle) {
+		super(handle);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate

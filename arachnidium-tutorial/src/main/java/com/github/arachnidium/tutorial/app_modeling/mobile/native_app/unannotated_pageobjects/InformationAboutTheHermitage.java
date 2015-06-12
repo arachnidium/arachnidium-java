@@ -2,13 +2,11 @@ package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotat
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class InformationAboutTheHermitage extends FunctionalPart<Handle> {
 	
@@ -35,8 +33,8 @@ public class InformationAboutTheHermitage extends FunctionalPart<Handle> {
 	@AndroidFindBy(id = "android:id/up")
 	private RemoteWebElement back;
 
-	protected InformationAboutTheHermitage(Handle handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected InformationAboutTheHermitage(Handle handle) {
+		super(handle);
 	}
 	
 	/**

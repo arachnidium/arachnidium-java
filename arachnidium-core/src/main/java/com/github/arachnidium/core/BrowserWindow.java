@@ -2,6 +2,7 @@ package com.github.arachnidium.core;
 
 import java.net.URL;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.Point;
@@ -21,8 +22,9 @@ public class BrowserWindow extends Handle implements Navigation,
 	private final WindowTool windowTool;
 	private final NavigationTool navigationTool;
 
-	BrowserWindow(String handle, WindowManager windowManager) {
-		super(handle, windowManager);
+	BrowserWindow(String handle, WindowManager windowManager, By by, 
+			HowToGetByFrames howToGetByFramesStrategy) {
+		super(handle, windowManager, by, howToGetByFramesStrategy);
 		this.windowTool = driverEncapsulation.getComponent(
 				WindowTool.class);
 		this.navigationTool = driverEncapsulation.getComponent(
@@ -34,7 +36,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void back() {
-		switchToMe();
 		navigationTool.back();
 	}
 
@@ -61,7 +62,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void forward() {
-		switchToMe();
 		navigationTool.forward();
 	}
 
@@ -70,7 +70,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized String getCurrentUrl() throws NoSuchWindowException {
-		switchToMe();
 		return driverEncapsulation.getWrappedDriver().getCurrentUrl();
 	}
 
@@ -79,7 +78,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized Point getPosition() {
-		switchToMe();
 		return windowTool.getPosition();
 	}
 
@@ -88,7 +86,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized Dimension getSize() {
-		switchToMe();
 		return windowTool.getSize();
 	}
 
@@ -105,7 +102,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void maximize() {
-		switchToMe();
 		windowTool.maximize();
 	}
 
@@ -114,7 +110,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void refresh() {
-		switchToMe();
 		navigationTool.refresh();
 	}
 
@@ -123,7 +118,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void setPosition(Point position) {
-		switchToMe();
 		windowTool.setPosition(position);
 	}
 
@@ -132,7 +126,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void setSize(Dimension size) {
-		switchToMe();
 		windowTool.setSize(size);
 	}
 
@@ -141,7 +134,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void to(String link) {
-		switchToMe();
 		navigationTool.to(link);
 	}
 
@@ -150,7 +142,6 @@ public class BrowserWindow extends Handle implements Navigation,
 	 */
 	@Override
 	public synchronized void to(URL url) {
-		switchToMe();
 		navigationTool.to(url);
 
 	}

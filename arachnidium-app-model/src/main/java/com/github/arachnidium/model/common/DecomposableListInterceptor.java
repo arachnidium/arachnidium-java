@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -12,17 +11,14 @@ import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchContextException;
-import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
-import org.openqa.selenium.SearchContext;
 
+import com.github.arachnidium.core.ByNumbered;
+import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
-import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.settings.supported.ESupportedDrivers;
 import com.github.arachnidium.model.abstractions.ModelObject;
 import com.github.arachnidium.model.interfaces.IDecomposable;
-import com.github.arachnidium.core.ByNumbered;
-import com.github.arachnidium.core.HowToGetByFrames;
 import com.github.arachnidium.model.support.annotations.rootelements.IRootElementReader;
 import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
@@ -110,10 +106,10 @@ class DecomposableListInterceptor implements MethodInterceptor {
 	private IDecomposable returnPart(Class<? extends IDecomposable> target) {
 		Object[] args = null;
 		if (isInvokerApp) {
-			args = clearArgs(new Object[] { target, howToGetHandlestrategy,
-					howToGetByFrames, timeOutLong });
+			args = clearArgs(new Object[] {target, howToGetHandlestrategy, 
+					timeOutLong });
 		} else {
-			args = clearArgs(new Object[] { target, howToGetByFrames });
+			args = clearArgs(new Object[] {target});
 		}
 		Method method = ExecutableUtil.getRelevantMethod(invoker.getClass(),
 				DecompositionUtil.GET_PART, args);
@@ -124,47 +120,32 @@ class DecomposableListInterceptor implements MethodInterceptor {
 		}
 	}
 
-	// TODO to be refactored
 	private List<IDecomposable> buildList() {
 		ArrayList<IDecomposable> result = new ArrayList<>();
-		// FunctionalPart<?> intermediate = returnIntermediatePart();
-
-		if (by == null) {
-			IDecomposable element = returnPart(required);
-			try {
-				if (ISwitchesToItself.class
-						.isAssignableFrom(element.getClass())) {
-					((ISwitchesToItself) element).switchToMe();
-				}
-				result.add(element);
-				return result;
-			} catch (NoSuchWindowException | NoSuchContextException
-					| NoSuchFrameException | NoSuchElementException e) {
+		FunctionalPart<?> mediator = null;
+		mediator = (FunctionalPart<?>) returnPart(FunctionalPart.class);	
+		
+		int totalElements = 1;
+		if (by != null) {
+			try{
+				totalElements = mediator.getHandle().findElements(by).size();
+			}
+			catch (NoSuchWindowException|NoSuchContextException e){
 				return result;
 			}
 		}
 
-		FunctionalPart<?> intermediate = (FunctionalPart<?>) returnPart(FunctionalPart.class);
-		try {
-			intermediate.switchToMe();
-		} catch (NoSuchWindowException | NoSuchContextException
-				| NoSuchFrameException | NoSuchElementException e) {
-			return result;
-		}
-
-		SearchContext sc = intermediate.getCurrentSearcContext();
-		int totalElements = sc.findElements(by).size();
-		for (int i = 0; i < totalElements; i++) {
-			if (isInvokerApp) {
-				result.add(DecompositionUtil.get(required,
-						new Object[] { intermediate.getHandle(),
-								howToGetByFrames, new ByNumbered(by, i) }));
-			} else {
-				result.add(DecompositionUtil.get(required,
-						new Object[] { invoker, howToGetByFrames,
-								new ByNumbered(by, i) }));
-			}
-		}
+		IDecomposable target = invoker;
+		if (isInvokerApp) 
+			target = mediator;
+		
+		if (by == null)
+			result.add(target.getPart(required, 
+					howToGetByFrames));
+		else 
+			for (int i = 0; i < totalElements; i++)			
+			result.add(target.getPart(required, 
+						howToGetByFrames, new ByNumbered(by, i)));
 
 		return result;
 	}

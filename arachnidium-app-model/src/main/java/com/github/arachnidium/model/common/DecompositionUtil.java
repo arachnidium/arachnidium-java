@@ -62,7 +62,6 @@ abstract class DecompositionUtil {
 					c.getParameterTypes(), paramValues,
 					new InteractiveInterceptor() {
 					});
-			DecompositionUtil.populateFieldsWhichAreDecomposable((ModelObject<?>) decomposable);
 			return decomposable;
 		}
 		catch (Exception e){

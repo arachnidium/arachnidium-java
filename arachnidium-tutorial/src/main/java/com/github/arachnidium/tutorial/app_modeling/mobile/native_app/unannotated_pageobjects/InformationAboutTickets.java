@@ -2,12 +2,10 @@ package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotat
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class InformationAboutTickets extends InformationAboutTheHermitage {
 
@@ -22,8 +20,8 @@ public class InformationAboutTickets extends InformationAboutTheHermitage {
 	private RemoteWebElement ticket_for_non_profit_photography_and_video_filming;
 	
 	
-	protected InformationAboutTickets(Handle handle, HowToGetByFrames path, By by) {
-		super(handle, path, by);
+	protected InformationAboutTickets(Handle handle) {
+		super(handle);
 	}
 	
 	@InteractiveMethod

@@ -1,21 +1,18 @@
 package com.github.arachnidium.tutorial.app_modeling.mobile.native_app.unannotated_pageobjects;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
-
 import io.appium.java_client.MobileElement;
+
+import java.util.concurrent.TimeUnit;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.mobile.NativeContent;
-import com.github.arachnidium.core.HowToGetByFrames;
 
 public class HermitageMuseumQuickGuide extends NativeContent {
 
 	private MobileElement close;
 	
-	public HermitageMuseumQuickGuide(MobileScreen context, HowToGetByFrames path, By by) {
-		super(context, path, by);
+	public HermitageMuseumQuickGuide(MobileScreen context) {
+		super(context);
 	}
 	
 	@InteractiveMethod /**<-- This annotations is useful for methods which simulate
