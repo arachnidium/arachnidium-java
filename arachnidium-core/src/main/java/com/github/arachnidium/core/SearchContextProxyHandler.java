@@ -11,7 +11,6 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.WrapsDriver;
-import org.openqa.selenium.internal.WrapsElement;
 
 import com.github.arachnidium.util.inheritance.MethodInheritanceUtil;
 
@@ -23,7 +22,6 @@ class SearchContextProxyHandler implements InvocationHandler {
 		{
 			add(WebDriver.class);
 			add(WebElement.class);
-			add(WrapsElement.class);
 			add(SearchContext.class);
 		}
 

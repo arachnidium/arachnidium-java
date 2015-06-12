@@ -17,7 +17,8 @@ import com.github.arachnidium.model.support.annotations.rootelements.RootElement
 		@FindBy(xpath = ".//*[@class=\"modal-dialog-content\"]")
 		})
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
-	@FindBy(xpath = "//*[contains(@id,'simpleInviter')]//*[@class='simple-inviter-recipient-area']//textarea")
+	@FindBy(xpath = "//*[@id=':r.inviter']//*[@class = 'inviter']//"
+			+ "*[@class='inviter-recipient-area']//textarea")
 	private WebElement invite;
 	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	

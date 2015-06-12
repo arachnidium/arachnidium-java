@@ -114,12 +114,10 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	MobileScreen getRealHandle(long timeOut,
 			HowToGetMobileScreen howToGet, By by, 
 			HowToGetByFrames howToGetByFramesStrategy) {
+		
 		String handle = this.getStringHandle(timeOut,
 				isSupportActivities(howToGet));
-		MobileScreen initedContext = (MobileScreen) Handle.isInitiated(handle,
-				this);
-		if (initedContext != null)
-			return initedContext;
+		
 		MobileScreen context = new MobileScreen(handle, this, by, 
 				howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(context,

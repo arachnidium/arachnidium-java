@@ -158,14 +158,9 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 			HowToGetPage howToGet, By by, 
 			HowToGetByFrames howToGetByFramesStrategy) {
 		String handle = this.getStringHandle(timeOut,
-				howToGet);
-		BrowserWindow initedWindow = (BrowserWindow) Handle.isInitiated(
-				handle, this);
-		if (initedWindow != null) {
-			return initedWindow;
-		}
-		BrowserWindow window = new BrowserWindow(getStringHandle(timeOut,
-				howToGet), this, by, howToGetByFramesStrategy);
+				howToGet);			
+		BrowserWindow window = new BrowserWindow(handle, 
+				this, by, howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(window,
 				MainBeanConfiguration.WINDOW_BEAN);
 	}
