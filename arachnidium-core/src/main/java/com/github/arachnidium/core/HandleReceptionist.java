@@ -14,27 +14,48 @@ import com.github.arachnidium.core.interfaces.IHasHandle;
  */
 class HandleReceptionist {
 
-	final private Map<String, IHasHandle> handleObjects = Collections
-			.synchronizedMap(new HashMap<String, IHasHandle>());
+	final private List<String> handleObjects = Collections
+			.synchronizedList(new ArrayList<String>());
+	final private Map<String, List<IHasHandle>> instantiatedHandles = 
+			new HashMap<String, List<IHasHandle>>();
 
 	/** adds a new handle that is instantiated as {@link IHasHandle} object **/
 	void addKnown(IHasHandle handleObject) {
-		handleObjects.put(handleObject.getHandle(), handleObject);
-	}
-
-	/** gets {@link IHasHandle} objects **/
-	List<IHasHandle> getInstantiated() {
-		return new ArrayList<>(handleObjects.values());
+		if (!handleObjects.contains(handleObject.getHandle()))
+			handleObjects.add(handleObject.getHandle());
+		
+		List<IHasHandle> value = instantiatedHandles.get(handleObject.getHandle());
+		if (value == null){
+			value = new ArrayList<>();
+		}
+		value.add(handleObject);
+		instantiatedHandles.put(handleObject.getHandle(), value);
 	}
 
 	/** is handle known as instance of {@link IHasHandle} **/
-	IHasHandle isInstantiated(String handle) {
-		return handleObjects.get(handle);
+	boolean isInstantiated(String handle) {
+		return handleObjects.contains(handle);
+	}
+	
+	public List<IHasHandle> getInstantiated(){
+		final List<IHasHandle> result = new ArrayList<>();
+		handleObjects.forEach(handle -> {
+			result.addAll(instantiatedHandles.get(handle));
+		});
+		return result;
 	}
 
 	/** removes handle that is instantiated as {@link IHasHandle} object **/
 	void remove(IHasHandle handle) {
-		handleObjects.remove(handle.getHandle());
+		String stringHandle = handle.getHandle();
+		List<IHasHandle> result = instantiatedHandles.get(stringHandle);
+		if (result != null)
+			result.remove(handle);
+		
+		if (result == null || result.size() == 0){
+			handleObjects.remove(stringHandle);
+			instantiatedHandles.remove(stringHandle);
+		}
 	}
 
 }

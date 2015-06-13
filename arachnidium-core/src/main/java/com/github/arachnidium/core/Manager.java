@@ -52,19 +52,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	final static long defaultTimeOut = 5; // we will wait
 	private String STUB_HANDLE = "STUB";
 	private String currentHandle;
-	
-	/**
-	 * @param driverEncapsulation
-	 *            Instantiated {@link WebDriverEncapsulation}
-	 * @return If there is an instantiated {@link Manager} binded with the given
-	 *         {@link WebDriverEncapsulation} this method returns the instance.
-	 *         In another case it returns <code>null</code>.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T extends Manager<?,?>> T getInstanstiatedManager(
-			WebDriverEncapsulation driverEncapsulation) {
-		return (T) managerMap.get(driverEncapsulation);
-	}
 
 	Manager(WebDriverEncapsulation initialDriverEncapsulation) {
 		driverEncapsulation = initialDriverEncapsulation;
@@ -493,8 +480,9 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	@SuppressWarnings("unchecked")
 	<T extends Handle> T returnNewCreatedListenableHandle(Handle handle, String beanName){
 		T result = (T) driverEncapsulation.context.getBean(beanName, handle);
-		result.whenIsCreated();
-		getHandleReceptionist().addKnown(result);
+		if (!getHandleReceptionist().isInstantiated(handle.getHandle()))
+			handle.whenIsCreated();
+		getHandleReceptionist().addKnown(handle);
 		return result;
 	}
 	

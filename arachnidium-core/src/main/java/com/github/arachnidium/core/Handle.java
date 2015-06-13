@@ -33,10 +33,6 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
 ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchContext {
 
-	static IHasHandle isInitiated(String handle, Manager<?,?> manager) {
-		return manager.getHandleReceptionist().isInstantiated(handle);
-	}
-
 	final String handle;
 	public final WebDriverEncapsulation driverEncapsulation;
 	public final Manager<?,?> nativeManager;
