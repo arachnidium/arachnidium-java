@@ -64,12 +64,8 @@ class SearchContextProxyHandler implements InvocationHandler {
 
 		if (MethodInheritanceUtil.isOverriddenFrom(m, WebElement.class)) {
             final List<WebElement> elements = new ArrayList<>();
-            changeTimeOutAndRun(new Runnable() {
-                @Override
-                public void run() {
-                    elements.addAll(driver.findElements(handle.by));
-                }
-            });
+            changeTimeOutAndRun(() ->
+                    elements.addAll(driver.findElements(handle.by)));
             if (elements.size() == 0)
                 throw new NoSuchElementException("There is no element that could be found using locator strategy " +
                         handle.by.toString());
@@ -81,19 +77,16 @@ class SearchContextProxyHandler implements InvocationHandler {
 		if (MethodInheritanceUtil.isOverriddenFrom(m, 
 				SearchContext.class)){
             final List<Object> result = new ArrayList<>();
-            changeTimeOutAndRun(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (o instanceof WebDriver)
-                            result.add(m.invoke(driver, new Object[]{(By) args[0]}));
-                        if (o instanceof WebElement)
-                            result.add(m.invoke(driver.findElement(handle.by),
-                                    new Object[]{(By) args[0]}));
-                    }
-                    catch (InvocationTargetException|IllegalAccessException e){
-                        throw new RuntimeException(e);
-                    }
+            changeTimeOutAndRun(() -> {
+                try {
+                    if (o instanceof WebDriver)
+                        result.add(m.invoke(driver, new Object[]{(By) args[0]}));
+                    if (o instanceof WebElement)
+                        result.add(m.invoke(driver.findElement(handle.by),
+                                new Object[]{(By) args[0]}));
+                }
+                catch (InvocationTargetException|IllegalAccessException e){
+                    throw new RuntimeException(e);
                 }
             });
             return result.get(0);
