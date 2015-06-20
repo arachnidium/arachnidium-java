@@ -1,10 +1,9 @@
 package com.github.arachnidium.model.mobile.ios;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.GetsNamedTextField;
 import io.appium.java_client.ios.IOSDeviceActionShortcuts;
 import io.appium.java_client.ios.IOSDriver;
-
-import org.openqa.selenium.WebElement;
 
 import com.github.arachnidium.core.MobileScreen;
 import com.github.arachnidium.model.common.FunctionalPart;
@@ -17,7 +16,7 @@ import com.github.arachnidium.core.HowToGetByFrames;
  * iOS. It works only with {@link IOSDriver}
  */
 public abstract class iOSNativeContent extends NativeContent implements IOSDeviceActionShortcuts, 
-   GetsNamedTextField{
+   GetsNamedTextField<MobileElement>{
 	
 	/**
 	 * @see FunctionalPart#FunctionalPart(FunctionalPart, HowToGetByFrames)
@@ -31,24 +30,25 @@ public abstract class iOSNativeContent extends NativeContent implements IOSDevic
 	@Override
 	@InteractiveMethod
 	public void hideKeyboard(String keyName) {
-		((IOSDriver) getWrappedDriver()).hideKeyboard(keyName);		
+		((IOSDriver<?>) getWrappedDriver()).hideKeyboard(keyName);		
 	}
 
 	@Override
 	@InteractiveMethod
 	public void hideKeyboard(String strategy, String keyName) {
-		((IOSDriver) getWrappedDriver()).hideKeyboard(strategy, keyName);		
+		((IOSDriver<?>) getWrappedDriver()).hideKeyboard(strategy, keyName);		
 	}
 
 	@Override
 	@InteractiveMethod
 	public void shake() {
-		((IOSDriver) getWrappedDriver()).shake();		
+		((IOSDriver<?>) getWrappedDriver()).shake();		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@InteractiveMethod
-	public WebElement getNamedTextField(String name) {
-		return ((IOSDriver) getWrappedDriver()).getNamedTextField(name);
+	public MobileElement getNamedTextField(String name) {
+		return ((IOSDriver<MobileElement>) getWrappedDriver()).getNamedTextField(name);
 	}
 }

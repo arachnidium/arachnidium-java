@@ -25,31 +25,31 @@ public abstract class AndroidApp extends MobileApplication implements
 
 	@Override
 	public void sendKeyEvent(int key, Integer metastate) {
-		((AndroidDriver) getWrappedDriver()).sendKeyEvent(key, metastate);
+		((AndroidDriver<?>) getWrappedDriver()).sendKeyEvent(key, metastate);
 	}
 
 	@Override
 	public NetworkConnectionSetting getNetworkConnection() {
-		return ((AndroidDriver) getWrappedDriver()).getNetworkConnection();
+		return ((AndroidDriver<?>) getWrappedDriver()).getNetworkConnection();
 	}
 
 	@Override
 	public void setNetworkConnection(NetworkConnectionSetting connection) {
-		((AndroidDriver) getWrappedDriver()).setNetworkConnection(connection);
+		((AndroidDriver<?>) getWrappedDriver()).setNetworkConnection(connection);
 	}
 
 	@Override
 	public void startActivity(String appPackage, String appActivity,
 			String appWaitPackage, String appWaitActivity)
 			throws IllegalArgumentException {
-		((AndroidDriver) getWrappedDriver()).startActivity(appPackage,
+		((AndroidDriver<?>) getWrappedDriver()).startActivity(appPackage,
 				appActivity, appWaitPackage, appWaitActivity);
 	}
 
 	@Override
 	public void startActivity(String appPackage, String appActivity)
 			throws IllegalArgumentException {
-		((AndroidDriver) getWrappedDriver()).startActivity(appPackage,
+		((AndroidDriver<?>) getWrappedDriver()).startActivity(appPackage,
 				appActivity);
 	}
 
@@ -58,11 +58,11 @@ public abstract class AndroidApp extends MobileApplication implements
 	 */
 	@Override
 	public String currentActivity() {
-		return ((AndroidDriver) getWrappedDriver()).currentActivity();
+		return ((AndroidDriver<?>) getWrappedDriver()).currentActivity();
 	}
 	
 	public void toggleLocationServices() {
-		((AndroidDriver) getWrappedDriver()).toggleLocationServices();
+		((AndroidDriver<?>) getWrappedDriver()).toggleLocationServices();
 	}
 
 }

@@ -113,7 +113,7 @@ class AspectContextListener extends DefaultHandleListener implements
 			return "";
 		}
 		return " Activity is "
-				+ ((AndroidDriver) wrappedDriver).currentActivity();
+				+ ((AndroidDriver<?>) wrappedDriver).currentActivity();
 	}
 
 	/**

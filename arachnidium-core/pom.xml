@@ -10,7 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ghostdriver.version>1.2.1</ghostdriver.version>
-		<appium.version>2.2.0</appium.version>
+		<appium.version>3.0.0</appium.version>
 	</properties>
 
 	<artifactId>arachnidium-core</artifactId>

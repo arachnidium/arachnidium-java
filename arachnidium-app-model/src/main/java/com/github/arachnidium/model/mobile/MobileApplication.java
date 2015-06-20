@@ -32,27 +32,27 @@ public abstract class MobileApplication extends Application<MobileScreen,
 
 	@Override
 	public void hideKeyboard() {
-		((AppiumDriver) getWrappedDriver()).hideKeyboard();		
+		((AppiumDriver<?>) getWrappedDriver()).hideKeyboard();		
 	}
 
 	@Override
 	public Location location() {
-		return ((AppiumDriver) getWrappedDriver()).location();
+		return ((AppiumDriver<?>) getWrappedDriver()).location();
 	}
 
 	@Override
 	public void setLocation(Location location) {
-		((AppiumDriver) getWrappedDriver()).setLocation(location);		
+		((AppiumDriver<?>) getWrappedDriver()).setLocation(location);		
 	}
 	
 	@Override
 	public String getAppStrings() {
-		return ((AppiumDriver) getWrappedDriver()).getAppStrings();
+		return ((AppiumDriver<?>) getWrappedDriver()).getAppStrings();
 	}
 
 	@Override
 	public String getAppStrings(String language) {
-		return ((AppiumDriver) getWrappedDriver()).getAppStrings(language);
+		return ((AppiumDriver<?>) getWrappedDriver()).getAppStrings(language);
 	}	
 
 }

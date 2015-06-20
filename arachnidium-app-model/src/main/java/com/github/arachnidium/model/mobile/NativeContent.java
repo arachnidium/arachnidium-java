@@ -23,7 +23,7 @@ import com.github.arachnidium.model.support.annotations.ExpectedContext;
  */
 @ExpectedContext(regExp = MobileContextNamePatterns.NATIVE)
 public abstract class NativeContent extends FunctionalPart<MobileScreen> implements Rotatable, 
-DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
+DeviceActionShortcuts, TouchShortcuts, ScrollsTo<MobileElement>, HasAppStrings {
 
 	protected final NativeTouchActions touchActions;
 	
@@ -55,62 +55,66 @@ DeviceActionShortcuts, TouchShortcuts, ScrollsTo, HasAppStrings {
 
 	@Override
 	public void hideKeyboard() {
-		((AppiumDriver) getWrappedDriver()).hideKeyboard();		
+		((AppiumDriver<?>) getWrappedDriver()).hideKeyboard();		
 	}
 
 	@Override
 	public void zoom(int x, int y) {
-		((AppiumDriver) getWrappedDriver()).zoom(x, y);		
+		((AppiumDriver<?>) getWrappedDriver()).zoom(x, y);		
 	}
 
 	@Override
 	public void zoom(WebElement el) {
-		((AppiumDriver) getWrappedDriver()).zoom(el);		
+		((AppiumDriver<?>) getWrappedDriver()).zoom(el);		
 	}
 
 	@Override
 	public void tap(int fingers, int x, int y, int duration) {
-		((AppiumDriver) getWrappedDriver()).tap(fingers, x, y, duration);		
+		((AppiumDriver<?>) getWrappedDriver()).tap(fingers, x, y, duration);		
 	}
 
 	@Override
 	public void tap(int fingers, WebElement element, int duration) {
-		((AppiumDriver) getWrappedDriver()).tap(fingers, element, duration);		
+		((AppiumDriver<?>) getWrappedDriver()).tap(fingers, element, duration);		
 	}
 
 	@Override
 	public void swipe(int startx, int starty, int endx, int endy, int duration) {
-		((AppiumDriver) getWrappedDriver()).swipe(startx, starty, endx, endy, duration);		
+		((AppiumDriver<?>) getWrappedDriver()).swipe(startx, starty, endx, endy, duration);		
 	}
 
 	@Override
 	public void pinch(int x, int y) {
-		((AppiumDriver) getWrappedDriver()).pinch(x, y);		
+		((AppiumDriver<?>) getWrappedDriver()).pinch(x, y);		
 	}
 
 	@Override
 	public void pinch(WebElement el) {
-		((AppiumDriver) getWrappedDriver()).pinch(el);		
+		((AppiumDriver<?>) getWrappedDriver()).pinch(el);		
 	}
 	
 	@Override
 	public MobileElement scrollTo(String text) {
-		return ((AppiumDriver) getWrappedDriver()).scrollTo(text);
+		@SuppressWarnings("unchecked")
+		ScrollsTo<MobileElement> wrapped = (ScrollsTo<MobileElement>) getWrappedDriver();
+		return wrapped.scrollTo(text);
 	}
 
 	@Override
 	public MobileElement scrollToExact(String text) {
-		return ((AppiumDriver) getWrappedDriver()).scrollToExact(text);
+		@SuppressWarnings("unchecked")
+		ScrollsTo<MobileElement> wrapped = (ScrollsTo<MobileElement>) getWrappedDriver();
+		return wrapped.scrollTo(text);
 	}
 
 	@Override
 	public String getAppStrings() {
-		return ((AndroidDriver) getWrappedDriver()).getAppStrings();
+		return ((AndroidDriver<?>) getWrappedDriver()).getAppStrings();
 	}
 
 	@Override
 	public String getAppStrings(String language) {
-		return ((AndroidDriver) getWrappedDriver()).getAppStrings(language);
+		return ((AndroidDriver<?>) getWrappedDriver()).getAppStrings(language);
 	}	
 	
 	

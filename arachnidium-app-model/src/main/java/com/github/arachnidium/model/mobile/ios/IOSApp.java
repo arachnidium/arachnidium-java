@@ -18,17 +18,17 @@ public abstract class IOSApp extends MobileApplication implements IOSDeviceActio
 
 	@Override
 	public void hideKeyboard(String keyName) {
-		((IOSDriver) getWrappedDriver()).hideKeyboard(keyName);		
+		((IOSDriver<?>) getWrappedDriver()).hideKeyboard(keyName);		
 	}
 
 	@Override
 	public void hideKeyboard(String strategy, String keyName) {
-		((IOSDriver) getWrappedDriver()).hideKeyboard(strategy, keyName);		
+		((IOSDriver<?>) getWrappedDriver()).hideKeyboard(strategy, keyName);		
 	}
 
 	@Override
 	public void shake() {
-		((IOSDriver) getWrappedDriver()).shake();		
+		((IOSDriver<?>) getWrappedDriver()).shake();		
 	}
 
 }
