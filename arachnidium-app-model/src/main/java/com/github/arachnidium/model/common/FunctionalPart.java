@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.eLogColors;
 
+import io.appium.java_client.pagefactory.TimeOutDuration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -88,8 +90,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	// parent application
 	protected Application<?, ?> application;
 	protected final Ime ime;
-	final DefaultDecorator defaultFieldDecorator;
 	private final TimeOut timeOut;
+	final TimeOutDuration timeOutDuration;
 	protected final ScriptExecutor scriptExecutor; // executes given javaScript
 	
 
@@ -132,8 +134,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 
 		scriptExecutor = getComponent(ScriptExecutor.class);
 	    ime = getComponent(Ime.class);
-	    defaultFieldDecorator = new DefaultDecorator(
-				handle.getSearchContext(), this, primaryTimeOut, primaryTimeUnit);
+	    timeOutDuration = new TimeOutDuration(primaryTimeOut, primaryTimeUnit);
 	    load();
 	}
 
@@ -359,7 +360,8 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 * This method can be overridden if it is needed
 	 */
 	protected void load() {
-		PageFactory.initElements(defaultFieldDecorator, this);
+		PageFactory.initElements(new DefaultDecorator(handle.getSearchContext(), 
+				this, timeOutDuration), this);
 	}
 
 	/**
