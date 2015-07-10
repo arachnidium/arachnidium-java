@@ -1,10 +1,10 @@
 package com.github.arachnidium.model.common;
 
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.TimeOutDuration;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.SearchContext;
 
@@ -12,14 +12,9 @@ import com.github.arachnidium.model.interfaces.IDecomposable;
 
 class DefaultDecorator extends AppiumFieldDecorator {
 	private final IDecomposable decomposable;
-
-	public DefaultDecorator(SearchContext context, IDecomposable decomposable) {
-		super(context);
-		this.decomposable = decomposable;
-	}
 	
-	public DefaultDecorator(SearchContext context, IDecomposable decomposable, long time, TimeUnit timeUnit) {
-		super(context, time, timeUnit);
+	public DefaultDecorator(SearchContext context, IDecomposable decomposable, TimeOutDuration duration) {
+		super(context, duration);
 		this.decomposable = decomposable;
 	}	
 	

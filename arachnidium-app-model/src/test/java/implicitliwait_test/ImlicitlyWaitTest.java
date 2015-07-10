@@ -2,6 +2,7 @@ package implicitliwait_test;
 
 import java.util.concurrent.TimeUnit;
 
+import com.github.arachnidium.core.components.common.TimeOut;
 import com.github.arachnidium.util.configuration.Configuration;
 
 import org.junit.Assert;
@@ -13,7 +14,7 @@ import com.github.arachnidium.web.google.Google;
 
 public class ImlicitlyWaitTest {
 
-	private final static long ACCEPTABLE_DELTA_MILLS = 1000;
+	private final static long ACCEPTABLE_DELTA_MILLS = 2000; //environment issues
 
 	private static void checkDifferent(long etalonTime,
 			TimeUnit etalonTimeUnit, long currentMillis) {
@@ -32,69 +33,65 @@ public class ImlicitlyWaitTest {
 		try {
 			FakePageObject<?> fakePageObject = g.getPart(FakePageObject.class);
 
-			checkDifferent(10, TimeUnit.SECONDS,
-					fakePageObject.fakeInteractiveMethod());
+            TimeOut timeOut = fakePageObject.getWebDriverEncapsulation().getTimeOut();
+			checkDifferent(timeOut.getImplicitlyWaitTimeOut(),
+                    timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod());
 
-			checkDifferent(10, TimeUnit.SECONDS,
+			checkDifferent(timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit(),
 					fakePageObject.fakeInteractiveMethod1_1());
-
-			configuration = Configuration
-					.get("src/test/resources/fake_pageobject/fakesettings.json");
-			fakePageObject.getWebDriverEncapsulation().resetAccordingTo(
-					configuration);
-
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod1_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod());			
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod2());
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod2_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod1_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod());
-			
-			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(),
+                    timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod1_1());
+
+            checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod3());
 
-			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
-					fakePageObject.fakeInteractiveMethod3_1());	
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod1_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod());	
+            checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
+					fakePageObject.fakeInteractiveMethod3_1());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(),
+                    timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod1_1());
 			
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod4());
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
-					fakePageObject.fakeInteractiveMethod4_1());	
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod1_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod());	
+					fakePageObject.fakeInteractiveMethod4_1());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(),
+                    timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod1_1());
+
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
 					fakePageObject.fakeInteractiveMethod5());
 
 			checkDifferent(fakePageObject.TIME_OUT, fakePageObject.TIME_UNIT,
-					fakePageObject.fakeInteractiveMethod5_1());	
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod1_1());
-			
-			checkDifferent(18500000, TimeUnit.MICROSECONDS,
-					fakePageObject.fakeInteractiveMethod());				
+					fakePageObject.fakeInteractiveMethod5_1());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(),
+                    timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod());
+
+            checkDifferent(timeOut.getImplicitlyWaitTimeOut(), timeOut.getImplicitlyWaitTimeUnit(),
+                    fakePageObject.fakeInteractiveMethod1_1());
 		} finally {
 			g.quit();
 		}
