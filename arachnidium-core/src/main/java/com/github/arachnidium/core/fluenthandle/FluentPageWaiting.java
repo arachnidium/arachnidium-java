@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * Fluent waiting for browser window handle
@@ -184,7 +183,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index) {
+	public IFunctionalExpectedCondition getHandle(int index) {
 		return from -> getWindowHandleByIndex(from, index);
 	}
 
@@ -198,7 +197,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(String titleRegExp) {
+	public IFunctionalExpectedCondition getHandle(String titleRegExp) {
 		return from -> getWindowHandleByTitle(from, titleRegExp);
 	}
 
@@ -212,7 +211,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(List<String> urlsRegExps) {
+	public IFunctionalExpectedCondition getHandle(List<String> urlsRegExps) {
 		return from -> getWindowHandleByURLs(from, urlsRegExps);
 	}
 
@@ -230,7 +229,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(String titleRegExp,
+	public IFunctionalExpectedCondition getHandle(String titleRegExp,
 			List<String> urlsRegExps) {
 		return from -> getWindowHandleByTitleAndURLs(from, urlsRegExps,
 				titleRegExp);
@@ -250,7 +249,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String, java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String titleRegExp,
+	public IFunctionalExpectedCondition getHandle(int index, String titleRegExp,
 			List<String> urlsRegExps) {
 		return from -> getWindowHandleByAllConditions(from, index, urlsRegExps,
 				titleRegExp);
@@ -267,7 +266,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String titleRegExp) {
+	public IFunctionalExpectedCondition getHandle(int index, String titleRegExp) {
 		return from -> getWindowHandleByIndexAndTitle(from, index, titleRegExp);
 	}
 
@@ -282,7 +281,7 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index,
+	public IFunctionalExpectedCondition getHandle(int index,
 			List<String> urlsRegExps) {
 		return from -> getWindowHandleByIndexAndURLs(from, index, urlsRegExps);
 	}

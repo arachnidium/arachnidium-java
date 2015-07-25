@@ -106,7 +106,7 @@ public class HelloWorldGoogleTest {
 		}
 	}
 	
-	@Test(description = "This is just a test of basic functionality without any configuration")
+	@org.junit.Test
 	public void typeHelloWorldAndOpenTheFirstLink() throws Exception{
 		test(new WebFactory().launch(Google.class, "http://www.google.com/"));
 	}

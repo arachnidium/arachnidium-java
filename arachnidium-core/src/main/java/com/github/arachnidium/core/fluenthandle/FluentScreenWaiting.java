@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class FluentScreenWaiting implements IFluentHandleWaiting {
 	
@@ -145,7 +144,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index) {
+	public IFunctionalExpectedCondition getHandle(int index) {
 		return from -> getContextByIndex(from, index);
 	}
 
@@ -160,7 +159,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(String contextRegExp) {
+	public IFunctionalExpectedCondition getHandle(String contextRegExp) {
 		return from -> getContextByExpression(from, contextRegExp);
 	}
 
@@ -175,7 +174,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String contextRegExp) {
+	public IFunctionalExpectedCondition getHandle(int index, String contextRegExp) {
 		return from -> getContextByIndexAndContextExpression(from, index, contextRegExp);
 	}
 
@@ -189,7 +188,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(List<String> activitiesRegExps) {
+	public IFunctionalExpectedCondition getHandle(List<String> activitiesRegExps) {
 		return from -> getContextByAcivities(from, activitiesRegExps);
 	}
 
@@ -204,7 +203,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index,
+	public IFunctionalExpectedCondition getHandle(int index,
 			List<String> activitiesRegExps) {
 		return from -> getContextByIndexAndActivities(from, index, activitiesRegExps);
 	}
@@ -223,7 +222,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(String contextRegExp,
+	public IFunctionalExpectedCondition getHandle(String contextRegExp,
 			List<String> activitiesRegExps) {
 		return from -> getContextByContextExpressionAndActivities(from, activitiesRegExps, contextRegExp);
 	}
@@ -242,7 +241,7 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String, java.util.List)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String contextRegExp,
+	public IFunctionalExpectedCondition getHandle(int index, String contextRegExp,
 			List<String> activitiesRegExps) {
 		return from -> getContextByAllConditions(from, index, activitiesRegExps, contextRegExp);
 	}

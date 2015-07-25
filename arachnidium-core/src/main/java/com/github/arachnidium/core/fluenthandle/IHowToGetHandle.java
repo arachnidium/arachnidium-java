@@ -2,8 +2,6 @@ package com.github.arachnidium.core.fluenthandle;
 
 import java.util.List;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
 /**
  * Returns an {@link ExpectedCondition} 
  * by {@link IFluentHandleWaiting}
@@ -30,5 +28,5 @@ public interface IHowToGetHandle {
 	 * @param fluentHandleWaiting where given parameter are set up
 	 * @return {@link ExpectedCondition} which waits for some window/context
 	 */
-	public ExpectedCondition<String> getExpectedCondition(IFluentHandleWaiting fluentHandleWaiting);
+	public IFunctionalExpectedCondition getExpectedCondition(IFluentHandleWaiting fluentHandleWaiting);
 }

@@ -1,9 +1,6 @@
 package com.github.arachnidium.core.fluenthandle;
 
 import java.util.List;
-
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
 /**
  * This interface is implemented by classes which execute 
  * fluent waiting for window handles or contexts
@@ -14,7 +11,7 @@ public interface IFluentHandleWaiting {
 	 * @param expected index
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(int index);
+	IFunctionalExpectedCondition getHandle(int index);
 	
 	/**
 	 * It gets some handle by its expected string identifier. 
@@ -22,7 +19,7 @@ public interface IFluentHandleWaiting {
 	 * context name (NATIVE_APP, WEBWIEV etc.) 
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(String identifier);
+	IFunctionalExpectedCondition getHandle(String identifier);
 	
 	/**
 	 * It gets some handle by its string identifier (title 
@@ -32,14 +29,14 @@ public interface IFluentHandleWaiting {
 	 * context name (NATIVE_APP, WEBWIEV etc.) 
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(int index, String identifier);	
+	IFunctionalExpectedCondition getHandle(int index, String identifier);	
 	
 	/**
 	 * It gets some handle by its possible unique identifiers
 	 * @param uniqueIdentifiers - URLs of the browser pages, Android activities, etc.
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(List<String> uniqueIdentifiers);
+	IFunctionalExpectedCondition getHandle(List<String> uniqueIdentifiers);
 	
 	/**
 	 * It gets some handle by its possible unique identifiers and handle index in the set.
@@ -47,7 +44,7 @@ public interface IFluentHandleWaiting {
 	 * @param uniqueIdentifiers - URLs of the browser pages, Android activities, etc.
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(int index, List<String> uniqueIdentifiers);	
+	IFunctionalExpectedCondition getHandle(int index, List<String> uniqueIdentifiers);	
 	
 	/**
 	 * It gets some handle by its possible unique identifiers and 
@@ -58,7 +55,7 @@ public interface IFluentHandleWaiting {
 	 * @param uniqueIdentifiers - URLs of the browser pages, Android activities, etc.
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(String identifier, List<String> uniqueIdentifiers);	
+	IFunctionalExpectedCondition getHandle(String identifier, List<String> uniqueIdentifiers);	
 	
 	/**
 	 * It gets some handle by its index in the set, 
@@ -71,5 +68,5 @@ public interface IFluentHandleWaiting {
 	 * @param uniqueIdentifiers - URLs of the browser pages, Android activities, etc.
 	 * @return String handle value
 	 */
-	ExpectedCondition<String> getHandle(int index, String identifier, List<String> uniqueIdentifiers);	
+	IFunctionalExpectedCondition getHandle(int index, String identifier, List<String> uniqueIdentifiers);	
 }

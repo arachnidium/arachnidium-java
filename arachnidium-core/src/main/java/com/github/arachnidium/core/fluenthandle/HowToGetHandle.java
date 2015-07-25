@@ -2,8 +2,6 @@ package com.github.arachnidium.core.fluenthandle;
 
 import java.util.List;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
 /**
  * The default implementor of {@link IHowToGetHandle}
  *
@@ -42,7 +40,7 @@ public abstract class HowToGetHandle implements IHowToGetHandle {
 	 * @see com.github.arachnidium.core.fluenthandle.IHowToGetHandle#getExpectedCondition(com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting)
 	 */
 	@Override
-	public ExpectedCondition<String> getExpectedCondition(
+	public IFunctionalExpectedCondition getExpectedCondition(
 			IFluentHandleWaiting fluentHandleWaiting) {
 
 		if (index == null && stringIdentifier == null
