@@ -40,7 +40,7 @@ public abstract class HowToGetHandle implements IHowToGetHandle {
 	 * @see com.github.arachnidium.core.fluenthandle.IHowToGetHandle#getExpectedCondition(com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getExpectedCondition(
+	public IFunctionalHandleCondition getExpectedCondition(
 			IFluentHandleWaiting fluentHandleWaiting) {
 
 		if (index == null && stringIdentifier == null

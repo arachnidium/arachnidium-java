@@ -3,6 +3,7 @@ package com.github.arachnidium.core.fluenthandle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,15 +16,6 @@ import org.openqa.selenium.WebDriver;
  * @see IFluentHandleWaiting
  */
 public class FluentPageWaiting implements IFluentHandleWaiting {
-
-	private String getWindowHandleByIndex(final WebDriver from, int windowIndex) {
-		Set<String> handles = from.getWindowHandles();
-		if (handles.size() - 1 >= windowIndex) {
-			from.switchTo().window(handles.toArray()[windowIndex].toString());
-			return new ArrayList<String>(handles).get(windowIndex);
-		} else
-			return null;
-	}
 
 	private static String getHandleWhichMatchesToTitles(String handle,
 			String titleRegExp, String winTitle) {
@@ -48,132 +40,72 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 		return null;
 	}
 
-	private String getWindowHandleByTitle(final WebDriver from,
-			String titleRegExp) {
-		String resultHandle = null;
-		Set<String> handles = from.getWindowHandles();
-		for (String handle : handles) {
-			String winTitle = null;
-			try {
-				from.switchTo().window(handle);
-				winTitle = from.getTitle();
-			} catch (TimeoutException e) {
-				return null;
-			}
-			resultHandle = getHandleWhichMatchesToTitles(handle, titleRegExp,
-					winTitle);
-			if (resultHandle == null) {
-				continue;
-			}
-			return resultHandle;
-		}
-		return resultHandle;
-	}
+	private Function<WebDriver, String> getWindowHandleByTitleAndURLs(final WebDriver from,
+			List<String> urlsRegExps, String titleRegExp) {
 
-	private String getWindowHandleByURLs(final WebDriver from,
-			List<String> urlsRegExps) {
-		String resultHandle = null;
-		Set<String> handles = from.getWindowHandles();
-		for (String handle : handles) {
+		return getHandle(titleRegExp).andThen(input -> 
+		{
 			String currentUrl = null;
 			try {
-				from.switchTo().window(handle);
+				from.switchTo().window(input);
 				currentUrl = from.getCurrentUrl();
 			} catch (TimeoutException e) {
 				return null;
 			}
 
-			resultHandle = getHandleWhichMatchesToURLs(handle, urlsRegExps,
+			return getHandleWhichMatchesToURLs(input, urlsRegExps,
 					currentUrl);
-			if (resultHandle == null) {
-				continue;
-			}
-			return resultHandle;
-		}
-		return resultHandle;
+			
+		});		
 	}
 
-	private String getWindowHandleByTitleAndURLs(final WebDriver from,
-			List<String> urlsRegExps, String titleRegExp) {
-
-		String resultHandle = getWindowHandleByTitle(from, titleRegExp);
-		if (resultHandle == null) {
-			return null;
-		}
-
-		String currentUrl = null;
-		try {
-			from.switchTo().window(resultHandle);
-			currentUrl = from.getCurrentUrl();
-		} catch (TimeoutException e) {
-			return null;
-		}
-
-		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
-				currentUrl);
-	}
-
-	private String getWindowHandleByIndexAndTitle(final WebDriver from,
+	private Function<WebDriver, String> getWindowHandleByIndexAndTitle(final WebDriver from,
 			int windowIndex, String titleRegExp) {
-		String resultHandle = getWindowHandleByIndex(from, windowIndex);
-		if (resultHandle == null) {
-			return null;
-		}
+		
+		return getHandle(windowIndex).andThen(input -> {
+			String winTitle = null;
+			try {
+				from.switchTo().window(input);
+				winTitle = from.getTitle();
+			} catch (TimeoutException e) {
+				return null;
+			}
 
-		String winTitle = null;
-		try {
-			from.switchTo().window(resultHandle);
-			winTitle = from.getTitle();
-		} catch (TimeoutException e) {
-			return null;
-		}
-
-		return getHandleWhichMatchesToTitles(resultHandle, titleRegExp,
-				winTitle);
+			return getHandleWhichMatchesToTitles(input, titleRegExp,
+					winTitle);			
+		});		
 	}
 
-	private String getWindowHandleByAllConditions(final WebDriver from,
+	private Function<WebDriver, String> getWindowHandleByAllConditions(final WebDriver from,
 			int windowIndex, List<String> urlsRegExps, String titleRegExp) {
-		String resultHandle = getWindowHandleByIndex(from, windowIndex);
-		if (resultHandle == null) {
-			return null;
-		}
+		 return getWindowHandleByIndexAndTitle(from,
+				windowIndex, titleRegExp).andThen(input -> {
+					String currentUrl = null;
+					try {
+						from.switchTo().window(input);
+						currentUrl = from.getCurrentUrl();
+					} catch (TimeoutException e) {
+						return null;
+					}
+					return getHandleWhichMatchesToURLs(input, urlsRegExps,
+							currentUrl);					
+				});
 
-		String winTitle = null;
-		String currentUrl = null;
-		try {
-			from.switchTo().window(resultHandle);
-			winTitle = from.getTitle();
-			currentUrl = from.getCurrentUrl();
-		} catch (TimeoutException e) {
-			return null;
-		}
-
-		resultHandle = getHandleWhichMatchesToTitles(resultHandle, titleRegExp,
-				winTitle);
-		if (resultHandle == null) {
-			return null;
-		}
-		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
-				currentUrl);
 	}
 
-	private String getWindowHandleByIndexAndURLs(final WebDriver from,
-			int windowIndex, List<String> urlsRegExps) {
-		String resultHandle = getWindowHandleByIndex(from, windowIndex);
-		if (resultHandle == null) {
-			return null;
-		}
-
-		String currentUrl = null;
-		try {
-			from.switchTo().window(resultHandle);
-			currentUrl = from.getCurrentUrl();
-		} catch (TimeoutException e) {
-			return null;
-		}
-		return getHandleWhichMatchesToURLs(resultHandle, urlsRegExps,
-				currentUrl);
+	private Function<WebDriver, String> getWindowHandleByIndexAndURLs(final WebDriver from,
+			int windowIndex, List<String> urlsRegExps) {		
+		return getHandle(windowIndex).andThen(input -> {
+			String currentUrl = null;
+			try {
+				from.switchTo().window(input);
+				currentUrl = from.getCurrentUrl();
+			} catch (TimeoutException e) {
+				return null;
+			}
+			return getHandleWhichMatchesToURLs(input, urlsRegExps,
+					currentUrl);			
+		});
 	}
 
 	/**
@@ -183,8 +115,15 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(int index) {
-		return from -> getWindowHandleByIndex(from, index);
+	public IFunctionalHandleCondition getHandle(final int index) {
+		return  from -> {
+			Set<String> handles = from.getWindowHandles();
+			if (handles.size() - 1 >= index) {
+				from.switchTo().window(handles.toArray()[index].toString());
+				return new ArrayList<String>(handles).get(index);
+			} else
+				return null;
+		};
 	}
 
 	/**
@@ -197,8 +136,27 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(String titleRegExp) {
-		return from -> getWindowHandleByTitle(from, titleRegExp);
+	public IFunctionalHandleCondition getHandle(String titleRegExp) {
+		return from -> {
+			String resultHandle = null;
+			Set<String> handles = from.getWindowHandles();
+			for (String handle : handles) {
+				String winTitle = null;
+				try {
+					from.switchTo().window(handle);
+					winTitle = from.getTitle();
+				} catch (TimeoutException e) {
+					return null;
+				}
+				resultHandle = getHandleWhichMatchesToTitles(handle, titleRegExp,
+						winTitle);
+				if (resultHandle == null) {
+					continue;
+				}
+				return resultHandle;
+			}
+			return resultHandle;
+		};
 	}
 
 	/**
@@ -211,8 +169,28 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(List<String> urlsRegExps) {
-		return from -> getWindowHandleByURLs(from, urlsRegExps);
+	public IFunctionalHandleCondition getHandle(List<String> urlsRegExps) {
+		return  from -> {
+			String resultHandle = null;
+			Set<String> handles = from.getWindowHandles();
+			for (String handle : handles) {
+				String currentUrl = null;
+				try {
+					from.switchTo().window(handle);
+					currentUrl = from.getCurrentUrl();
+				} catch (TimeoutException e) {
+					return null;
+				}
+
+				resultHandle = getHandleWhichMatchesToURLs(handle, urlsRegExps,
+						currentUrl);
+				if (resultHandle == null) {
+					continue;
+				}
+				return resultHandle;
+			}
+			return resultHandle;
+		};
 	}
 
 	/**
@@ -229,10 +207,10 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(String titleRegExp,
+	public IFunctionalHandleCondition getHandle(String titleRegExp,
 			List<String> urlsRegExps) {
 		return from -> getWindowHandleByTitleAndURLs(from, urlsRegExps,
-				titleRegExp);
+				titleRegExp).apply(from);
 	}
 
 	/**
@@ -249,10 +227,10 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String, java.util.List)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(int index, String titleRegExp,
+	public IFunctionalHandleCondition getHandle(int index, String titleRegExp,
 			List<String> urlsRegExps) {
 		return from -> getWindowHandleByAllConditions(from, index, urlsRegExps,
-				titleRegExp);
+				titleRegExp).apply(from);
 	}
 
 	/**
@@ -266,8 +244,8 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(int index, String titleRegExp) {
-		return from -> getWindowHandleByIndexAndTitle(from, index, titleRegExp);
+	public IFunctionalHandleCondition getHandle(int index, String titleRegExp) {
+		return from -> getWindowHandleByIndexAndTitle(from, index, titleRegExp).apply(from);
 	}
 
 	/**
@@ -281,9 +259,9 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public IFunctionalExpectedCondition getHandle(int index,
+	public IFunctionalHandleCondition getHandle(int index,
 			List<String> urlsRegExps) {
-		return from -> getWindowHandleByIndexAndURLs(from, index, urlsRegExps);
+		return from -> getWindowHandleByIndexAndURLs(from, index, urlsRegExps).apply(from);
 	}
 
 }

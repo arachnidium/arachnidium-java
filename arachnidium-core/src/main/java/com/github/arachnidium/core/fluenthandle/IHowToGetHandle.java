@@ -28,5 +28,5 @@ public interface IHowToGetHandle {
 	 * @param fluentHandleWaiting where given parameter are set up
 	 * @return {@link ExpectedCondition} which waits for some window/context
 	 */
-	public IFunctionalExpectedCondition getExpectedCondition(IFluentHandleWaiting fluentHandleWaiting);
+	public IFunctionalHandleCondition getExpectedCondition(IFluentHandleWaiting fluentHandleWaiting);
 }
