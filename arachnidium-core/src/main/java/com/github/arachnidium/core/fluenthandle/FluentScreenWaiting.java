@@ -5,12 +5,12 @@ import io.appium.java_client.android.AndroidDriver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class FluentScreenWaiting implements IFluentHandleWaiting {
 	
@@ -35,106 +35,57 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 			}
 		}
 		return null;
-	}	
-	
-	private String getContextByIndex(final WebDriver from, int contextIndex) {
-		Set<String> handles = ((ContextAware) from).getContextHandles();
-		if (handles.size() - 1 >= contextIndex) {
-			((ContextAware) from).context(handles.toArray()[contextIndex].toString());
-			return new ArrayList<String>(handles).get(contextIndex);
-		} else
-			return null;
-	}	
-	
-	private String getContextByIndexAndContextExpression(final WebDriver from,
-			int contextIndex, String contextRegExp) {
-		String resultHandle = getContextByIndex(from, contextIndex);
-		if (resultHandle == null) {
-			return null;
-		}
-		resultHandle =getContextWhichMatchesToContextExpression(contextRegExp,
-				resultHandle);
-		return resultHandle;
-	}		
-	
-	private String getContextByExpression(final WebDriver from,
-			String contextRegExp) {
-		String resultHandle = null;
-		ContextAware contextAware = ((ContextAware) from);
-		Set<String> handles = contextAware.getContextHandles();
-		for (String handle : handles) {
-			resultHandle = getContextWhichMatchesToContextExpression(contextRegExp, 
-					handle);
-			if (resultHandle == null) {
-				continue;
-			}
-			return resultHandle;
-		}
-		return resultHandle;
 	}
 	
-	private String getContextByAcivities(final WebDriver from,
-			List<String> activitiesRegExps) {
-		String resultHandle = null;
-		ContextAware contextAware = ((ContextAware) from);
-		Set<String> handles = contextAware.getContextHandles();
-		for (String handle : handles) {
-			String currentActivity = ((AndroidDriver<?>) contextAware.context(handle)).currentActivity();
-
-			resultHandle = getContextWhichMatchesToActivities(handle, activitiesRegExps,
-					currentActivity);
-			if (resultHandle == null) {
-				continue;
-			}
-			return resultHandle;
-		}
-		return resultHandle;
-	}	
+	private Function<WebDriver, String> getContextByIndexAndContextExpression(
+			int contextIndex, String contextRegExp) {
+		return getHandle(contextIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
+			return getContextWhichMatchesToContextExpression(contextRegExp,
+					input);
+		});
+	}
 	
-	private String getContextByIndexAndActivities(final WebDriver from,
+	private Function<WebDriver, String> getContextByIndexAndActivities(final WebDriver from,
 			int contextIndex, List<String> activitiesRegExps) {
-		String resultHandle = getContextByIndex(from, contextIndex);
-		if (resultHandle == null) {
-			return null;
-		}
-		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AndroidDriver<?>) contextAware.context(resultHandle)).currentActivity();
-		
-		return getContextWhichMatchesToActivities(resultHandle, activitiesRegExps, currentActivity);
+		return getHandle(contextIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
+			ContextAware contextAware = ((ContextAware) from);
+			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
+			
+			return getContextWhichMatchesToActivities(input, activitiesRegExps, currentActivity);
+		});
 	}	
 
-	private String getContextByContextExpressionAndActivities(final WebDriver from,
+	private Function<WebDriver, String> getContextByContextExpressionAndActivities(final WebDriver from,
 			List<String> activitiesRegExps, String contextRegExp) {
+		return getHandle(contextRegExp).andThen(input -> {
+			if (input == null)
+				return null;
+			
+			ContextAware contextAware = ((ContextAware) from);
+			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
 
-		String resultHandle = getContextByExpression(from, contextRegExp);
-		if (resultHandle == null) {
-			return null;
-		}
-
-		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AndroidDriver<?>) contextAware.context(resultHandle)).currentActivity();
-
-		return getContextWhichMatchesToActivities(resultHandle, activitiesRegExps,
-				currentActivity);
+			return getContextWhichMatchesToActivities(input, activitiesRegExps,
+					currentActivity);
+		});
 	}	
 	
-	private String getContextByAllConditions(final WebDriver from,
+	private Function<WebDriver, String> getContextByAllConditions(final WebDriver from,
 			int contextIndex, List<String> activitiesRegExps, String contextRegExp) {
-		String resultHandle = getContextByIndex(from, contextIndex);
-		if (resultHandle == null) {
-			return null;
-		}
-
-		ContextAware contextAware = ((ContextAware) from);
-		String currentActivity = ((AndroidDriver<?>) contextAware.context(resultHandle)).currentActivity();
-
-		resultHandle = getContextWhichMatchesToContextExpression(contextRegExp,
-				resultHandle);
-		if (resultHandle == null) {
-			return null;
-		}
-		return getContextWhichMatchesToActivities(resultHandle, activitiesRegExps,
-				currentActivity);
+		return getContextByIndexAndContextExpression(contextIndex, contextRegExp).andThen(input -> {
+			if (input == null)
+				return null;
+			ContextAware contextAware = ((ContextAware) from);
+			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
+			return getContextWhichMatchesToActivities(input, activitiesRegExps,
+					currentActivity);
+		});
+		
 	}	
 	
 	/**
@@ -145,8 +96,15 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(int)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index) {
-		return from -> getContextByIndex(from, index);
+	public IFunctionalHandleCondition getHandle(int index) {
+		return from -> {
+			Set<String> handles = ((ContextAware) from).getContextHandles();
+			if (handles.size() - 1 >= index) {
+				((ContextAware) from).context(handles.toArray()[index].toString());
+				return new ArrayList<String>(handles).get(index);
+			} else
+				return null;
+		};
 	}
 
 	
@@ -160,8 +118,21 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.lang.String)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(String contextRegExp) {
-		return from -> getContextByExpression(from, contextRegExp);
+	public IFunctionalHandleCondition getHandle(String contextRegExp) {
+		return from -> {
+			String resultHandle = null;
+			ContextAware contextAware = ((ContextAware) from);
+			Set<String> handles = contextAware.getContextHandles();
+			for (String handle : handles) {
+				resultHandle = getContextWhichMatchesToContextExpression(contextRegExp, 
+						handle);
+				if (resultHandle == null) {
+					continue;
+				}
+				return resultHandle;
+			}
+			return resultHandle;
+		};
 	}
 
 	/**
@@ -175,8 +146,8 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String contextRegExp) {
-		return from -> getContextByIndexAndContextExpression(from, index, contextRegExp);
+	public IFunctionalHandleCondition getHandle(int index, String contextRegExp) {
+		return from -> getContextByIndexAndContextExpression(index, contextRegExp).apply(from);
 	}
 
 	/**
@@ -189,8 +160,23 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 * @see com.github.arachnidium.core.fluenthandle.IFluentHandleWaiting#getHandle(java.util.List)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(List<String> activitiesRegExps) {
-		return from -> getContextByAcivities(from, activitiesRegExps);
+	public IFunctionalHandleCondition getHandle(List<String> activitiesRegExps) {
+		return from -> {
+			String resultHandle = null;
+			ContextAware contextAware = ((ContextAware) from);
+			Set<String> handles = contextAware.getContextHandles();
+			for (String handle : handles) {
+				String currentActivity = ((AndroidDriver<?>) contextAware.context(handle)).currentActivity();
+
+				resultHandle = getContextWhichMatchesToActivities(handle, activitiesRegExps,
+						currentActivity);
+				if (resultHandle == null) {
+					continue;
+				}
+				return resultHandle;
+			}
+			return resultHandle;
+		};
 	}
 
 	/**
@@ -204,9 +190,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(int index,
+	public IFunctionalHandleCondition getHandle(int index,
 			List<String> activitiesRegExps) {
-		return from -> getContextByIndexAndActivities(from, index, activitiesRegExps);
+		return from -> getContextByIndexAndActivities(from, index, activitiesRegExps).apply(from);
 	}
 
 	/**
@@ -223,9 +209,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.util.List)
 	 */
 	@Override
-	public ExpectedCondition<String> getHandle(String contextRegExp,
+	public IFunctionalHandleCondition getHandle(String contextRegExp,
 			List<String> activitiesRegExps) {
-		return from -> getContextByContextExpressionAndActivities(from, activitiesRegExps, contextRegExp);
+		return from -> getContextByContextExpressionAndActivities(from, activitiesRegExps, contextRegExp).apply(from);
 	}
 
 	/**
@@ -242,9 +228,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	 *      java.lang.String, java.util.List)
 	 */	
 	@Override
-	public ExpectedCondition<String> getHandle(int index, String contextRegExp,
+	public IFunctionalHandleCondition getHandle(int index, String contextRegExp,
 			List<String> activitiesRegExps) {
-		return from -> getContextByAllConditions(from, index, activitiesRegExps, contextRegExp);
+		return from -> getContextByAllConditions(from, index, activitiesRegExps, contextRegExp).apply(from);
 	}
 
 }
