@@ -40,6 +40,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	private Function<WebDriver, String> getContextByIndexAndContextExpression(
 			int contextIndex, String contextRegExp) {
 		return getHandle(contextIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
 			return getContextWhichMatchesToContextExpression(contextRegExp,
 					input);
 		});
@@ -48,6 +51,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	private Function<WebDriver, String> getContextByIndexAndActivities(final WebDriver from,
 			int contextIndex, List<String> activitiesRegExps) {
 		return getHandle(contextIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
 			ContextAware contextAware = ((ContextAware) from);
 			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
 			
@@ -58,6 +64,9 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	private Function<WebDriver, String> getContextByContextExpressionAndActivities(final WebDriver from,
 			List<String> activitiesRegExps, String contextRegExp) {
 		return getHandle(contextRegExp).andThen(input -> {
+			if (input == null)
+				return null;
+			
 			ContextAware contextAware = ((ContextAware) from);
 			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
 
@@ -69,6 +78,8 @@ public class FluentScreenWaiting implements IFluentHandleWaiting {
 	private Function<WebDriver, String> getContextByAllConditions(final WebDriver from,
 			int contextIndex, List<String> activitiesRegExps, String contextRegExp) {
 		return getContextByIndexAndContextExpression(contextIndex, contextRegExp).andThen(input -> {
+			if (input == null)
+				return null;
 			ContextAware contextAware = ((ContextAware) from);
 			String currentActivity = ((AndroidDriver<?>) contextAware.context(input)).currentActivity();
 			return getContextWhichMatchesToActivities(input, activitiesRegExps,

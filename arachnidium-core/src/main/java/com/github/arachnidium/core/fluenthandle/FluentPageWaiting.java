@@ -45,6 +45,9 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 
 		return getHandle(titleRegExp).andThen(input -> 
 		{
+			if (input == null)
+				return null;
+			
 			String currentUrl = null;
 			try {
 				from.switchTo().window(input);
@@ -63,6 +66,9 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 			int windowIndex, String titleRegExp) {
 		
 		return getHandle(windowIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
 			String winTitle = null;
 			try {
 				from.switchTo().window(input);
@@ -80,6 +86,9 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 			int windowIndex, List<String> urlsRegExps, String titleRegExp) {
 		 return getWindowHandleByIndexAndTitle(from,
 				windowIndex, titleRegExp).andThen(input -> {
+					if (input == null)
+						return null;
+					
 					String currentUrl = null;
 					try {
 						from.switchTo().window(input);
@@ -96,6 +105,9 @@ public class FluentPageWaiting implements IFluentHandleWaiting {
 	private Function<WebDriver, String> getWindowHandleByIndexAndURLs(final WebDriver from,
 			int windowIndex, List<String> urlsRegExps) {		
 		return getHandle(windowIndex).andThen(input -> {
+			if (input == null)
+				return null;
+			
 			String currentUrl = null;
 			try {
 				from.switchTo().window(input);
