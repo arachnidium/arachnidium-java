@@ -20,8 +20,12 @@ package com.github.arachnidium.util.proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
+
+import org.objenesis.Objenesis;
+import org.objenesis.ObjenesisStd;
 
 /**
  * The simple factory that makes usage of some CGLIB tools easily
@@ -98,7 +102,41 @@ public abstract class EnhancedProxyFactory {
 					}
 				});
 		
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> T getProxyBypassConstructor(
+			Class<T> clazz,
+			List<MethodInterceptor> interceptors) {
+		Enhancer enhancer = new Enhancer();
+		
+		final List<Class<?>> callbackTypes = new ArrayList<Class<?>>();
+		interceptors.forEach(interceptor -> {
+			callbackTypes.add(interceptor.getClass());
+		});
+		enhancer.setCallbackTypes(callbackTypes.toArray(new Class<?>[]{}));
+		enhancer.setSuperclass(clazz);
+		Class<?> proxiedClass=enhancer.createClass();
+		Enhancer.registerCallbacks(proxiedClass, interceptors.toArray(new Callback[]{}));
+		enhancer.setClassLoader(clazz.getClassLoader());
+		
+		Objenesis objenesis = new ObjenesisStd();
+		Object proxy = objenesis.newInstance(proxiedClass);
+		return (T) proxy;
+		
+	}
+	
+	public static <T extends Object> T getProxyBypassConstructor(
+			Class<T> clazz,
+			MethodInterceptor interceptor) {
+		
+		return getProxyBypassConstructor(clazz, new ArrayList<MethodInterceptor>(){
+			private static final long serialVersionUID = 1L;
+			{
+				add(interceptor);
+			}			
+		});
+	}
 
 	private EnhancedProxyFactory() {
 		super();

@@ -47,7 +47,9 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
     private final HandleReceptionist receptionist;
     private static final Map<Class<? extends WebDriver>, Class<? extends WebElement>> elementTypesMap =
             new HashMap<Class<? extends WebDriver>, Class<? extends WebElement>>(){
-                {
+				private static final long serialVersionUID = 1L;
+
+				{
                     put(AndroidDriver.class, AndroidElement.class);
                     put(IOSDriver.class, IOSElement.class);
                     put(RemoteWebDriver.class, RemoteWebElement.class);
@@ -160,13 +162,11 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 
     @Override
     public WebElement findElement(By by){
-        switchToMe();
         return getSearchContext().findElement(by);
     }
 
     @Override
     public List<WebElement> findElements(By by){
-        switchToMe();
         return getSearchContext().findElements(by);
     }
 
@@ -186,6 +186,7 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
             Class<? extends WebDriver> webDriverClass = entry.getKey();
             if (webDriverClass.isAssignableFrom(driver.getClass())){
                 target = entry.getValue();
+                break;
             }
         }
         return EnhancedProxyFactory.getProxy(target, new Class[] {}, new Object[] {}, new NestedElementInterceptor(this));
