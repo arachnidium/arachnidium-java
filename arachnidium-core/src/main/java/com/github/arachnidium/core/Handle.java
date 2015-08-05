@@ -1,21 +1,24 @@
 package com.github.arachnidium.core;
 
-import java.lang.reflect.Proxy;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 import com.github.arachnidium.util.logging.Log;
 import com.github.arachnidium.util.logging.Photographer;
+import com.github.arachnidium.util.proxy.EnhancedProxyFactory;
 
-import org.apache.commons.lang3.ArrayUtils;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSElement;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
@@ -26,32 +29,48 @@ import com.github.arachnidium.core.interfaces.IHasSearchContext;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 
-/**z
- * Represents objects that have handles e.g.
- * browser window and mobile context/screen
+/**
+ * z Represents objects that have handles e.g. browser window and mobile
+ * context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
-ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchContext {
+		ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy,
+		IHasSearchContext {
 
 	final String handle;
 	public final WebDriverEncapsulation driverEncapsulation;
-	public final Manager<?,?> nativeManager;
+	public final Manager<?, ?> nativeManager;
 	final By by;
 	final HowToGetByFrames howToGetByFramesStrategy;
-	
+
 	IHowToGetHandle howToGetHandleStrategy;
 	long timeOut;
+	private final SearchContext context;
 
 	private final HandleReceptionist receptionist;
+	private static final Map<Class<? extends WebDriver>, Class<? extends WebElement>> elementTypesMap = new HashMap<Class<? extends WebDriver>, Class<? extends WebElement>>() {
+		private static final long serialVersionUID = 1L;
 
-	Handle(String handle, Manager<?,?> manager, 
-			By by, HowToGetByFrames howToGetByFramesStrategy) {
+		{
+			put(AndroidDriver.class, AndroidElement.class);
+			put(IOSDriver.class, IOSElement.class);
+			put(RemoteWebDriver.class, RemoteWebElement.class);
+		}
+	};
+
+	Handle(String handle, Manager<?, ?> manager, By by,
+			HowToGetByFrames howToGetByFramesStrategy) {
 		this.nativeManager = manager;
 		this.driverEncapsulation = manager.getWebDriverEncapsulation();
 		this.handle = handle;
 		this.receptionist = nativeManager.getHandleReceptionist();
 		this.by = by;
 		this.howToGetByFramesStrategy = howToGetByFramesStrategy;
+		
+		if (by == null) 
+			context = proxyDriver();
+		else
+			context = proxyElement();
 	}
 
 	@Override
@@ -75,7 +94,7 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchCon
 
 	/**
 	 * @return Window string handle/mobile context name
-	 * 
+	 *
 	 * @see com.github.arachnidium.core.interfaces.IHasHandle#getHandle()
 	 */
 	@Override
@@ -90,90 +109,103 @@ ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, IHasSearchCon
 	public synchronized void switchToMe() {
 		nativeManager.switchTo(handle);
 		if (howToGetByFramesStrategy != null)
-			howToGetByFramesStrategy.switchTo(driverEncapsulation.getWrappedDriver());
+			howToGetByFramesStrategy.switchTo(driverEncapsulation
+					.getWrappedDriver());
 	}
 
 	/**
-	 * Takes a picture of itself.
-	 * It creates FINE {@link Level} {@link Log} message with 
-	 * attached picture (optionally)
+	 * Takes a picture of itself. It creates FINE {@link Level} {@link Log}
+	 * message with attached picture (optionally)
 	 */
 	@Override
 	public synchronized void takeAPictureOfAFine(String comment) {
-		Photographer.takeAPictureOfAFine(driverEncapsulation.getWrappedDriver(), 
-				comment);
+		Photographer.takeAPictureOfAFine(
+				driverEncapsulation.getWrappedDriver(), comment);
 	}
 
 	/**
-	 * Takes a picture of itself.
-	 * It creates INFO {@link Level} {@link Log} message with 
-	 * attached picture (optionally)
-	 */	
+	 * Takes a picture of itself. It creates INFO {@link Level} {@link Log}
+	 * message with attached picture (optionally)
+	 */
 	@Override
 	public synchronized void takeAPictureOfAnInfo(String comment) {
-		Photographer.takeAPictureOfAnInfo(driverEncapsulation.getWrappedDriver(),
-				comment);
+		Photographer.takeAPictureOfAnInfo(
+				driverEncapsulation.getWrappedDriver(), comment);
 	}
 
 	/**
-	 * Takes a picture of itself.
-	 * It creates SEVERE {@link Level} {@link Log} message with 
-	 * attached picture (optionally)
-	 */		
+	 * Takes a picture of itself. It creates SEVERE {@link Level} {@link Log}
+	 * message with attached picture (optionally)
+	 */
 	@Override
 	public synchronized void takeAPictureOfASevere(String comment) {
-		Photographer.takeAPictureOfASevere(driverEncapsulation.getWrappedDriver(),
-				comment);
+		Photographer.takeAPictureOfASevere(
+				driverEncapsulation.getWrappedDriver(), comment);
 	}
 
 	/**
-	 * Takes a picture of itself.
-	 * It creates WARN {@link Level} {@link Log} message with 
-	 * attached picture (optionally)
-	 */		
+	 * Takes a picture of itself. It creates WARN {@link Level} {@link Log}
+	 * message with attached picture (optionally)
+	 */
 	@Override
 	public synchronized void takeAPictureOfAWarning(String comment) {
-		Photographer.takeAPictureOfAWarning(driverEncapsulation.getWrappedDriver(),
-				comment);
+		Photographer.takeAPictureOfAWarning(
+				driverEncapsulation.getWrappedDriver(), comment);
 	}
-	
+
 	@Override
-	public By returnBy(By by){
+	public By returnBy(By by) {
 		By usedBy = null;
-		if (this.by != null){
+		if (this.by != null) {
 			usedBy = new ByChained(this.by, by);
-		}
-		else
+		} else
 			usedBy = by;
 		return usedBy;
 	}
-	
+
 	@Override
-	public WebElement findElement(By by){
+	public WebElement findElement(By by) {
 		return getSearchContext().findElement(by);
 	}
-	
+
 	@Override
-	public List<WebElement> findElements(By by){
+	public List<WebElement> findElements(By by) {
 		return getSearchContext().findElements(by);
 	}
-	
+
 	@Override
-	public SearchContext getSearchContext(){
-		Class<?>[] interfaces = new Class[]{};
-		if (by == null)
-			interfaces = ArrayUtils.addAll(interfaces, new Class<?>[] {WebDriver.class, 
-					WrapsDriver.class, HasCapabilities.class});
-		else
-			interfaces = ArrayUtils.addAll(interfaces, new Class<?>[] {WebElement.class, 
-					WrapsDriver.class});
-		
-		SearchContext result = (SearchContext) Proxy
-				.newProxyInstance(
-						SearchContext.class.getClassLoader(),
-						interfaces, new SearchContextProxyHandler(this));
-		return result;
-						
+	public SearchContext getSearchContext() {
+		return context;		
+	}
+	
+	private WebDriver proxyDriver(){
+		WebDriver driver = driverEncapsulation.getWrappedDriver();		
+		Class<?> driverClass = driver.getClass().getSuperclass();
+		//object is a proxy created via Spring/CGLib 
+		return (WebDriver) EnhancedProxyFactory.getProxyBypassConstructor(driverClass, new WebDriverInterceptor(this));
+	}
+
+	private WebElement proxyElement() {
+		WebDriver driver = driverEncapsulation.getWrappedDriver();
+
+		Set<Map.Entry<Class<? extends WebDriver>, Class<? extends WebElement>>> entries = elementTypesMap
+				.entrySet();
+		Iterator<Map.Entry<Class<? extends WebDriver>, Class<? extends WebElement>>> iterator = entries
+				.iterator();
+
+		Class<? extends WebElement> target = null;
+		while (iterator.hasNext()) {
+			Map.Entry<Class<? extends WebDriver>, Class<? extends WebElement>> entry = iterator
+					.next();
+
+			Class<? extends WebDriver> webDriverClass = entry.getKey();
+			if (webDriverClass.isAssignableFrom(driver.getClass())) {
+				target = entry.getValue();
+				break;
+			}
+		}
+		return EnhancedProxyFactory.getProxy(target, new Class[] {},
+				new Object[] {}, new NestedElementInterceptor(this));
 	}
 
 }
