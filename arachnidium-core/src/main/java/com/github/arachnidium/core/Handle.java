@@ -45,6 +45,7 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 
 	IHowToGetHandle howToGetHandleStrategy;
 	long timeOut;
+	private final SearchContext context;
 
 	private final HandleReceptionist receptionist;
 	private static final Map<Class<? extends WebDriver>, Class<? extends WebElement>> elementTypesMap = new HashMap<Class<? extends WebDriver>, Class<? extends WebElement>>() {
@@ -65,6 +66,11 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 		this.receptionist = nativeManager.getHandleReceptionist();
 		this.by = by;
 		this.howToGetByFramesStrategy = howToGetByFramesStrategy;
+		
+		if (by == null) 
+			context = proxyDriver();
+		else
+			context = proxyElement();
 	}
 
 	@Override
@@ -169,11 +175,7 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 
 	@Override
 	public SearchContext getSearchContext() {
-
-		if (by == null) 
-			return proxyDriver();
-
-		return proxyElement();
+		return context;		
 	}
 	
 	private WebDriver proxyDriver(){
