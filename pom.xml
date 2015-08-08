@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<properties>
-		<spring.version>4.1.1.RELEASE</spring.version>
-		<aspectJ.version>1.8.2</aspectJ.version>
-		<selenium.version>2.46.0</selenium.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
+		<aspectJ.version>1.8.6</aspectJ.version>
+		<selenium.version>2.47.0</selenium.version>
 		<cglib.version>3.1</cglib.version>
-		<org.ow2.asm.version>5.0.2</org.ow2.asm.version>
+		<org.ow2.asm.version>5.0.4</org.ow2.asm.version>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
