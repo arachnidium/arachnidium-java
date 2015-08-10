@@ -148,16 +148,16 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		return null;
 	}
 
-	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "get")
-	@BeforeTarget(targetClass = Navigation.class, targetMethod = "to")
+	//@BeforeTarget(targetClass = WebDriver.class, targetMethod = "get")
+	//@BeforeTarget(targetClass = Navigation.class, targetMethod = "to")
 	// url can be an instance of String of URL
 	public void beforeNavigateTo(@UseParameter(number = 0) Object url,
 			@SupportParam WebDriver driver) {
 		beforeNavigateTo(String.valueOf(url), driver);
 	}
 
-	@AfterTarget(targetClass = WebDriver.class, targetMethod = "get")
-	@AfterTarget(targetClass = Navigation.class, targetMethod = "to")
+	//@AfterTarget(targetClass = WebDriver.class, targetMethod = "get")
+	//@AfterTarget(targetClass = Navigation.class, targetMethod = "to")
 	// url can be an instance of String of URL
 	public void afterNavigateTo(@UseParameter(number = 0) Object url,
 			@SupportParam WebDriver driver) {
@@ -188,7 +188,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	/**
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#beforeNavigateBack(org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = Navigation.class, targetMethod = "back")
+	//@BeforeTarget(targetClass = Navigation.class, targetMethod = "back")
 	@Override
 	public void beforeNavigateBack(@SupportParam WebDriver driver) {
 		Log.message("Attempt to navigate to previous url. Current url is "
@@ -199,7 +199,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	/**
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#afterNavigateBack(org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = Navigation.class, targetMethod = "back")
+	//@AfterTarget(targetClass = Navigation.class, targetMethod = "back")
 	@Override
 	public void afterNavigateBack(@SupportParam WebDriver driver) {
 		Log.message("Current URL is  " + driver.getCurrentUrl());
@@ -210,7 +210,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	/**
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#beforeNavigateForward(org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = Navigation.class, targetMethod = "forward")
+	//@BeforeTarget(targetClass = Navigation.class, targetMethod = "forward")
 	@Override
 	public void beforeNavigateForward(@SupportParam WebDriver driver) {
 		Log.message("Attempt to navigate to next url. Current url is "
@@ -221,7 +221,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	/**
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#afterNavigateForward(org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = Navigation.class, targetMethod = "forward")
+	//@AfterTarget(targetClass = Navigation.class, targetMethod = "forward")
 	@Override
 	public void afterNavigateForward(@SupportParam WebDriver driver) {
 		Log.message("Current URL is  " + driver.getCurrentUrl());
@@ -232,10 +232,10 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#beforeFindBy(org.openqa.selenium.By,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "findElement")
-	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "findElements")
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "findElement")
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "findElements")
+	//@BeforeTarget(targetClass = WebDriver.class, targetMethod = "findElement")
+	//@BeforeTarget(targetClass = WebDriver.class, targetMethod = "findElements")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "findElement")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "findElements")
 	@Override
 	public void beforeFindBy(@UseParameter(number = 0) By by,
 			@TargetParam WebElement element, @SupportParam WebDriver driver) {
@@ -252,10 +252,10 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#afterFindBy(org.openqa.selenium.By,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = WebDriver.class, targetMethod = "findElement")
-	@AfterTarget(targetClass = WebDriver.class, targetMethod = "findElements")
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "findElement")
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "findElements")
+	//@AfterTarget(targetClass = WebDriver.class, targetMethod = "findElement")
+	//@AfterTarget(targetClass = WebDriver.class, targetMethod = "findElements")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "findElement")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "findElements")
 	@Override
 	public void afterFindBy(@UseParameter(number = 0) By by,
 			@TargetParam WebElement element, @SupportParam WebDriver driver) {
@@ -268,7 +268,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		proxyListener.afterFindBy(by, element, driver);
 	}
 
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "click")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "click")
 	@Override
 	public void beforeClickOn(@TargetParam WebElement element,
 			@SupportParam WebDriver driver) {
@@ -282,7 +282,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#afterClickOn(org.openqa.selenium.WebElement,
 	 *      org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "click")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "click")
 	@Override
 	public void afterClickOn(@TargetParam WebElement element,
 			@SupportParam WebDriver driver) {
@@ -294,9 +294,9 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#beforeChangeValueOf(org.openqa.selenium.WebElement,
 	 *      org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "sendKeys")
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "clear")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "setValue")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "sendKeys")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "clear")
+	//@BeforeTarget(targetClass = MobileElement.class, targetMethod = "setValue")
 	@Override
 	public void beforeChangeValueOf(@TargetParam WebElement element,
 			@SupportParam WebDriver driver) {
@@ -311,9 +311,9 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * org.openqa.selenium.support.events.WebDriverEventListener#afterChangeValueOf
 	 * (org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "sendKeys")
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "clear")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "setValue")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "sendKeys")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "clear")
+	//@AfterTarget(targetClass = MobileElement.class, targetMethod = "setValue")
 	@Override
 	public void afterChangeValueOf(@TargetParam WebElement element,
 			@SupportParam WebDriver driver) {
@@ -327,8 +327,8 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#beforeScript(java.lang.String,
 	 *      org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeAsyncScript")
-	@BeforeTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeScript")
+	//@BeforeTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeAsyncScript")
+	//@BeforeTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeScript")
 	@Override
 	public void beforeScript(@UseParameter(number = 0) String script,
 			@SupportParam WebDriver driver) {
@@ -339,8 +339,8 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see org.openqa.selenium.support.events.WebDriverEventListener#afterScript(java.lang.String,
 	 *      org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeAsyncScript")
-	@AfterTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeScript")
+	//@AfterTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeAsyncScript")
+	//@AfterTarget(targetClass = JavascriptExecutor.class, targetMethod = "executeScript")
 	@Override
 	public void afterScript(@UseParameter(number = 0) String script,
 			@SupportParam WebDriver driver) {
@@ -362,7 +362,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#afterAlertAccept(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.Alert)
 	 */
-	@AfterTarget(targetClass = Alert.class, targetMethod = "accept")
+	//@AfterTarget(targetClass = Alert.class, targetMethod = "accept")
 	@Override
 	public void afterAlertAccept(@SupportParam WebDriver driver,
 			@TargetParam Alert alert) {
@@ -375,7 +375,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#afterAlertDismiss
 	 * (org.openqa.selenium.WebDriver, org.openqa.selenium.Alert)
 	 */
-	@AfterTarget(targetClass = Alert.class, targetMethod = "dismiss")
+	//@AfterTarget(targetClass = Alert.class, targetMethod = "dismiss")
 	@Override
 	public void afterAlertDismiss(@SupportParam WebDriver driver,
 			@TargetParam Alert alert) {
@@ -399,7 +399,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#afterSubmit(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement)
 	 */
-	@AfterTarget(targetClass = WebElement.class, targetMethod = "submit")
+	//@AfterTarget(targetClass = WebElement.class, targetMethod = "submit")
 	@Override
 	public void afterSubmit(@SupportParam WebDriver driver,
 			@TargetParam WebElement element) {
@@ -411,7 +411,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeAlertAccept(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.Alert)
 	 */
-	@BeforeTarget(targetClass = Alert.class, targetMethod = "accept")
+	//@BeforeTarget(targetClass = Alert.class, targetMethod = "accept")
 	@Override
 	public void beforeAlertAccept(@SupportParam WebDriver driver,
 			@TargetParam Alert alert) {
@@ -423,7 +423,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeAlertDismiss(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.Alert)
 	 */
-	@BeforeTarget(targetClass = Alert.class, targetMethod = "dismiss")
+	//@BeforeTarget(targetClass = Alert.class, targetMethod = "dismiss")
 	@Override
 	public void beforeAlertDismiss(@SupportParam WebDriver driver,
 			@TargetParam Alert alert) {
@@ -435,7 +435,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeAlertSendKeys(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.Alert, java.lang.String)
 	 */
-	@BeforeTarget(targetClass = Alert.class, targetMethod = "sendKeys")
+	//@BeforeTarget(targetClass = Alert.class, targetMethod = "sendKeys")
 	@Override
 	public void beforeAlertSendKeys(@SupportParam WebDriver driver,
 			@TargetParam Alert alert, String keys) {
@@ -447,7 +447,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeSubmit(org.openqa.selenium.WebDriver,
 	 *      org.openqa.selenium.WebElement)
 	 */
-	@BeforeTarget(targetClass = WebElement.class, targetMethod = "submit")
+	//@BeforeTarget(targetClass = WebElement.class, targetMethod = "submit")
 	@Override
 	public void beforeSubmit(@SupportParam WebDriver driver,
 			@TargetParam WebElement element) {
@@ -461,18 +461,18 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeFindBy(java.lang.String,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
-	@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
-	@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
-	@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
-	@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
+	//@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
+	//@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
+	//@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
+	//@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
+	//@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
+	//@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
+	//@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
+	//@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
+	//@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
+	//@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
+	//@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
+	//@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
 	@Override
 	public void beforeFindBy(@UseParameter(number = 0) String byString,
 			@TargetParam WebElement element, @SupportParam WebDriver driver) {
@@ -489,18 +489,18 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#afterFindBy(java.lang.String,
 	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
 	 */
-	@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
-	@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
-	@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
-	@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
-	@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
+	//@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
+	//@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
+	//@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
+	//@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
+	//@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
+	//@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
+	//@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
+	//@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
+	//@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
+	//@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
+	//@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
+	//@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
 	@Override
 	public void afterFindBy(@UseParameter(number = 0) String byString,
 			@TargetParam WebElement element, @SupportParam WebDriver driver) {
@@ -617,7 +617,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeQuit(org.openqa.selenium.WebDriver)
 	 */
 	@Override
-	@BeforeTarget(targetClass = WebDriver.class, targetMethod = "quit")
+	//@BeforeTarget(targetClass = WebDriver.class, targetMethod = "quit")
 	public void beforeQuit(@SupportParam WebDriver driver) {
 		destroyable.destroy();
 		proxyListener.beforeQuit(driver);

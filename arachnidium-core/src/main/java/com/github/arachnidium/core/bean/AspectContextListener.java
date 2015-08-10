@@ -68,7 +68,7 @@ class AspectContextListener extends DefaultHandleListener implements
 	 *      beforeIsSwitchedOn(com.github.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IContext.class, targetMethod = "switchToMe")
+	//@BeforeTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void beforeIsSwitchedOn(@TargetParam IHasHandle handle) {
 		Log.debug("Attempt to switch to context " + handle.getHandle());
 		contextListenerProxy.beforeIsSwitchedOn(handle);
@@ -79,7 +79,7 @@ class AspectContextListener extends DefaultHandleListener implements
 	 *      whenIsSwitchedOn(com.github.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
-	@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
+	//@AfterTarget(targetClass = IContext.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
 		Log.message("Current context is " + handle.getHandle()
 				+ getActivityDescription(handle));
@@ -91,7 +91,7 @@ class AspectContextListener extends DefaultHandleListener implements
 	 *      whenNewHandleIsAppeared(com.github.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
-	@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
+	//@AfterTarget(targetClass = IContext.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
 		String message = "A new context " + handle.getHandle()
 				+ getActivityDescription(handle);
@@ -141,7 +141,7 @@ class AspectContextListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.ScreenOrientation)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IContext.class, targetMethod = "rotate")
+	//@BeforeTarget(targetClass = IContext.class, targetMethod = "rotate")
 	public void beforeIsRotated(@TargetParam IHasHandle handle,
 			@UseParameter(number = 0) ScreenOrientation orientation) {
 		Log.debug("Attempt to rotate screen. Context is " + handle.getHandle()
@@ -155,7 +155,7 @@ class AspectContextListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.ScreenOrientation)
 	 */
 	@Override
-	@AfterTarget(targetClass = IContext.class, targetMethod = "rotate")
+	//@AfterTarget(targetClass = IContext.class, targetMethod = "rotate")
 	public void whenIsRotated(@TargetParam IHasHandle handle,
 			@UseParameter(number = 0) ScreenOrientation orientation) {
 		Log.debug("Screen was rotated. Context is " + handle.getHandle()

@@ -66,7 +66,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * beforeIsSwitchedOn(com.github.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
 	public void beforeIsSwitchedOn(@TargetParam IHasHandle handle) {
 		Log.debug("Attempt to switch window on by handle " + handle.getHandle());
 		windowListenerProxy.beforeIsSwitchedOn(handle);
@@ -77,7 +77,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * beforeWindowIsClosed(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
 	public void beforeWindowIsClosed(@TargetParam IExtendedWindow window) {
 		Log.message("Attempt to close window...");
 		postWindowUrl(window);
@@ -89,7 +89,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * beforeWindowIsMaximized(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
 	public void beforeWindowIsMaximized(@TargetParam IExtendedWindow window) {
 		Log.message("Attempt to maximize window");
 		postWindowUrl(window);
@@ -102,7 +102,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.Point)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
 	public void beforeWindowIsMoved(@TargetParam IExtendedWindow window, @UseParameter(number =0) Point point) {
 		Log.message("Attempt to change window position. X "
 				+ Integer.toString(point.getX()) + " Y "
@@ -116,7 +116,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * beforeWindowIsRefreshed(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
 	public void beforeWindowIsRefreshed(@TargetParam IExtendedWindow window) {
 		Log.message("Attempt to refresh window");
 		postWindowUrl(window);
@@ -129,7 +129,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.Dimension)
 	 */
 	@Override
-	@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
+	//@BeforeTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
 	public void beforeWindowIsResized(@TargetParam  IExtendedWindow window,
 			@UseParameter(number=0) Dimension dimension) {
 		Log.message("Attempt to change window size. New height is "
@@ -153,7 +153,7 @@ class AspectWindowListener extends DefaultHandleListener implements
      * whenIsSwitchedOn(com.github.arachnidium.core.interfaces.IHasHandle)
      */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "switchToMe")
 	public void whenIsSwitchedOn(@TargetParam IHasHandle handle) {
 		postWindowUrl((IExtendedWindow) handle);
 		windowListenerProxy.whenIsSwitchedOn(handle);
@@ -164,7 +164,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * whenNewHandleIsAppeared(com.github.arachnidium.core.interfaces.IHasHandle)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "whenIsCreated")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "whenIsCreated")
 	public void whenNewHandleIsAppeared(@TargetParam IHasHandle handle) {
 		if (configurationWrapper.getWrappedConfiguration()
 				.getSection(ScreenShots.class).getToTakeScreenShotsOfNewHandles()) {
@@ -183,7 +183,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * whenWindowIsClosed(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "close")
 	public void whenWindowIsClosed(@TargetParam IExtendedWindow window) {
 		Log.message("Not any problem has occurred when window was closed...");
 		windowListenerProxy.whenWindowIsClosed(window);
@@ -194,7 +194,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * whenWindowIsMaximized(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "maximize")
 	public void whenWindowIsMaximized(@TargetParam IExtendedWindow window) {
 		Log.message("Window has been maximized");
 		windowListenerProxy.whenWindowIsMaximized(window);
@@ -206,7 +206,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.Point)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setPosition")
 	public void whenWindowIsMoved(@TargetParam IExtendedWindow window, @UseParameter(number =0) Point point) {
 		Log.message("Window position has been changed to X "
 				+ Integer.toString(point.getX()) + " Y "
@@ -220,7 +220,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 * whenWindowIsRefreshed(com.github.arachnidium.core.interfaces.IExtendedWindow)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "refresh")
 	public void whenWindowIsRefreshed(@TargetParam IExtendedWindow window) {
 		Log.message("Current window has been refreshed");
 		postWindowUrl(window);
@@ -233,7 +233,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 	 *      org.openqa.selenium.Dimension)
 	 */
 	@Override
-	@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
+	//@AfterTarget(targetClass = IExtendedWindow.class, targetMethod = "setSize")
 	public void whenWindowIsResized(@TargetParam IExtendedWindow window, @UseParameter(number=0) Dimension dimension) {
 		Log.message("Window size has been changed! New height is "
 				+ Integer.toString(dimension.getHeight()) + " new width is "
