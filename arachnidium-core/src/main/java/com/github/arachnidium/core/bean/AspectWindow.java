@@ -28,7 +28,7 @@ import com.github.arachnidium.core.settings.ScreenShots;
  * Listens to browser window events
  */
 @Aspect
-class AspectWindowListener extends DefaultHandleListener implements
+class AspectWindow extends AbstractAspect implements
 		IWindowListener {
 	
 	private final List<IWindowListener> windowEventListeners = new ArrayList<IWindowListener>(){
@@ -57,7 +57,7 @@ class AspectWindowListener extends DefaultHandleListener implements
 					new Class[] { IWindowListener.class },
 					windowListenerInvocationHandler);	
 	
-	public AspectWindowListener(IConfigurationWrapper configurationWrapper) {
+	public AspectWindow(IConfigurationWrapper configurationWrapper) {
 		super(configurationWrapper);
 	}
 

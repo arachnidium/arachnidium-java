@@ -11,6 +11,7 @@ import java.util.ServiceLoader;
 
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +20,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.internal.WrapsDriver;
 
 import com.github.arachnidium.core.eventlisteners.IContextListener;
-import com.github.arachnidium.core.interfaces.IContext;
 import com.github.arachnidium.core.interfaces.IHasHandle;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 import com.github.arachnidium.core.settings.ScreenShots;
@@ -29,7 +29,7 @@ import com.github.arachnidium.core.settings.ScreenShots;
  *                        events
  */
 @Aspect
-class AspectContextListener extends DefaultHandleListener implements
+class AspectContext extends AbstractAspect implements
 		IContextListener {
 
 	private final List<IContextListener> contextEventListeners = new ArrayList<IContextListener>() {
@@ -59,7 +59,7 @@ class AspectContextListener extends DefaultHandleListener implements
 					new Class[] { IContextListener.class },
 					contextListenerInvocationHandler);
 
-	public AspectContextListener(IConfigurationWrapper configurationWrapper) {
+	public AspectContext(IConfigurationWrapper configurationWrapper) {
 		super(configurationWrapper);
 	}
 

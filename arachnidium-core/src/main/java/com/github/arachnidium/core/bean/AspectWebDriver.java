@@ -1,12 +1,5 @@
 package com.github.arachnidium.core.bean;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
-
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +14,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ContextAware;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Options;
@@ -35,7 +27,7 @@ import com.github.arachnidium.core.highlighting.WebElementHighLighter;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 
 @Aspect
-class AspectWebDriverEventListener extends AbstractAspect implements
+class AspectWebDriver extends AbstractAspect implements
 		IWebDriverEventListener {
 
 	private static enum HowToHighLightElement {
@@ -120,7 +112,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 						return null;
 					});
 
-	public AspectWebDriverEventListener(final WebDriver driver,
+	public AspectWebDriver(final WebDriver driver,
 			IConfigurationWrapper configurationWrapper,
 			IDestroyable destroyable, AbstractApplicationContext context) {
 		super(configurationWrapper);
@@ -457,62 +449,7 @@ class AspectWebDriverEventListener extends AbstractAspect implements
 		proxyListener.beforeSubmit(driver, element);
 	}
 
-	/**
-	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#beforeFindBy(java.lang.String,
-	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
-	 */
-	//@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	//@BeforeTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	//@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
-	//@BeforeTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
-	//@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
-	//@BeforeTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	//@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	//@BeforeTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	//@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
-	//@BeforeTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
-	//@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
-	//@BeforeTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
-	@Override
-	public void beforeFindBy(@UseParameter(number = 0) String byString,
-			@TargetParam WebElement element, @SupportParam WebDriver driver) {
-		Log.debug("Searching for element by locator " + byString
-				+ " has been started");
-		if (element != null) {
-			highlightElementAndLogAction(element, "Using root element",
-					HowToHighLightElement.DEBUG);
-		}
-		proxyListener.beforeFindBy(byString, element, driver);
-	}
-
-	/**
-	 * @see com.github.arachnidium.core.eventlisteners.IWebDriverEventListener#afterFindBy(java.lang.String,
-	 *      org.openqa.selenium.WebElement, org.openqa.selenium.WebDriver)
-	 */
-	//@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementByAndroidUIAutomator")
-	//@AfterTarget(targetClass = AndroidDriver.class, targetMethod = "findElementsByAndroidUIAutomator")
-	//@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementByIosUIAutomation")
-	//@AfterTarget(targetClass = IOSDriver.class, targetMethod = "findElementsByIosUIAutomation")
-	//@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementByAccessibilityId")
-	//@AfterTarget(targetClass = AppiumDriver.class, targetMethod = "findElementsByAccessibilityId")
-	//@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementByAndroidUIAutomator")
-	//@AfterTarget(targetClass = AndroidElement.class, targetMethod = "findElementsByAndroidUIAutomator")
-	//@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementByIosUIAutomation")
-	//@AfterTarget(targetClass = IOSElement.class, targetMethod = "findElementsByIosUIAutomation")
-	//@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementByAccessibilityId")
-	//@AfterTarget(targetClass = MobileElement.class, targetMethod = "findElementsByAccessibilityId")
-	@Override
-	public void afterFindBy(@UseParameter(number = 0) String byString,
-			@TargetParam WebElement element, @SupportParam WebDriver driver) {
-		Log.debug("Searching for web element has been finished. Locator is "
-				+ byString);
-		if (element != null) {
-			highlightElementAndLogAction(element, "Root element was used",
-					HowToHighLightElement.DEBUG);
-		}
-		proxyListener.afterFindBy(byString, element, driver);
-	}
-
+	
 	private String addToDescription(WebElement element, String attribute,
 			String description) {
 		try {

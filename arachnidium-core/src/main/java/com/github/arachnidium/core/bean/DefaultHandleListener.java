@@ -10,10 +10,11 @@ import com.github.arachnidium.core.interfaces.IHasHandle;
  * An abstract listener which will be used by {@link IHasHandle} implementors
  *
  */
-abstract class DefaultHandleListener extends AbstractAspect implements IHandletListener {
+abstract class DefaultHandleListener implements IHandletListener {
+	final IConfigurationWrapper configurationWrapper;
 
 	public DefaultHandleListener(IConfigurationWrapper configurationWrapper) {
-		super(configurationWrapper);
+		this.configurationWrapper = configurationWrapper; 
 	}
 
 	

@@ -52,9 +52,9 @@ public class MainBeanConfiguration {
 	 * Creates {@link WebDriver} instance and makes it listenable.
 	 * 
 	 * @param context instantiated {@link AbstractApplicationContext} 
-	 * which is used by {@link AspectWebDriverEventListener}
+	 * which is used by {@link AspectWebDriver}
 	 * @param configurationWrapper something that wraps {@link Configuration}
-	 * {@link AspectWebDriverEventListener} needs it
+	 * {@link AspectWebDriver} needs it
 	 * @param destroyable Something that implements {@link IDestroyable}
 	 * @param required Class of {@link WebDriver} implementor
 	 * @param paramClasses  Are constructor parameters
@@ -152,20 +152,20 @@ public class MainBeanConfiguration {
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "webdriverAspect")
-	AspectWebDriverEventListener getWebdriverAspect(){
-		return new AspectWebDriverEventListener(driver, wrapper, destroyable, context);
+	AspectWebDriver getWebdriverAspect(){
+		return new AspectWebDriver(driver, wrapper, destroyable, context);
 	}
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "windowAspect")
-	AspectWindowListener getWindowAspect(){
-		return new AspectWindowListener(wrapper);
+	AspectWindow getWindowAspect(){
+		return new AspectWindow(wrapper);
 	}	
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "contextAspect")
-	AspectContextListener getContextAspect(){
-		return new AspectContextListener(wrapper);
+	AspectContext getContextAspect(){
+		return new AspectContext(wrapper);
 	}		
 
 }
