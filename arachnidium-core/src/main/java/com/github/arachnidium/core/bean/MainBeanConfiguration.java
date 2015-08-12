@@ -39,7 +39,6 @@ import com.github.arachnidium.core.interfaces.IExtendedWindow;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class MainBeanConfiguration {
 	private IConfigurationWrapper wrapper;
-	private WebDriver driver;
 	private AbstractApplicationContext context;
 	private IDestroyable destroyable;
 	
@@ -90,7 +89,6 @@ public class MainBeanConfiguration {
 			IConfigurationWrapper configurationWrapper,
 			IDestroyable destroyable,
 			WebDriver driver){
-		this.driver = driver;
 		wrapper = configurationWrapper;
 		this.destroyable = destroyable;
 		this.context = context;
@@ -153,7 +151,7 @@ public class MainBeanConfiguration {
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "webdriverAspect")
 	AspectWebDriver getWebdriverAspect(){
-		return new AspectWebDriver(driver, wrapper, destroyable, context);
+		return new AspectWebDriver(wrapper, destroyable, context);
 	}
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
