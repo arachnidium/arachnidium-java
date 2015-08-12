@@ -2,8 +2,10 @@ package com.github.arachnidium.core.bean;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 
@@ -19,11 +21,12 @@ class AspectWindow extends AbstractAspect {
 		super(configurationWrapper);
 	}
 
-
+    @Before("execution(* com.github.arachnidium.core.interfaces.ISwitchesToItself.switchToMe(..))")
 	public void beforeIsSwitchedOn(JoinPoint joinPoint) {
 		//TODO
 	}
 
+    @Before("execution(* com.github.arachnidium.core.interfaces.IExtendedWindow.close(..))")
 	public void beforeWindowIsClosed(JoinPoint joinPoint) {
 		//TODO
 	}
@@ -44,6 +47,7 @@ class AspectWindow extends AbstractAspect {
 		//TODO
 	}
 	
+	@After("execution(* com.github.arachnidium.core.interfaces.ISwitchesToItself.switchToMe(..))")
 	public void whenIsSwitchedOn(JoinPoint joinPoint) {
 		//TODO
 	}
@@ -54,6 +58,7 @@ class AspectWindow extends AbstractAspect {
 	}
 
 
+	@After("execution(* com.github.arachnidium.core.interfaces.IExtendedWindow.close(..))")
 	public void whenWindowIsClosed(JoinPoint joinPoint) {
 		//TODO
 	}

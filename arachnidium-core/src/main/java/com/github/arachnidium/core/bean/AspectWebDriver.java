@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.WebDriver;
@@ -82,97 +85,121 @@ class AspectWebDriver extends AbstractAspect {
 		}
 		return null;
 	}
-
+	
+	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
+			+ "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
 	public void beforeNavigateTo(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
+			+ "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
 	public void afterNavigateTo(JoinPoint joinPoint) {
 		//TODO
 	}
 	
+	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.back(..))")
 	public void beforeNavigateBack(JoinPoint joinPoint) {
 		//TODO
 	}
 
-
+	@After("execution(* org.openqa.selenium.WebDriver.Navigation.back(..))")
 	public void afterNavigateBack(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.forward(..))")
 	public void beforeNavigateForward(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.WebDriver.Navigation.forward(..))")
 	public void afterNavigateForward(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.SearchContext.findElement(..)) || "
+			+ "execution(* org.openqa.selenium.SearchContext.findElements(..))")
 	public void beforeFindBy(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.SearchContext.findElement(..)) || "
+			+ "execution(* org.openqa.selenium.SearchContext.findElements(..))")
 	public void afterFindBy(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.WebElement.click(..))")
 	public void beforeClickOn(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.WebElement.click(..))")
 	public void afterClickOn(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.WebElement.sendKeys(..)) || "
+			+ "execution(* org.openqa.selenium.WebElement.clear(..))")
 	public void beforeChangeValueOf(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.WebElement.sendKeys(..)) || "
+			+ "execution(* org.openqa.selenium.WebElement.clear(..))")
 	public void afterChangeValueOf(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.JavascriptExecutor.executeScript(..)) || "
+			+ "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))")
 	public void beforeScript(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.JavascriptExecutor.executeScript(..)) || "
+			+ "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))")
 	public void afterScript(JoinPoint joinPoint) {
 		//TODO
 	}
 
-	public void onException(Throwable throwable, JoinPoint joinPoint) {
-		//TODO
-	}
-
+	@After("execution(* org.openqa.selenium.Alert.accept(..))")
 	public void afterAlertAccept(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.Alert.dismiss(..))")
 	public void afterAlertDismiss(JoinPoint joinPoint) {
 		//TODO
 	}
 
-
+	@After("execution(* org.openqa.selenium.Alert.sendKeys(..))")
 	public void afterAlertSendKeys(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@After("execution(* org.openqa.selenium.WebElement.submit(..))")
 	public void afterSubmit(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.Alert.accept(..))")
 	public void beforeAlertAccept(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.Alert.dismiss(..))")
 	public void beforeAlertDismiss(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.Alert.sendKeys(..))")
 	public void beforeAlertSendKeys(JoinPoint joinPoint) {
 		//TODO
 	}
 
+	@Before("execution(* org.openqa.selenium.WebElement.submit(..))")
 	public void beforeSubmit(JoinPoint joinPoint) {
 		//TODO
 	}
@@ -234,6 +261,7 @@ class AspectWebDriver extends AbstractAspect {
 		return transformToListenable(result);
 	}
 
+	@Before("execution(* org.openqa.selenium.WebDriver.quit(..))")
 	public void beforeQuit(JoinPoint joinPoint) {
 		//TODO
 	}
