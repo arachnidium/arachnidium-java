@@ -46,6 +46,7 @@ public class MainBeanConfiguration {
 	public final static String WEBDRIVER_BEAN = "webdriver";
 	public final static String WINDOW_BEAN    = "window";
 	public final static String MOBILE_CONTEXT_BEAN    = "mobile_context";
+	private WebDriver driver;
 	
 	/**
 	 * Creates {@link WebDriver} instance and makes it listenable.
@@ -89,6 +90,7 @@ public class MainBeanConfiguration {
 			IConfigurationWrapper configurationWrapper,
 			IDestroyable destroyable,
 			WebDriver driver){
+		this.driver = driver;
 		wrapper = configurationWrapper;
 		this.destroyable = destroyable;
 		this.context = context;
@@ -151,7 +153,7 @@ public class MainBeanConfiguration {
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "webdriverAspect")
 	AspectWebDriver getWebdriverAspect(){
-		return new AspectWebDriver(wrapper, destroyable, context);
+		return new AspectWebDriver(driver, wrapper, destroyable, context);
 	}
 	
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)

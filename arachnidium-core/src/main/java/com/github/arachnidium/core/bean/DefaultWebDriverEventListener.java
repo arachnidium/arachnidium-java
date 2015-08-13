@@ -10,20 +10,17 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import com.github.arachnidium.core.eventlisteners.IWebDriverEventListener;
 import com.github.arachnidium.core.highlighting.IWebElementHighlighter;
 import com.github.arachnidium.core.highlighting.WebElementHighLighter;
-import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
 import com.github.arachnidium.util.logging.Log;
 
 public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 	
 	final IConfigurationWrapper configurationWrapper;
-	private final IDestroyable destroyable;
 	
 	private static enum HowToHighLightElement {
 		INFO {
@@ -96,10 +93,9 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 						return null;
 					});
 	
-	public DefaultWebDriverEventListener(IConfigurationWrapper configurationWrapper,
-			IDestroyable destroyable){
+	public DefaultWebDriverEventListener( 
+			IConfigurationWrapper configurationWrapper){
 		this.configurationWrapper = configurationWrapper;
-		this.destroyable = destroyable;
 	}
 	
 	@Override
@@ -146,7 +142,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 		Log.debug("Searching for element by locator " + by.toString()
 				+ " has been started");
 		if (element != null) {
-			highlightElementAndLogAction(element, "Using root element",
+			highlightElementAndLogAction(driver, element, "Using root element",
 					HowToHighLightElement.DEBUG);
 		}
 		proxyListener.beforeFindBy(by, element, driver);
@@ -157,7 +153,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 		Log.debug("Searching for web element has been finished. Locator is "
 				+ by.toString());
 		if (element != null) {
-			highlightElementAndLogAction(element, "Root element was used",
+			highlightElementAndLogAction(driver, element, "Root element was used",
 					HowToHighLightElement.DEBUG);
 		}
 		proxyListener.afterFindBy(by, element, driver);
@@ -166,7 +162,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 
 	@Override
 	public void beforeClickOn(WebElement element, WebDriver driver) {
-		highlightElementAndLogAction(element,
+		highlightElementAndLogAction(driver, element,
 				"State before element will be clicked on.",
 				HowToHighLightElement.INFO);
 		proxyListener.beforeClickOn(element, driver);
@@ -181,7 +177,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 
 	@Override
 	public void beforeChangeValueOf(WebElement element, WebDriver driver) {
-		highlightElementAndLogAction(element,
+		highlightElementAndLogAction(driver, element,
 				"State before element value will be changed.",
 				HowToHighLightElement.INFO);
 		proxyListener.beforeChangeValueOf(element, driver);
@@ -190,7 +186,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 
 	@Override
 	public void afterChangeValueOf(WebElement element, WebDriver driver) {
-		highlightElementAndLogAction(element,
+		highlightElementAndLogAction(driver, element,
 				"State after element value was changed.",
 				HowToHighLightElement.INFO);
 		proxyListener.afterChangeValueOf(element, driver);
@@ -261,7 +257,7 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 
 	@Override
 	public void beforeSubmit(WebDriver driver, WebElement element) {
-		highlightElementAndLogAction(element,
+		highlightElementAndLogAction(driver, element,
 				"State before submit will be performed by element: ",
 				HowToHighLightElement.INFO);
 		proxyExtendedListener.beforeSubmit(driver, element);
@@ -270,16 +266,15 @@ public class DefaultWebDriverEventListener implements IWebDriverEventListener {
 
 	@Override
 	public void beforeQuit(WebDriver driver) {
-		destroyable.destroy();
 		proxyExtendedListener.beforeQuit(driver);
 	}
 	
-	private void highlightElementAndLogAction(WebElement element,
+	void highlightElementAndLogAction(WebDriver driver, WebElement element,
 			String logMessage, HowToHighLightElement howToHighLightElement) {
 		String elementDescription = elementDescription(element);
 		highLighter.resetAccordingTo(configurationWrapper
 				.getWrappedConfiguration());
-		howToHighLightElement.highLight(highLighter, ((WrapsDriver) element).getWrappedDriver(), element,
+		howToHighLightElement.highLight(highLighter, driver, element,
 				logMessage + elementDescription);
 	}
 	
