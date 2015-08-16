@@ -481,7 +481,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	<T extends Handle> T returnNewCreatedListenableHandle(Handle handle, String beanName){
 		T result = (T) driverEncapsulation.context.getBean(beanName, handle);
 		if (!getHandleReceptionist().isInstantiated(handle.getHandle()))
-			handle.whenIsCreated();
+			result.whenIsCreated();
 		getHandleReceptionist().addKnown(handle);
 		return result;
 	}
