@@ -71,7 +71,7 @@ class AspectWindow extends AbstractAspect {
 		defaultWindowListener.whenIsSwitchedOn(handle);
 	}
 
-	@Before("execution(* com.github.arachnidium.core.interfaces.IHasHandle.whenIsCreated(..))")
+	@After("execution(* com.github.arachnidium.core.interfaces.IHasHandle.whenIsCreated(..))")
 	public void whenNewHandleIsAppeared(JoinPoint joinPoint) {
 		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
 		defaultWindowListener.whenNewHandleIsAppeared(handle);
