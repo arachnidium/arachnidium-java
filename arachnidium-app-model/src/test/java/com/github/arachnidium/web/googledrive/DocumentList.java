@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
+
 
 import com.github.arachnidium.core.Handle;
 import com.github.arachnidium.model.common.FunctionalPart;
@@ -23,11 +24,10 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 	@Static
 	public LogOut<?> logOut;
 	
-	@FindAll({@FindBy(className = "treedoclistview-root-node-name"),
-		@FindBy(xpath = ".//*[contains(@class,'goog-listitem-container')]")})
+	@FindBy(className = "a-pa-P")
 	private List<WebElement> sections;
 
-	@FindBys({@FindBy(className = "doclist-name-wrapper"), @FindBy(tagName = "a")})
+	@FindBy(className = "k-ta-P-x")
 	private List<WebElement> documents;
 
 	protected DocumentList(S handle) {
@@ -45,7 +45,9 @@ public class DocumentList<S extends Handle> extends FunctionalPart<S> {
 		documents
 				.forEach((document) -> {
 					if (document.getText().equals(name)) {
-						document.click();
+						Actions a = new Actions(getWrappedDriver());
+						a.doubleClick(document);
+						a.perform();
 						areFound.add(document);
 					}
 				});
