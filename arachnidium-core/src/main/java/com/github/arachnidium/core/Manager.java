@@ -16,6 +16,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import com.github.arachnidium.core.components.common.AlertHandler;
 import com.github.arachnidium.core.components.common.Awaiting;
@@ -44,6 +45,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 
 	final Awaiting awaiting;
 	private final WebDriverEncapsulation driverEncapsulation;
+	protected final AbstractApplicationContext context;
 	boolean isAlive = true;
 	private final HandleReceptionist handleReceptionist = new HandleReceptionist();
 
@@ -53,11 +55,12 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	private String STUB_HANDLE = "STUB";
 	private String currentHandle;
 
-	Manager(WebDriverEncapsulation initialDriverEncapsulation) {
+	Manager(WebDriverEncapsulation initialDriverEncapsulation, AbstractApplicationContext context) {
 		driverEncapsulation = initialDriverEncapsulation;
 		awaiting = new Awaiting(driverEncapsulation.getWrappedDriver());
 		managerMap.put(driverEncapsulation, this);
 		driverEncapsulation.addDestroyable(this);
+		this.context = context;
 	}
 
 	/**
@@ -479,7 +482,7 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	 */
 	@SuppressWarnings("unchecked")
 	<T extends Handle> T returnNewCreatedListenableHandle(Handle handle, String beanName){
-		T result = (T) driverEncapsulation.context.getBean(beanName, handle);
+		T result = (T) context.getBean(beanName, handle, driverEncapsulation);
 		if (!getHandleReceptionist().isInstantiated(handle.getHandle()))
 			result.whenIsCreated();
 		getHandleReceptionist().addKnown(handle);

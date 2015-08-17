@@ -24,7 +24,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import com.github.arachnidium.core.bean.MainBeanConfiguration;
+import com.github.arachnidium.core.bean.WebDriverBeanConfiguration;
 import com.github.arachnidium.core.components.ComponentFactory;
 import com.github.arachnidium.core.components.WebdriverComponent;
 import com.github.arachnidium.core.components.common.TimeOut;
@@ -46,8 +46,6 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 	private final RemoteWebDriver enclosedDriver;
 
 	private Configuration configuration = Configuration.byDefault;
-	final AbstractApplicationContext context = new AnnotationConfigApplicationContext(
-			MainBeanConfiguration.class);
 	private final DestroyableObjects destroyableObjects = new DestroyableObjects();
 	private final TimeOut timeOut;
 	private final ESupportedDrivers instantiatedESupportedDriver;
@@ -64,8 +62,10 @@ public class WebDriverEncapsulation implements IDestroyable, IConfigurable,
 		try {
 			Class<? extends WebDriver> driverClass = supporteddriver.getUsingWebDriverClass();
 			
+			AbstractApplicationContext context = new AnnotationConfigApplicationContext(
+					WebDriverBeanConfiguration.class);
 			enclosedDriver = (RemoteWebDriver) context.getBean(
-					MainBeanConfiguration.WEBDRIVER_BEAN, context, this,
+					WebDriverBeanConfiguration.WEBDRIVER_BEAN, context, this,
 					destroyableObjects, driverClass, values);
 			Log.message("Getting started with " + driverClass.getSimpleName());
 			timeOut = getComponent(TimeOut.class);

@@ -26,21 +26,34 @@ class AspectContext extends AbstractAspect {
 	}
 
 	@Before("execution(* com.github.arachnidium.core.interfaces.ISwitchesToItself.switchToMe(..))")
-	public void beforeIsSwitchedOn(JoinPoint joinPoint) {
-		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
-		defaultContextListener.beforeIsSwitchedOn(handle);
+	public void beforeIsSwitchedOn(JoinPoint joinPoint) throws Throwable{
+		try {
+			IHasHandle handle = (IHasHandle) joinPoint.getTarget();
+			defaultContextListener.beforeIsSwitchedOn(handle);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* com.github.arachnidium.core.interfaces.ISwitchesToItself.switchToMe(..))")
-	public void whenIsSwitchedOn(JoinPoint joinPoint) {
-		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
-		defaultContextListener.whenIsSwitchedOn(handle);
+	public void whenIsSwitchedOn(JoinPoint joinPoint) throws Throwable{
+		try {
+			IHasHandle handle = (IHasHandle) joinPoint.getTarget();
+			defaultContextListener.whenIsSwitchedOn(handle);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
+			
 	}
 
 	@After("execution(* com.github.arachnidium.core.interfaces.IHasHandle.whenIsCreated(..))")
-	public void whenNewHandleIsAppeared(JoinPoint joinPoint) {
-		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
-		defaultContextListener.whenNewHandleIsAppeared(handle);
+	public void whenNewHandleIsAppeared(JoinPoint joinPoint) throws Throwable{
+		try {
+			IHasHandle handle = (IHasHandle) joinPoint.getTarget();
+			defaultContextListener.whenNewHandleIsAppeared(handle);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 	
 	@Override
@@ -58,16 +71,25 @@ class AspectContext extends AbstractAspect {
 	}
 	
 	@Before("execution(* org.openqa.selenium.Rotatable.rotate(..))")
-	public void beforeIsRotated(JoinPoint joinPoint) {
-		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
-		ScreenOrientation orientation = (ScreenOrientation) joinPoint.getArgs()[0];
-		defaultContextListener.beforeIsRotated(handle, orientation);
+	public void beforeIsRotated(JoinPoint joinPoint) throws Throwable{
+		try {
+			IHasHandle handle = (IHasHandle) joinPoint.getTarget();
+			ScreenOrientation orientation = (ScreenOrientation) joinPoint.getArgs()[0];
+			defaultContextListener.beforeIsRotated(handle, orientation);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
+		
 	}
 
 	@After("execution(* org.openqa.selenium.Rotatable.rotate(..))")
-	public void whenIsRotated(JoinPoint joinPoint) {
-		IHasHandle handle = (IHasHandle) joinPoint.getTarget();
-		ScreenOrientation orientation = (ScreenOrientation) joinPoint.getArgs()[0];
-		defaultContextListener.whenIsRotated(handle, orientation);
+	public void whenIsRotated(JoinPoint joinPoint) throws Throwable{
+		try {
+			IHasHandle handle = (IHasHandle) joinPoint.getTarget();
+			ScreenOrientation orientation = (ScreenOrientation) joinPoint.getArgs()[0];
+			defaultContextListener.whenIsRotated(handle, orientation);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 }

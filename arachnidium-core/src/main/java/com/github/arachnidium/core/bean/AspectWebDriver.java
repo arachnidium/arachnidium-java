@@ -93,149 +93,236 @@ class AspectWebDriver extends AbstractAspect {
 	
 	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
 			+ "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
-	public void beforeNavigateTo(JoinPoint joinPoint) {
-		String url = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.beforeNavigateTo(url, driver);
+	public void beforeNavigateTo(JoinPoint joinPoint) throws Throwable{
+		try {
+			String url = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.beforeNavigateTo(url, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.WebDriver.Navigation.get(..))  || "
 			+ "execution(* org.openqa.selenium.WebDriver.Navigation.to(..))")
-	public void afterNavigateTo(JoinPoint joinPoint) {
-		String url = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.afterNavigateTo(url, driver);
+	public void afterNavigateTo(JoinPoint joinPoint)  throws Throwable{
+		try {
+			String url = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.afterNavigateTo(url, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 	
 	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.back(..))")
-	public void beforeNavigateBack(JoinPoint joinPoint) {
-		defaultWebDriverEventListener.beforeNavigateBack(driver);
+	public void beforeNavigateBack(JoinPoint joinPoint) throws Throwable{
+		try {
+			defaultWebDriverEventListener.beforeNavigateBack(driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.WebDriver.Navigation.back(..))")
-	public void afterNavigateBack(JoinPoint joinPoint) {
-		defaultWebDriverEventListener.afterNavigateBack(driver);
+	public void afterNavigateBack(JoinPoint joinPoint) throws Throwable{
+		try {
+			defaultWebDriverEventListener.afterNavigateBack(driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.WebDriver.Navigation.forward(..))")
-	public void beforeNavigateForward(JoinPoint joinPoint) {
-		defaultWebDriverEventListener.beforeNavigateForward(driver);
+	public void beforeNavigateForward(JoinPoint joinPoint)  throws Throwable{
+		try {
+			defaultWebDriverEventListener.beforeNavigateForward(driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.WebDriver.Navigation.forward(..))")
-	public void afterNavigateForward(JoinPoint joinPoint) {
-		defaultWebDriverEventListener.afterNavigateForward(driver);
+	public void afterNavigateForward(JoinPoint joinPoint) throws Throwable{
+		try {
+			defaultWebDriverEventListener.afterNavigateForward(driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.SearchContext.findElement(..)) || "
 			+ "execution(* org.openqa.selenium.SearchContext.findElements(..))")
-	public void beforeFindBy(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		By by = (By) joinPoint.getArgs()[0];
-		if (!WebElement.class.isAssignableFrom(target.getClass()))
-			defaultWebDriverEventListener.beforeFindBy(by, null, driver);
-		else
-			defaultWebDriverEventListener.beforeFindBy(by, (WebElement) target, driver);
-			
+	public void beforeFindBy(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			By by = (By) joinPoint.getArgs()[0];
+			if (!WebElement.class.isAssignableFrom(target.getClass()))
+				defaultWebDriverEventListener.beforeFindBy(by, null, driver);
+			else
+				defaultWebDriverEventListener.beforeFindBy(by, (WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}	
 	}
 
 	@After("execution(* org.openqa.selenium.SearchContext.findElement(..)) || "
 			+ "execution(* org.openqa.selenium.SearchContext.findElements(..))")
-	public void afterFindBy(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		By by = (By) joinPoint.getArgs()[0];
-		if (!WebElement.class.isAssignableFrom(target.getClass()))
-			defaultWebDriverEventListener.afterFindBy(by, null, driver);
-		else
-			defaultWebDriverEventListener.afterFindBy(by, (WebElement) target, driver);
+	public void afterFindBy(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			By by = (By) joinPoint.getArgs()[0];
+			if (!WebElement.class.isAssignableFrom(target.getClass()))
+				defaultWebDriverEventListener.afterFindBy(by, null, driver);
+			else
+				defaultWebDriverEventListener.afterFindBy(by, (WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}	
 	}
 
 	@Before("execution(* org.openqa.selenium.WebElement.click(..))")
-	public void beforeClickOn(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.beforeClickOn((WebElement) target, driver);
+	public void beforeClickOn(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.beforeClickOn((WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}	
 	}
 
 	@After("execution(* org.openqa.selenium.WebElement.click(..))")
-	public void afterClickOn(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.afterClickOn((WebElement) target, driver);
+	public void afterClickOn(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.afterClickOn((WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.WebElement.sendKeys(..)) || "
 			+ "execution(* org.openqa.selenium.WebElement.clear(..))")
-	public void beforeChangeValueOf(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.beforeChangeValueOf((WebElement) target, driver);
+	public void beforeChangeValueOf(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.beforeChangeValueOf((WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.WebElement.sendKeys(..)) || "
 			+ "execution(* org.openqa.selenium.WebElement.clear(..))")
-	public void afterChangeValueOf(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.afterChangeValueOf((WebElement) target, driver);
+	public void afterChangeValueOf(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.afterChangeValueOf((WebElement) target, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.JavascriptExecutor.executeScript(..)) || "
 			+ "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))")
-	public void beforeScript(JoinPoint joinPoint) {
-		String script = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.beforeScript(script, driver);
+	public void beforeScript(JoinPoint joinPoint) throws Throwable{
+		try {
+			String script = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.beforeScript(script, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.JavascriptExecutor.executeScript(..)) || "
 			+ "execution(* org.openqa.selenium.JavascriptExecutor.executeAsyncScript(..))")
-	public void afterScript(JoinPoint joinPoint) {
-		String script = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.afterScript(script, driver);
+	public void afterScript(JoinPoint joinPoint) throws Throwable{
+		try {
+			String script = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.afterScript(script, driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.Alert.accept(..))")
-	public void afterAlertAccept(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.afterAlertAccept(driver, (Alert) target); 
+	public void afterAlertAccept(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.afterAlertAccept(driver, (Alert) target); 
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.Alert.dismiss(..))")
-	public void afterAlertDismiss(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.afterAlertDismiss(driver, (Alert) target); 
+	public void afterAlertDismiss(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.afterAlertDismiss(driver, (Alert) target); 
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.Alert.sendKeys(..))")
-	public void afterAlertSendKeys(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		String keys = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.afterAlertSendKeys(driver, (Alert) target, keys);
+	public void afterAlertSendKeys(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			String keys = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.afterAlertSendKeys(driver, (Alert) target, keys);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@After("execution(* org.openqa.selenium.WebElement.submit(..))")
-	public void afterSubmit(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.afterSubmit(driver, (WebElement) target);
+	public void afterSubmit(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.afterSubmit(driver, (WebElement) target);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.Alert.accept(..))")
-	public void beforeAlertAccept(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.beforeAlertAccept(driver, (Alert) target); 
+	public void beforeAlertAccept(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.beforeAlertAccept(driver, (Alert) target); 
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.Alert.dismiss(..))")
-	public void beforeAlertDismiss(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.beforeAlertDismiss(driver, (Alert) target); 
+	public void beforeAlertDismiss(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.beforeAlertDismiss(driver, (Alert) target);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.Alert.sendKeys(..))")
-	public void beforeAlertSendKeys(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		String keys = String.valueOf(joinPoint.getArgs()[0]);
-		defaultWebDriverEventListener.beforeAlertSendKeys(driver, (Alert) target, keys);
+	public void beforeAlertSendKeys(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			String keys = String.valueOf(joinPoint.getArgs()[0]);
+			defaultWebDriverEventListener.beforeAlertSendKeys(driver, (Alert) target, keys);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	@Before("execution(* org.openqa.selenium.WebElement.submit(..))")
-	public void beforeSubmit(JoinPoint joinPoint) {
-		Object target =  joinPoint.getTarget();
-		defaultWebDriverEventListener.beforeSubmit(driver, (WebElement) target);
+	public void beforeSubmit(JoinPoint joinPoint) throws Throwable{
+		try {
+			Object target =  joinPoint.getTarget();
+			defaultWebDriverEventListener.beforeSubmit(driver, (WebElement) target);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 	private Object transformToListenable(Object result) {
@@ -244,7 +331,7 @@ class AspectWebDriver extends AbstractAspect {
 		}
 		Object o = getListenable(result);
 		if (o != null) { // ...so listenable object will be returned! ha-ha-ha
-			result = context.getBean(MainBeanConfiguration.COMPONENT_BEAN, o);
+			result = context.getBean(WebDriverBeanConfiguration.COMPONENT_BEAN, o);
 		}
 		return result;
 	}
@@ -258,7 +345,7 @@ class AspectWebDriver extends AbstractAspect {
 					proxyList.add(o);
 				}
 				proxyList.add(context.getBean(
-						MainBeanConfiguration.COMPONENT_BEAN, o));
+						WebDriverBeanConfiguration.COMPONENT_BEAN, o));
 			}
 			return proxyList;
 		} catch (Exception e) {
@@ -278,9 +365,8 @@ class AspectWebDriver extends AbstractAspect {
 		Object result = null;
 		try {
 			result = point.proceed();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			t = e;
-			;
 		}
 		if (t != null) {
 			Throwable rootCause = getRootCause(t);
@@ -298,9 +384,13 @@ class AspectWebDriver extends AbstractAspect {
 	}
 
 	@Before("execution(* org.openqa.selenium.WebDriver.quit(..))")
-	public void beforeQuit(JoinPoint joinPoint) {
-		destroyable.destroy();
-		defaultWebDriverEventListener.beforeQuit(driver);
+	public void beforeQuit(JoinPoint joinPoint) throws Throwable{
+		try {
+			destroyable.destroy();
+			defaultWebDriverEventListener.beforeQuit(driver);
+		}catch(Throwable t){
+			throw getRootCause(t);
+		}
 	}
 
 }

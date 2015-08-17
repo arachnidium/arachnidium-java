@@ -7,9 +7,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
-import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
-
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.ContextAware;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,10 +22,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.AbstractApplicationContext;
-
-import com.github.arachnidium.core.interfaces.IContext;
 import com.github.arachnidium.core.interfaces.IDestroyable;
-import com.github.arachnidium.core.interfaces.IExtendedWindow;
+import com.github.arachnidium.util.configuration.interfaces.IConfigurationWrapper;
+import com.github.arachnidium.util.reflect.executable.ExecutableUtil;
 
 
 /**
@@ -37,15 +33,13 @@ import com.github.arachnidium.core.interfaces.IExtendedWindow;
  */
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class MainBeanConfiguration {
+public class WebDriverBeanConfiguration {
 	private IConfigurationWrapper wrapper;
 	private AbstractApplicationContext context;
 	private IDestroyable destroyable;
 	
 	public final static String COMPONENT_BEAN = "component";
 	public final static String WEBDRIVER_BEAN = "webdriver";
-	public final static String WINDOW_BEAN    = "window";
-	public final static String MOBILE_CONTEXT_BEAN    = "mobile_context";
 	private WebDriver driver;
 	
 	/**
@@ -104,12 +98,14 @@ public class MainBeanConfiguration {
 	 * 
 	 * @see Bean
 	 */
+	/*
 	@SuppressWarnings("unchecked")
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = WINDOW_BEAN)
 	public <T extends IExtendedWindow> T getWindow(IExtendedWindow window) {
 		return (T) window;
 	}	
+	*/
 	
 	/**
 	 * Makes an instance of {@link IContext} listenable
@@ -118,12 +114,14 @@ public class MainBeanConfiguration {
 	 * 
 	 * @see Bean
 	 */	
+	/*
 	@SuppressWarnings("unchecked")
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = MOBILE_CONTEXT_BEAN)
 	public <T extends IContext> T getContext(IContext context) {
 		return (T) context;
-	}		
+	}	
+	*/
 	
 	/**
 	 * It return listenable {@link WebDriver} components
@@ -156,6 +154,7 @@ public class MainBeanConfiguration {
 		return new AspectWebDriver(driver, wrapper, destroyable, context);
 	}
 	
+	/*
 	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	@Bean(name = "windowAspect")
 	AspectWindow getWindowAspect(){
@@ -166,6 +165,7 @@ public class MainBeanConfiguration {
 	@Bean(name = "contextAspect")
 	AspectContext getContextAspect(){
 		return new AspectContext(wrapper);
-	}		
+	}	
+	*/	
 
 }
