@@ -12,19 +12,15 @@ import com.github.arachnidium.model.support.annotations.Frame;
 import com.github.arachnidium.model.support.annotations.rootelements.RootElement;
 
 @Frame(howToGet = How.CLASS_NAME, locator = "share-client-content-iframe")
-@RootElement(chain = {
-		@FindBy(xpath = ".//*[@class=\"modal-dialog data-dialog\"]"),
-		@FindBy(xpath = ".//*[@class=\"modal-dialog-content\"]")
-		})
+@RootElement(chain = @FindBy(xpath = "html/body"))
 public class ShareDocumentSettings<S extends Handle> extends FunctionalPart<S> {
-	@FindBy(xpath = "//*[@id=':r.inviter']//*[@class = 'inviter']//"
-			+ "*[@class='inviter-recipient-area']//textarea")
+	@FindBy(xpath = ".//tbody/tr[2]/td/div/div[1]/div[1]/div/textarea")
 	private WebElement invite;
 	@FindBy(xpath = "//*[contains(@id,'close')]")
 	private WebElement done;	
 	@FindBy(xpath = "//*[contains(@id,'cancel')]")
 	private WebElement cancel;
-	@FindBy(className = "simple-sharing-manage-permissions-link")
+	@FindBy(xpath = "//div[6]/span")
 	private WebElement managePermissions;
 	
 	protected ShareDocumentSettings(S handle) {

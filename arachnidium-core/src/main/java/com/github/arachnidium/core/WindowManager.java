@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
-import com.github.arachnidium.core.bean.MainBeanConfiguration;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.github.arachnidium.core.bean.BeanWindowConfiguration;
 import com.github.arachnidium.core.fluenthandle.FluentPageWaiting;
 import com.github.arachnidium.core.settings.WindowIsClosedTimeOut;
 
@@ -20,7 +20,8 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 	private static long TIME_OUT_TO_SWITCH_ON = 2; //two seconds
 	
 	public WindowManager(WebDriverEncapsulation initialDriverEncapsulation) {
-		super(initialDriverEncapsulation);
+		super(initialDriverEncapsulation, 
+				new AnnotationConfigApplicationContext(BeanWindowConfiguration.class));
 	}
 
 	/**
@@ -162,6 +163,6 @@ public final class WindowManager extends Manager<HowToGetPage, BrowserWindow> {
 		BrowserWindow window = new BrowserWindow(handle, 
 				this, by, howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(window,
-				MainBeanConfiguration.WINDOW_BEAN);
+				BeanWindowConfiguration.WINDOW_BEAN);
 	}
 }

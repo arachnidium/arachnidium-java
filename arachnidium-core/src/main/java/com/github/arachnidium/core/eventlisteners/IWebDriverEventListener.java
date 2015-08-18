@@ -78,29 +78,5 @@ public interface IWebDriverEventListener extends WebDriverEventListener {
 	 */
 	public void beforeSubmit(WebDriver driver, WebElement element);
 	
-	/**
-	 * This action will be performed each time before search by string
-	 * locator is started
-	 * 
-	 * @param byString String locator
-	 * @param element  The root {@link WebElement}
-	 * @param driver
-	 */
-	public void beforeFindBy(String byString, WebElement element, WebDriver driver); 
-	
-	/**
-	 * This action will be performed each time after search by string
-	 * locator is finished
-	 * 
-	 * @param byString String locator
-	 * @param element  The root {@link WebElement}
-	 * @param driver
-	 */	
-	public void afterFindBy(String byString, WebElement element, WebDriver driver); 
-	
-	/**
-	 * This action will be performed 
-	 * before {@link WebDriver} is quieted
-	 */
 	public void beforeQuit(WebDriver driver);
 }

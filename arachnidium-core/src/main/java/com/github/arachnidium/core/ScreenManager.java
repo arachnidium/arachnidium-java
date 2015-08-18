@@ -1,17 +1,15 @@
 package com.github.arachnidium.core;
 
 import io.appium.java_client.android.AndroidDriver;
-
 import java.util.List;
 import java.util.Set;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchContextException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-
-import com.github.arachnidium.core.bean.MainBeanConfiguration;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.github.arachnidium.core.bean.BeanContextConfiguration;
 import com.github.arachnidium.core.components.mobile.ContextTool;
 import com.github.arachnidium.core.fluenthandle.FluentPageWaiting;
 import com.github.arachnidium.core.fluenthandle.FluentScreenWaiting;
@@ -24,7 +22,8 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 	private String SPLITTER = "/";
 
 	public ScreenManager(WebDriverEncapsulation initialDriverEncapsulation) {
-		super(initialDriverEncapsulation);
+		super(initialDriverEncapsulation, 
+				new AnnotationConfigApplicationContext(BeanContextConfiguration.class));
 		contextTool = getWebDriverEncapsulation().getComponent(
 				ContextTool.class);
 		WebDriver wrappedDriver = getWebDriverEncapsulation()
@@ -121,6 +120,6 @@ public final class ScreenManager extends Manager<HowToGetMobileScreen, MobileScr
 		MobileScreen context = new MobileScreen(handle, this, by, 
 				howToGetByFramesStrategy);
 		return returnNewCreatedListenableHandle(context,
-				MainBeanConfiguration.MOBILE_CONTEXT_BEAN);
+				BeanContextConfiguration.MOBILE_CONTEXT_BEAN);
 	}
 }
