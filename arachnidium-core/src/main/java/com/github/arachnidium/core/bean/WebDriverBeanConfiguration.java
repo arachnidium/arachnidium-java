@@ -92,38 +92,6 @@ public class WebDriverBeanConfiguration {
 	}
 	
 	/**
-	 * Makes an instance of {@link IExtendedWindow} listenable
-	 * @param window An original instance of {@link IExtendedWindow}
-	 * @return The listenable instance of {@link IExtendedWindow}
-	 * 
-	 * @see Bean
-	 */
-	/*
-	@SuppressWarnings("unchecked")
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	@Bean(name = WINDOW_BEAN)
-	public <T extends IExtendedWindow> T getWindow(IExtendedWindow window) {
-		return (T) window;
-	}	
-	*/
-	
-	/**
-	 * Makes an instance of {@link IContext} listenable
-	 * @param window An original instance of {@link IContext}
-	 * @return The listenable instance of {@link IContext}
-	 * 
-	 * @see Bean
-	 */	
-	/*
-	@SuppressWarnings("unchecked")
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	@Bean(name = MOBILE_CONTEXT_BEAN)
-	public <T extends IContext> T getContext(IContext context) {
-		return (T) context;
-	}	
-	*/
-	
-	/**
 	 * It return listenable {@link WebDriver} components
 	 * 
 	 * @see WebDriver
@@ -153,19 +121,4 @@ public class WebDriverBeanConfiguration {
 	AspectWebDriver getWebdriverAspect(){
 		return new AspectWebDriver(driver, wrapper, destroyable, context);
 	}
-	
-	/*
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	@Bean(name = "windowAspect")
-	AspectWindow getWindowAspect(){
-		return new AspectWindow(wrapper);
-	}	
-	
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	@Bean(name = "contextAspect")
-	AspectContext getContextAspect(){
-		return new AspectContext(wrapper);
-	}	
-	*/	
-
 }
