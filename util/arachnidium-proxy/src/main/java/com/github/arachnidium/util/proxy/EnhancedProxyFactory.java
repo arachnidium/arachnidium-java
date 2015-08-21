@@ -114,6 +114,7 @@ public abstract class EnhancedProxyFactory {
 		interceptors.forEach(interceptor -> {
 			callbackTypes.add(interceptor.getClass());
 		});
+		enhancer.setUseCache(false);
 		enhancer.setCallbackTypes(callbackTypes.toArray(new Class<?>[]{}));
 		enhancer.setSuperclass(clazz);
 		Class<?> proxiedClass=enhancer.createClass();

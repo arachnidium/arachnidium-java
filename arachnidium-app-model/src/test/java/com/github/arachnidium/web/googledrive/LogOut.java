@@ -1,6 +1,7 @@
 package com.github.arachnidium.web.googledrive;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import com.github.arachnidium.core.Handle;
@@ -14,7 +15,9 @@ public class LogOut<S extends Handle> extends FunctionalPart<S> {
 
 	@FindBy(xpath = ".//*[contains(@href,'https://accounts.google.com/SignOutOptions')]")
 	private WebElement profile;	
-	@FindBy(xpath = ".//*[contains(@href,'https://www.google.com/accounts/Logout')]")
+	@FindAll({
+		@FindBy(xpath = ".//*[contains(@href,'https://www.google.com/accounts/Logout')]"),
+		@FindBy(xpath = ".//*[contains(@href,'https://accounts.google.com/Logout')]")})
 	private WebElement quitButton;
 
 	

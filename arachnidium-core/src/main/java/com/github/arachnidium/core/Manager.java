@@ -52,8 +52,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 	private final static Map<WebDriverEncapsulation, Manager<?,?>> managerMap = Collections
 			.synchronizedMap(new HashMap<WebDriverEncapsulation, Manager<?,?>>());
 	final static long defaultTimeOut = 5; // we will wait
-	private String STUB_HANDLE = "STUB";
-
 	Manager(WebDriverEncapsulation initialDriverEncapsulation, AbstractApplicationContext context) {
 		driverEncapsulation = initialDriverEncapsulation;
 		awaiting = new Awaiting(driverEncapsulation.getWrappedDriver());
@@ -242,9 +240,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 			HowToGetByFrames howToGetByFramesStrategy){
 		HandleInterceptor<U> hi = new HandleInterceptor<U>(
 				this, howToGet, timeOut, by, howToGetByFramesStrategy);
-		Class<?>[] params = new Class<?>[] {String.class, this.getClass(),
-				By.class, HowToGetByFrames.class};
-		Object[] values = new Object[] {STUB_HANDLE, this, by, howToGetByFramesStrategy};
 		ParameterizedType generic = (ParameterizedType) this.getClass().getGenericSuperclass();
 		Class<V> required = null;
 		try {
@@ -253,9 +248,15 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		V proxy = EnhancedProxyFactory.getProxy(required, params, values, hi);
+		V proxy = EnhancedProxyFactory.getProxyBypassConstructor(required,  hi);
 		proxy.timeOut = timeOut;
 		proxy.howToGetHandleStrategy = howToGet;
+		
+		proxy.by = by;
+		proxy.nativeManager = this;
+		proxy.driverEncapsulation = this.driverEncapsulation;
+		proxy.howToGetByFramesStrategy = howToGetByFramesStrategy;
+		proxy.context = Handle.createSearchContext(by, driverEncapsulation, proxy);
 		return proxy;		
 	}
 	
