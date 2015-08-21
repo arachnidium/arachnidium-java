@@ -43,7 +43,8 @@ public class MobileScreen extends Handle implements IContext {
 	
 	@Override
 	public synchronized void switchToMe() {
-		if (handle.contains(MobileContextNamePatterns.NATIVE)){
+		String handle = getHandle();
+		if (getHandle().contains(MobileContextNamePatterns.NATIVE)){
 			nativeManager.switchTo(handle);
 			return;
 		}

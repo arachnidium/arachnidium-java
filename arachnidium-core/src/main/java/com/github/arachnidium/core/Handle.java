@@ -37,15 +37,15 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 		ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy,
 		IHasSearchContext {
 
-	final String handle;
-	public final WebDriverEncapsulation driverEncapsulation;
-	public final Manager<?, ?> nativeManager;
-	final By by;
-	final HowToGetByFrames howToGetByFramesStrategy;
+	private String handle;
+	public WebDriverEncapsulation driverEncapsulation;
+	public Manager<?, ?> nativeManager;
+	By by;
+	HowToGetByFrames howToGetByFramesStrategy;
 
 	IHowToGetHandle howToGetHandleStrategy;
 	long timeOut;
-	private final SearchContext context;
+	SearchContext context;
 
 	private final HandleReceptionist receptionist;
 	private static final Map<Class<? extends WebDriver>, Class<? extends WebElement>> elementTypesMap = new HashMap<Class<? extends WebDriver>, Class<? extends WebElement>>() {
@@ -65,12 +65,8 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 		this.handle = handle;
 		this.receptionist = nativeManager.getHandleReceptionist();
 		this.by = by;
-		this.howToGetByFramesStrategy = howToGetByFramesStrategy;
-		
-		if (by == null) 
-			context = proxyDriver();
-		else
-			context = proxyElement();
+		this.howToGetByFramesStrategy = howToGetByFramesStrategy;		
+		context = createSearchContext(by, driverEncapsulation, this);
 	}
 
 	@Override
@@ -178,14 +174,23 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 		return context;		
 	}
 	
-	private WebDriver proxyDriver(){
+	static SearchContext createSearchContext(By by, WebDriverEncapsulation driverEncapsulation, 
+			Handle handle){
+		if (by == null) 
+			return proxyDriver(driverEncapsulation, handle);
+		else
+			return proxyElement(driverEncapsulation, handle);
+	}
+	
+	private static WebDriver proxyDriver(WebDriverEncapsulation driverEncapsulation, Handle handle){
 		WebDriver driver = driverEncapsulation.getWrappedDriver();		
 		Class<?> driverClass = driver.getClass().getSuperclass();
 		//object is a proxy created via Spring/CGLib 
-		return (WebDriver) EnhancedProxyFactory.getProxyBypassConstructor(driverClass, new WebDriverInterceptor(this));
+		return (WebDriver) EnhancedProxyFactory.
+				getProxyBypassConstructor(driverClass, new WebDriverInterceptor(handle));
 	}
 
-	private WebElement proxyElement() {
+	private static WebElement proxyElement(WebDriverEncapsulation driverEncapsulation, Handle handle) {
 		WebDriver driver = driverEncapsulation.getWrappedDriver();
 
 		Set<Map.Entry<Class<? extends WebDriver>, Class<? extends WebElement>>> entries = elementTypesMap
@@ -205,7 +210,7 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 			}
 		}
 		return EnhancedProxyFactory.getProxy(target, new Class[] {},
-				new Object[] {}, new NestedElementInterceptor(this));
+				new Object[] {}, new NestedElementInterceptor(handle));
 	}
 
 }

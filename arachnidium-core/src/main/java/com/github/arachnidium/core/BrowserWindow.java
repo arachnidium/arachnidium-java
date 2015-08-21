@@ -47,7 +47,7 @@ public class BrowserWindow extends Handle implements Navigation,
 			NoSuchWindowException, UnhandledAlertException,
 			UnreachableBrowserException {
 		try {
-			((WindowManager) nativeManager).close(handle);
+			((WindowManager) nativeManager).close(getHandle());
 			destroy();
 		} catch (UnhandledAlertException | UnclosedWindowException e) {
 			throw e;
