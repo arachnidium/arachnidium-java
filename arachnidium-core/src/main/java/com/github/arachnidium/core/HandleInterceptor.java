@@ -7,11 +7,11 @@ import java.util.List;
 import net.sf.cglib.proxy.MethodProxy;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.internal.WrapsDriver;
 
 import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
-import com.github.arachnidium.core.interfaces.IHasSearchContext;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.util.inheritance.MethodInheritanceUtil;
 import com.github.arachnidium.util.proxy.DefaultInterceptor;
@@ -28,8 +28,8 @@ class HandleInterceptor<U extends IHowToGetHandle> extends DefaultInterceptor {
 		private static final long serialVersionUID = 1L;
 		{
 			add(Object.class);
-			add(IHasSearchContext.class);
 			add(ICalculatesBy.class);
+			add(WrapsDriver.class);
 		}
 
 	};
