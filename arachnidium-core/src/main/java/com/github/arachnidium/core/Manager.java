@@ -256,7 +256,6 @@ public abstract class Manager<U extends IHowToGetHandle, V extends Handle> imple
 		proxy.nativeManager = this;
 		proxy.driverEncapsulation = this.driverEncapsulation;
 		proxy.howToGetByFramesStrategy = howToGetByFramesStrategy;
-		proxy.context = Handle.createSearchContext(by, driverEncapsulation, proxy);
 		return proxy;		
 	}
 	

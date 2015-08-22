@@ -360,7 +360,7 @@ public abstract class FunctionalPart<S extends Handle> extends ModelObject<S>
 	 * This method can be overridden if it is needed
 	 */
 	protected void load() {
-		PageFactory.initElements(new DefaultDecorator(handle.getSearchContext(), 
+		PageFactory.initElements(new DefaultDecorator(handle, 
 				this, timeOutDuration), this);
 	}
 

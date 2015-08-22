@@ -17,6 +17,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
@@ -25,7 +26,6 @@ import com.github.arachnidium.core.fluenthandle.IHowToGetHandle;
 import com.github.arachnidium.core.interfaces.ICalculatesBy;
 import com.github.arachnidium.core.interfaces.IDestroyable;
 import com.github.arachnidium.core.interfaces.IHasHandle;
-import com.github.arachnidium.core.interfaces.IHasSearchContext;
 import com.github.arachnidium.core.interfaces.ISwitchesToItself;
 import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
 
@@ -34,8 +34,7 @@ import com.github.arachnidium.core.interfaces.ITakesPictureOfItSelf;
  * context/screen
  */
 public abstract class Handle implements IHasHandle, ISwitchesToItself,
-		ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy,
-		IHasSearchContext {
+		ITakesPictureOfItSelf, IDestroyable, SearchContext, ICalculatesBy, WrapsDriver {
 
 	private String handle;
 	public WebDriverEncapsulation driverEncapsulation;
@@ -45,7 +44,7 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 
 	IHowToGetHandle howToGetHandleStrategy;
 	long timeOut;
-	SearchContext context;
+	final SearchContext context;
 
 	private final HandleReceptionist receptionist;
 	private static final Map<Class<? extends WebDriver>, Class<? extends WebElement>> elementTypesMap = new HashMap<Class<? extends WebDriver>, Class<? extends WebElement>>() {
@@ -161,20 +160,16 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 
 	@Override
 	public WebElement findElement(By by) {
-		return getSearchContext().findElement(by);
+		return context.findElement(by);
 	}
 
 	@Override
 	public List<WebElement> findElements(By by) {
-		return getSearchContext().findElements(by);
-	}
-
-	@Override
-	public SearchContext getSearchContext() {
-		return context;		
+		return context.findElements(by);
 	}
 	
-	static SearchContext createSearchContext(By by, WebDriverEncapsulation driverEncapsulation, 
+	private static SearchContext createSearchContext(By by, 
+			WebDriverEncapsulation driverEncapsulation, 
 			Handle handle){
 		if (by == null) 
 			return proxyDriver(driverEncapsulation, handle);
@@ -211,6 +206,10 @@ public abstract class Handle implements IHasHandle, ISwitchesToItself,
 		}
 		return EnhancedProxyFactory.getProxy(target, new Class[] {},
 				new Object[] {}, new NestedElementInterceptor(handle));
+	}
+	
+	public WebDriver getWrappedDriver() {
+		return driverEncapsulation.getWrappedDriver();
 	}
 
 }
